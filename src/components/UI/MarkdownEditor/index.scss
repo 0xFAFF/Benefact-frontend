@@ -1,0 +1,55 @@
+#markdown-editor {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+#preview-mode {
+  border: 1px solid lightgray;
+  height: 100%;
+  overflow-y: auto;
+  div {
+    padding: 10px;
+  }
+}
+
+#editor-mode {
+  height: 100%;
+}
+
+#editor-text-area {
+  height: 85%;
+  width: 99%;
+  resize: none;
+}
+
+.editor-button-group {
+  margin-top: 2%;
+  float: right;
+}
+
+.markdown-modes {
+  height: 90%;
+}
+
+.button-group-modes {
+  padding-bottom: 10px;
+}
+
+.button-editor {
+  margin-right: 10px;
+}
+
+.button-editor,
+.button-preview {
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.button-active {
+  background-color: #666;
+  color: white;
+}

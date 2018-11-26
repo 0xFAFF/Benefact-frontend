@@ -1,0 +1,31 @@
+#task-draggable {
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+  padding: 8px;
+  margin-bottom: 8px;
+  height: 50px;
+  display: flex;
+  background-color: white;
+
+  &:hover {
+    background-color: rgb(185, 189, 190);
+    transition: background-color 0.8s ease;
+  }
+
+  .task-description {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    div {
+      display: flex;
+      align-items: center;
+      p {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.isDragging {
+  background-color: rgb(169, 243, 206) !important;
+}

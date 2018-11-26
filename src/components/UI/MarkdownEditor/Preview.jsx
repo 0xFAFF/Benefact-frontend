@@ -1,5 +1,6 @@
 import React from "react";
 import marked from "marked";
+import hljs from "highlight.js";
 
 class Preview extends React.Component {
   rawMarkup = () => {
@@ -11,13 +12,15 @@ class Preview extends React.Component {
       pedantic: false,
       sanitize: true,
       smartLists: true,
-      smartypants: false
-      // highlight: function (code) {
-      //     return hljs.highlightAuto(code).value
-      // }
+      smartypants: false,
+      highlight: function(code) {
+        console.log(hljs.highlightAuto(code).value);
+        console.log(code);
+        return hljs.highlightAuto(code).value;
+      }
     });
 
-    var rawMarkup = marked(this.props.content, { sanitize: true });
+    var rawMarkup = marked(this.props.content.Description, { sanitize: true });
     return {
       __html: rawMarkup
     };
@@ -26,6 +29,9 @@ class Preview extends React.Component {
   render() {
     return (
       <div id="preview-mode">
+        <div>ID: {this.props.content.ID}</div>
+        <div>Title: {this.props.content.Title}</div>
+        <div>Description: </div>
         <div dangerouslySetInnerHTML={this.rawMarkup()} />
       </div>
     );

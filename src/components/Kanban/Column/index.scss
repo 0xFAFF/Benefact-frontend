@@ -1,0 +1,35 @@
+#column-draggable {
+  margin: 8px;
+  border: 1px solid lightgrey;
+  background-color: rgb(217, 220, 223);
+  border-radius: 10px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  h3 {
+    padding: 8px;
+  }
+
+  #column-droppable {
+    padding: 8px;
+    transition: background-color 0.2s ease;
+    flex-grow: 1;
+    min-height: 10px;
+  }
+}
+
+.column-card {
+  margin: 8px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(185, 189, 190);
+    transition: background-color 0.8s ease;
+  }
+}

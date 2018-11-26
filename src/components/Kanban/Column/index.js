@@ -1,12 +1,13 @@
 import React from "react";
-import { Task } from ".";
+import { Task } from "..";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import "./index.scss";
 
 class InnerList extends React.Component {
   render() {
     return this.props.tasks.map((task, index) => (
       <Task
-        key={task.id}
+        key={task.ID}
         task={task}
         index={index}
         updateTaskContent={this.props.updateTaskContent}
@@ -25,38 +26,24 @@ class Column extends React.Component {
 
   render() {
     return (
-      <Draggable draggableId={this.props.column.id} index={this.props.index}>
+      <Draggable draggableId={this.props.column.ID} index={this.props.index}>
         {provided => (
           <div
+            id="column-draggable"
             ref={provided.innerRef}
             {...provided.draggableProps}
-            style={{
-              margin: "8px",
-              border: "1px solid lightgrey",
-              backgroundColor: "white",
-              borderRadius: "2px",
-              width: "33%",
-
-              display: "flex",
-              flexDirection: "column",
-              ...provided.draggableProps.style
-            }}
+            style={{ ...provided.draggableProps.style }}
           >
-            <h3 {...provided.dragHandleProps} style={{ padding: "8px" }}>
-              {this.props.column.title}
-            </h3>
-            <Droppable droppableId={this.props.column.id} type="task">
+            <h3 {...provided.dragHandleProps}>{this.props.column.title}</h3>
+            <Droppable droppableId={this.props.column.ID} type="task">
               {(provided, snapshot) => (
                 <div
+                  id="column-droppable"
                   ref={provided.innerRef}
                   style={{
-                    padding: "8px",
-                    transition: "background-color 0.2s ease",
                     backgroundColor: snapshot.isDraggingOver
                       ? "skyblue"
-                      : "inherit",
-                    flexGrow: 1,
-                    minHeight: "100px"
+                      : "inherit"
                   }}
                   {...provided.droppableProps}
                 >
@@ -68,6 +55,7 @@ class Column extends React.Component {
                 </div>
               )}
             </Droppable>
+            <div className="column-card">+ Add another card</div>
           </div>
         )}
       </Draggable>

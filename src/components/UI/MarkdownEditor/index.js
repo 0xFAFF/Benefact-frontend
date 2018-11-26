@@ -15,8 +15,14 @@ class MarkdownEditor extends React.Component {
     }
   };
 
-  onChangeHandler = e => {
-    this.setState({ newContent: e.target.value });
+  onChangeHandler = (e, key) => {
+    const newState = {
+      newContent: {
+        ...this.state.newContent,
+        [key]: e.target.value
+      }
+    };
+    this.setState(newState);
   };
 
   render() {
@@ -43,7 +49,6 @@ class MarkdownEditor extends React.Component {
         <div className="markdown-modes">
           {this.state.mode === "editor" && (
             <Editor
-              id={this.props.id}
               content={this.state.newContent}
               onChangeHandler={this.onChangeHandler}
               updateContent={this.props.updateContent}

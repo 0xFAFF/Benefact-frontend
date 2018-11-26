@@ -1,8 +1,10 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import TaskHandler from "./TaskHandler";
-import { Modal, MarkdownEditor } from "../UI";
+import TaskHandler from "../TaskHandler";
+import { Modal, MarkdownEditor } from "../../UI";
 import marked from "marked";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./index.scss";
 
 class Task extends React.Component {
   state = { showModal: false };
@@ -10,11 +12,13 @@ class Task extends React.Component {
   handleCloseModal = () => this.setState({ showModal: false });
 
   rawMarkup = () => {
+    const { ID = "N/A", Title = "N/A" } = this.props.task;
+    const taskDescription = "ID: " + ID + "\nTitle: " + Title;
     marked.setOptions({
       renderer: new marked.Renderer(),
       gfm: true,
       tables: true,
-      breaks: false,
+      breaks: true,
       pedantic: false,
       sanitize: true,
       smartLists: true,
@@ -24,54 +28,39 @@ class Task extends React.Component {
       // }
     });
 
-    var rawMarkup = marked(this.props.task.content, { sanitize: true });
+    let rawMarkup = marked(taskDescription, { sanitize: true });
     return {
       __html: rawMarkup
     };
   };
 
   render() {
-    const isDragDisabled = this.props.task.id === "task-1";
+    const isDragDisabled = this.props.task.ID === "task-1";
     return (
-      <Draggable draggableId={this.props.task.id} index={this.props.index}>
+      <Draggable draggableId={this.props.task.ID} index={this.props.index}>
         {(provided, snapshot) => {
-          const style = {
-            border: "1px solid lightgrey",
-            borderRadius: "2px",
-            padding: "8px",
-            marginBottom: "8px",
-            height: "50px",
-            backgroundColor: isDragDisabled
-              ? "lightgrey"
-              : snapshot.isDragging
-              ? "lightgreen"
-              : "white",
-
-            display: "flex",
-            ...provided.draggableProps.style
-          };
-
           return (
             <div
+              id="task-draggable"
+              className={snapshot.isDragging ? "isDragging" : ""}
               ref={provided.innerRef}
               {...provided.draggableProps}
-              style={style}
+              style={{ ...provided.draggableProps.style }}
             >
               <TaskHandler dragHandleProps={provided.dragHandleProps} />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  width: "90%"
-                }}
-              >
+              <div className="task-description">
                 <div dangerouslySetInnerHTML={this.rawMarkup()} />
-                <button onClick={this.handleShowMessageClick}>Edit Task</button>
+                <div style={{ cursor: "pointer" }}>
+                  <FontAwesomeIcon
+                    icon="edit"
+                    size="lg"
+                    onClick={this.handleShowMessageClick}
+                  />
+                </div>
                 {this.state.showModal ? (
                   <Modal onClose={this.handleCloseModal}>
                     <MarkdownEditor
-                      id={this.props.task.id}
-                      content={this.props.task.content}
+                      content={this.props.task}
                       updateContent={this.props.updateTaskContent}
                       onClose={this.handleCloseModal}
                     />

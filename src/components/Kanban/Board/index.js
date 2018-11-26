@@ -1,7 +1,8 @@
 import React from "react";
-import initialData from "../../initial-data";
-import { Column } from ".";
+import initialData from "../../../initial-data";
+import { Column } from "..";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import "./index.scss";
 
 class InnerList extends React.PureComponent {
   render() {
@@ -71,7 +72,7 @@ class Board extends React.Component {
         ...this.state,
         columns: {
           ...this.state.columns,
-          [newColumn.id]: newColumn
+          [newColumn.ID]: newColumn
         }
       };
 
@@ -99,17 +100,19 @@ class Board extends React.Component {
       ...this.state,
       columns: {
         ...this.state.columns,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish
+        [newStart.ID]: newStart,
+        [newFinish.ID]: newFinish
       }
     };
     this.setState(newState);
   };
 
-  updateTaskContent = (id, newContent) => {
-    const task = Object.entries(this.state.tasks).find(([k, v]) => v.id === id);
+  updateTaskContent = newContent => {
+    const task = Object.entries(this.state.tasks).find(
+      ([k, v]) => v.ID === newContent.ID
+    );
     let [newTaskKey, newTaskValue] = task;
-    newTaskValue["content"] = newContent;
+    newTaskValue = newContent;
     const newState = {
       ...this.state,
       tasks: {
@@ -134,10 +137,7 @@ class Board extends React.Component {
         >
           {provided => (
             <div
-              style={{
-                display: "flex",
-                justifyContent: "space-evenly"
-              }}
+              id="board-droppable"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -145,7 +145,7 @@ class Board extends React.Component {
                 const column = this.state.columns[columnId];
                 return (
                   <InnerList
-                    key={column.id}
+                    key={column.ID}
                     column={column}
                     taskMap={this.state.tasks}
                     index={index}

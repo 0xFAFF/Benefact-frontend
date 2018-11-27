@@ -1,4 +1,4 @@
-#task-draggable {
+#card-draggable {
   border: 1px solid lightgrey;
   border-radius: 10px;
   padding: 8px;
@@ -8,14 +8,16 @@
   background-color: white;
 
   &:hover {
+    border-radius: 10px;
     background-color: rgb(185, 189, 190);
     transition: background-color 0.8s ease;
+    transform: scale(1.1);
   }
 
-  .task-description {
+  .card-description {
     display: flex;
     justify-content: space-between;
-    width: 90%;
+    width: 100%;
     div {
       display: flex;
       align-items: center;
@@ -26,6 +28,6 @@
   }
 }
 
-.isDragging {
+.is-dragging {
   background-color: rgb(169, 243, 206) !important;
 }

@@ -1,19 +1,18 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import TaskHandler from "../TaskHandler";
 import { Modal, MarkdownEditor } from "../../UI";
 import marked from "marked";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.scss";
 
-class Task extends React.Component {
+class Card extends React.Component {
   state = { showModal: false };
   handleShowMessageClick = () => this.setState({ showModal: true });
   handleCloseModal = () => this.setState({ showModal: false });
 
   rawMarkup = () => {
-    const { ID = "N/A", Title = "N/A" } = this.props.task;
-    const taskDescription = "ID: " + ID + "\nTitle: " + Title;
+    const { ID = "N/A", Title = "N/A" } = this.props.card;
+    const cardDescription = "ID: " + ID + "\nTitle: " + Title;
     marked.setOptions({
       renderer: new marked.Renderer(),
       gfm: true,
@@ -28,27 +27,27 @@ class Task extends React.Component {
       // }
     });
 
-    let rawMarkup = marked(taskDescription, { sanitize: true });
+    let rawMarkup = marked(cardDescription, { sanitize: true });
     return {
       __html: rawMarkup
     };
   };
 
   render() {
-    const isDragDisabled = this.props.task.ID === "task-1";
+    // const isDragDisabled = this.props.card.ID === "card-1";
     return (
-      <Draggable draggableId={this.props.task.ID} index={this.props.index}>
+      <Draggable draggableId={this.props.card.ID} index={this.props.index}>
         {(provided, snapshot) => {
           return (
             <div
-              id="task-draggable"
-              className={snapshot.isDragging ? "isDragging" : ""}
+              id="card-draggable"
+              className={snapshot.isDragging ? "is-dragging" : ""}
               ref={provided.innerRef}
               {...provided.draggableProps}
               style={{ ...provided.draggableProps.style }}
+              {...provided.dragHandleProps}
             >
-              <TaskHandler dragHandleProps={provided.dragHandleProps} />
-              <div className="task-description">
+              <div className="card-description">
                 <div dangerouslySetInnerHTML={this.rawMarkup()} />
                 <div style={{ cursor: "pointer" }}>
                   <FontAwesomeIcon
@@ -60,8 +59,8 @@ class Task extends React.Component {
                 {this.state.showModal ? (
                   <Modal onClose={this.handleCloseModal}>
                     <MarkdownEditor
-                      content={this.props.task}
-                      updateContent={this.props.updateTaskContent}
+                      content={this.props.card}
+                      updateContent={this.props.updateCardContent}
                       onClose={this.handleCloseModal}
                     />
                   </Modal>
@@ -75,4 +74,4 @@ class Task extends React.Component {
   }
 }
 
-export default Task;
+export default Card;

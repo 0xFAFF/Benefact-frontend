@@ -1,16 +1,17 @@
 import React from "react";
-import { Task } from "..";
+import { Card } from "..";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import AddCard from "./AddCard";
 import "./index.scss";
 
 class InnerList extends React.Component {
   render() {
-    return this.props.tasks.map((task, index) => (
-      <Task
-        key={task.ID}
-        task={task}
+    return this.props.cards.map((card, index) => (
+      <Card
+        key={card.ID}
+        card={card}
         index={index}
-        updateTaskContent={this.props.updateTaskContent}
+        updateCardContent={this.props.updateCardContent}
       />
     ));
   }
@@ -18,7 +19,7 @@ class InnerList extends React.Component {
 
 class Column extends React.Component {
   shouldComponentUpdate(nextProps) {
-    if (nextProps.tasks === this.props.tasks) {
+    if (nextProps.cards === this.props.cards) {
       return false;
     }
     return true;
@@ -35,7 +36,7 @@ class Column extends React.Component {
             style={{ ...provided.draggableProps.style }}
           >
             <h3 {...provided.dragHandleProps}>{this.props.column.title}</h3>
-            <Droppable droppableId={this.props.column.ID} type="task">
+            <Droppable droppableId={this.props.column.ID} type="card">
               {(provided, snapshot) => (
                 <div
                   id="column-droppable"
@@ -48,14 +49,19 @@ class Column extends React.Component {
                   {...provided.droppableProps}
                 >
                   <InnerList
-                    tasks={this.props.tasks}
-                    updateTaskContent={this.props.updateTaskContent}
+                    cards={this.props.cards}
+                    updateCardContent={this.props.updateCardContent}
                   />
                   {provided.placeholder}
                 </div>
               )}
             </Droppable>
-            <div className="column-card">+ Add another card</div>
+            <AddCard
+              addNewCard={this.props.addNewCard}
+              columnID={this.props.column.ID}
+              updateCardContent={this.props.updateCardContent}
+              cardMap={this.props.cardMap}
+            />
           </div>
         )}
       </Draggable>

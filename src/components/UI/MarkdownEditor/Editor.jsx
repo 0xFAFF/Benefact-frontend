@@ -22,14 +22,17 @@ class Editor extends React.Component {
         />
         <div className="editor-button-group">
           <button
+            className="editor-button-save"
             onClick={() => {
               this.props.updateContent(this.props.content);
               this.props.onClose();
             }}
           >
-            Accept
+            Save
           </button>
-          <button onClick={this.props.onClose}>Cancel</button>
+          <button className="editor-button-cancel" onClick={this.props.onClose}>
+            Cancel
+          </button>
         </div>
       </div>
     );

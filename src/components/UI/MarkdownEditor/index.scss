@@ -18,7 +18,7 @@
 }
 
 #editor-text-area {
-  height: 85%;
+  height: 80%;
   width: 99%;
   resize: none;
 }
@@ -45,11 +45,38 @@
   border: none;
   outline: none;
   padding: 10px 16px;
+  border-radius: 10px;
   background-color: #f1f1f1;
   cursor: pointer;
 }
 
 .button-active {
-  background-color: #666;
+  background-color: #4797e7;
   color: white;
+}
+
+.editor-button-save {
+  border-radius: 5px;
+  padding: 5px 15px;
+  background-color: #03b42a;
+  color: #fff;
+  outline: none;
+  width: 80px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.editor-button-cancel {
+  border-radius: 5px;
+  padding: 5px 15px;
+  background-color: #df1934;
+  color: #fff;
+  outline: none;
+  width: 80px;
+  height: 30px;
+}
+
+.editor-button-save:active,
+.editor-button-cancel:active {
+  box-shadow: inset 1px 1px 10px rgb(112, 111, 111);
 }

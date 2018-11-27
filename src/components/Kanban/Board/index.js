@@ -1,19 +1,28 @@
 import React from "react";
 import initialData from "../../../initial-data";
 import { Column } from "..";
+import AddColumn from "./AddColumn";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import "./index.scss";
 
 class InnerList extends React.PureComponent {
   render() {
-    const { column, taskMap, index, updateTaskContent } = this.props;
-    const tasks = column.taskIds.map(taskId => taskMap[taskId]);
+    const {
+      column,
+      cardMap,
+      index,
+      updateCardContent,
+      addNewCard
+    } = this.props;
+    const cards = column.cardIds.map(cardId => cardMap[cardId]);
     return (
       <Column
         column={column}
-        tasks={tasks}
+        cards={cards}
         index={index}
-        updateTaskContent={updateTaskContent}
+        updateCardContent={updateCardContent}
+        addNewCard={addNewCard}
+        cardMap={cardMap}
       />
     );
   }
@@ -57,15 +66,15 @@ class Board extends React.Component {
 
     // Moving within one column
     if (start === finish) {
-      // new tasks nonmutated array
-      const newTaskIds = Array.from(start.taskIds);
+      // new cards nonmutated array
+      const newCardIds = Array.from(start.cardIds);
       // Orders array for inserting droppable in new spot
-      newTaskIds.splice(source.index, 1);
-      newTaskIds.splice(destination.index, 0, draggableId);
+      newCardIds.splice(source.index, 1);
+      newCardIds.splice(destination.index, 0, draggableId);
 
       const newColumn = {
         ...start,
-        taskIds: newTaskIds
+        cardIds: newCardIds
       };
 
       const newState = {
@@ -81,20 +90,20 @@ class Board extends React.Component {
       // Call endpoint here to API endpoint to connect to backend as well
     }
 
-    // Moving task from one column to another
-    const startTaskIds = Array.from(start.taskIds);
-    startTaskIds.splice(source.index, 1);
+    // Moving card from one column to another
+    const startCardIds = Array.from(start.cardIds);
+    startCardIds.splice(source.index, 1);
     const newStart = {
       ...start,
-      taskIds: startTaskIds
+      cardIds: startCardIds
     };
 
-    const finishTaskIds = Array.from(finish.taskIds);
-    finishTaskIds.splice(destination.index, 0, draggableId);
+    const finishCardIds = Array.from(finish.cardIds);
+    finishCardIds.splice(destination.index, 0, draggableId);
 
     const newFinish = {
       ...finish,
-      taskIds: finishTaskIds
+      cardIds: finishCardIds
     };
     const newState = {
       ...this.state,
@@ -107,18 +116,66 @@ class Board extends React.Component {
     this.setState(newState);
   };
 
-  updateTaskContent = newContent => {
-    const task = Object.entries(this.state.tasks).find(
+  updateCardContent = newContent => {
+    const card = Object.entries(this.state.cards).find(
       ([k, v]) => v.ID === newContent.ID
     );
-    let [newTaskKey, newTaskValue] = task;
-    newTaskValue = newContent;
+    let [newCardKey, newCardValue] = card;
+    newCardValue = newContent;
     const newState = {
       ...this.state,
-      tasks: {
-        ...this.state.tasks,
-        [newTaskKey]: newTaskValue
+      cards: {
+        ...this.state.cards,
+        [newCardKey]: newCardValue
       }
+    };
+    this.setState(newState);
+  };
+
+  addNewCard = (newContent, columnID) => {
+    const newId = Object.keys(this.state.cards).length + 1;
+    const newCard = {
+      [newId]: {
+        ID: newId,
+        Title: newContent.Title || "",
+        Description: newContent.Description || "",
+        Categories: newContent.Categories || null
+      }
+    };
+    const newState = {
+      ...this.state,
+      cards: {
+        ...this.state.cards,
+        ...newCard
+      },
+      columns: {
+        ...this.state.columns,
+        [columnID]: {
+          ...this.state.columns[columnID],
+          cardIds: [...this.state.columns[columnID].cardIds, newId]
+        }
+      }
+    };
+    this.setState(newState);
+  };
+
+  addNewColumn = title => {
+    const newId = Object.keys(this.state.columns).length + 1;
+    const columnID = `column-${newId}`;
+    const newColumn = {
+      [columnID]: {
+        ID: columnID,
+        title,
+        cardIds: []
+      }
+    };
+    const newState = {
+      ...this.state,
+      columns: {
+        ...this.state.columns,
+        ...newColumn
+      },
+      columnOrder: [...this.state.columnOrder, columnID]
     };
     this.setState(newState);
   };
@@ -147,13 +204,15 @@ class Board extends React.Component {
                   <InnerList
                     key={column.ID}
                     column={column}
-                    taskMap={this.state.tasks}
+                    cardMap={this.state.cards}
                     index={index}
-                    updateTaskContent={this.updateTaskContent}
+                    updateCardContent={this.updateCardContent}
+                    addNewCard={this.addNewCard}
                   />
                 );
               })}
               {provided.placeholder}
+              <AddColumn addNewColumn={this.addNewColumn} />
             </div>
           )}
         </Droppable>

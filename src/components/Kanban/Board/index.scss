@@ -2,3 +2,71 @@
   display: flex;
   justify-content: flex-start;
 }
+
+.add-column-container {
+  margin: 8px;
+  border: 1px solid lightgrey;
+  background-color: rgb(236, 240, 245);
+  border-radius: 10px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    margin-left: 5px;
+  }
+
+  .add-column-open-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    input {
+      padding: 5px;
+    }
+    div {
+      width: 100%;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      margin-top: 5px;
+      height: 30px;
+
+      span {
+        width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      button {
+        border-radius: 5px;
+        padding: 5px 15px;
+        background-color: #03b42a;
+        color: #fff;
+        outline: none;
+        cursor: pointer;
+      }
+      button:active {
+        box-shadow: inset 1px 1px 10px rgb(112, 111, 111);
+      }
+    }
+  }
+}
+
+.closed {
+  height: 60px;
+  cursor: pointer;
+}
+
+.closed:hover {
+  background-color: rgb(185, 189, 190);
+  transition: background-color 0.8s ease;
+}
+
+.open {
+  height: 100px;
+}

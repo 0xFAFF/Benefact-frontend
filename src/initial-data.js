@@ -1,5 +1,5 @@
 const initialData = {
-  tasks: {
+  cards: {
     1: {
       ID: 1,
       Title: "Get MD Working",
@@ -18,17 +18,17 @@ const initialData = {
     "column-1": {
       ID: "column-1",
       title: "Backlog",
-      taskIds: [1, 2]
+      cardIds: [1, 2]
     },
     "column-2": {
       ID: "column-2",
       title: "In Progress",
-      taskIds: []
+      cardIds: []
     },
     "column-3": {
       ID: "column-3",
       title: "Completed",
-      taskIds: []
+      cardIds: []
     }
   },
   // Facilitate reordering of the columns

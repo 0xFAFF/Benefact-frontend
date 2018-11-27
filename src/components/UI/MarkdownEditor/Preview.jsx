@@ -14,13 +14,13 @@ class Preview extends React.Component {
       smartLists: true,
       smartypants: false,
       highlight: function(code) {
-        console.log(hljs.highlightAuto(code).value);
-        console.log(code);
         return hljs.highlightAuto(code).value;
       }
     });
 
-    var rawMarkup = marked(this.props.content.Description, { sanitize: true });
+    var rawMarkup = marked(this.props.content.Description || "", {
+      sanitize: true
+    });
     return {
       __html: rawMarkup
     };

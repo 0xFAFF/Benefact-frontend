@@ -10,7 +10,7 @@ class Editor extends React.Component {
           <input
             name="Title"
             type="text"
-            value={this.props.content.Title}
+            defaultValue={this.props.content.Title}
             onChange={e => this.props.onChangeHandler(e, "Title")}
           />
         </div>

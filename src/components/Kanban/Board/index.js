@@ -1,5 +1,5 @@
 import React from "react";
-import initialData from "../../../initial-data";
+import { data } from "../../../initial-data";
 import { Column } from "..";
 import AddColumn from "./AddColumn";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -14,7 +14,9 @@ class InnerList extends React.PureComponent {
       updateCardContent,
       addNewCard
     } = this.props;
-    const cards = column.cardIds.map(cardId => cardMap[cardId]);
+    const cards = column.cardIds.map(cardId =>
+      cardMap.find(card => card.ID === cardId)
+    );
     return (
       <Column
         column={column}
@@ -29,11 +31,10 @@ class InnerList extends React.PureComponent {
 }
 
 class Board extends React.Component {
-  state = initialData;
+  state = data;
 
   onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
-
     // check if there is a destination
     if (!destination) return;
 
@@ -60,9 +61,13 @@ class Board extends React.Component {
     }
 
     // current column of droppable
-    const start = this.state.columns[source.droppableId];
+    const start = this.state.columns.find(
+      column => column.ID === source.droppableId
+    );
     // new column of droppable
-    const finish = this.state.columns[destination.droppableId];
+    const finish = this.state.columns.find(
+      column => column.ID === destination.droppableId
+    );
 
     // Moving within one column
     if (start === finish) {
@@ -77,14 +82,14 @@ class Board extends React.Component {
         cardIds: newCardIds
       };
 
+      let oldColumns = this.state.columns;
+      oldColumns[
+        oldColumns.findIndex(column => column.ID === newColumn.ID)
+      ] = newColumn;
       const newState = {
         ...this.state,
-        columns: {
-          ...this.state.columns,
-          [newColumn.ID]: newColumn
-        }
+        columns: oldColumns
       };
-
       this.setState(newState);
       return;
       // Call endpoint here to API endpoint to connect to backend as well
@@ -105,13 +110,17 @@ class Board extends React.Component {
       ...finish,
       cardIds: finishCardIds
     };
+
+    let oldColumns = this.state.columns;
+    oldColumns[
+      oldColumns.findIndex(column => column.ID === newStart.ID)
+    ] = newStart;
+    oldColumns[
+      oldColumns.findIndex(column => column.ID === newFinish.ID)
+    ] = newFinish;
     const newState = {
       ...this.state,
-      columns: {
-        ...this.state.columns,
-        [newStart.ID]: newStart,
-        [newFinish.ID]: newFinish
-      }
+      columns: oldColumns
     };
     this.setState(newState);
   };
@@ -184,8 +193,8 @@ class Board extends React.Component {
     return (
       <DragDropContext
         onDragEnd={this.onDragEnd}
-        onDragStart={this.onDragStart}
-        onDragUpdate={this.onDragUpdate}
+        // onDragStart={this.onDragStart}
+        // onDragUpdate={this.onDragUpdate}
       >
         <Droppable
           droppableId="all-columns"
@@ -199,7 +208,9 @@ class Board extends React.Component {
               ref={provided.innerRef}
             >
               {this.state.columnOrder.map((columnId, index) => {
-                const column = this.state.columns[columnId];
+                const column = this.state.columns.find(
+                  column => column.ID === columnId
+                );
                 return (
                   <InnerList
                     key={column.ID}
@@ -210,7 +221,7 @@ class Board extends React.Component {
                     addNewCard={this.addNewCard}
                   />
                 );
-              })}
+              })}{" "}
               {provided.placeholder}
               <AddColumn addNewColumn={this.addNewColumn} />
             </div>

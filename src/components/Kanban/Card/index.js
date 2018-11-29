@@ -36,7 +36,10 @@ class Card extends React.Component {
   render() {
     // const isDragDisabled = this.props.card.ID === "card-1";
     return (
-      <Draggable draggableId={this.props.card.id} index={this.props.index}>
+      <Draggable
+        draggableId={`card-${this.props.card.id}`}
+        index={this.props.index}
+      >
         {(provided, snapshot) => {
           return (
             <div

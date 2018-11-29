@@ -99,18 +99,20 @@ class Board extends React.Component {
 
     // source column of droppable
     const start = this.state.columns.find(
-      column => column.id === source.droppableId
+      column => `col-${column.id}` === source.droppableId
     );
     // destination column of droppable
     const finish = this.state.columns.find(
-      column => column.id === destination.droppableId
+      column => `col-${column.id}` === destination.droppableId
     );
 
     // Moving within one column
     if (start === finish) {
       // new cards nonmutated array
-      let cardsSrcCol = getCards(this.state.cards, source.droppableId);
-      const draggedCard = cardsSrcCol.find(card => card.id === draggableId);
+      let cardsSrcCol = getCards(this.state.cards, source.droppableId, "col-");
+      const draggedCard = cardsSrcCol.find(
+        card => `card-${card.id}` === draggableId
+      );
       // Orders array for inserting droppable in new spot
       cardsSrcCol.splice(source.index, 1);
       cardsSrcCol.splice(destination.index, 0, draggedCard);
@@ -124,15 +126,23 @@ class Board extends React.Component {
     }
 
     // Moving card from one column to another
-    let cardsSrcCol = getCards(this.state.cards, source.droppableId);
-    let cardsDestCol = getCards(this.state.cards, destination.droppableId);
+    let cardsSrcCol = getCards(this.state.cards, source.droppableId, "col-");
+    let cardsDestCol = getCards(
+      this.state.cards,
+      destination.droppableId,
+      "col-"
+    );
     let cardsNotSrcDestCols = this.state.cards.filter(
       card =>
-        card.columnId !== source.droppableId &&
-        card.columnId !== destination.droppableId
+        `col-${card.columnId}` !== source.droppableId &&
+        `col-${card.columnId}` !== destination.droppableId
     );
-    const draggedCard = cardsSrcCol.find(card => card.id === draggableId);
-    draggedCard.columnId = destination.droppableId;
+    const draggedCard = cardsSrcCol.find(
+      card => `card-${card.id}` === draggableId
+    );
+
+    // convert col-# string into integer #
+    draggedCard.columnId = +destination.droppableId.replace(/^\D+/g, "");
 
     cardsSrcCol.splice(source.index, 1);
     cardsDestCol.splice(destination.index, 0, draggedCard);
@@ -155,7 +165,7 @@ class Board extends React.Component {
   };
 
   addNewCard = (newContent, columnId) => {
-    const newId = `card-${this.state.cards.length + 1}`;
+    const newId = this.state.cards.length + 1;
     const newCard = {
       id: newId,
       title: newContent.title || "",
@@ -172,7 +182,7 @@ class Board extends React.Component {
 
   addNewColumn = title => {
     const newId = Object.keys(this.state.columns).length + 1;
-    const columnId = `col-${newId}`;
+    const columnId = newId;
     const newColumn = {
       [columnId]: {
         id: columnId,

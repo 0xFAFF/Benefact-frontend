@@ -24,7 +24,6 @@ class Editor extends React.Component {
           <button
             className="editor-button-save"
             onClick={() => {
-              console.log(this.props.content);
               this.props.updateContent(this.props.content);
               this.props.onClose();
             }}

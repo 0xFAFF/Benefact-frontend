@@ -36,7 +36,7 @@ class Column extends React.Component {
             style={{ ...provided.draggableProps.style }}
           >
             <h3 {...provided.dragHandleProps}>{this.props.column.title}</h3>
-            <Droppable droppableId={this.props.column.id} type="card">
+            <Droppable droppableId={`col-${this.props.column.id}`} type="card">
               {(provided, snapshot) => (
                 <div
                   id="column-droppable"

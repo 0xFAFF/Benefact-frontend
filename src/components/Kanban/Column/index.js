@@ -8,7 +8,7 @@ class InnerList extends React.Component {
   render() {
     return this.props.cards.map((card, index) => (
       <Card
-        key={card.ID}
+        key={card.id}
         card={card}
         index={index}
         updateCardContent={this.props.updateCardContent}
@@ -27,7 +27,7 @@ class Column extends React.Component {
 
   render() {
     return (
-      <Draggable draggableId={this.props.column.ID} index={this.props.index}>
+      <Draggable draggableId={this.props.column.id} index={this.props.index}>
         {provided => (
           <div
             id="column-draggable"
@@ -36,7 +36,7 @@ class Column extends React.Component {
             style={{ ...provided.draggableProps.style }}
           >
             <h3 {...provided.dragHandleProps}>{this.props.column.title}</h3>
-            <Droppable droppableId={this.props.column.ID} type="card">
+            <Droppable droppableId={this.props.column.id} type="card">
               {(provided, snapshot) => (
                 <div
                   id="column-droppable"
@@ -58,7 +58,7 @@ class Column extends React.Component {
             </Droppable>
             <AddCard
               addNewCard={this.props.addNewCard}
-              columnID={this.props.column.ID}
+              columnId={this.props.column.id}
               updateCardContent={this.props.updateCardContent}
               cardMap={this.props.cardMap}
             />

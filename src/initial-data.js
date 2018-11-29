@@ -35,41 +35,25 @@ export const data = {
   columnOrder: ["column-1", "column-2", "column-3"]
 };
 
-// const initialData = {
-//   cards: {
-//     1: {
-//       ID: 1,
-//       Title: "Get MD Working",
-//       Description:
-//         'Some Markdown\n=====\n\n```csharp\n var herp = "derp";\n```',
-//       Categories: null
-//     },
-//     2: {
-//       ID: 2,
-//       Title: "Make sure UTF8 works 😑",
-//       Description: "😈😈😈😈😈😈",
-//       Categories: null
-//     }
-//   },
-//   columns: {
-//     "column-1": {
-//       ID: "column-1",
-//       title: "Backlog",
-//       cardIds: [1, 2]
-//     },
-//     "column-2": {
-//       ID: "column-2",
-//       title: "In Progress",
-//       cardIds: []
-//     },
-//     "column-3": {
-//       ID: "column-3",
-//       title: "Completed",
-//       cardIds: []
-//     }
-//   },
-//   // Facilitate reordering of the columns
-//   columnOrder: ["column-1", "column-2", "column-3"]
-// };
+export const data2 = {
+  Cards: [
+    {
+      ID: "1",
+      Title: "Get MD Working",
+      Description:
+        'Some Markdown\n=====\n\n```csharp\n    var herp = "derp";\n```',
+      ColumnID: "1",
+      Categories: null
+    },
+    {
+      ID: "2",
+      Title: "Make sure UTF8 works 😑",
+      Description: "😈😈😈😈😈😈",
+      ColumnID: "2",
+      Categories: null
+    }
+  ],
+  Columns: [{ ID: "1", Title: "To Do" }, { ID: "2", Title: "In Progress" }]
+};
 
 export default data;

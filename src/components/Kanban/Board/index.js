@@ -1,8 +1,9 @@
 import React from "react";
-import { data } from "../../../initial-data";
+import { data2 } from "../../../initial-data";
 import { Column } from "..";
 import AddColumn from "./AddColumn";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { camelCase, getCards } from "../../../utils";
 import "./index.scss";
 
 class InnerList extends React.PureComponent {
@@ -14,9 +15,7 @@ class InnerList extends React.PureComponent {
       updateCardContent,
       addNewCard
     } = this.props;
-    const cards = column.cardIds.map(cardId =>
-      cardMap.find(card => card.ID === cardId)
-    );
+    const cards = getCards(cardMap, column.id);
     return (
       <Column
         column={column}
@@ -31,7 +30,45 @@ class InnerList extends React.PureComponent {
 }
 
 class Board extends React.Component {
-  state = data;
+  state = {
+    isLoading: true
+  };
+
+  componentDidMount() {
+    let formattedData = camelCase(data2);
+    this.setState({
+      isLoading: false,
+      ...formattedData,
+      columnOrder: formattedData.columns.map(column => column.id)
+    });
+  }
+
+  // componentDidMount() {
+  //   this.setState({ isLoading: true });
+  //   const url = "http://192.168.1.4/api/cards";
+  //   fetch(url)
+  //     .then(res => {
+  //       return res.json();
+  //     })
+  //     .then(res => {
+  //       let columnOrder = res.Statuses.map(column => column.ID);
+  //       this.setState({
+  //         cards: res.Cards,
+  //         columns: res.Statuses,
+  //         columnOrder,
+  //         isLoading: false
+  //       });
+  //     })
+  //     .catch(err => {
+  //       this.setState({
+  //         err,
+  //         cards: [],
+  //         columns: [],
+  //         columnOrder: [],
+  //         isLoading: false
+  //       });
+  //     });
+  // }
 
   onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
@@ -60,35 +97,26 @@ class Board extends React.Component {
       return;
     }
 
-    // current column of droppable
+    // source column of droppable
     const start = this.state.columns.find(
-      column => column.ID === source.droppableId
+      column => column.id === source.droppableId
     );
-    // new column of droppable
+    // destination column of droppable
     const finish = this.state.columns.find(
-      column => column.ID === destination.droppableId
+      column => column.id === destination.droppableId
     );
 
     // Moving within one column
     if (start === finish) {
       // new cards nonmutated array
-      const newCardIds = Array.from(start.cardIds);
+      let cardsSrcCol = getCards(this.state.cards, source.droppableId);
+      const draggedCard = cardsSrcCol.find(card => card.id === draggableId);
       // Orders array for inserting droppable in new spot
-      newCardIds.splice(source.index, 1);
-      newCardIds.splice(destination.index, 0, draggableId);
-
-      const newColumn = {
-        ...start,
-        cardIds: newCardIds
-      };
-
-      let oldColumns = this.state.columns;
-      oldColumns[
-        oldColumns.findIndex(column => column.ID === newColumn.ID)
-      ] = newColumn;
+      cardsSrcCol.splice(source.index, 1);
+      cardsSrcCol.splice(destination.index, 0, draggedCard);
       const newState = {
         ...this.state,
-        columns: oldColumns
+        cards: cardsSrcCol
       };
       this.setState(newState);
       return;
@@ -96,84 +124,58 @@ class Board extends React.Component {
     }
 
     // Moving card from one column to another
-    const startCardIds = Array.from(start.cardIds);
-    startCardIds.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      cardIds: startCardIds
-    };
+    let cardsSrcCol = getCards(this.state.cards, source.droppableId);
+    let cardsDestCol = getCards(this.state.cards, destination.droppableId);
+    let cardsNotSrcDestCols = this.state.cards.filter(
+      card =>
+        card.columnId !== source.droppableId &&
+        card.columnId !== destination.droppableId
+    );
+    const draggedCard = cardsSrcCol.find(card => card.id === draggableId);
+    draggedCard.columnId = destination.droppableId;
 
-    const finishCardIds = Array.from(finish.cardIds);
-    finishCardIds.splice(destination.index, 0, draggableId);
+    cardsSrcCol.splice(source.index, 1);
+    cardsDestCol.splice(destination.index, 0, draggedCard);
 
-    const newFinish = {
-      ...finish,
-      cardIds: finishCardIds
-    };
-
-    let oldColumns = this.state.columns;
-    oldColumns[
-      oldColumns.findIndex(column => column.ID === newStart.ID)
-    ] = newStart;
-    oldColumns[
-      oldColumns.findIndex(column => column.ID === newFinish.ID)
-    ] = newFinish;
     const newState = {
       ...this.state,
-      columns: oldColumns
+      cards: [...cardsSrcCol, ...cardsDestCol, ...cardsNotSrcDestCols]
     };
     this.setState(newState);
   };
 
   updateCardContent = newContent => {
-    const card = Object.entries(this.state.cards).find(
-      ([k, v]) => v.ID === newContent.ID
-    );
-    let [newCardKey, newCardValue] = card;
-    newCardValue = newContent;
+    let cards = [...this.state.cards];
+    cards[cards.findIndex(card => card.id === newContent.id)] = newContent;
     const newState = {
       ...this.state,
-      cards: {
-        ...this.state.cards,
-        [newCardKey]: newCardValue
-      }
+      cards
     };
     this.setState(newState);
   };
 
-  addNewCard = (newContent, columnID) => {
-    const newId = Object.keys(this.state.cards).length + 1;
+  addNewCard = (newContent, columnId) => {
+    const newId = `card-${this.state.cards.length + 1}`;
     const newCard = {
-      [newId]: {
-        ID: newId,
-        Title: newContent.Title || "",
-        Description: newContent.Description || "",
-        Categories: newContent.Categories || null
-      }
+      id: newId,
+      title: newContent.title || "",
+      description: newContent.description || "",
+      categories: newContent.categories || null,
+      columnId: columnId
     };
     const newState = {
       ...this.state,
-      cards: {
-        ...this.state.cards,
-        ...newCard
-      },
-      columns: {
-        ...this.state.columns,
-        [columnID]: {
-          ...this.state.columns[columnID],
-          cardIds: [...this.state.columns[columnID].cardIds, newId]
-        }
-      }
+      cards: [...this.state.cards, newCard]
     };
     this.setState(newState);
   };
 
   addNewColumn = title => {
     const newId = Object.keys(this.state.columns).length + 1;
-    const columnID = `column-${newId}`;
+    const columnId = `col-${newId}`;
     const newColumn = {
-      [columnID]: {
-        ID: columnID,
+      [columnId]: {
+        id: columnId,
         title,
         cardIds: []
       }
@@ -184,12 +186,16 @@ class Board extends React.Component {
         ...this.state.columns,
         ...newColumn
       },
-      columnOrder: [...this.state.columnOrder, columnID]
+      columnOrder: [...this.state.columnOrder, columnId]
     };
     this.setState(newState);
   };
 
   render() {
+    const { cards = [] } = this.state;
+    if (this.state.isLoading || cards.length === 0) {
+      return null;
+    }
     return (
       <DragDropContext
         onDragEnd={this.onDragEnd}
@@ -209,11 +215,11 @@ class Board extends React.Component {
             >
               {this.state.columnOrder.map((columnId, index) => {
                 const column = this.state.columns.find(
-                  column => column.ID === columnId
+                  column => column.id === columnId
                 );
                 return (
                   <InnerList
-                    key={column.ID}
+                    key={column.id}
                     column={column}
                     cardMap={this.state.cards}
                     index={index}
@@ -221,7 +227,7 @@ class Board extends React.Component {
                     addNewCard={this.addNewCard}
                   />
                 );
-              })}{" "}
+              })}
               {provided.placeholder}
               <AddColumn addNewColumn={this.addNewColumn} />
             </div>

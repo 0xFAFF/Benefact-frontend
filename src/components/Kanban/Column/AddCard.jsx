@@ -7,11 +7,6 @@ class AddCard extends React.Component {
   handleShowMessageClick = () => this.setState({ showModal: true });
   handleCloseModal = () => this.setState({ showModal: false });
 
-  // updateNewCardContent = () => {
-  //   this.props.updateCardContent();
-  //   this.props.addNewCard(this.props.columnID);
-  // };
-
   render() {
     return (
       <div>
@@ -27,9 +22,9 @@ class AddCard extends React.Component {
         {this.state.showModal ? (
           <Modal onClose={this.handleCloseModal}>
             <MarkdownEditor
-              content={{ ID: Object.keys(this.props.cardMap).length + 1 }}
+              content={{ id: this.props.cardMap.length + 1 }}
               updateContent={newContent =>
-                this.props.addNewCard(newContent, this.props.columnID)
+                this.props.addNewCard(newContent, this.props.columnId)
               }
               onClose={this.handleCloseModal}
             />

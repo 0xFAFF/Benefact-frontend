@@ -11,8 +11,8 @@ class Card extends React.Component {
   handleCloseModal = () => this.setState({ showModal: false });
 
   rawMarkup = () => {
-    const { ID = "N/A", Title = "N/A" } = this.props.card;
-    const cardDescription = "ID: " + ID + "\nTitle: " + Title;
+    const { id = "N/A", title = "N/A" } = this.props.card;
+    const cardDescription = "ID: " + id + "\nTitle: " + title;
     marked.setOptions({
       renderer: new marked.Renderer(),
       gfm: true,
@@ -36,7 +36,10 @@ class Card extends React.Component {
   render() {
     // const isDragDisabled = this.props.card.ID === "card-1";
     return (
-      <Draggable draggableId={this.props.card.ID} index={this.props.index}>
+      <Draggable
+        draggableId={`card-${this.props.card.id}`}
+        index={this.props.index}
+      >
         {(provided, snapshot) => {
           return (
             <div

@@ -1,8 +1,9 @@
 import React from "react";
-import initialData from "../../../initial-data";
+import { data2 } from "../../../initial-data";
 import { Column } from "..";
 import AddColumn from "./AddColumn";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { camelCase, getCards } from "../../../utils";
 import "./index.scss";
 
 class InnerList extends React.PureComponent {
@@ -14,7 +15,7 @@ class InnerList extends React.PureComponent {
       updateCardContent,
       addNewCard
     } = this.props;
-    const cards = column.cardIds.map(cardId => cardMap[cardId]);
+    const cards = getCards(cardMap, column.id);
     return (
       <Column
         column={column}
@@ -29,11 +30,48 @@ class InnerList extends React.PureComponent {
 }
 
 class Board extends React.Component {
-  state = initialData;
+  state = {
+    isLoading: true
+  };
+
+  componentDidMount() {
+    let formattedData = camelCase(data2);
+    this.setState({
+      isLoading: false,
+      ...formattedData,
+      columnOrder: formattedData.columns.map(column => column.id)
+    });
+  }
+
+  // componentDidMount() {
+  //   this.setState({ isLoading: true });
+  //   const url = "http://192.168.1.4/api/cards";
+  //   fetch(url)
+  //     .then(res => {
+  //       return res.json();
+  //     })
+  //     .then(res => {
+  //       let columnOrder = res.Statuses.map(column => column.ID);
+  //       this.setState({
+  //         cards: res.Cards,
+  //         columns: res.Statuses,
+  //         columnOrder,
+  //         isLoading: false
+  //       });
+  //     })
+  //     .catch(err => {
+  //       this.setState({
+  //         err,
+  //         cards: [],
+  //         columns: [],
+  //         columnOrder: [],
+  //         isLoading: false
+  //       });
+  //     });
+  // }
 
   onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
-
     // check if there is a destination
     if (!destination) return;
 
@@ -59,112 +97,95 @@ class Board extends React.Component {
       return;
     }
 
-    // current column of droppable
-    const start = this.state.columns[source.droppableId];
-    // new column of droppable
-    const finish = this.state.columns[destination.droppableId];
+    // source column of droppable
+    const start = this.state.columns.find(
+      column => `col-${column.id}` === source.droppableId
+    );
+    // destination column of droppable
+    const finish = this.state.columns.find(
+      column => `col-${column.id}` === destination.droppableId
+    );
 
     // Moving within one column
     if (start === finish) {
       // new cards nonmutated array
-      const newCardIds = Array.from(start.cardIds);
+      let cardsSrcCol = getCards(this.state.cards, source.droppableId, "col-");
+      const draggedCard = cardsSrcCol.find(
+        card => `card-${card.id}` === draggableId
+      );
       // Orders array for inserting droppable in new spot
-      newCardIds.splice(source.index, 1);
-      newCardIds.splice(destination.index, 0, draggableId);
-
-      const newColumn = {
-        ...start,
-        cardIds: newCardIds
-      };
-
+      cardsSrcCol.splice(source.index, 1);
+      cardsSrcCol.splice(destination.index, 0, draggedCard);
       const newState = {
         ...this.state,
-        columns: {
-          ...this.state.columns,
-          [newColumn.ID]: newColumn
-        }
+        cards: cardsSrcCol
       };
-
       this.setState(newState);
       return;
       // Call endpoint here to API endpoint to connect to backend as well
     }
 
     // Moving card from one column to another
-    const startCardIds = Array.from(start.cardIds);
-    startCardIds.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      cardIds: startCardIds
-    };
+    let cardsSrcCol = getCards(this.state.cards, source.droppableId, "col-");
+    let cardsDestCol = getCards(
+      this.state.cards,
+      destination.droppableId,
+      "col-"
+    );
+    let cardsNotSrcDestCols = this.state.cards.filter(
+      card =>
+        `col-${card.columnId}` !== source.droppableId &&
+        `col-${card.columnId}` !== destination.droppableId
+    );
+    const draggedCard = cardsSrcCol.find(
+      card => `card-${card.id}` === draggableId
+    );
 
-    const finishCardIds = Array.from(finish.cardIds);
-    finishCardIds.splice(destination.index, 0, draggableId);
+    // convert col-# string into integer #
+    draggedCard.columnId = +destination.droppableId.replace(/^\D+/g, "");
 
-    const newFinish = {
-      ...finish,
-      cardIds: finishCardIds
-    };
+    cardsSrcCol.splice(source.index, 1);
+    cardsDestCol.splice(destination.index, 0, draggedCard);
+
     const newState = {
       ...this.state,
-      columns: {
-        ...this.state.columns,
-        [newStart.ID]: newStart,
-        [newFinish.ID]: newFinish
-      }
+      cards: [...cardsSrcCol, ...cardsDestCol, ...cardsNotSrcDestCols]
     };
     this.setState(newState);
   };
 
   updateCardContent = newContent => {
-    const card = Object.entries(this.state.cards).find(
-      ([k, v]) => v.ID === newContent.ID
-    );
-    let [newCardKey, newCardValue] = card;
-    newCardValue = newContent;
+    let cards = [...this.state.cards];
+    cards[cards.findIndex(card => card.id === newContent.id)] = newContent;
     const newState = {
       ...this.state,
-      cards: {
-        ...this.state.cards,
-        [newCardKey]: newCardValue
-      }
+      cards
     };
     this.setState(newState);
   };
 
-  addNewCard = (newContent, columnID) => {
-    const newId = Object.keys(this.state.cards).length + 1;
+  addNewCard = (newContent, columnId) => {
+    const newId = this.state.cards.length + 1;
     const newCard = {
-      [newId]: {
-        ID: newId,
-        Title: newContent.Title || "",
-        Description: newContent.Description || "",
-        Categories: newContent.Categories || null
-      }
+      id: newId,
+      title: newContent.title || "",
+      description: newContent.description || "",
+      categories: newContent.categories || null,
+      columnId: columnId
     };
     const newState = {
       ...this.state,
-      cards: {
-        ...this.state.cards,
-        ...newCard
-      },
-      columns: {
-        ...this.state.columns,
-        [columnID]: {
-          ...this.state.columns[columnID],
-          cardIds: [...this.state.columns[columnID].cardIds, newId]
-        }
-      }
+      cards: [...this.state.cards, newCard]
     };
     this.setState(newState);
   };
 
   addNewColumn = title => {
     const newId = Object.keys(this.state.columns).length + 1;
-    const columnID = `column-${newId}`;
+    const columnId = newId;
     const newColumn = {
-      [columnID]: {
-        ID: columnID,
+      [columnId]: {
+        id: columnId,
         title,
         cardIds: []
       }
@@ -175,17 +196,21 @@ class Board extends React.Component {
         ...this.state.columns,
         ...newColumn
       },
-      columnOrder: [...this.state.columnOrder, columnID]
+      columnOrder: [...this.state.columnOrder, columnId]
     };
     this.setState(newState);
   };
 
   render() {
+    const { cards = [] } = this.state;
+    if (this.state.isLoading || cards.length === 0) {
+      return null;
+    }
     return (
       <DragDropContext
         onDragEnd={this.onDragEnd}
-        onDragStart={this.onDragStart}
-        onDragUpdate={this.onDragUpdate}
+        // onDragStart={this.onDragStart}
+        // onDragUpdate={this.onDragUpdate}
       >
         <Droppable
           droppableId="all-columns"
@@ -199,10 +224,12 @@ class Board extends React.Component {
               ref={provided.innerRef}
             >
               {this.state.columnOrder.map((columnId, index) => {
-                const column = this.state.columns[columnId];
+                const column = this.state.columns.find(
+                  column => column.id === columnId
+                );
                 return (
                   <InnerList
-                    key={column.ID}
+                    key={column.id}
                     column={column}
                     cardMap={this.state.cards}
                     index={index}

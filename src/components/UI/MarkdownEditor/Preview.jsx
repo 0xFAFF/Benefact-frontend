@@ -18,7 +18,7 @@ class Preview extends React.Component {
       }
     });
 
-    var rawMarkup = marked(this.props.content.Description || "", {
+    var rawMarkup = marked(this.props.content.description || "", {
       sanitize: true
     });
     return {
@@ -29,8 +29,8 @@ class Preview extends React.Component {
   render() {
     return (
       <div id="preview-mode">
-        <div>ID: {this.props.content.ID}</div>
-        <div>Title: {this.props.content.Title}</div>
+        <div>ID: {this.props.content.id}</div>
+        <div>Title: {this.props.content.title}</div>
         <div>Description: </div>
         <div dangerouslySetInnerHTML={this.rawMarkup()} />
       </div>

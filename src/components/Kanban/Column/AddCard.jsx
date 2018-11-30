@@ -17,7 +17,7 @@ class AddCard extends React.Component {
           }}
         >
           <FontAwesomeIcon icon="plus" size="sm" />
-          <span>Add another card</span>
+          {/* <span>Add another card</span> */}
         </div>
         {this.state.showModal ? (
           <Modal onClose={this.handleCloseModal}>

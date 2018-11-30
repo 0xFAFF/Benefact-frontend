@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "..";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import AddCard from "./AddCard";
+import Header from "./Header";
 import "./index.scss";
 
 class InnerList extends React.Component {
@@ -35,7 +35,15 @@ class Column extends React.Component {
             {...provided.draggableProps}
             style={{ ...provided.draggableProps.style }}
           >
-            <h3 {...provided.dragHandleProps}>{this.props.column.title}</h3>
+            <Header
+              dragHandleProps={provided.dragHandleProps}
+              title={this.props.column.title}
+              addNewCard={this.props.addNewCard}
+              columnId={this.props.column.id}
+              updateCardContent={this.props.updateCardContent}
+              cardMap={this.props.cardMap}
+            />
+            {/* <h3 {...provided.dragHandleProps}>{this.props.column.title}</h3> */}
             <Droppable droppableId={`col-${this.props.column.id}`} type="card">
               {(provided, snapshot) => (
                 <div
@@ -56,12 +64,6 @@ class Column extends React.Component {
                 </div>
               )}
             </Droppable>
-            <AddCard
-              addNewCard={this.props.addNewCard}
-              columnId={this.props.column.id}
-              updateCardContent={this.props.updateCardContent}
-              cardMap={this.props.cardMap}
-            />
           </div>
         )}
       </Draggable>

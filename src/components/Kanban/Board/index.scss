@@ -1,15 +1,22 @@
+#board {
+  border: 1px solid black;
+}
+
 #board-droppable {
   display: flex;
-  justify-content: flex-start;
-  padding: 20px;
+  justify-content: center;
+}
+
+.add-column-outer {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .add-column-container {
   margin: 8px;
   border: 1px solid lightgrey;
   background-color: rgb(236, 240, 245);
-  border-radius: 10px;
-  width: 300px;
+  width: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,7 +66,7 @@
 }
 
 .closed {
-  height: 60px;
+  height: 30px;
   cursor: pointer;
 }
 

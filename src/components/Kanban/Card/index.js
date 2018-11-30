@@ -12,7 +12,7 @@ class Card extends React.Component {
 
   rawMarkup = () => {
     const { id = "N/A", title = "N/A" } = this.props.card;
-    const cardDescription = "ID: " + id + "\nTitle: " + title;
+    const cardDescription = "ID: " + id + "\n" + title;
     marked.setOptions({
       renderer: new marked.Renderer(),
       gfm: true,

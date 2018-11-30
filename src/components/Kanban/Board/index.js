@@ -1,5 +1,5 @@
 import React from "react";
-import { data2 } from "../../../initial-data";
+import data from "../../../initial-data";
 import { Column } from "..";
 import AddColumn from "./AddColumn";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -35,7 +35,7 @@ class Board extends React.Component {
   };
 
   componentDidMount() {
-    let formattedData = camelCase(data2);
+    let formattedData = camelCase(data);
     this.setState({
       isLoading: false,
       ...formattedData,
@@ -181,22 +181,15 @@ class Board extends React.Component {
   };
 
   addNewColumn = title => {
-    const newId = Object.keys(this.state.columns).length + 1;
-    const columnId = newId;
+    const newId = this.state.columns.length + 1;
     const newColumn = {
-      [columnId]: {
-        id: columnId,
-        title,
-        cardIds: []
-      }
+      id: newId,
+      title
     };
     const newState = {
       ...this.state,
-      columns: {
-        ...this.state.columns,
-        ...newColumn
-      },
-      columnOrder: [...this.state.columnOrder, columnId]
+      columns: [...this.state.columns, newColumn],
+      columnOrder: [...this.state.columnOrder, newId]
     };
     this.setState(newState);
   };
@@ -207,43 +200,47 @@ class Board extends React.Component {
       return null;
     }
     return (
-      <DragDropContext
-        onDragEnd={this.onDragEnd}
-        // onDragStart={this.onDragStart}
-        // onDragUpdate={this.onDragUpdate}
-      >
-        <Droppable
-          droppableId="all-columns"
-          direction="horizontal"
-          type="column"
+      <div id="board">
+        <div className="add-column-outer">
+          <AddColumn addNewColumn={this.addNewColumn} />
+        </div>
+        <DragDropContext
+          onDragEnd={this.onDragEnd}
+          // onDragStart={this.onDragStart}
+          // onDragUpdate={this.onDragUpdate}
         >
-          {provided => (
-            <div
-              id="board-droppable"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {this.state.columnOrder.map((columnId, index) => {
-                const column = this.state.columns.find(
-                  column => column.id === columnId
-                );
-                return (
-                  <InnerList
-                    key={column.id}
-                    column={column}
-                    cardMap={this.state.cards}
-                    index={index}
-                    updateCardContent={this.updateCardContent}
-                    addNewCard={this.addNewCard}
-                  />
-                );
-              })}
-              {provided.placeholder}
-              <AddColumn addNewColumn={this.addNewColumn} />
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+          <Droppable
+            droppableId="all-columns"
+            direction="horizontal"
+            type="column"
+          >
+            {provided => (
+              <div
+                id="board-droppable"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {this.state.columnOrder.map((columnId, index) => {
+                  const column = this.state.columns.find(
+                    column => column.id === columnId
+                  );
+                  return (
+                    <InnerList
+                      key={column.id}
+                      column={column}
+                      cardMap={this.state.cards}
+                      index={index}
+                      updateCardContent={this.updateCardContent}
+                      addNewCard={this.addNewCard}
+                    />
+                  );
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
     );
   }
 }

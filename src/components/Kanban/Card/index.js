@@ -3,6 +3,7 @@ import { Draggable } from "react-beautiful-dnd";
 import { Modal, MarkdownEditor } from "../../UI";
 import marked from "marked";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Categories } from "./sections";
 import "./index.scss";
 
 class Card extends React.Component {
@@ -52,13 +53,12 @@ class Card extends React.Component {
             >
               <div className="card-description">
                 <div dangerouslySetInnerHTML={this.rawMarkup()} />
-                <div style={{ cursor: "pointer" }}>
-                  <FontAwesomeIcon
-                    icon="edit"
-                    size="lg"
-                    onClick={this.handleShowMessageClick}
-                  />
-                </div>
+                <FontAwesomeIcon
+                  className="edit-icon"
+                  icon="edit"
+                  size="lg"
+                  onClick={this.handleShowMessageClick}
+                />
                 {this.state.showModal ? (
                   <Modal onClose={this.handleCloseModal}>
                     <MarkdownEditor
@@ -69,6 +69,7 @@ class Card extends React.Component {
                   </Modal>
                 ) : null}
               </div>
+              <Categories categories={this.props.card.categories} />
             </div>
           );
         }}

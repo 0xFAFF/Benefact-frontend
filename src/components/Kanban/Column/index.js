@@ -40,10 +40,10 @@ class Column extends React.Component {
               title={this.props.column.title}
               addNewCard={this.props.addNewCard}
               columnId={this.props.column.id}
+              updateColumnContent={this.props.updateColumnContent}
               updateCardContent={this.props.updateCardContent}
               cardMap={this.props.cardMap}
             />
-            {/* <h3 {...provided.dragHandleProps}>{this.props.column.title}</h3> */}
             <Droppable droppableId={`col-${this.props.column.id}`} type="card">
               {(provided, snapshot) => (
                 <div

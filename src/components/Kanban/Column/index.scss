@@ -11,7 +11,6 @@
   .column-header {
     padding: 8px;
     margin: 0;
-    margin-bottom: 20px;
     border: 1px solid black;
     display: flex;
     align-items: center;
@@ -20,11 +19,30 @@
       text-align: center;
       flex: 1 0 auto;
       font-size: 1.2em;
+      input {
+        border: none;
+        display: inline;
+        font-family: inherit;
+        font-size: inherit;
+        padding: none;
+      }
+      input.break {
+        word-wrap: break-word;
+        word-break: break-all;
+        height: 80%;
+      }
+    }
+
+    &:hover {
+      .add-card {
+        visibility: visible;
+        transition: opacity 0.8s linear;
+        opacity: 1;
+      }
     }
   }
 
   #column-droppable {
-    // padding: 8px;
     transition: background-color 0.2s ease;
     flex-grow: 1;
     min-height: 70vh;
@@ -35,4 +53,6 @@
 
 .add-card {
   cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
 }

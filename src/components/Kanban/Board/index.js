@@ -1,6 +1,6 @@
 import React from "react";
 import data from "../../../initial-data";
-import { Column } from "..";
+import { Column, TagsProvider } from "..";
 import AddColumn from "./AddColumn";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { camelCase, getCards } from "../../../utils";
@@ -8,24 +8,9 @@ import "./index.scss";
 
 class InnerList extends React.PureComponent {
   render() {
-    const {
-      column,
-      cardMap,
-      index,
-      updateCardContent,
-      addNewCard
-    } = this.props;
+    const { column, cardMap, ...rest } = this.props;
     const cards = getCards(cardMap, column.id);
-    return (
-      <Column
-        column={column}
-        cards={cards}
-        index={index}
-        updateCardContent={updateCardContent}
-        addNewCard={addNewCard}
-        cardMap={cardMap}
-      />
-    );
+    return <Column column={column} cards={cards} cardMap={cardMap} {...rest} />;
   }
 }
 
@@ -110,6 +95,11 @@ class Board extends React.Component {
     if (start === finish) {
       // new cards nonmutated array
       let cardsSrcCol = getCards(this.state.cards, source.droppableId, "col-");
+      let cardsNotSrcDestCols = this.state.cards.filter(
+        card =>
+          `col-${card.columnId}` !== source.droppableId &&
+          `col-${card.columnId}` !== destination.droppableId
+      );
       const draggedCard = cardsSrcCol.find(
         card => `card-${card.id}` === draggableId
       );
@@ -118,7 +108,7 @@ class Board extends React.Component {
       cardsSrcCol.splice(destination.index, 0, draggedCard);
       const newState = {
         ...this.state,
-        cards: cardsSrcCol
+        cards: [...cardsSrcCol, ...cardsNotSrcDestCols]
       };
       this.setState(newState);
       return;
@@ -154,12 +144,24 @@ class Board extends React.Component {
     this.setState(newState);
   };
 
+  // Note: combine updateCardContent and updateColumnContent into one function
   updateCardContent = newContent => {
     let cards = [...this.state.cards];
     cards[cards.findIndex(card => card.id === newContent.id)] = newContent;
     const newState = {
       ...this.state,
       cards
+    };
+    this.setState(newState);
+  };
+  updateColumnContent = newContent => {
+    let columns = [...this.state.columns];
+    columns[
+      columns.findIndex(column => column.id === newContent.id)
+    ] = newContent;
+    const newState = {
+      ...this.state,
+      columns
     };
     this.setState(newState);
   };
@@ -215,28 +217,31 @@ class Board extends React.Component {
             type="column"
           >
             {provided => (
-              <div
-                id="board-droppable"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {this.state.columnOrder.map((columnId, index) => {
-                  const column = this.state.columns.find(
-                    column => column.id === columnId
-                  );
-                  return (
-                    <InnerList
-                      key={column.id}
-                      column={column}
-                      cardMap={this.state.cards}
-                      index={index}
-                      updateCardContent={this.updateCardContent}
-                      addNewCard={this.addNewCard}
-                    />
-                  );
-                })}
-                {provided.placeholder}
-              </div>
+              <TagsProvider value={this.state.tags}>
+                <div
+                  id="board-droppable"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {this.state.columnOrder.map((columnId, index) => {
+                    const column = this.state.columns.find(
+                      column => column.id === columnId
+                    );
+                    return (
+                      <InnerList
+                        key={column.id}
+                        column={column}
+                        cardMap={this.state.cards}
+                        index={index}
+                        updateCardContent={this.updateCardContent}
+                        updateColumnContent={this.updateColumnContent}
+                        addNewCard={this.addNewCard}
+                      />
+                    );
+                  })}
+                  {provided.placeholder}
+                </div>
+              </TagsProvider>
             )}
           </Droppable>
         </DragDropContext>

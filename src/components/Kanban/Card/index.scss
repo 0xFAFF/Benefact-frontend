@@ -2,15 +2,21 @@
   border: 1px solid lightgrey;
   padding: 8px;
   margin-bottom: 8px;
-  height: 50px;
   display: flex;
+  align-items: start;
   background-color: white;
+  flex-direction: column;
 
   &:hover {
     border-radius: 5px;
-    background-color: rgb(185, 189, 190);
+    background-color: rgb(243, 243, 243);
     transition: background-color 0.8s ease;
     transform: scale(1.1);
+    .edit-icon {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.8s linear;
+    }
   }
 
   .card-description {
@@ -29,4 +35,10 @@
 
 .is-dragging {
   background-color: rgb(245, 250, 248) !important;
+}
+
+.edit-icon {
+  cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
 }

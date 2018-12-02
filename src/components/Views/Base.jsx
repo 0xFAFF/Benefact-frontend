@@ -12,7 +12,7 @@ class Base extends React.Component {
         <div
           style={{
             display: "flex",
-            width: "300px",
+            justifyContent: "center",
             marginBottom: "10px"
           }}
         >

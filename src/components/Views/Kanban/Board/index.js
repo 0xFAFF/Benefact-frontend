@@ -218,7 +218,7 @@ class Board extends React.Component {
       return null;
     }
     return (
-      <div id="board">
+      <div id="kanban-board">
         <div className="add-column-outer">
           <AddColumn addNewColumn={this.addNewColumn} />
         </div>

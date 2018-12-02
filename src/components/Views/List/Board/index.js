@@ -4,7 +4,7 @@ import { Column, Card, TagsProvider } from "../../Kanban";
 import { AddColumn } from "../../../UI/AddComponent";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { camelCase, getCards } from "../../../../utils";
-// import "./index.scss";
+import "./index.scss";
 
 class InnerList extends React.Component {
   render() {
@@ -196,10 +196,7 @@ class Board extends React.Component {
       return null;
     }
     return (
-      <div id="board">
-        <div className="add-column-outer">
-          <AddColumn addNewColumn={this.addNewColumn} />
-        </div>
+      <div id="list-board">
         <DragDropContext
           onDragEnd={this.onDragEnd}
           // onDragStart={this.onDragStart}

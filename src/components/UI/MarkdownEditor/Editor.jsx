@@ -1,4 +1,5 @@
 import React from "react";
+import Categories from "../../Views/Kanban/Tags/Categories";
 
 class Editor extends React.Component {
   render() {
@@ -14,12 +15,23 @@ class Editor extends React.Component {
             onChange={e => this.props.onChangeHandler(e, "title")}
           />
         </div>
-        <div>Description: </div>
-        <textarea
-          id="editor-text-area"
-          defaultValue={this.props.content.description}
-          onChange={e => this.props.onChangeHandler(e, "description")}
-        />
+        <div className="description">
+          <div>Description: </div>
+          <textarea
+            id="editor-text-area"
+            defaultValue={this.props.content.description}
+            onChange={e => this.props.onChangeHandler(e, "description")}
+          />
+        </div>
+        <div>
+          <div className="tag-label">
+            <span>Tags:</span>
+          </div>
+          <Categories
+            categories={this.props.content.categories}
+            displayAddCategory={true}
+          />
+        </div>
         <div className="editor-button-group">
           <button
             className="editor-button-save"

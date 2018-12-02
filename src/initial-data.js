@@ -6,7 +6,7 @@ const data = {
       Description:
         'Some Markdown\n=====\n\n```csharp\n    var herp = "derp";\n```',
       ColumnID: 2,
-      Categories: [1, 2, 3, 4]
+      Categories: [1, 2, 3, 4, 5]
     },
     {
       ID: 2,
@@ -39,7 +39,8 @@ const data = {
     { ID: 1, Name: "Story", Color: "#F00", Character: null },
     { ID: 2, Name: "Dev Task", Color: "#0F0", Character: null },
     { ID: 3, Name: "Business Boiz", Color: "#00F", Character: null },
-    { ID: 4, Name: "Bug", Color: null, Character: "🐛" }
+    { ID: 4, Name: "Bug", Color: null, Character: "🐛" },
+    { ID: 5, Name: "Bug2", Color: "#00F", Character: "🐛" }
   ]
 };
 

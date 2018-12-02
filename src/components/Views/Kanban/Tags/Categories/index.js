@@ -1,21 +1,21 @@
 import React from "react";
-import { TagsConsumer } from "../../..";
+import { TagsConsumer } from "..";
 import { getTags } from "../../../../../utils";
+import { AddCategory } from "../../../../UI/AddComponent";
+
 import "./index.scss";
 
 const InnerList = ({ tag }) => {
-  const displayTag = tag.color ? (
+  const { name, color, character } = tag;
+  const displayTag = (
     <div
       style={{
-        backgroundColor: tag.color,
-        width: "20px",
-        height: "20px"
+        backgroundColor: color || "inherit",
+        border: color ? "none" : "1px solid lightgray"
       }}
-    />
-  ) : tag.character ? (
-    tag.character
-  ) : (
-    "N/A"
+    >
+      {character || name}
+    </div>
   );
   return <li>{displayTag}</li>;
 };
@@ -32,6 +32,11 @@ class Categories extends React.Component {
                 {tags.map(tag => (
                   <InnerList tag={tag} key={tag.id} />
                 ))}
+                {this.props.displayAddCategory && (
+                  <li>
+                    <AddCategory />
+                  </li>
+                )}
               </ul>
             </div>
           );

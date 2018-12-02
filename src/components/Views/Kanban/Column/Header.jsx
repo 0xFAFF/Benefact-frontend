@@ -1,6 +1,7 @@
 import React from "react";
-import AddCard from "./AddCard";
-import { getCards } from "../../../utils";
+import { AddCard } from "../../../UI/AddComponent";
+import { getCards } from "../../../../utils";
+import { TextAreaInput } from "../../../UI";
 
 const Header = props => {
   const { dragHandleProps, title, updateColumnContent, ...rest } = props;
@@ -9,9 +10,9 @@ const Header = props => {
   return (
     <div className="column-header" {...dragHandleProps}>
       <span className="title">
-        <input
+        <div className="card-number">({cardNumber})</div>
+        <TextAreaInput
           name="Title"
-          type="text"
           defaultValue={title}
           onBlur={e =>
             updateColumnContent({
@@ -20,7 +21,6 @@ const Header = props => {
             })
           }
         />
-        ({cardNumber})
       </span>
       <AddCard {...rest} />
     </div>

@@ -1,15 +1,18 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { Modal, MarkdownEditor } from "../../UI";
+import { Modal, MarkdownEditor } from "../../../UI";
 import marked from "marked";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Categories } from "./sections";
+import Categories from "../Tags/Categories";
 import "./index.scss";
 
 class Card extends React.Component {
-  state = { showModal: false };
-  handleShowMessageClick = () => this.setState({ showModal: true });
-  handleCloseModal = () => this.setState({ showModal: false });
+  state = { showModal: false, isDragDisabled: false };
+  handleShowMessageClick = () => {
+    this.setState({ showModal: true, isDragDisabled: true });
+  };
+  handleCloseModal = () =>
+    this.setState({ showModal: false, isDragDisabled: false });
 
   rawMarkup = () => {
     const { id = "N/A", title = "N/A" } = this.props.card;
@@ -40,6 +43,7 @@ class Card extends React.Component {
       <Draggable
         draggableId={`card-${this.props.card.id}`}
         index={this.props.index}
+        isDragDisabled={this.state.isDragDisabled}
       >
         {(provided, snapshot) => {
           return (

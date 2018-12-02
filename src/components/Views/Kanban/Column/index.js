@@ -18,8 +18,17 @@ class InnerList extends React.Component {
 }
 
 class Column extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.cards === this.props.cards) {
+  state = { showModal: false, isDragDisabled: false };
+  handleShowMessageClick = () => {
+    this.setState({ showModal: true, isDragDisabled: true });
+  };
+  handleCloseModal = () =>
+    this.setState({ showModal: false, isDragDisabled: false });
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.showModal !== this.state.showModal) {
+      return true;
+    } else if (nextProps.cards === this.props.cards) {
       return false;
     }
     return true;
@@ -27,7 +36,11 @@ class Column extends React.Component {
 
   render() {
     return (
-      <Draggable draggableId={this.props.column.id} index={this.props.index}>
+      <Draggable
+        draggableId={this.props.column.id}
+        index={this.props.index}
+        isDragDisabled={this.state.isDragDisabled}
+      >
         {provided => (
           <div
             id="column-draggable"
@@ -43,6 +56,9 @@ class Column extends React.Component {
               updateColumnContent={this.props.updateColumnContent}
               updateCardContent={this.props.updateCardContent}
               cardMap={this.props.cardMap}
+              showModal={this.state.showModal}
+              handleShowMessageClick={this.handleShowMessageClick}
+              handleCloseModal={this.handleCloseModal}
             />
             <Droppable droppableId={`col-${this.props.column.id}`} type="card">
               {(provided, snapshot) => (

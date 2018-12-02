@@ -15,6 +15,9 @@
 
 #editor-mode {
   height: 100%;
+  .description {
+    height: 60%;
+  }
 }
 
 #editor-text-area {
@@ -79,4 +82,12 @@
 .editor-button-save:active,
 .editor-button-cancel:active {
   box-shadow: inset 1px 1px 10px rgb(112, 111, 111);
+}
+
+.tag-label {
+  display: flex;
+  align-items: center;
+  span {
+    margin-right: 5px;
+  }
 }

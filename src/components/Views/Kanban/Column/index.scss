@@ -19,18 +19,11 @@
       text-align: center;
       flex: 1 0 auto;
       font-size: 1.2em;
-      input {
-        border: none;
-        display: inline;
-        font-family: inherit;
-        font-size: inherit;
-        padding: none;
-      }
-      input.break {
-        word-wrap: break-word;
-        word-break: break-all;
-        height: 80%;
-      }
+      display: flex;
+    }
+
+    .card-number {
+      margin-right: 5px;
     }
 
     &:hover {

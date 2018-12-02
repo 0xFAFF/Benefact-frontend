@@ -1,31 +1,27 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Modal, MarkdownEditor } from "../../UI";
+import { Modal, MarkdownEditor } from "..";
 
 class AddCard extends React.Component {
-  state = { showModal: false };
-  handleShowMessageClick = () => this.setState({ showModal: true });
-  handleCloseModal = () => this.setState({ showModal: false });
-
   render() {
     return (
       <div>
         <div
           className="add-card"
           onClick={() => {
-            this.handleShowMessageClick();
+            this.props.handleShowMessageClick();
           }}
         >
           <FontAwesomeIcon icon="plus" size="sm" />
         </div>
-        {this.state.showModal ? (
-          <Modal onClose={this.handleCloseModal}>
+        {this.props.showModal ? (
+          <Modal onClose={() => this.props.handleCloseModal()}>
             <MarkdownEditor
               content={{ id: this.props.cardMap.length + 1 }}
               updateContent={newContent =>
                 this.props.addNewCard(newContent, this.props.columnId)
               }
-              onClose={this.handleCloseModal}
+              onClose={() => this.props.handleCloseModal()}
             />
           </Modal>
         ) : null}

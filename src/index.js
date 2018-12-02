@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./fontawesome";
 import "./index.scss";
-import { Board } from "./components/Kanban";
+import Base from "./components/Views/Base";
 
 class App extends React.Component {
   render() {
-    return <Board />;
+    return <Base />;
   }
 }
 

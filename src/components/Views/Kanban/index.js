@@ -3,7 +3,7 @@ import Board from "./Board";
 
 class Kanban extends React.Component {
   render() {
-    return <Board />;
+    return <Board {...this.props} />;
   }
 }
 

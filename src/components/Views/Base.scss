@@ -1,0 +1,20 @@
+#views-base {
+  .base-button-group {
+    .button-kanban {
+      margin-right: 10px;
+    }
+    .button-kanban,
+    .button-list {
+      border: none;
+      outline: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      background-color: #f1f1f1;
+      cursor: pointer;
+    }
+    .button-active {
+      background-color: #4797e7;
+      color: white;
+    }
+  }
+}

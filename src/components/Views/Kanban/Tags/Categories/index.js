@@ -7,17 +7,17 @@ import "./index.scss";
 
 const InnerList = ({ tag }) => {
   const { name, color, character } = tag;
-  const displayTag = (
-    <div
+  const displayTag = <div>{character || name}</div>;
+  return (
+    <li
       style={{
         backgroundColor: color || "inherit",
         border: color ? "none" : "1px solid lightgray"
       }}
     >
-      {character || name}
-    </div>
+      {displayTag}
+    </li>
   );
-  return <li>{displayTag}</li>;
 };
 
 class Categories extends React.Component {

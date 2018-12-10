@@ -73,7 +73,7 @@ class Card extends React.Component {
                   </Modal>
                 ) : null}
               </div>
-              <Categories categories={this.props.card.categories} />
+              <Categories tagIds={this.props.card.tagIds} />
             </div>
           );
         }}

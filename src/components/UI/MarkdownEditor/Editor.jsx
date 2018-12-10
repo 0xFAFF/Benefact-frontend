@@ -28,7 +28,7 @@ class Editor extends React.Component {
             <span>Tags:</span>
           </div>
           <Categories
-            categories={this.props.content.categories}
+            tagIds={this.props.content.tagIds}
             displayAddCategory={true}
             onChangeHandler={this.props.onChangeHandler}
           />

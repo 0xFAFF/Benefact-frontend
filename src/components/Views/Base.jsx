@@ -3,6 +3,7 @@ import Kanban from "./Kanban";
 import List from "./List";
 import data from "../../initial-data";
 import { camelCase, getCards } from "../../utils";
+import { PacmanLoader } from "../UI/Loader";
 import "./Base.scss";
 
 class Base extends React.Component {
@@ -12,12 +13,40 @@ class Base extends React.Component {
   };
 
   componentDidMount() {
-    let formattedData = camelCase(data);
-    this.setState({
-      isLoading: false,
-      ...formattedData,
-      columnOrder: formattedData.columns.map(column => column.id)
-    });
+    this.setState({ isLoading: true });
+    const url = "http://192.168.1.4/api/cards";
+    fetch(url)
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        let formattedData = camelCase(res);
+        let columnOrder = formattedData.columns.map(column => column.id);
+        this.setState({
+          cards: formattedData.cards,
+          columns: formattedData.columns,
+          tags: formattedData.tags,
+          columnOrder,
+          isLoading: false
+        });
+      })
+      .catch(err => {
+        this.setState({
+          err,
+          cards: [],
+          columns: [],
+          tags: [],
+          columnOrder: [],
+          isLoading: false
+        });
+      });
+
+    // let formattedData = camelCase(data);
+    // this.setState({
+    //   isLoading: false,
+    //   ...formattedData,
+    //   columnOrder: formattedData.columns.map(column => column.id)
+    // });
   }
 
   kanbanOnDragEnd = result => {
@@ -163,7 +192,7 @@ class Base extends React.Component {
       id: newId,
       title: newContent.title || "",
       description: newContent.description || "",
-      categories: newContent.categories || [],
+      tagIds: newContent.tagIds || [],
       columnId: columnId
     };
     const newState = {
@@ -207,7 +236,7 @@ class Base extends React.Component {
     const { isLoading, view, ...kanbanState } = this.state;
     const { cards = [] } = this.state;
     if (isLoading || cards.length === 0) {
-      return null;
+      return <PacmanLoader />;
     }
     const listState = {
       cards: this.state.cards,

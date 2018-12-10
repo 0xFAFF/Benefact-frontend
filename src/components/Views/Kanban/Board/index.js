@@ -14,33 +14,6 @@ class InnerList extends React.PureComponent {
 }
 
 class Board extends React.Component {
-  // componentDidMount() {
-  //   this.setState({ isLoading: true });
-  //   const url = "http://192.168.1.4/api/cards";
-  //   fetch(url)
-  //     .then(res => {
-  //       return res.json();
-  //     })
-  //     .then(res => {
-  //       let columnOrder = res.Statuses.map(column => column.ID);
-  //       this.setState({
-  //         cards: res.Cards,
-  //         columns: res.Statuses,
-  //         columnOrder,
-  //         isLoading: false
-  //       });
-  //     })
-  //     .catch(err => {
-  //       this.setState({
-  //         err,
-  //         cards: [],
-  //         columns: [],
-  //         columnOrder: [],
-  //         isLoading: false
-  //       });
-  //     });
-  // }
-
   render() {
     return (
       <div id="kanban-board">

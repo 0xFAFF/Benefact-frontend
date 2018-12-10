@@ -25,7 +25,7 @@ class Categories extends React.Component {
     return (
       <TagsConsumer>
         {context => {
-          const tags = getTags(context, this.props.categories);
+          const tags = getTags(context, this.props.tagIds);
           return (
             <div id="card-categories">
               <ul className="tags-ul">

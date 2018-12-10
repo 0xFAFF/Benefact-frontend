@@ -35,7 +35,7 @@ class Preview extends React.Component {
         <div>Description: </div>
         <div dangerouslySetInnerHTML={this.rawMarkup()} />
         <div>Tags: </div>
-        <Categories categories={this.props.content.categories} />
+        <Categories tagIds={this.props.content.tagIds} />
       </div>
     );
   }

@@ -1,46 +1,46 @@
 const data = {
-  Cards: [
+  cards: [
     {
-      ID: 1,
-      Title: "Get MD Working",
-      Description:
+      id: 1,
+      title: "Get MD Working",
+      description:
         'Some Markdown\n=====\n\n```csharp\n    var herp = "derp";\n```',
-      ColumnID: 2,
-      Categories: [1, 2, 3, 4, 5]
+      columnId: 2,
+      tagIds: [1, 2, 3, 4, 5]
     },
     {
-      ID: 2,
-      Title: "Make sure UTF8 works 😑",
-      Description: "😈😈😈😈😈😈",
-      ColumnID: 1,
-      Categories: [1]
+      id: 2,
+      title: "Make sure UTF8 works 😑",
+      description: "😈😈😈😈😈😈",
+      columnId: 1,
+      tagIds: [1]
     },
     {
-      ID: 3,
-      Title: "Some Bug",
-      Description: "There was a bug",
-      ColumnID: 2,
-      Categories: [4, 2]
+      id: 3,
+      title: "Some Bug",
+      description: "There was a bug",
+      columnId: 2,
+      tagIds: [4, 2]
     },
     {
-      ID: 4,
-      Title: "Fixed bug",
-      Description: "There was a bug",
-      ColumnID: 3,
-      Categories: [4]
+      id: 4,
+      title: "Fixed bug",
+      description: "There was a bug",
+      columnId: 3,
+      tagIds: [4]
     }
   ],
-  Columns: [
-    { ID: 1, Title: "To Do" },
-    { ID: 2, Title: "In Progress" },
-    { ID: 3, Title: "Done" }
+  columns: [
+    { id: 1, title: "To Do" },
+    { id: 2, title: "In Progress" },
+    { id: 3, title: "Done" }
   ],
-  Tags: [
-    { ID: 1, Name: "Story", Color: "#001f3f", Character: null },
-    { ID: 2, Name: "Dev Task", Color: "#2ECC40", Character: null },
-    { ID: 3, Name: "Business Boiz", Color: "#FF851B", Character: null },
-    { ID: 4, Name: "Bug", Color: null, Character: "🐛" },
-    { ID: 5, Name: "Bug2", Color: "#F012BE", Character: "🐛" }
+  tags: [
+    { id: 1, name: "Story", color: "#001f3f", character: null },
+    { id: 2, name: "Dev Task", color: "#2ECC40", character: null },
+    { id: 3, name: "Business Boiz", color: "#FF851B", character: null },
+    { id: 4, name: "Bug", color: null, character: "bug" },
+    { id: 5, name: "Star", color: "#F012BE", character: "star" }
   ]
 };
 

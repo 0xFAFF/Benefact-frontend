@@ -55,6 +55,7 @@ class AddTag extends React.Component {
                 onChangeHandler={this.props.onChangeHandler}
                 option={this.state.option}
                 handleOptionSelect={this.handleOptionSelect}
+                onClose={closePortal}
               />
             )}
           </React.Fragment>

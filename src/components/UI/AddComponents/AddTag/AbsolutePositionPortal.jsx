@@ -13,36 +13,48 @@ class AbsolutePositionPortal extends React.Component {
     };
 
     return (
-      <div className="absolute-position-portal" style={style}>
-        <TagsConsumer>
-          {tagsList => {
-            return (
-              <React.Fragment>
-                {this.props.option === "select" && (
-                  <React.Fragment>
-                    <p>Select an available tag</p>
-                    <SelectTag
-                      tagsList={tagsList}
-                      onChangeHandler={this.props.onChangeHandler}
-                      cardTags={this.props.cardTags}
+      <div className="portal-outer-container">
+        <div className="absolute-position-portal" style={style}>
+          <TagsConsumer>
+            {tagsList => {
+              return (
+                <React.Fragment>
+                  {this.props.option === "select" && (
+                    <React.Fragment>
+                      <div className="top-nav">
+                        <div style={{ cursor: "pointer" }}>
+                          <FontAwesomeIcon
+                            icon="times"
+                            size="lg"
+                            onClick={this.props.onClose}
+                          />
+                        </div>
+                      </div>
+                      <p>Select A Tag</p>
+                      <SelectTag
+                        tagsList={tagsList}
+                        onChangeHandler={this.props.onChangeHandler}
+                        cardTags={this.props.cardTags}
+                      />
+                      <div
+                        className="create-tag-container"
+                        onClick={() => this.props.handleOptionSelect("create")}
+                      >
+                        <FontAwesomeIcon icon="plus" size="sm" />
+                        <span>Create New Tag</span>
+                      </div>
+                    </React.Fragment>
+                  )}
+                  {this.props.option === "create" && (
+                    <CreateTag
+                      handleOptionSelect={this.props.handleOptionSelect}
                     />
-                    <div
-                      className="create-tag-container"
-                      onClick={() => this.props.handleOptionSelect("create")}
-                    >
-                      <FontAwesomeIcon icon="plus" size="sm" />
-                    </div>
-                  </React.Fragment>
-                )}
-                {this.props.option === "create" && (
-                  <CreateTag
-                    handleOptionSelect={this.props.handleOptionSelect}
-                  />
-                )}
-              </React.Fragment>
-            );
-          }}
-        </TagsConsumer>
+                  )}
+                </React.Fragment>
+              );
+            }}
+          </TagsConsumer>
+        </div>
       </div>
     );
   }

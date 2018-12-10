@@ -1,5 +1,5 @@
 import React from "react";
-import Categories from "../../Views/Kanban/Tags/Categories";
+import { Tags } from "../../Views/Kanban";
 
 class Editor extends React.Component {
   render() {
@@ -27,7 +27,7 @@ class Editor extends React.Component {
           <div className="tag-label">
             <span>Tags:</span>
           </div>
-          <Categories
+          <Tags
             tagIds={this.props.content.tagIds}
             displayAddCategory={true}
             onChangeHandler={this.props.onChangeHandler}

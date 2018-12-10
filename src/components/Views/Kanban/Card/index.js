@@ -3,7 +3,7 @@ import { Draggable } from "react-beautiful-dnd";
 import { Modal, MarkdownEditor } from "../../../UI";
 import marked from "marked";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Categories from "../Tags/Categories";
+import Tags from "../Tags";
 import "./index.scss";
 
 class Card extends React.Component {
@@ -73,7 +73,7 @@ class Card extends React.Component {
                   </Modal>
                 ) : null}
               </div>
-              <Categories tagIds={this.props.card.tagIds} />
+              <Tags tagIds={this.props.card.tagIds} />
             </div>
           );
         }}

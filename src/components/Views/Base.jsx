@@ -13,40 +13,40 @@ class Base extends React.Component {
   };
 
   componentDidMount() {
-    this.setState({ isLoading: true });
-    const url = "http://192.168.1.4/api/cards";
-    fetch(url)
-      .then(res => {
-        return res.json();
-      })
-      .then(res => {
-        let formattedData = camelCase(res);
-        let columnOrder = formattedData.columns.map(column => column.id);
-        this.setState({
-          cards: formattedData.cards,
-          columns: formattedData.columns,
-          tags: formattedData.tags,
-          columnOrder,
-          isLoading: false
-        });
-      })
-      .catch(err => {
-        this.setState({
-          err,
-          cards: [],
-          columns: [],
-          tags: [],
-          columnOrder: [],
-          isLoading: false
-        });
-      });
+    // this.setState({ isLoading: true });
+    // const url = "http://192.168.1.4/api/cards";
+    // fetch(url)
+    //   .then(res => {
+    //     return res.json();
+    //   })
+    //   .then(res => {
+    //     let formattedData = camelCase(res);
+    //     let columnOrder = formattedData.columns.map(column => column.id);
+    //     this.setState({
+    //       cards: formattedData.cards,
+    //       columns: formattedData.columns,
+    //       tags: formattedData.tags,
+    //       columnOrder,
+    //       isLoading: false
+    //     });
+    //   })
+    //   .catch(err => {
+    //     this.setState({
+    //       err,
+    //       cards: [],
+    //       columns: [],
+    //       tags: [],
+    //       columnOrder: [],
+    //       isLoading: false
+    //     });
+    //   });
 
-    // let formattedData = camelCase(data);
-    // this.setState({
-    //   isLoading: false,
-    //   ...formattedData,
-    //   columnOrder: formattedData.columns.map(column => column.id)
-    // });
+    let formattedData = camelCase(data);
+    this.setState({
+      isLoading: false,
+      ...formattedData,
+      columnOrder: formattedData.columns.map(column => column.id)
+    });
   }
 
   kanbanOnDragEnd = result => {

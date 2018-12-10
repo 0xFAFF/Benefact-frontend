@@ -1,7 +1,7 @@
 import React from "react";
 import marked from "marked";
 import hljs from "highlight.js";
-import Categories from "../../Views/Kanban/Tags/Categories";
+import { Tags } from "../../Views/Kanban";
 
 class Preview extends React.Component {
   rawMarkup = () => {
@@ -35,7 +35,7 @@ class Preview extends React.Component {
         <div>Description: </div>
         <div dangerouslySetInnerHTML={this.rawMarkup()} />
         <div>Tags: </div>
-        <Categories tagIds={this.props.content.tagIds} />
+        <Tags tagIds={this.props.content.tagIds} />
       </div>
     );
   }

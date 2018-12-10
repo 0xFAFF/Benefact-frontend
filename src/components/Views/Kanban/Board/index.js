@@ -1,7 +1,7 @@
 import React from "react";
-import { Column } from "..";
-import { TagsProvider } from "../Tags/TagsContext";
-import { AddColumn } from "../../../UI/AddComponent";
+import { Column } from "../../../UI/BoardComponents";
+import { TagsProvider } from "../../../UI/BoardComponents/Tags/TagsContext";
+import { AddColumn } from "../../../UI/AddComponents";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { getCards } from "../../../../utils";
 import "./index.scss";
@@ -33,7 +33,6 @@ class Board extends React.Component {
           >
             {provided => (
               <TagsProvider value={this.props.tags}>
-                {console.log(this.props)}
                 <div
                   id="board-droppable"
                   {...provided.droppableProps}

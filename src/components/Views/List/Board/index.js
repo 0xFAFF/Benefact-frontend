@@ -1,6 +1,6 @@
 import React from "react";
-import { Card } from "../../Kanban";
-import { TagsProvider } from "../../Kanban/Tags/TagsContext";
+import { Card } from "../../../UI/BoardComponents";
+import { TagsProvider } from "../../../UI/BoardComponents/Tags/TagsContext";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import "./index.scss";
 

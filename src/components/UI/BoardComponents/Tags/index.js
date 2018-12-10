@@ -1,7 +1,7 @@
 import React from "react";
 import { TagsConsumer } from "./TagsContext";
 import { getTags } from "../../../../utils";
-import { AddTag } from "../../../UI/AddComponent";
+import { AddTag } from "../../AddComponents";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./index.scss";

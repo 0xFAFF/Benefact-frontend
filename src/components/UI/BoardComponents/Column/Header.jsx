@@ -1,5 +1,5 @@
 import React from "react";
-import { AddCard } from "../../../UI/AddComponent";
+import { AddCard } from "../../../UI/AddComponents";
 import { getCards } from "../../../../utils";
 import { TextAreaInput } from "../../../UI";
 

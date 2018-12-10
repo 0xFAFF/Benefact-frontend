@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TagsConsumer } from "../../../Views/Kanban/Tags/TagsContext";
+import { TagsConsumer } from "../../BoardComponents/Tags/TagsContext";
 import SelectTag from "./SelectTag";
 import CreateTag from "./CreateTag";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

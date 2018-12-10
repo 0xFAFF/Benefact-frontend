@@ -1,7 +1,7 @@
 import React from "react";
 import marked from "marked";
 import hljs from "highlight.js";
-import { Tags } from "../../Views/Kanban";
+import { Tags } from "../BoardComponents";
 
 class Preview extends React.Component {
   rawMarkup = () => {

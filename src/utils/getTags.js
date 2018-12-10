@@ -1,4 +1,4 @@
-const getTags = (tagsList, tagIds = []) => {
+const getTags = (tagsList = {}, tagIds = []) => {
   const foundTags = [];
   tagIds.forEach(id => {
     const tag = tagsList.find(tag => id === tag.id);

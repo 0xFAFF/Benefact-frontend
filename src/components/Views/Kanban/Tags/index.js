@@ -1,7 +1,7 @@
 import React from "react";
 import { TagsConsumer } from "./TagsContext";
 import { getTags } from "../../../../utils";
-import { AddCategory } from "../../../UI/AddComponent";
+import { AddTag } from "../../../UI/AddComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./index.scss";
@@ -36,14 +36,14 @@ class Tags extends React.Component {
         {context => {
           const tags = getTags(context, this.props.tagIds);
           return (
-            <div id="card-categories">
+            <div id="card-tags">
               <ul className="tags-ul">
                 {tags.map(tag => (
                   <InnerList tag={tag} key={tag.id} />
                 ))}
-                {this.props.displayAddCategory && (
+                {this.props.displayAddTag && (
                   <li>
-                    <AddCategory
+                    <AddTag
                       cardTags={tags}
                       onChangeHandler={this.props.onChangeHandler}
                     />

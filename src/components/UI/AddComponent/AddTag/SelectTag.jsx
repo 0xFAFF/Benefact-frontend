@@ -4,16 +4,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const SelectTag = props => {
   const { tagsList, onChangeHandler, cardTags } = props;
   return (
-    <ul className="categories-ul">
+    <ul className="tags-ul">
       {tagsList.map(tag => (
-        <li key={tag.id} onClick={() => onChangeHandler(tag.id, "category")}>
+        <li key={tag.id} onClick={() => onChangeHandler(tag.id, "tag")}>
           <div
             style={{
               backgroundColor: tag.color ? tag.color : "lightgray"
             }}
-            className="categories-li-container"
+            className="tags-li-container"
           >
-            <div className="categories-label">
+            <div className="tags-label">
               {tag.character ? tag.character : tag.name}
             </div>
             {cardTags.find(cardTag => cardTag.id === tag.id) && (

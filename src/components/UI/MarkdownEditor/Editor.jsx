@@ -29,7 +29,7 @@ class Editor extends React.Component {
           </div>
           <Tags
             tagIds={this.props.content.tagIds}
-            displayAddCategory={true}
+            displayAddTag={true}
             onChangeHandler={this.props.onChangeHandler}
           />
         </div>

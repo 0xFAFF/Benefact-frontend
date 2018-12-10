@@ -17,9 +17,9 @@ class MarkdownEditor extends React.Component {
 
   onChangeHandler = (e, key) => {
     let newState = {};
-    if (key === "category") {
+    if (key === "tag") {
       const tagIds = [...this.state.newContent.tagIds];
-      const index = tagIds.findIndex(category => category === e);
+      const index = tagIds.findIndex(tag => tag === e);
       if (index !== -1) {
         tagIds.splice(index, 1);
       } else {

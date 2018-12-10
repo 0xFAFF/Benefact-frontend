@@ -4,7 +4,7 @@ import { PortalWithState } from "react-portal";
 import AbsolutePositionPortal from "./AbsolutePositionPortal";
 import "./index.scss";
 
-class AddCategory extends React.Component {
+class AddTag extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,11 +26,11 @@ class AddCategory extends React.Component {
         {({ openPortal, closePortal, isOpen, portal }) => (
           <React.Fragment>
             <div
-              ref={m => (this.addCategoryDiv = m)}
-              id="add-category"
+              ref={m => (this.addTagDiv = m)}
+              id="add-tag"
               onClick={e => {
                 const bodyRect = document.body.getBoundingClientRect();
-                const targetRect = this.addCategoryDiv.getBoundingClientRect();
+                const targetRect = this.addTagDiv.getBoundingClientRect();
                 openPortal(e);
                 this.setState({
                   option: "select",
@@ -64,4 +64,4 @@ class AddCategory extends React.Component {
   }
 }
 
-export default AddCategory;
+export default AddTag;

@@ -11,10 +11,7 @@ const COLORS = () => {
     orange: "#FF851B",
     red: "#FF4136",
     maroon: "#85144B",
-    fuchsia: "#F012BE",
-    black: "#111111",
-    gray: "#AAAAAA",
-    silver: "#DDDDDD"
+    fuchsia: "#F012BE"
   };
 };
 

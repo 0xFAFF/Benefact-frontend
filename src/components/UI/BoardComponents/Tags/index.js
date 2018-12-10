@@ -20,7 +20,7 @@ const InnerList = ({ tag }) => {
   return (
     <li
       style={{
-        backgroundColor: color || "inherit",
+        backgroundColor: color || "#dddddd",
         border: color ? "none" : "1px solid lightgray"
       }}
     >

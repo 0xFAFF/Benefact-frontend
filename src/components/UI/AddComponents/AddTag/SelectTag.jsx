@@ -9,12 +9,16 @@ const SelectTag = props => {
         <li key={tag.id} onClick={() => onChangeHandler(tag.id, "tag")}>
           <div
             style={{
-              backgroundColor: tag.color ? tag.color : "lightgray"
+              backgroundColor: tag.color ? tag.color : "#DDDDDD"
             }}
             className="tags-li-container"
           >
             <div className="tags-label">
-              {tag.character ? tag.character : tag.name}
+              {tag.character ? (
+                <FontAwesomeIcon icon={tag.character} size="sm" color="#000" />
+              ) : (
+                tag.name
+              )}
             </div>
             {cardTags.find(cardTag => cardTag.id === tag.id) && (
               <FontAwesomeIcon icon="check" size="sm" />

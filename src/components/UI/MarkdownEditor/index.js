@@ -16,12 +16,29 @@ class MarkdownEditor extends React.Component {
   };
 
   onChangeHandler = (e, key) => {
-    const newState = {
-      newContent: {
-        ...this.state.newContent,
-        [key]: e.target.value
+    let newState = {};
+    if (key === "category") {
+      const categories = [...this.state.newContent.categories];
+      const index = categories.findIndex(category => category === e);
+      if (index !== -1) {
+        categories.splice(index, 1);
+      } else {
+        categories.push(e);
       }
-    };
+      newState = {
+        newContent: {
+          ...this.state.newContent,
+          categories
+        }
+      };
+    } else {
+      newState = {
+        newContent: {
+          ...this.state.newContent,
+          [key]: e.target.value
+        }
+      };
+    }
     this.setState(newState);
   };
 

@@ -30,6 +30,7 @@ class Editor extends React.Component {
           <Categories
             categories={this.props.content.categories}
             displayAddCategory={true}
+            onChangeHandler={this.props.onChangeHandler}
           />
         </div>
         <div className="editor-button-group">

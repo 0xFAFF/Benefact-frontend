@@ -34,7 +34,10 @@ class Categories extends React.Component {
                 ))}
                 {this.props.displayAddCategory && (
                   <li>
-                    <AddCategory />
+                    <AddCategory
+                      cardTags={tags}
+                      onChangeHandler={this.props.onChangeHandler}
+                    />
                   </li>
                 )}
               </ul>

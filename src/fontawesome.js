@@ -2,12 +2,33 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 
 // import your icons
-import { faTimes, faEdit, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTimes,
+  faEdit,
+  faPlus,
+  faCheck,
+  faBug,
+  faBook,
+  faFlag,
+  faPaw,
+  faTag,
+  faTrophy,
+  faStar,
+  faChevronLeft
+} from "@fortawesome/free-solid-svg-icons";
 // import { farEdit } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
   faEdit,
   faTimes,
-  faPlus
-  // more icons go here
+  faPlus,
+  faCheck,
+  faBug,
+  faBook,
+  faFlag,
+  faPaw,
+  faTag,
+  faTrophy,
+  faStar,
+  faChevronLeft
 );

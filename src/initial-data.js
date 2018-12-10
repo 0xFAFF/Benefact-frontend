@@ -36,11 +36,11 @@ const data = {
     { ID: 3, Title: "Done" }
   ],
   Tags: [
-    { ID: 1, Name: "Story", Color: "#F00", Character: null },
-    { ID: 2, Name: "Dev Task", Color: "#0F0", Character: null },
-    { ID: 3, Name: "Business Boiz", Color: "#00F", Character: null },
+    { ID: 1, Name: "Story", Color: "#001f3f", Character: null },
+    { ID: 2, Name: "Dev Task", Color: "#2ECC40", Character: null },
+    { ID: 3, Name: "Business Boiz", Color: "#FF851B", Character: null },
     { ID: 4, Name: "Bug", Color: null, Character: "🐛" },
-    { ID: 5, Name: "Bug2", Color: "#00F", Character: "🐛" }
+    { ID: 5, Name: "Bug2", Color: "#F012BE", Character: "🐛" }
   ]
 };
 

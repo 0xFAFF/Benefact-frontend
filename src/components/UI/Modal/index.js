@@ -17,7 +17,7 @@ class Modal extends React.Component {
     return ReactDOM.createPortal(
       <div className="outer-container">
         <div className="inner-container">
-          <div className="container">
+          <div id="modal-container">
             <div className="top-nav">
               <div style={{ cursor: "pointer" }}>
                 <FontAwesomeIcon

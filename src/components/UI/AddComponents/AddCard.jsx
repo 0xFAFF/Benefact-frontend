@@ -18,7 +18,7 @@ class AddCard extends React.Component {
           <Modal onClose={() => this.props.handleCloseModal()}>
             <MarkdownEditor
               content={{ id: this.props.cardMap.length + 1 }}
-              updateContent={newContent =>
+              updateBoardContent={newContent =>
                 this.props.addNewCard(newContent, this.props.columnId)
               }
               onClose={() => this.props.handleCloseModal()}

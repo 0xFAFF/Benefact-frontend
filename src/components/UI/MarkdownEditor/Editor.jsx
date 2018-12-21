@@ -31,13 +31,15 @@ class Editor extends React.Component {
             tagIds={this.props.content.tagIds}
             displayAddTag={true}
             onChangeHandler={this.props.onChangeHandler}
+            addNewTag={this.props.addNewTag}
+            updateBoardContent={this.props.updateBoardContent}
           />
         </div>
         <div className="editor-button-group">
           <button
             className="editor-button-save"
             onClick={() => {
-              this.props.updateContent(this.props.content);
+              this.props.updateBoardContent(this.props.content, "cards");
               this.props.onClose();
             }}
           >

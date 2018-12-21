@@ -1,53 +1,67 @@
 import React from "react";
-import Kanban from "./Kanban";
-import List from "./List";
-import data from "../../initial-data";
-import { camelCase, getCards } from "../../utils";
-import { PacmanLoader } from "../UI/Loader";
-import "./Base.scss";
+import { getCards, camelCase, getFetching, fetching } from "../../../utils";
+import { URLS } from "../../../constants";
+import { PacmanLoader } from "../../UI/Loader";
+import Base from "./Base";
+import { get } from "lodash";
 
-class Base extends React.Component {
+// const url = "http://192.168.1.4/api/cards";
+const url = "http://benefact.faffgames.com/api/cards";
+
+class BaseWrapper extends React.Component {
   state = {
-    isLoading: true,
-    view: "kanban"
+    view: "kanban",
+    cards: [],
+    columns: [],
+    tags: [],
+    columnOrder: [],
+    error: null
   };
 
-  componentDidMount() {
-    // this.setState({ isLoading: true });
-    // const url = "http://192.168.1.4/api/cards";
-    // fetch(url)
-    //   .then(res => {
-    //     return res.json();
-    //   })
-    //   .then(res => {
-    //     let formattedData = camelCase(res);
-    //     let columnOrder = formattedData.columns.map(column => column.id);
-    //     this.setState({
-    //       cards: formattedData.cards,
-    //       columns: formattedData.columns,
-    //       tags: formattedData.tags,
-    //       columnOrder,
-    //       isLoading: false
-    //     });
-    //   })
-    //   .catch(err => {
-    //     this.setState({
-    //       err,
-    //       cards: [],
-    //       columns: [],
-    //       tags: [],
-    //       columnOrder: [],
-    //       isLoading: false
-    //     });
-    //   });
-
-    let formattedData = camelCase(data);
+  handleResetState = data => {
+    let columnOrder = data.columns.map(column => column.id);
     this.setState({
-      isLoading: false,
-      ...formattedData,
-      columnOrder: formattedData.columns.map(column => column.id)
+      cards: data.cards,
+      columns: data.columns,
+      tags: data.tags,
+      columnOrder: columnOrder
     });
+  };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.data && this.props.data) {
+      let formattedData = camelCase(this.props.data);
+      this.handleResetState(formattedData);
+    }
   }
+
+  handleUpdate = async (type, action, method, newContent, newState) => {
+    const url = URLS(type, action);
+    await fetching(url, method, newContent).then(result => {
+      if (result.hasError) {
+        this.handleError(result.message);
+      } else {
+        this.setState(newState);
+      }
+    });
+  };
+
+  handleOrder = async (type, newContent) => {
+    const url = URLS(type, "UPDATE");
+    await fetching(url, "POST", newContent)
+      .then(result => {
+        if (result.hasError) {
+          this.handleError(result.message);
+        }
+      })
+      .then(async result => {
+        const url = URLS(type, "GET");
+        await fetching(url, "GET").then(result => {
+          let formattedData = camelCase(result.data);
+          this.handleResetState(formattedData);
+        });
+      });
+  };
 
   kanbanOnDragEnd = result => {
     const { destination, source, draggableId, type } = result;
@@ -97,6 +111,9 @@ class Base extends React.Component {
       const draggedCard = cardsSrcCol.find(
         card => `card-${card.id}` === draggableId
       );
+
+      let newIndex = cardsSrcCol[destination.index]["index"];
+      draggedCard["index"] = newIndex;
       // Orders array for inserting droppable in new spot
       cardsSrcCol.splice(source.index, 1);
       cardsSrcCol.splice(destination.index, 0, draggedCard);
@@ -105,8 +122,8 @@ class Base extends React.Component {
         cards: [...cardsSrcCol, ...cardsNotSrcDestCols]
       };
       this.setState(newState);
+      this.handleOrder("cards", draggedCard);
       return;
-      // Call endpoint here to API endpoint to connect to backend as well
     }
 
     // Moving card from one column to another
@@ -127,6 +144,13 @@ class Base extends React.Component {
 
     // convert col-# string into integer #
     draggedCard.columnId = +destination.droppableId.replace(/^\D+/g, "");
+    let destCard = get(cardsDestCol, `[${destination.index}]`, null);
+    console.log(destCard);
+    if (destCard) {
+      draggedCard["index"] = destCard["index"];
+    } else {
+      draggedCard["index"] = cardsDestCol.length;
+    }
 
     cardsSrcCol.splice(source.index, 1);
     cardsDestCol.splice(destination.index, 0, draggedCard);
@@ -136,6 +160,8 @@ class Base extends React.Component {
       cards: [...cardsSrcCol, ...cardsDestCol, ...cardsNotSrcDestCols]
     };
     this.setState(newState);
+    console.log(newState);
+    this.handleOrder("cards", draggedCard);
   };
 
   listOnDragEnd = result => {
@@ -164,32 +190,20 @@ class Base extends React.Component {
     // Call endpoint here to API endpoint to connect to backend as well
   };
 
-  // Note: combine updateCardContent and updateColumnContent into one function
-  updateCardContent = newContent => {
-    let cards = [...this.state.cards];
-    cards[cards.findIndex(card => card.id === newContent.id)] = newContent;
-    const newState = {
-      ...this.state,
-      cards
-    };
-    this.setState(newState);
-  };
-  updateColumnContent = newContent => {
-    let columns = [...this.state.columns];
-    columns[
-      columns.findIndex(column => column.id === newContent.id)
+  updateBoardContent = (newContent, type) => {
+    let boardType = [...this.state[type]];
+    boardType[
+      boardType.findIndex(type => type.id === newContent.id)
     ] = newContent;
     const newState = {
       ...this.state,
-      columns
+      [type]: boardType
     };
-    this.setState(newState);
+    this.handleUpdate(type, "UPDATE", "POST", newContent, newState);
   };
 
   addNewCard = (newContent, columnId) => {
-    const newId = this.state.cards.length + 1;
     const newCard = {
-      id: newId,
       title: newContent.title || "",
       description: newContent.description || "",
       tagIds: newContent.tagIds || [],
@@ -199,7 +213,7 @@ class Base extends React.Component {
       ...this.state,
       cards: [...this.state.cards, newCard]
     };
-    this.setState(newState);
+    this.handleUpdate("cards", "ADD", "POST", newCard, newState);
   };
 
   addNewColumn = title => {
@@ -213,7 +227,7 @@ class Base extends React.Component {
       columns: [...this.state.columns, newColumn],
       columnOrder: [...this.state.columnOrder, newId]
     };
-    this.setState(newState);
+    this.handleUpdate("columns", "ADD", "POST", newColumn, newState);
   };
 
   addNewTag = tag => {
@@ -229,70 +243,59 @@ class Base extends React.Component {
       ...this.state,
       tags: [...this.state.tags, newTag]
     };
-    this.setState(newState);
+    this.handleUpdate("tags", "ADD", "POST", newTag, newState);
   };
 
+  changeBoardView = view => {
+    this.setState({ view });
+  };
+
+  handleError = message => {
+    this.setState({
+      error: message
+    });
+  };
+
+  componentDidMount() {
+    this.setState({ error: this.props.error });
+  }
+
   render() {
-    const { isLoading, view, ...kanbanState } = this.state;
-    const { cards = [] } = this.state;
-    if (isLoading || cards.length === 0) {
-      return <PacmanLoader />;
-    }
-    const listState = {
-      cards: this.state.cards,
-      tags: this.state.tags
-    };
+    const { cards } = this.state;
+    const { isLoading } = this.props;
+    const { error = this.props.error, ...baseState } = this.state;
 
     const kanbanFunctions = {
       kanbanOnDragEnd: this.kanbanOnDragEnd,
-      updateCardContent: this.updateCardContent,
-      updateColumnContent: this.updateColumnContent,
+      updateBoardContent: this.updateBoardContent,
       addNewCard: this.addNewCard,
-      addNewColumn: this.addNewColumn
+      addNewColumn: this.addNewColumn,
+      addNewTag: this.addNewTag
     };
 
     const listFunctions = {
       listOnDragEnd: this.listOnDragEnd,
-      updateCardContent: this.updateCardContent,
+      updateBoardContent: this.updateBoardContent,
       addNewCard: this.addNewCard
     };
+
+    if (error) {
+      return <div>Error: {error}</div>;
+    } else if (isLoading || cards.length === 0) {
+      return <PacmanLoader />;
+    }
     return (
-      <div id="views-base">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: "10px"
-          }}
-        >
-          <div className="base-button-group">
-            <button
-              className={`button-kanban ${
-                this.state.view === "kanban" ? "button-active" : ""
-              }`}
-              onClick={() => this.setState({ view: "kanban" })}
-            >
-              Kanban
-            </button>
-            <button
-              className={`button-list ${
-                this.state.view === "list" ? "button-active" : ""
-              }`}
-              onClick={() => this.setState({ view: "list" })}
-            >
-              List
-            </button>
-          </div>
-        </div>
-        {this.state.view === "kanban" && (
-          <Kanban {...kanbanState} {...kanbanFunctions} />
-        )}
-        {this.state.view === "list" && (
-          <List {...listState} {...listFunctions} />
-        )}
+      <div>
+        <Base
+          {...baseState}
+          handleBoardView={this.changeBoardView}
+          handleError={this.handleError}
+          kanbanFunctions={kanbanFunctions}
+          listFunctions={listFunctions}
+        />
       </div>
     );
   }
 }
 
-export default Base;
+export default getFetching(url)(BaseWrapper);

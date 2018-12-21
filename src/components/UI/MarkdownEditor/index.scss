@@ -58,25 +58,21 @@
   color: white;
 }
 
-.editor-button-save {
-  border-radius: 5px;
-  padding: 5px 15px;
-  background-color: #03b42a;
+.editor-button-save,
+.editor-button-cancel {
+  border-radius: 10px;
+  padding: 10px 16px;
   color: #fff;
   outline: none;
-  width: 80px;
-  height: 30px;
+}
+
+.editor-button-save {
   margin-right: 10px;
+  background-color: #03b42a;
 }
 
 .editor-button-cancel {
-  border-radius: 5px;
-  padding: 5px 15px;
   background-color: #df1934;
-  color: #fff;
-  outline: none;
-  width: 80px;
-  height: 30px;
 }
 
 .editor-button-save:active,

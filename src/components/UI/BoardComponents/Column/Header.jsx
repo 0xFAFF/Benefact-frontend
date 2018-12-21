@@ -4,7 +4,7 @@ import { getCards } from "../../../../utils";
 import { TextAreaInput } from "../../../UI";
 
 const Header = props => {
-  const { dragHandleProps, title, updateColumnContent, ...rest } = props;
+  const { dragHandleProps, title, updateBoardContent, ...rest } = props;
   const { cardMap, columnId } = rest;
   const cardNumber = getCards(cardMap, columnId).length;
   return (
@@ -15,10 +15,13 @@ const Header = props => {
           name="Title"
           defaultValue={title}
           onBlur={e =>
-            updateColumnContent({
-              id: columnId,
-              title: e.target.value
-            })
+            updateBoardContent(
+              {
+                id: columnId,
+                title: e.target.value
+              },
+              "columns"
+            )
           }
         />
       </span>

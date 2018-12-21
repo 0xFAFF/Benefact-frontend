@@ -7,11 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class AbsolutePositionPortal extends React.Component {
   render() {
+    const modalContainer = document.getElementById("modal-container");
     const style = {
-      top: this.props.top,
-      left: this.props.left
+      top: modalContainer.getBoundingClientRect().top,
+      left: modalContainer.getBoundingClientRect().right
     };
-
     return (
       <div className="portal-outer-container">
         <div className="absolute-position-portal" style={style}>
@@ -35,6 +35,7 @@ class AbsolutePositionPortal extends React.Component {
                         tagsList={tagsList}
                         onChangeHandler={this.props.onChangeHandler}
                         cardTags={this.props.cardTags}
+                        handleOptionSelect={this.props.handleOptionSelect}
                       />
                       <div
                         className="create-tag-container"
@@ -47,7 +48,10 @@ class AbsolutePositionPortal extends React.Component {
                   )}
                   {this.props.option === "create" && (
                     <CreateTag
+                      currSelectedTag={this.props.currSelectedTag}
                       handleOptionSelect={this.props.handleOptionSelect}
+                      addNewTag={this.props.addNewTag}
+                      updateBoardContent={this.props.updateBoardContent}
                     />
                   )}
                 </React.Fragment>

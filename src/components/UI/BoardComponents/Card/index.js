@@ -67,7 +67,8 @@ class Card extends React.Component {
                   <Modal onClose={this.handleCloseModal}>
                     <MarkdownEditor
                       content={this.props.card}
-                      updateContent={this.props.updateCardContent}
+                      updateBoardContent={this.props.updateBoardContent}
+                      addNewTag={this.props.addNewTag}
                       onClose={this.handleCloseModal}
                     />
                   </Modal>

@@ -8,16 +8,13 @@ class AddTag extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      portalPosition: {
-        top: 35,
-        left: 0
-      },
-      option: "select"
+      option: "select",
+      currSelectedTag: null
     };
   }
 
-  handleOptionSelect = option => {
-    this.setState({ option });
+  handleOptionSelect = (option, tag) => {
+    this.setState({ option, currSelectedTag: tag ? tag : null });
   };
 
   render() {
@@ -26,34 +23,22 @@ class AddTag extends React.Component {
         {({ openPortal, closePortal, isOpen, portal }) => (
           <React.Fragment>
             <div
-              ref={m => (this.addTagDiv = m)}
               id="add-tag"
               onClick={e => {
-                const bodyRect = document.body.getBoundingClientRect();
-                const targetRect = this.addTagDiv.getBoundingClientRect();
                 openPortal(e);
-                this.setState({
-                  option: "select",
-                  top:
-                    targetRect.top -
-                    bodyRect.top +
-                    this.state.portalPosition.top,
-                  left:
-                    targetRect.left -
-                    bodyRect.left +
-                    this.state.portalPosition.left
-                });
+                this.setState({ option: "select" });
               }}
             >
               <FontAwesomeIcon icon="plus" size="sm" />
             </div>
             {portal(
               <AbsolutePositionPortal
-                left={this.state.left}
-                top={this.state.top}
                 cardTags={this.props.cardTags}
                 onChangeHandler={this.props.onChangeHandler}
+                addNewTag={this.props.addNewTag}
                 option={this.state.option}
+                currSelectedTag={this.state.currSelectedTag}
+                updateBoardContent={this.props.updateBoardContent}
                 handleOptionSelect={this.handleOptionSelect}
                 onClose={closePortal}
               />

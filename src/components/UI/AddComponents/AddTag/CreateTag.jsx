@@ -57,6 +57,7 @@ const CharacterOptions = ({ selectCharacterHandler, currChar }) => {
 
 class CreateTag extends React.Component {
   state = {
+    name: "",
     color: "",
     character: ""
   };
@@ -75,6 +76,37 @@ class CreateTag extends React.Component {
     });
   };
 
+  onChangeHandler = e => {
+    this.setState({ name: e.target.value });
+  };
+
+  onResetHandler = () => {
+    this.setState({ name: "", color: "", character: "" });
+  };
+
+  onAcceptHandler = () => {
+    const {
+      addNewTag,
+      handleOptionSelect,
+      currSelectedTag,
+      updateBoardContent
+    } = this.props;
+    if (currSelectedTag) {
+      updateBoardContent({ ...this.state, id: currSelectedTag.id }, "tags");
+    } else {
+      addNewTag({ ...this.state });
+    }
+    handleOptionSelect("select");
+  };
+
+  componentDidMount() {
+    const { currSelectedTag } = this.props;
+    if (currSelectedTag) {
+      const { name = "", color = "", character = "" } = currSelectedTag;
+      this.setState({ name, color, character });
+    }
+  }
+
   render() {
     return (
       <div id="create-tag">
@@ -90,7 +122,7 @@ class CreateTag extends React.Component {
         <div className="create-tag-inputs">
           <div className="create-tag-input-container">
             <label>Tag Name</label>
-            <input />
+            <input value={this.state.name} onChange={this.onChangeHandler} />
           </div>
           <div className="create-tag-input-container">
             <label>Tag Color</label>
@@ -110,11 +142,40 @@ class CreateTag extends React.Component {
               />
             </div>
           </div>
-          <div>Preview Tag</div>
+          <div>
+            <label>Preview Tag</label>
+            <div
+              className="create-tag-preview-tag"
+              style={{
+                backgroundColor: this.state.color || "#dddddd",
+                border: this.state.color ? "none" : "1px solid lightgray"
+              }}
+            >
+              {this.state.character ? (
+                <FontAwesomeIcon
+                  icon={this.state.character}
+                  size="lg"
+                  color="#000"
+                />
+              ) : (
+                this.state.name
+              )}
+            </div>
+          </div>
         </div>
-        <div>
-          <button>Create</button>
-          <button>Reset</button>
+        <div className="create-tag-button-group">
+          <button
+            className="create-tag-button-create"
+            onClick={this.onAcceptHandler}
+          >
+            {this.props.currSelectedTag ? "Update" : "Create"}
+          </button>
+          <button
+            className="create-tag-button-reset"
+            onClick={this.onResetHandler}
+          >
+            Reset
+          </button>
         </div>
       </div>
     );

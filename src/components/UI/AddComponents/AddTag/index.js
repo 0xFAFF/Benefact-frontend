@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PortalWithState } from "react-portal";
-import AbsolutePositionPortal from "./AbsolutePositionPortal";
+import TagPopup from "./TagPopup";
 import "./index.scss";
 
 class AddTag extends React.Component {
@@ -32,7 +32,7 @@ class AddTag extends React.Component {
               <FontAwesomeIcon icon="plus" size="sm" />
             </div>
             {portal(
-              <AbsolutePositionPortal
+              <TagPopup
                 cardTags={this.props.cardTags}
                 onChangeHandler={this.props.onChangeHandler}
                 addNewTag={this.props.addNewTag}

@@ -37,6 +37,7 @@
 
 .button-group-modes {
   padding-bottom: 10px;
+  display: flex;
 }
 
 .button-editor {
@@ -44,13 +45,21 @@
 }
 
 .button-editor,
-.button-preview {
+.button-preview,
+.button-delete-card {
   border: none;
   outline: none;
   padding: 10px 16px;
   border-radius: 10px;
   background-color: #f1f1f1;
   cursor: pointer;
+}
+
+.button-delete-card {
+  margin-left: auto;
+  span {
+    margin-left: 5px;
+  }
 }
 
 .button-active {

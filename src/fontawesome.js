@@ -14,7 +14,13 @@ import {
   faTag,
   faTrophy,
   faStar,
-  faChevronLeft
+  faChevronLeft,
+  faTrash,
+  faUserCircle,
+  faHome,
+  faBars,
+  faFilter,
+  faListUl
 } from "@fortawesome/free-solid-svg-icons";
 // import { farEdit } from "@fortawesome/free-regular-svg-icons";
 
@@ -30,5 +36,11 @@ library.add(
   faTag,
   faTrophy,
   faStar,
-  faChevronLeft
+  faChevronLeft,
+  faTrash,
+  faUserCircle,
+  faHome,
+  faBars,
+  faFilter,
+  faListUl
 );

@@ -1,9 +1,10 @@
 import React from "react";
+import { get } from "lodash";
 import { getCards, camelCase, getFetching, fetching } from "../../../utils";
 import { URLS } from "../../../constants";
 import { PacmanLoader } from "../../UI/Loader";
 import Base from "./Base";
-import { get } from "lodash";
+import { Navbar } from "../../UI";
 
 // const url = "http://192.168.1.4/api/cards";
 const url = "http://benefact.faffgames.com/api/cards";
@@ -145,9 +146,7 @@ class BaseWrapper extends React.Component {
     // convert col-# string into integer #
     draggedCard.columnId = +destination.droppableId.replace(/^\D+/g, "");
     let destCard = get(cardsDestCol, `[${destination.index}]`, null);
-    console.log(destCard);
     if (destCard) {
-      draggedCard["index"] = destCard["index"];
     } else {
       draggedCard["index"] = cardsDestCol.length;
     }
@@ -160,7 +159,6 @@ class BaseWrapper extends React.Component {
       cards: [...cardsSrcCol, ...cardsDestCol, ...cardsNotSrcDestCols]
     };
     this.setState(newState);
-    console.log(newState);
     this.handleOrder("cards", draggedCard);
   };
 
@@ -286,9 +284,9 @@ class BaseWrapper extends React.Component {
     }
     return (
       <div>
+        <Navbar handleBoardView={this.changeBoardView} view={this.state.view} />
         <Base
           {...baseState}
-          handleBoardView={this.changeBoardView}
           handleError={this.handleError}
           kanbanFunctions={kanbanFunctions}
           listFunctions={listFunctions}

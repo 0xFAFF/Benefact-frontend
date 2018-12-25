@@ -1,4 +1,5 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Editor from "./Editor";
 import Preview from "./Preview";
 import "./index.scss";
@@ -61,6 +62,12 @@ class MarkdownEditor extends React.Component {
             onClick={() => this.toggleMode("preview")}
           >
             Preview
+          </button>
+          <button className={`button-delete-card`}>
+            <div>
+              <FontAwesomeIcon icon="trash" size="sm" />
+              <span>Delete</span>
+            </div>
           </button>
         </div>
         <div className="markdown-modes">

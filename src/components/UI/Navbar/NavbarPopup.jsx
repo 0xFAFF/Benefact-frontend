@@ -1,20 +1,55 @@
 import React from "react";
-// import PropTypes from "prop-types";
+import TopDelete from "../Popup/TopDelete";
+import { get } from "lodash";
 import "./index.scss";
 
 class NavbarPopup extends React.Component {
+  escFunction = event => {
+    if (event.keyCode === 27) {
+      this.props.onClose();
+    }
+  };
+  componentDidMount() {
+    document.addEventListener("keydown", this.escFunction, false);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.escFunction, false);
+  }
+
+  setPopupStyle = (style = null) => {
+    if (style) {
+      this.setState({
+        style: { ...style }
+      });
+    } else {
+      this.setState({
+        style: { ...this.props.params.popupStyle }
+      });
+    }
+  };
+
+  state = { style: { ...get(this.props, "params.popupStyle", {}) } };
   render() {
     const navbarContainer = document.getElementsByClassName("sub-menu")[0];
     const style = {
       top: navbarContainer.getBoundingClientRect().bottom,
       left: this.props.left
     };
+    const { params = {}, onClose } = this.props;
     return (
       <div id="navbar-portal">
         <div className="portal-outer-container" style={{ top: style.top }}>
-          <div className="navbar-popup" style={{ left: style.left }}>
+          <div
+            className="navbar-popup"
+            style={{ ...this.state.style, left: style.left }}
+          >
+            <TopDelete onClick={onClose} />
+            <div />
             {this.props.component ? (
-              <this.props.component params={this.props.params} />
+              <this.props.component
+                setPopupStyle={this.setPopupStyle}
+                {...params}
+              />
             ) : (
               <div>No component hooked up</div>
             )}
@@ -25,9 +60,4 @@ class NavbarPopup extends React.Component {
   }
 }
 
-// NavbarPopup.propTypes = {
-//   top: PropTypes.number,
-//   left: PropTypes.number,
-//   closePortal: PropTypes.func
-// };
 export default NavbarPopup;

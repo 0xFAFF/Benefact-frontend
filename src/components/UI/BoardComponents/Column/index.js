@@ -1,6 +1,6 @@
 import React from "react";
-import { Card } from "..";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import { Card } from "..";
 import Header from "./Header";
 import "./index.scss";
 
@@ -67,8 +67,8 @@ class Column extends React.Component {
                   ref={provided.innerRef}
                   style={{
                     backgroundColor: snapshot.isDraggingOver
-                      ? "skyblue"
-                      : "inherit"
+                      ? "rgb(238, 238, 238)"
+                      : "white"
                   }}
                   {...provided.droppableProps}
                 >

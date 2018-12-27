@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TagsConsumer } from "../../BoardComponents/Tags/TagsContext";
-import SelectTag from "./SelectTag";
-import CreateTag from "./CreateTag";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { TagsConsumer } from "../../BoardComponents/Tags/TagsContext";
+import { SelectTag, CreateTag } from "./components";
+import { TopDelete, Back } from "../../Popup";
 
 class TagPopup extends React.Component {
   render() {
@@ -20,17 +20,9 @@ class TagPopup extends React.Component {
               {tagsList => {
                 return (
                   <React.Fragment>
+                    <TopDelete onClick={this.props.onClose} />
                     {this.props.option === "select" && (
                       <React.Fragment>
-                        <div className="top-nav">
-                          <div style={{ cursor: "pointer" }}>
-                            <FontAwesomeIcon
-                              icon="times"
-                              size="lg"
-                              onClick={this.props.onClose}
-                            />
-                          </div>
-                        </div>
                         <p>Select A Tag</p>
                         <SelectTag
                           tagsList={tagsList}
@@ -50,12 +42,22 @@ class TagPopup extends React.Component {
                       </React.Fragment>
                     )}
                     {this.props.option === "create" && (
-                      <CreateTag
-                        currSelectedTag={this.props.currSelectedTag}
-                        handleOptionSelect={this.props.handleOptionSelect}
-                        addNewTag={this.props.addNewTag}
-                        updateBoardContent={this.props.updateBoardContent}
-                      />
+                      <React.Fragment>
+                        <Back
+                          onClick={() =>
+                            this.props.handleOptionSelect("select")
+                          }
+                        />
+                        <CreateTag
+                          onAcceptHandler={() =>
+                            this.props.handleOptionSelect("select")
+                          }
+                          currSelectedTag={this.props.currSelectedTag}
+                          addNewTag={this.props.addNewTag}
+                          updateBoardContent={this.props.updateBoardContent}
+                          onClose={this.props.onClose}
+                        />
+                      </React.Fragment>
                     )}
                   </React.Fragment>
                 );

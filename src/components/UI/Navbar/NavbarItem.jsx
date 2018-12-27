@@ -8,37 +8,53 @@ class NavbarItem extends React.Component {
     left: null
   };
   render() {
-    const { icon, title, liClassName, component, params } = this.props;
+    const {
+      icon,
+      title,
+      liClassName,
+      component,
+      params,
+      id,
+      activePopup,
+      handleActivePopup
+    } = this.props;
     return (
-      <PortalWithState closeOnEsc>
-        {({ openPortal, closePortal, isOpen, portal }) => (
-          <React.Fragment>
-            <li
-              className={liClassName}
-              onClick={e => {
-                if (!isOpen) {
-                  const left = e.nativeEvent.clientX - e.nativeEvent.offsetX;
-                  openPortal(e);
-                  this.setState({
-                    left: left
-                  });
-                }
-              }}
-            >
-              {icon && <FontAwesomeIcon icon={icon} size="lg" />}
-              <span>{title}</span>
-              {portal(
-                <NavbarPopup
-                  top={this.state.top}
-                  left={this.state.left}
-                  onClose={closePortal}
-                  component={component}
-                  params={params}
-                />
-              )}
-            </li>
-          </React.Fragment>
-        )}
+      <PortalWithState>
+        {({ openPortal, closePortal, isOpen, portal }) => {
+          const handleOnClose = () => {
+            closePortal();
+            handleActivePopup();
+          };
+          return (
+            <React.Fragment>
+              <li
+                className={`${liClassName ? liClassName : ""}${
+                  id === activePopup ? "active-li" : ""
+                }`}
+                onClick={e => {
+                  if (!isOpen) {
+                    const left = e.nativeEvent.clientX - e.nativeEvent.offsetX;
+                    openPortal();
+                    handleActivePopup(id);
+                    this.setState({ left });
+                  }
+                }}
+              >
+                {icon && <FontAwesomeIcon icon={icon} size="lg" />}
+                <span>{title}</span>
+                {portal(
+                  <NavbarPopup
+                    top={this.state.top}
+                    left={this.state.left}
+                    onClose={handleOnClose}
+                    component={component}
+                    params={params}
+                  />
+                )}
+              </li>
+            </React.Fragment>
+          );
+        }}
       </PortalWithState>
     );
   }

@@ -6,17 +6,18 @@
 
 #preview-mode {
   border: 1px solid lightgray;
-  height: 100%;
+  height: 95%;
   overflow-y: auto;
-  div {
-    padding: 0px;
-  }
+  padding: 10px;
 }
 
 #editor-mode {
   height: 100%;
-  .description {
+  .editor-description {
     height: 60%;
+  }
+  .tag-container {
+    margin-bottom: 10px;
   }
 }
 
@@ -32,7 +33,7 @@
 }
 
 .markdown-modes {
-  height: 80%;
+  height: 100%;
 }
 
 .button-group-modes {
@@ -52,6 +53,7 @@
   padding: 10px 16px;
   border-radius: 10px;
   background-color: #f1f1f1;
+  border: 1px solid lightgray;
   cursor: pointer;
 }
 

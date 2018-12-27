@@ -1,0 +1,11 @@
+#back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px 10px 10px;
+  cursor: pointer;
+  border-bottom: 1px solid lightgray;
+  .back-icon {
+    margin-right: 5px;
+  }
+}

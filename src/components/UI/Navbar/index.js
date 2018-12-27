@@ -1,9 +1,17 @@
 import React from "react";
 import NavbarItem from "./NavbarItem";
-import { View } from "./components";
+import { Create, View } from "./components";
 import "./index.scss";
 
 class Navbar extends React.Component {
+  state = {
+    activePopup: null
+  };
+
+  handleActivePopup = (id = null) => {
+    this.setState({ activePopup: id });
+  };
+
   render() {
     const configs = [
       {
@@ -18,7 +26,7 @@ class Navbar extends React.Component {
             icon: "bars"
           },
           {
-            title: "Benefact brand name",
+            title: "Benefact Faff",
             liClassName: "brand"
           },
           {
@@ -32,7 +40,21 @@ class Navbar extends React.Component {
         options: [
           {
             title: "Create",
-            icon: "plus"
+            icon: "plus",
+            component: Create,
+            params: {
+              popupStyle: {
+                width: "300px"
+              },
+              addNewColumn: this.props.addNewColumn,
+              addNewTag: this.props.addNewTag,
+              addNewCard: this.props.addNewCard,
+              cardMap: this.props.cardMap
+            }
+          },
+          {
+            title: "Delete",
+            icon: "trash"
           },
           {
             title: "Filter",
@@ -43,6 +65,9 @@ class Navbar extends React.Component {
             icon: "list-ul",
             component: View,
             params: {
+              popupStyle: {
+                width: "200px"
+              },
               handleBoardView: this.props.handleBoardView,
               view: this.props.view
             }
@@ -57,7 +82,13 @@ class Navbar extends React.Component {
           return (
             <ul key={index} className={ulClassName}>
               {options.map((item, index) => (
-                <NavbarItem key={ulClassName + index} {...item} />
+                <NavbarItem
+                  {...item}
+                  key={ulClassName + index}
+                  id={ulClassName + index}
+                  activePopup={this.state.activePopup}
+                  handleActivePopup={this.handleActivePopup}
+                />
               ))}
             </ul>
           );

@@ -2,27 +2,35 @@ import React from "react";
 import "./index.scss";
 
 const View = props => {
-  const {
-    params: { view, handleBoardView }
-  } = props;
+  const { view, handleBoardView } = props;
+  const buttonConfigs = [
+    {
+      title: "Kanban",
+      className: "button-kanban",
+      view: "kanban"
+    },
+    {
+      title: "List",
+      className: "button-list",
+      view: "list"
+    }
+  ];
+
   return (
     <div id="view-popup">
-      <div className="title">Select a view</div>
+      <div className="title">Select View</div>
       <div className="view-button-group">
-        <button
-          className={`button-kanban ${
-            view === "kanban" ? "button-active" : ""
-          }`}
-          onClick={() => handleBoardView("kanban")}
-        >
-          Kanban
-        </button>
-        <button
-          className={`button-list ${view === "list" ? "button-active" : ""}`}
-          onClick={() => handleBoardView("list")}
-        >
-          List
-        </button>
+        {buttonConfigs.map(btn => (
+          <button
+            key={btn.title}
+            className={`${btn.className} ${
+              view === btn.view ? "button-active" : ""
+            }`}
+            onClick={() => handleBoardView(btn.view)}
+          >
+            {btn.title}
+          </button>
+        ))}
       </div>
     </div>
   );

@@ -1,12 +1,13 @@
 import React from "react";
 import { Tags } from "../BoardComponents";
+import { AcceptCancelButtons } from "../Popup";
 
 class Editor extends React.Component {
   render() {
     return (
       <div id="editor-mode">
-        <div>ID: {this.props.content.id}</div>
-        <div>
+        <div className="editor-id">ID: {this.props.content.id}</div>
+        <div className="editor-title">
           <label>Title: </label>
           <input
             name="Title"
@@ -15,7 +16,7 @@ class Editor extends React.Component {
             onChange={e => this.props.onChangeHandler(e, "title")}
           />
         </div>
-        <div className="description">
+        <div className="editor-description">
           <div>Description: </div>
           <textarea
             id="editor-text-area"
@@ -23,7 +24,7 @@ class Editor extends React.Component {
             onChange={e => this.props.onChangeHandler(e, "description")}
           />
         </div>
-        <div>
+        <div className="tag-container">
           <div className="tag-label">
             <span>Tags:</span>
           </div>
@@ -35,20 +36,15 @@ class Editor extends React.Component {
             updateBoardContent={this.props.updateBoardContent}
           />
         </div>
-        <div className="editor-button-group">
-          <button
-            className="editor-button-save"
-            onClick={() => {
-              this.props.updateBoardContent(this.props.content, "cards");
-              this.props.onClose();
-            }}
-          >
-            Save
-          </button>
-          <button className="editor-button-cancel" onClick={this.props.onClose}>
-            Cancel
-          </button>
-        </div>
+        <AcceptCancelButtons
+          onAcceptHandler={() => {
+            this.props.updateBoardContent(this.props.content, "cards");
+            this.props.onAcceptHandler();
+          }}
+          onCancelHandler={this.props.onClose}
+          acceptTitle={"Save"}
+          cancelTitle={"Cancel"}
+        />
       </div>
     );
   }

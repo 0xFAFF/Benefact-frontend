@@ -1,0 +1,22 @@
+#accept-cancel-button-group {
+  display: flex;
+  justify-content: center;
+  .button-accept {
+    background-color: #03b42a;
+  }
+  .button-cancel {
+    background-color: #df1934;
+  }
+  button {
+    width: 45%;
+    color: #f1f1f1;
+    border: none;
+    outline: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  button:first-child {
+    margin-right: 10px;
+  }
+}

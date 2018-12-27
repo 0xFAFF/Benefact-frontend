@@ -1,59 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { COLORS, CHARACTERS } from "../../../../constants";
-
-const ColorOptions = ({ selectColorHandler, currColor }) => {
-  let colorsList = COLORS();
-  return (
-    <ul className="create-tag-input-color-ul">
-      {Object.keys(colorsList).map(color => {
-        const displayedColor = colorsList[color];
-        return (
-          <li
-            key={displayedColor}
-            style={{ backgroundColor: displayedColor }}
-            className="create-tag-input-color-tag"
-            onClick={() => selectColorHandler(displayedColor)}
-          >
-            {displayedColor === currColor ? (
-              <div className="create-tag-input-color-tag-selected">
-                <FontAwesomeIcon icon="check" size="sm" />
-              </div>
-            ) : null}
-          </li>
-        );
-      })}
-    </ul>
-  );
-};
-
-const CharacterOptions = ({ selectCharacterHandler, currChar }) => {
-  let charactersList = CHARACTERS();
-  return (
-    <ul className="create-tag-input-character-ul">
-      {Object.keys(charactersList).map(character => {
-        const displayedCharacter = CHARACTERS()[character];
-        return (
-          <li
-            key={displayedCharacter}
-            className="create-tag-input-character-tag"
-            onClick={() => selectCharacterHandler(displayedCharacter)}
-          >
-            <div
-              className={
-                currChar === displayedCharacter
-                  ? "create-tag-input-character-tag-selected"
-                  : ""
-              }
-            >
-              <FontAwesomeIcon icon={displayedCharacter} size="sm" />
-            </div>
-          </li>
-        );
-      })}
-    </ul>
-  );
-};
+import { Colors, Characters } from "./options";
+import { AcceptCancelButtons } from "../../../../Popup";
+import "./index.scss";
 
 class CreateTag extends React.Component {
   state = {
@@ -87,7 +36,7 @@ class CreateTag extends React.Component {
   onAcceptHandler = () => {
     const {
       addNewTag,
-      handleOptionSelect,
+      onAcceptHandler,
       currSelectedTag,
       updateBoardContent
     } = this.props;
@@ -96,7 +45,9 @@ class CreateTag extends React.Component {
     } else {
       addNewTag({ ...this.state });
     }
-    handleOptionSelect("select");
+    if (onAcceptHandler) {
+      onAcceptHandler();
+    }
   };
 
   componentDidMount() {
@@ -110,15 +61,6 @@ class CreateTag extends React.Component {
   render() {
     return (
       <div id="create-tag">
-        <div
-          className="create-tag-back"
-          onClick={() => this.props.handleOptionSelect("select")}
-        >
-          <div className="create-tag-back-icon">
-            <FontAwesomeIcon icon="chevron-left" size="sm" />
-          </div>
-          <div className="create-tag-back-text">Back To Select</div>
-        </div>
         <div className="create-tag-inputs">
           <div className="create-tag-input-container">
             <label>Tag Name</label>
@@ -127,7 +69,7 @@ class CreateTag extends React.Component {
           <div className="create-tag-input-container">
             <label>Tag Color</label>
             <div className="create-tag-input-color">
-              <ColorOptions
+              <Colors
                 selectColorHandler={this.selectColorHandler}
                 currColor={this.state.color}
               />
@@ -136,7 +78,7 @@ class CreateTag extends React.Component {
           <div className="create-tag-input-container">
             <label>Tag Character</label>
             <div className="create-tag-input-color">
-              <CharacterOptions
+              <Characters
                 selectCharacterHandler={this.selectCharacterHandler}
                 currChar={this.state.character}
               />
@@ -163,20 +105,12 @@ class CreateTag extends React.Component {
             </div>
           </div>
         </div>
-        <div className="create-tag-button-group">
-          <button
-            className="create-tag-button-create"
-            onClick={this.onAcceptHandler}
-          >
-            {this.props.currSelectedTag ? "Update" : "Create"}
-          </button>
-          <button
-            className="create-tag-button-reset"
-            onClick={this.onResetHandler}
-          >
-            Reset
-          </button>
-        </div>
+        <AcceptCancelButtons
+          onAcceptHandler={this.onAcceptHandler}
+          onCancelHandler={this.onResetHandler}
+          acceptTitle={`${this.props.currSelectedTag ? "Update" : "Create"}`}
+          cancelTitle={"Reset"}
+        />
       </div>
     );
   }

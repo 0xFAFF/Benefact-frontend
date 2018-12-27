@@ -1,5 +1,4 @@
 #navbar {
-  // height: 50px;
   margin-bottom: 10px;
   border: 1px solid rgb(238, 238, 238);
   align-items: center;
@@ -17,6 +16,10 @@
       margin-left: auto;
       margin-right: auto;
     }
+    .active-li {
+      background-color: rgb(201, 201, 201);
+    }
+
     li > span {
       margin-left: 5px;
     }
@@ -29,6 +32,9 @@
     li:not(.brand) {
       cursor: pointer;
     }
+    li:not(.brand):hover {
+      background-color: rgb(201, 201, 201);
+    }
   }
   ul > li:not(:first-child):not(.brand) {
     border: 1px solid rgb(238, 238, 238);
@@ -38,7 +44,7 @@
 #navbar-portal {
   .portal-outer-container {
     position: absolute;
-    // top: 0;
+    top: 0;
     bottom: 0;
     left: 0;
     right: 0;
@@ -54,6 +60,7 @@
     border-radius: 5px;
     background: #fff;
     margin-left: 10px;
+    padding-bottom: 10px;
     width: 200px;
     display: flex;
     flex-direction: column;

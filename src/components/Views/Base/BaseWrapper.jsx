@@ -209,7 +209,7 @@ class BaseWrapper extends React.Component {
     };
     const newState = {
       ...this.state,
-      cards: [...this.state.cards, newCard]
+      cards: [...this.state.cards, { id: newContent.id, ...newCard }]
     };
     this.handleUpdate("cards", "ADD", "POST", newCard, newState);
   };
@@ -267,7 +267,7 @@ class BaseWrapper extends React.Component {
       kanbanOnDragEnd: this.kanbanOnDragEnd,
       updateBoardContent: this.updateBoardContent,
       addNewCard: this.addNewCard,
-      addNewColumn: this.addNewColumn,
+      // addNewColumn: this.addNewColumn,
       addNewTag: this.addNewTag
     };
 
@@ -284,7 +284,14 @@ class BaseWrapper extends React.Component {
     }
     return (
       <div>
-        <Navbar handleBoardView={this.changeBoardView} view={this.state.view} />
+        <Navbar
+          handleBoardView={this.changeBoardView}
+          view={this.state.view}
+          addNewColumn={this.addNewColumn}
+          addNewTag={this.addNewTag}
+          addNewCard={this.addNewCard}
+          cardMap={this.state.cards}
+        />
         <Base
           {...baseState}
           handleError={this.handleError}

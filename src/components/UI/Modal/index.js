@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import TopDelete from "../Popup/TopDelete";
 import "./index.scss";
 
 const modalRoot = document.getElementById("modal-root");
@@ -18,15 +18,7 @@ class Modal extends React.Component {
       <div className="outer-container">
         <div className="inner-container">
           <div id="modal-container">
-            <div className="top-nav">
-              <div style={{ cursor: "pointer" }}>
-                <FontAwesomeIcon
-                  icon="times"
-                  size="lg"
-                  onClick={this.props.onClose}
-                />
-              </div>
-            </div>
+            <TopDelete onClick={this.props.onClose} />
             <div className="inner-content">{this.props.children}</div>
           </div>
         </div>

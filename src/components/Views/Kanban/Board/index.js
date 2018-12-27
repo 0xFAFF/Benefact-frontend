@@ -1,7 +1,6 @@
 import React from "react";
 import { Column } from "../../../UI/BoardComponents";
 import { TagsProvider } from "../../../UI/BoardComponents/Tags/TagsContext";
-import { AddColumn } from "../../../UI/AddComponents";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { getCards } from "../../../../utils";
 import "./index.scss";
@@ -18,9 +17,6 @@ class Board extends React.Component {
   render() {
     return (
       <div id="kanban-board">
-        <div className="add-column-outer">
-          <AddColumn addNewColumn={this.props.addNewColumn} />
-        </div>
         <DragDropContext
           onDragEnd={res => this.props.kanbanOnDragEnd(res)}
           // onDragStart={this.onDragStart}

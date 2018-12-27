@@ -1,7 +1,6 @@
 #column-draggable {
   margin: 8px;
   // border: 1px solid lightgrey;
-  // background-color: rgb(217, 220, 223);
   border-radius: 10px;
   width: 300px;
   display: flex;
@@ -9,6 +8,7 @@
   height: 100%;
 
   .column-header {
+    background-color: white;
     padding: 8px;
     margin: 0;
     border: 1px solid black;

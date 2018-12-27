@@ -30,11 +30,11 @@ class Preview extends React.Component {
   render() {
     return (
       <div id="preview-mode">
-        <div>ID: {this.props.content.id}</div>
-        <div>Title: {this.props.content.title}</div>
-        <div>Description: </div>
+        <div className="preview-id">ID: {this.props.content.id}</div>
+        <div className="preview-title">Title: {this.props.content.title}</div>
+        <div className="preview-description">Description: </div>
         <div dangerouslySetInnerHTML={this.rawMarkup()} />
-        <div>Tags: </div>
+        <div className="preview-tags">Tags: </div>
         <Tags tagIds={this.props.content.tagIds} />
       </div>
     );

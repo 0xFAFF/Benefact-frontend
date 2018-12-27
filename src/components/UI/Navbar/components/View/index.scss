@@ -8,11 +8,7 @@
     display: flex;
     flex-direction: column;
   }
-  .button-kanban {
-    margin-bottom: 10px;
-  }
-  .button-kanban,
-  .button-list {
+  button {
     border: none;
     outline: none;
     font-size: 1.3em;
@@ -21,6 +17,12 @@
     border-radius: 10px;
     background-color: #f1f1f1;
     cursor: pointer;
+  }
+  button:not(:last-child) {
+    margin-bottom: 10px;
+  }
+  button:not(.button-active):hover {
+    background-color: #c9c9c9;
   }
   .button-active {
     background-color: #4797e7;

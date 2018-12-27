@@ -40,7 +40,7 @@ class NavbarPopup extends React.Component {
       <div id="navbar-portal">
         <div className="portal-outer-container" style={{ top: style.top }}>
           <div
-            className="navbar-popup"
+            id="navbar-popup"
             style={{ ...this.state.style, left: style.left }}
           >
             <TopDelete onClick={onClose} />

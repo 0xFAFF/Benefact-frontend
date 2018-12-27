@@ -1,6 +1,5 @@
 import React from "react";
 import { Column } from "../../../UI/BoardComponents";
-import { TagsProvider } from "../../../UI/BoardComponents/Tags/TagsContext";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { getCards } from "../../../../utils";
 import "./index.scss";
@@ -28,32 +27,30 @@ class Board extends React.Component {
             type="column"
           >
             {provided => (
-              <TagsProvider value={this.props.tags}>
-                <div
-                  id="board-droppable"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {this.props.columnOrder.map((columnId, index) => {
-                    const column = this.props.columns.find(
-                      column => column.id === columnId
-                    );
-                    return (
-                      <InnerList
-                        key={column.id}
-                        column={column}
-                        cardMap={this.props.cards}
-                        index={index}
-                        updateCardContent={this.props.updateCardContent}
-                        updateBoardContent={this.props.updateBoardContent}
-                        addNewCard={this.props.addNewCard}
-                        addNewTag={this.props.addNewTag}
-                      />
-                    );
-                  })}
-                  {provided.placeholder}
-                </div>
-              </TagsProvider>
+              <div
+                id="board-droppable"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {this.props.columnOrder.map((columnId, index) => {
+                  const column = this.props.columns.find(
+                    column => column.id === columnId
+                  );
+                  return (
+                    <InnerList
+                      key={column.id}
+                      column={column}
+                      cardMap={this.props.cards}
+                      index={index}
+                      updateCardContent={this.props.updateCardContent}
+                      updateBoardContent={this.props.updateBoardContent}
+                      addNewCard={this.props.addNewCard}
+                      addNewTag={this.props.addNewTag}
+                    />
+                  );
+                })}
+                {provided.placeholder}
+              </div>
             )}
           </Droppable>
         </DragDropContext>

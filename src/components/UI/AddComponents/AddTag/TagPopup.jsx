@@ -7,10 +7,12 @@ import { TopDelete, Back } from "../../Popup";
 
 class TagPopup extends React.Component {
   render() {
-    const modalContainer = document.getElementById("modal-container");
+    const popupContainer =
+      document.getElementById("modal-container") ||
+      document.getElementById("navbar-popup");
     const style = {
-      top: modalContainer.getBoundingClientRect().top,
-      left: modalContainer.getBoundingClientRect().right
+      top: popupContainer ? popupContainer.getBoundingClientRect().top : null,
+      left: popupContainer ? popupContainer.getBoundingClientRect().right : null
     };
     return (
       <div id="tag-pop-portal">
@@ -18,6 +20,7 @@ class TagPopup extends React.Component {
           <div className="tag-popup" style={style}>
             <TagsConsumer>
               {tagsList => {
+                console.log(tagsList);
                 return (
                   <React.Fragment>
                     <TopDelete onClick={this.props.onClose} />

@@ -5,6 +5,7 @@ import { URLS } from "../../../constants";
 import { PacmanLoader } from "../../UI/Loader";
 import Base from "./Base";
 import { Navbar } from "../../UI";
+import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
 
 // const url = "http://192.168.1.4/api/cards";
 const url = "http://benefact.faffgames.com/api/cards";
@@ -283,22 +284,24 @@ class BaseWrapper extends React.Component {
       return <PacmanLoader />;
     }
     return (
-      <div>
-        <Navbar
-          handleBoardView={this.changeBoardView}
-          view={this.state.view}
-          addNewColumn={this.addNewColumn}
-          addNewTag={this.addNewTag}
-          addNewCard={this.addNewCard}
-          cardMap={this.state.cards}
-        />
-        <Base
-          {...baseState}
-          handleError={this.handleError}
-          kanbanFunctions={kanbanFunctions}
-          listFunctions={listFunctions}
-        />
-      </div>
+      <TagsProvider value={this.state.tags}>
+        <div>
+          <Navbar
+            handleBoardView={this.changeBoardView}
+            view={this.state.view}
+            addNewColumn={this.addNewColumn}
+            addNewTag={this.addNewTag}
+            addNewCard={this.addNewCard}
+            cardMap={this.state.cards}
+          />
+          <Base
+            {...baseState}
+            handleError={this.handleError}
+            kanbanFunctions={kanbanFunctions}
+            listFunctions={listFunctions}
+          />
+        </div>
+      </TagsProvider>
     );
   }
 }

@@ -29,7 +29,8 @@ class Create extends React.Component {
         component: AddCardWrapper,
         params: {
           cardMap: this.props.cardMap,
-          addNewCard: this.props.addNewCard
+          addNewCard: this.props.addNewCard,
+          addNewTag: this.props.addNewTag
         }
       },
       {

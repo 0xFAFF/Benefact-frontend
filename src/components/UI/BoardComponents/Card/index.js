@@ -48,7 +48,7 @@ class Card extends React.Component {
           return (
             <div
               id="card-draggable"
-              className={snapshot.isDragging ? "is-dragging" : ""}
+              className={snapshot.isDragging ? "card-is-dragging" : ""}
               ref={provided.innerRef}
               {...provided.draggableProps}
               style={{ ...provided.draggableProps.style }}

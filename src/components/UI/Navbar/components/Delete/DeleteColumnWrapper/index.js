@@ -34,12 +34,9 @@ class DeleteColumnWrapper extends React.Component {
                         this.setState({ column });
                       }
                     }}
-                    style={
-                      cardNumber
-                        ? { backgroundColor: "#df1934", cursor: "default" }
-                        : { backgroundColor: "#03b42a" }
-                    }
-                    className="delete-button"
+                    className={`delete-button ${
+                      cardNumber ? "unselectable" : "selectable"
+                    }`}
                     key={column.id}
                   >
                     ({cardNumber}) {column.title}

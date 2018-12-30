@@ -20,8 +20,15 @@
     .delete-button:not(:last-child) {
       margin-bottom: 10px;
     }
-    .delete-button:hover {
-      background-color: #c9c9c9;
+    .delete-button:not(.unselectable):hover {
+      background-color: rgba(20, 201, 4, 0.8);
+    }
+    .selectable {
+      background-color: rgba(22, 216, 4, 0.7);
+    }
+    .unselectable {
+      background-color: rgba(253, 10, 10, 0.7);
+      cursor: default;
     }
   }
   #selected-column {

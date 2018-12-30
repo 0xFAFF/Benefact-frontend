@@ -22,10 +22,9 @@
     margin-bottom: 10px;
   }
   button:not(.button-active):hover {
-    background-color: #c9c9c9;
+    background-color: rgb(219, 219, 219);
   }
   .button-active {
     background-color: #4797e7;
-    color: white;
   }
 }

@@ -2,14 +2,19 @@
   display: flex;
   justify-content: center;
   .button-accept {
-    background-color: #03b42a;
+    background-color: rgba(22, 216, 4, 0.7);
+  }
+  .button-accept:hover {
+    background-color: rgba(20, 201, 4, 0.8);
   }
   .button-cancel {
-    background-color: #df1934;
+    background-color: rgba(253, 10, 10, 0.7);
+  }
+  .button-cancel:hover {
+    background-color: rgba(238, 6, 6, 0.8);
   }
   button {
     width: 45%;
-    color: #f1f1f1;
     border: none;
     outline: none;
     padding: 10px 16px;

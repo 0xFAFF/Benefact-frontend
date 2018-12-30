@@ -32,7 +32,6 @@ const getFetching = url => Component =>
       } catch (error) {
         this.setState({
           error,
-          // data: mockdata,
           isLoading: false
         });
       }

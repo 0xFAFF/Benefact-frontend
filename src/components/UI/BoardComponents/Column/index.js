@@ -47,9 +47,10 @@ class Column extends React.Component {
         index={this.props.index}
         isDragDisabled={this.state.isDragDisabled}
       >
-        {provided => (
+        {(provided, snapshot) => (
           <div
             id="column-draggable"
+            className={snapshot.isDragging ? "col-is-dragging" : ""}
             ref={provided.innerRef}
             {...provided.draggableProps}
             style={{ ...provided.draggableProps.style }}

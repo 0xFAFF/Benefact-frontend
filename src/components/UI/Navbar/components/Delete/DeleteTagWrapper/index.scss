@@ -1,0 +1,41 @@
+#delete-tag-outer {
+  font-size: 1.1em;
+  .title {
+    margin-top: 10px;
+  }
+  .delete-ul-container {
+    padding: 10px;
+  }
+  .delete-tag-ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    .delete-tag-li-container,
+    .delete-selected-tag-li-container {
+      margin: 5px 5px 5px 0;
+      cursor: pointer;
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 50px;
+        max-width: 100px;
+        max-height: 25px;
+        height: 25px;
+        font-size: 12px;
+        padding: 2px 5px;
+        color: #fff;
+      }
+    }
+  }
+  #selected-tag {
+    display: flex;
+    justify-content: center;
+    .delete-selected-tag-li-container {
+      cursor: initial;
+    }
+  }
+}

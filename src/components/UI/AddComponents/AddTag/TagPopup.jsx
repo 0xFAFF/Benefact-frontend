@@ -20,7 +20,6 @@ class TagPopup extends React.Component {
           <div className="tag-popup" style={style}>
             <TagsConsumer>
               {tagsList => {
-                console.log(tagsList);
                 return (
                   <React.Fragment>
                     <TopDelete onClick={this.props.onClose} />

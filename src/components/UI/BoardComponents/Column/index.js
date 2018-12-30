@@ -36,6 +36,11 @@ class Column extends React.Component {
   }
 
   render() {
+    const draggingStyle = {
+      backgroundColor: "rgb(238, 238, 238)",
+      boxShadow:
+        "2px 2px 4px rgba(0, 0, 0, 0.16), 2px 2px 4px rgba(0, 0, 0, 0.23)"
+    };
     return (
       <Draggable
         draggableId={this.props.column.id}
@@ -65,11 +70,7 @@ class Column extends React.Component {
                 <div
                   id="column-droppable"
                   ref={provided.innerRef}
-                  style={{
-                    backgroundColor: snapshot.isDraggingOver
-                      ? "rgb(238, 238, 238)"
-                      : "white"
-                  }}
+                  style={snapshot.isDraggingOver ? draggingStyle : {}}
                   {...provided.droppableProps}
                 >
                   <InnerList

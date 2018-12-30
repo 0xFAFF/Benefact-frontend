@@ -35,14 +35,6 @@ class AddColumn extends React.Component {
           acceptTitle={"Create"}
           cancelTitle={"Reset"}
         />
-        {/* <div className="button-group">
-          <button className="button-create" onClick={this.onAcceptHandler}>
-            Create
-          </button>
-          <button className="button-reset" onClick={this.onResetHandler}>
-            Reset
-          </button>
-        </div> */}
       </div>
     );
   }

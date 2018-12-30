@@ -1,15 +1,22 @@
 import React from "react";
 import NavbarItem from "./NavbarItem";
-import { Create, View } from "./components";
+import { Create, Delete, View } from "./components";
 import "./index.scss";
 
 class Navbar extends React.Component {
   state = {
-    activePopup: null
+    activePopup: []
   };
 
-  handleActivePopup = (id = null) => {
-    this.setState({ activePopup: id });
+  handleActivePopup = id => {
+    const idIndex = this.state.activePopup.findIndex(e => e === id);
+    if (idIndex > -1) {
+      let activePopup = [...this.state.activePopup];
+      activePopup.splice(idIndex, 1);
+      this.setState({ activePopup });
+    } else {
+      this.setState({ activePopup: [...this.state.activePopup, id] });
+    }
   };
 
   render() {
@@ -31,7 +38,8 @@ class Navbar extends React.Component {
           },
           {
             title: "User",
-            icon: "user-circle"
+            icon: "user-circle",
+            shift: 200
           }
         ]
       },
@@ -54,7 +62,17 @@ class Navbar extends React.Component {
           },
           {
             title: "Delete",
-            icon: "trash"
+            icon: "trash",
+            component: Delete,
+            params: {
+              popupStyle: {
+                width: "300px"
+              },
+              deleteComponent: this.props.deleteComponent,
+              columns: this.props.columns,
+              cardMap: this.props.cardMap,
+              tags: this.props.tags
+            }
           },
           {
             title: "Filter",

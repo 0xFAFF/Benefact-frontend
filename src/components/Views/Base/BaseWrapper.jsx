@@ -7,7 +7,6 @@ import Base from "./Base";
 import { Navbar } from "../../UI";
 import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
 
-// const url = "http://192.168.1.4/api/cards";
 const url = "http://benefact.faffgames.com/api/cards";
 
 class BaseWrapper extends React.Component {
@@ -50,6 +49,23 @@ class BaseWrapper extends React.Component {
 
   handleOrder = async (type, newContent) => {
     const url = URLS(type, "UPDATE");
+    await fetching(url, "POST", newContent)
+      .then(result => {
+        if (result.hasError) {
+          this.handleError(result.message);
+        }
+      })
+      .then(async result => {
+        const url = URLS(type, "GET");
+        await fetching(url, "GET").then(result => {
+          let formattedData = camelCase(result.data);
+          this.handleResetState(formattedData);
+        });
+      });
+  };
+
+  handleDelete = async (type, newContent) => {
+    const url = URLS(type, "DELETE");
     await fetching(url, "POST", newContent)
       .then(result => {
         if (result.hasError) {
@@ -268,7 +284,6 @@ class BaseWrapper extends React.Component {
       kanbanOnDragEnd: this.kanbanOnDragEnd,
       updateBoardContent: this.updateBoardContent,
       addNewCard: this.addNewCard,
-      // addNewColumn: this.addNewColumn,
       addNewTag: this.addNewTag
     };
 
@@ -293,6 +308,9 @@ class BaseWrapper extends React.Component {
             addNewTag={this.addNewTag}
             addNewCard={this.addNewCard}
             cardMap={this.state.cards}
+            columns={this.state.columns}
+            tags={this.state.tags}
+            deleteComponent={this.handleDelete}
           />
           <Base
             {...baseState}

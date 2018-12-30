@@ -1,0 +1,35 @@
+#delete-popup {
+  // #delete-tag {
+  //   margin-bottom: 0;
+  // }
+  font-size: 1.3em;
+  .component-less {
+    padding: 0 10px;
+  }
+  .title {
+    margin-bottom: 10px;
+  }
+  .delete-button-group {
+    display: flex;
+    flex-direction: column;
+    button {
+      font-size: 1.2em;
+      padding: 10px 16px;
+    }
+    .delete-popup-button {
+      border: none;
+      outline: none;
+      height: 50px;
+      border-radius: 10px;
+      background-color: #f1f1f1;
+      border: 1px solid lightgray;
+      cursor: pointer;
+    }
+    .delete-popup-button:not(:last-child) {
+      margin-bottom: 10px;
+    }
+    .delete-popup-button:hover {
+      background-color: #c9c9c9;
+    }
+  }
+}

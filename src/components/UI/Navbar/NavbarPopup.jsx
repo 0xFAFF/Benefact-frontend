@@ -30,9 +30,8 @@ class NavbarPopup extends React.Component {
 
   state = { style: { ...get(this.props, "params.popupStyle", {}) } };
   render() {
-    const navbarContainer = document.getElementsByClassName("sub-menu")[0];
     const style = {
-      top: navbarContainer.getBoundingClientRect().bottom,
+      top: this.props.top,
       left: this.props.left
     };
     const { params = {}, onClose } = this.props;

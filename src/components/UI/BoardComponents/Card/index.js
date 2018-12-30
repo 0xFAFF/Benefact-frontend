@@ -38,7 +38,6 @@ class Card extends React.Component {
   };
 
   render() {
-    // const isDragDisabled = this.props.card.ID === "card-1";
     return (
       <Draggable
         draggableId={`card-${this.props.card.id}`}
@@ -69,6 +68,7 @@ class Card extends React.Component {
                       content={this.props.card}
                       updateBoardContent={this.props.updateBoardContent}
                       addNewTag={this.props.addNewTag}
+                      onAcceptHandler={this.handleCloseModal}
                       onClose={this.handleCloseModal}
                     />
                   </Modal>

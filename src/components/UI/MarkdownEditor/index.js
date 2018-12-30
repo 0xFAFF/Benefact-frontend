@@ -7,7 +7,36 @@ import "./index.scss";
 class MarkdownEditor extends React.Component {
   state = {
     mode: "editor",
-    newContent: this.props.content
+    newContent: {}
+  };
+
+  componentDidMount() {
+    this.setState({
+      newContent: {
+        title: "",
+        description: "",
+        tagIds: [],
+        columnId: "",
+        index: "",
+        ...this.props.content
+      }
+    });
+  }
+
+  resetContent = () => {
+    const updateKeys = ["title", "description", "tagIds"];
+    const resetVals = { ...this.state.newContent };
+    Object.entries(this.state.newContent).forEach(([key, value]) => {
+      if (updateKeys.find(field => field === key)) {
+        resetVals[key] =
+          typeof value === "object" && Array.isArray(value)
+            ? []
+            : typeof value === "object"
+            ? {}
+            : "";
+      }
+    });
+    this.setState({ newContent: resetVals });
   };
 
   toggleMode = mode => {
@@ -78,6 +107,7 @@ class MarkdownEditor extends React.Component {
               updateBoardContent={this.props.updateBoardContent}
               addNewTag={this.props.addNewTag}
               onAcceptHandler={this.props.onAcceptHandler}
+              onCancelHandler={this.resetContent}
               onClose={this.props.onClose}
               type={this.props.type}
             />

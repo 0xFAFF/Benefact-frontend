@@ -10,9 +10,9 @@ const Editor = props => {
     addNewTag,
     updateBoardContent,
     onAcceptHandler,
-    onClose
+    onCancelHandler
   } = props;
-  const { id, title, description, tagIds } = content;
+  const { id = "", title = "", description = "", tagIds = [] } = content;
   return (
     <div id="editor-mode">
       <div className="editor-id">ID: {id}</div>
@@ -21,7 +21,7 @@ const Editor = props => {
         <input
           name="Title"
           type="text"
-          defaultValue={title}
+          value={title}
           onChange={e => onChangeHandler(e, "title")}
         />
       </div>
@@ -29,7 +29,7 @@ const Editor = props => {
         <div>Description: </div>
         <textarea
           id="editor-text-area"
-          defaultValue={description}
+          value={description}
           onChange={e => onChangeHandler(e, "description")}
         />
       </div>
@@ -50,9 +50,9 @@ const Editor = props => {
           updateBoardContent(content, "cards");
           onAcceptHandler();
         }}
-        onCancelHandler={onClose}
+        onCancelHandler={onCancelHandler}
         acceptTitle={"Save"}
-        cancelTitle={"Cancel"}
+        cancelTitle={"Reset"}
       />
     </div>
   );

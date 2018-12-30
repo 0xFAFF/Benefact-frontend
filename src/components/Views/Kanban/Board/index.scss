@@ -1,6 +1,9 @@
 #board-droppable {
   display: flex;
   justify-content: center;
+  height: 82vh;
+  border: 1px solid lightgray;
+  padding: 10px;
 }
 
 .add-column-outer {

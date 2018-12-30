@@ -1,6 +1,5 @@
 #column-draggable {
   margin: 8px;
-  // border: 1px solid lightgrey;
   border-radius: 10px;
   width: 300px;
   display: flex;
@@ -10,10 +9,13 @@
   .column-header {
     background-color: white;
     padding: 8px;
-    margin: 0;
-    border: 1px solid black;
+    margin: 0 0 0 0;
+    border: 1px solid lightgray;
+    border-bottom: none;
     display: flex;
     align-items: center;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05), 0px 0px 6px rgba(0, 0, 0, 0.15);
+    border-radius: 5px 5px 0 0;
 
     .title {
       text-align: center;
@@ -37,10 +39,11 @@
 
   #column-droppable {
     transition: background-color 0.2s ease;
-    flex-grow: 1;
-    min-height: 70vh;
+    height: 93%;
     border: 1px solid lightgrey;
-    background-color: rgb(217, 220, 223);
+    border-radius: 0 0 5px 5px;
+    background-color: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1);
   }
 }
 

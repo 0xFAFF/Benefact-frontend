@@ -1,11 +1,13 @@
 #card-draggable {
   border: 1px solid lightgrey;
+  margin: 5px;
   padding: 8px;
   margin-bottom: 8px;
   display: flex;
   align-items: start;
   background-color: white;
   flex-direction: column;
+  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.23);
 
   &:hover {
     border-radius: 5px;
@@ -16,6 +18,7 @@
       opacity: 1;
       transition: opacity 0.8s linear;
     }
+    box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.16), 2px 3px 6px rgba(0, 0, 0, 0.23);
   }
 
   .card-description {
@@ -34,6 +37,7 @@
 
 .is-dragging {
   background-color: rgb(245, 250, 248) !important;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.16), 4px 4px 4px rgba(0, 0, 0, 0.23) !important;
 }
 
 .edit-icon {

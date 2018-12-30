@@ -1,6 +1,10 @@
 #list-board {
   display: flex;
   justify-content: center;
+  height: 83vh;
+  overflow-y: auto;
+  border: 1px solid lightgray;
+  padding: 10px;
   #column-droppable {
     width: 700px;
   }

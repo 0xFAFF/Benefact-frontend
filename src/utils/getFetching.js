@@ -1,5 +1,5 @@
 import React from "react";
-import mockdata from "../initial-data";
+// import mockdata from "../initial-data";
 
 const getFetching = url => Component =>
   class GetFetching extends React.Component {

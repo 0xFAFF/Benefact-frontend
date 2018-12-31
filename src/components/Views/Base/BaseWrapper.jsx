@@ -162,10 +162,20 @@ class BaseWrapper extends React.Component {
 
     // convert col-# string into integer #
     draggedCard.columnId = +destination.droppableId.replace(/^\D+/g, "");
-    let destCard = get(cardsDestCol, `[${destination.index}]`, null);
-    if (destCard) {
-    } else {
-      draggedCard["index"] = cardsDestCol.length;
+    // Insert above an existing card
+    if (destination.index < cardsDestCol.length) {
+      let destIndex = cardsDestCol[destination.index].index;
+      if(draggedCard.index < destIndex) {
+        destIndex--;
+      }
+      draggedCard.index = destIndex;
+    // Insert at the end of a column, if there are no cards don't update the card index
+    } else if(cardsDestCol.length > 0) {
+      let destIndex = cardsDestCol[cardsDestCol.length - 1].index;
+      if(draggedCard.index > destIndex) {
+        destIndex++;
+      }
+      draggedCard.index = destIndex;
     }
 
     cardsSrcCol.splice(source.index, 1);

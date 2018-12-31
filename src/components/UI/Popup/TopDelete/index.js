@@ -6,7 +6,7 @@ const TopDelete = props => {
   const { onClick } = props;
   return (
     <div id="delete-top-nav">
-      <div style={{ cursor: "pointer" }}>
+      <div id="icon-container">
         <FontAwesomeIcon icon="times" size="lg" onClick={onClick} />
       </div>
     </div>

@@ -2,4 +2,8 @@
   padding: 10px;
   display: flex;
   justify-content: flex-end;
+  #icon-container {
+    cursor: pointer;
+    padding: 5px;
+  }
 }

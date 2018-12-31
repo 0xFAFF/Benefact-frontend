@@ -36,19 +36,8 @@ class BaseWrapper extends React.Component {
     }
   }
 
-  handleUpdate = async (type, action, method, newContent, newState) => {
+  handleUpdate = async (type, action, newContent) => {
     const url = URLS(type, action);
-    await fetching(url, method, newContent).then(result => {
-      if (result.hasError) {
-        this.handleError(result.message);
-      } else {
-        this.setState(newState);
-      }
-    });
-  };
-
-  handleOrder = async (type, newContent) => {
-    const url = URLS(type, "UPDATE");
     await fetching(url, "POST", newContent)
       .then(result => {
         if (result.hasError) {
@@ -56,24 +45,7 @@ class BaseWrapper extends React.Component {
         }
       })
       .then(async result => {
-        const url = URLS(type, "GET");
-        await fetching(url, "GET").then(result => {
-          let formattedData = camelCase(result.data);
-          this.handleResetState(formattedData);
-        });
-      });
-  };
-
-  handleDelete = async (type, newContent) => {
-    const url = URLS(type, "DELETE");
-    await fetching(url, "POST", newContent)
-      .then(result => {
-        if (result.hasError) {
-          this.handleError(result.message);
-        }
-      })
-      .then(async result => {
-        const url = URLS(type, "GET");
+        const url = URLS("cards", "GET");
         await fetching(url, "GET").then(result => {
           let formattedData = camelCase(result.data);
           this.handleResetState(formattedData);
@@ -140,7 +112,7 @@ class BaseWrapper extends React.Component {
         cards: [...cardsSrcCol, ...cardsNotSrcDestCols]
       };
       this.setState(newState);
-      this.handleOrder("cards", draggedCard);
+      this.handleUpdate("cards", "UPDATE", draggedCard);
       return;
     }
 
@@ -165,14 +137,14 @@ class BaseWrapper extends React.Component {
     // Insert above an existing card
     if (destination.index < cardsDestCol.length) {
       let destIndex = cardsDestCol[destination.index].index;
-      if(draggedCard.index < destIndex) {
+      if (draggedCard.index < destIndex) {
         destIndex--;
       }
       draggedCard.index = destIndex;
-    // Insert at the end of a column, if there are no cards don't update the card index
-    } else if(cardsDestCol.length > 0) {
+      // Insert at the end of a column, if there are no cards don't update the card index
+    } else if (cardsDestCol.length > 0) {
       let destIndex = cardsDestCol[cardsDestCol.length - 1].index;
-      if(draggedCard.index > destIndex) {
+      if (draggedCard.index > destIndex) {
         destIndex++;
       }
       draggedCard.index = destIndex;
@@ -186,7 +158,7 @@ class BaseWrapper extends React.Component {
       cards: [...cardsSrcCol, ...cardsDestCol, ...cardsNotSrcDestCols]
     };
     this.setState(newState);
-    this.handleOrder("cards", draggedCard);
+    this.handleUpdate("cards", "UPDATE", draggedCard);
   };
 
   listOnDragEnd = result => {
@@ -215,7 +187,7 @@ class BaseWrapper extends React.Component {
     // Call endpoint here to API endpoint to connect to backend as well
   };
 
-  updateBoardContent = (newContent, type) => {
+  updateBoardContent = async (newContent, type) => {
     let boardType = [...this.state[type]];
     boardType[
       boardType.findIndex(type => type.id === newContent.id)
@@ -224,7 +196,14 @@ class BaseWrapper extends React.Component {
       ...this.state,
       [type]: boardType
     };
-    this.handleUpdate(type, "UPDATE", "POST", newContent, newState);
+    const url = URLS(type, "UPDATE");
+    await fetching(url, "POST", newContent).then(result => {
+      if (result.hasError) {
+        this.handleError(result.message);
+      } else {
+        this.setState(newState);
+      }
+    });
   };
 
   addNewCard = (newContent, columnId) => {
@@ -234,41 +213,24 @@ class BaseWrapper extends React.Component {
       tagIds: newContent.tagIds || [],
       columnId: columnId
     };
-    const newState = {
-      ...this.state,
-      cards: [...this.state.cards, { id: newContent.id, ...newCard }]
-    };
-    this.handleUpdate("cards", "ADD", "POST", newCard, newState);
+    this.handleUpdate("cards", "ADD", newCard);
   };
 
   addNewColumn = title => {
-    const newId = this.state.columns.length + 1;
     const newColumn = {
-      id: newId,
       title
     };
-    const newState = {
-      ...this.state,
-      columns: [...this.state.columns, newColumn],
-      columnOrder: [...this.state.columnOrder, newId]
-    };
-    this.handleUpdate("columns", "ADD", "POST", newColumn, newState);
+    this.handleUpdate("columns", "ADD", newColumn);
   };
 
   addNewTag = tag => {
     const { name, color = null, character = null } = tag;
-    const newId = this.state.tags.length + 1;
     const newTag = {
-      id: newId,
       name,
       color,
       character
     };
-    const newState = {
-      ...this.state,
-      tags: [...this.state.tags, newTag]
-    };
-    this.handleUpdate("tags", "ADD", "POST", newTag, newState);
+    this.handleUpdate("tags", "ADD", newTag);
   };
 
   changeBoardView = view => {
@@ -320,7 +282,7 @@ class BaseWrapper extends React.Component {
             cardMap={this.state.cards}
             columns={this.state.columns}
             tags={this.state.tags}
-            deleteComponent={this.handleDelete}
+            deleteComponent={this.handleUpdate}
           />
           <Base
             {...baseState}

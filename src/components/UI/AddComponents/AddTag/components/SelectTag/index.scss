@@ -1,14 +1,14 @@
 #select-tag {
   .tags-ul {
+    max-height: 350px;
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    height: 365px;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     li {
       display: flex;
       justify-content: space-around;

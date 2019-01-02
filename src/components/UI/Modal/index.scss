@@ -1,3 +1,20 @@
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.Modal {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
 .outer-container {
   position: absolute;
   top: 0;
@@ -7,25 +24,13 @@
   display: grid;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .inner-container {
   background: #fff;
-  border-radius: 2px;
-  display: inline-block;
-  margin: 1rem;
-  position: relative;
   width: 500px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  justify-self: center;
   border-radius: 10px;
-}
-
-#modal-container {
-  display: flex;
-  height: inherit;
-  flex-direction: column;
 }
 
 .inner-content {

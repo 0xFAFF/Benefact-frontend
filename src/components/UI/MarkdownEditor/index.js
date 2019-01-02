@@ -11,14 +11,14 @@ class MarkdownEditor extends React.Component {
   };
 
   componentDidMount() {
+    const { index, ...rest } = this.props.content;
     this.setState({
       newContent: {
         title: "",
         description: "",
         tagIds: [],
         columnId: "",
-        index: "",
-        ...this.props.content
+        ...rest
       }
     });
   }
@@ -62,10 +62,12 @@ class MarkdownEditor extends React.Component {
         }
       };
     } else {
+      const value =
+        key === "columnId" ? parseInt(e.target.value) : e.target.value;
       newState = {
         newContent: {
           ...this.state.newContent,
-          [key]: e.target.value
+          [key]: value
         }
       };
     }
@@ -103,6 +105,7 @@ class MarkdownEditor extends React.Component {
           {this.state.mode === "editor" && (
             <Editor
               content={this.state.newContent}
+              columns={this.props.columns}
               onChangeHandler={this.onChangeHandler}
               updateBoardContent={this.props.updateBoardContent}
               addNewTag={this.props.addNewTag}

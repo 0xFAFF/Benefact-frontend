@@ -10,7 +10,7 @@ class DeleteTagWrapper extends React.Component {
 
   onAcceptHandler = () => {
     this.props.deleteComponent("tags", "DELETE", { id: this.state.tag.id });
-    this.props.resetDeleteComponentHandler();
+    this.props.onClose();
   };
 
   onCancelHandler = () => {

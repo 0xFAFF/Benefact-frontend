@@ -2,7 +2,7 @@ import React from "react";
 import "./index.scss";
 
 const View = props => {
-  const { view, handleBoardView } = props;
+  const { view, handleBoardView, onClose } = props;
   const buttonConfigs = [
     {
       title: "Kanban",
@@ -26,7 +26,10 @@ const View = props => {
             className={`${btn.className} ${
               view === btn.view ? "button-active" : ""
             }`}
-            onClick={() => handleBoardView(btn.view)}
+            onClick={() => {
+              handleBoardView(btn.view);
+              onClose();
+            }}
           >
             {btn.title}
           </button>

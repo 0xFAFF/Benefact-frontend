@@ -75,7 +75,7 @@ class Delete extends React.Component {
             />
             <this.state.component
               {...this.state.params}
-              setPopupStyle={this.props.setPopupStyle}
+              {...this.props}
               resetDeleteComponentHandler={this.resetDeleteComponentHandler}
             />
           </React.Fragment>

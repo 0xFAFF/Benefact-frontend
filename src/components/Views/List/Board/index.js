@@ -11,7 +11,8 @@ class InnerList extends React.Component {
         key={card.id}
         card={card}
         index={index}
-        updateCardContent={this.props.updateCardContent}
+        columns={this.props.columns}
+        updateBoardContent={this.props.updateBoardContent}
       />
     ));
   }
@@ -41,7 +42,8 @@ class Board extends React.Component {
                 >
                   <InnerList
                     cards={this.props.cards}
-                    updateCardContent={this.props.updateCardContent}
+                    columns={this.props.columns}
+                    updateBoardContent={this.props.updateBoardContent}
                   />
                   {provided.placeholder}
                 </div>

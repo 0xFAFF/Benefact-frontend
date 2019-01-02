@@ -9,7 +9,12 @@ class AddCard extends React.Component {
       showModal,
       handleShowMessageClick,
       handleCloseModal,
-      addNewCard
+      addNewCard,
+      columns,
+      cardMap,
+      columnId,
+      onAcceptHandler,
+      onClose
     } = this.props;
     return (
       <React.Fragment>
@@ -24,24 +29,22 @@ class AddCard extends React.Component {
           </div>
         )}
         {useModal && showModal ? (
-          <Modal onClose={() => handleCloseModal()}>
+          <Modal isOpen={true} onClose={() => handleCloseModal()}>
             <MarkdownEditor
-              content={{ id: this.props.cardMap.length + 1 }}
-              updateBoardContent={newContent => {
-                addNewCard(newContent, this.props.columnId);
-              }}
+              content={{ id: cardMap.length + 1, columnId: columnId }}
+              columns={columns}
+              updateBoardContent={newContent => addNewCard(newContent)}
               onAcceptHandler={() => handleCloseModal()}
               onClose={() => handleCloseModal()}
             />
           </Modal>
         ) : !useModal ? (
           <MarkdownEditor
-            content={{ id: this.props.cardMap.length + 1 }}
-            updateBoardContent={newContent =>
-              addNewCard(newContent, this.props.columnId)
-            }
-            onAcceptHandler={this.props.onAcceptHandler}
-            onClose={this.props.onClose}
+            content={{ id: cardMap.length + 1 }}
+            columns={columns}
+            updateBoardContent={newContent => addNewCard(newContent)}
+            onAcceptHandler={onAcceptHandler}
+            onClose={onClose}
           />
         ) : null}
       </React.Fragment>

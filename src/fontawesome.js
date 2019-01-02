@@ -21,7 +21,8 @@ import {
   faHome,
   faBars,
   faFilter,
-  faListUl
+  faListUl,
+  faCog
 } from "@fortawesome/free-solid-svg-icons";
 // import { farEdit } from "@fortawesome/free-regular-svg-icons";
 
@@ -44,5 +45,6 @@ library.add(
   faHome,
   faBars,
   faFilter,
-  faListUl
+  faListUl,
+  faCog
 );

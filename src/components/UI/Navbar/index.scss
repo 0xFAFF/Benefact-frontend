@@ -45,8 +45,22 @@
   }
 }
 
-#navbar-portal {
-  .portal-outer-container {
+.nav-Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.nav-Modal {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.3);
+  .outer-container {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -57,17 +71,15 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.3);
   }
+}
+
+#navbar-portal {
   #navbar-popup {
-    position: absolute;
-    top: 0;
     border: 1px solid lightgray;
     border-radius: 5px;
     background: #fff;
-    margin-left: 10px;
     padding-bottom: 10px;
     width: 200px;
-    display: flex;
-    flex-direction: column;
     text-align: center;
   }
 }

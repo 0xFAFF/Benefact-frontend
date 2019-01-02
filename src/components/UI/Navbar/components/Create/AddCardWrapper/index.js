@@ -7,7 +7,7 @@ class AddCardWrapper extends React.Component {
     this.props.setPopupStyle({ width: "500px" });
   }
   componentWillUnmount() {
-    this.props.setPopupStyle();
+    this.props.setPopupStyle({ width: "300px" });
   }
   render() {
     return (
@@ -16,8 +16,8 @@ class AddCardWrapper extends React.Component {
           {...this.props}
           showModal={false}
           useModal={false}
-          onAcceptHandler={() => this.props.resetCreateComponentHandler()}
-          onClose={() => this.props.resetCreateComponentHandler()}
+          onAcceptHandler={() => this.props.onClose()}
+          onClose={this.props.onClose}
         />
       </div>
     );

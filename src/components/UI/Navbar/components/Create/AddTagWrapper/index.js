@@ -4,7 +4,7 @@ import { CreateTag } from "../../../../AddComponents/AddTag/components";
 const AddTagWrapper = props => {
   return (
     <CreateTag
-      onAcceptHandler={() => props.resetCreateComponentHandler()}
+      onAcceptHandler={() => props.onClose()}
       addNewTag={props.addNewTag}
       onClose={props.onClose}
     />

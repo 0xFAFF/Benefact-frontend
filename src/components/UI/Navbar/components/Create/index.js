@@ -29,6 +29,7 @@ class Create extends React.Component {
         component: AddCardWrapper,
         params: {
           cardMap: this.props.cardMap,
+          columns: this.props.columns,
           addNewCard: this.props.addNewCard,
           addNewTag: this.props.addNewTag
         }
@@ -68,7 +69,7 @@ class Create extends React.Component {
             <Back onClick={() => this.resetCreateComponentHandler()} />
             <this.state.component
               {...this.state.params}
-              setPopupStyle={this.props.setPopupStyle}
+              {...this.props}
               resetCreateComponentHandler={this.resetCreateComponentHandler}
             />
           </React.Fragment>

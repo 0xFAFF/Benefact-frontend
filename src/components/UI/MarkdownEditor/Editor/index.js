@@ -6,13 +6,21 @@ import "./index.scss";
 const Editor = props => {
   const {
     content,
+    columns,
     onChangeHandler,
     addNewTag,
     updateBoardContent,
     onAcceptHandler,
     onCancelHandler
   } = props;
-  const { id = "", title = "", description = "", tagIds = [] } = content;
+  const {
+    id = "",
+    title = "",
+    description = "",
+    tagIds = [],
+    columnId = ""
+  } = content;
+
   return (
     <div id="editor-mode">
       <div className="editor-id">ID: {id}</div>
@@ -24,6 +32,24 @@ const Editor = props => {
           value={title}
           onChange={e => onChangeHandler(e, "title")}
         />
+      </div>
+      <div className="editor-column">
+        <label>Column: </label>
+        <div className="styled-select background-color semi-square">
+          <select
+            onChange={e => onChangeHandler(e, "columnId")}
+            value={columnId}
+          >
+            <option value={""}>No Column (default)</option>
+            {columns.map(option => {
+              return (
+                <option key={option.id} value={option.id}>
+                  {option.title}
+                </option>
+              );
+            })}
+          </select>
+        </div>
       </div>
       <div className="editor-description">
         <div>Description: </div>
@@ -47,6 +73,7 @@ const Editor = props => {
       </div>
       <AcceptCancelButtons
         onAcceptHandler={() => {
+          console.log(content);
           updateBoardContent(content, "cards");
           onAcceptHandler();
         }}

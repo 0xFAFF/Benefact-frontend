@@ -5,10 +5,7 @@ import "./index.scss";
 const AddColumnWrapper = props => {
   return (
     <div id="add-column-outer">
-      <AddColumn
-        {...props}
-        onAcceptHandler={() => props.resetCreateComponentHandler()}
-      />
+      <AddColumn {...props} onAcceptHandler={() => props.onClose()} />
     </div>
   );
 };

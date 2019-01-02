@@ -1,10 +1,12 @@
 #column-draggable {
   margin: 8px;
   border-radius: 10px;
-  width: 300px;
+  min-width: 300px;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   height: 99%;
+  flex-grow: 1;
 
   .column-header {
     background-color: white;
@@ -45,6 +47,13 @@
     background-color: white;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1);
   }
+}
+
+#column-draggable:first-child {
+  margin-left: auto;
+}
+#column-draggable:last-child {
+  margin-right: auto;
 }
 
 .add-card {

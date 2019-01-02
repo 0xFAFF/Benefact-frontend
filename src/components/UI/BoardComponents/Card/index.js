@@ -63,9 +63,13 @@ class Card extends React.Component {
                   onClick={this.handleShowMessageClick}
                 />
                 {this.state.showModal ? (
-                  <Modal onClose={this.handleCloseModal}>
+                  <Modal
+                    onClose={this.handleCloseModal}
+                    isOpen={this.state.showModal}
+                  >
                     <MarkdownEditor
                       content={this.props.card}
+                      columns={this.props.columns}
                       updateBoardContent={this.props.updateBoardContent}
                       addNewTag={this.props.addNewTag}
                       onAcceptHandler={this.handleCloseModal}

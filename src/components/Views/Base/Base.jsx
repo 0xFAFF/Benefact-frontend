@@ -22,6 +22,7 @@ class Base extends React.Component {
     };
     const listState = {
       cards,
+      columns,
       tags
     };
 

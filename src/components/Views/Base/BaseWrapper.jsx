@@ -1,5 +1,4 @@
 import React from "react";
-import { get } from "lodash";
 import { getCards, camelCase, getFetching, fetching } from "../../../utils";
 import { URLS } from "../../../constants";
 import { PacmanLoader } from "../../UI/Loader";
@@ -206,12 +205,12 @@ class BaseWrapper extends React.Component {
     });
   };
 
-  addNewCard = (newContent, columnId) => {
+  addNewCard = newContent => {
     const newCard = {
       title: newContent.title || "",
       description: newContent.description || "",
       tagIds: newContent.tagIds || [],
-      columnId: columnId
+      columnId: newContent.columnId || null
     };
     this.handleUpdate("cards", "ADD", newCard);
   };

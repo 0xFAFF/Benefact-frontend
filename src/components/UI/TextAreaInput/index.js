@@ -41,7 +41,6 @@ class TextAreaInput extends React.Component {
           className="textarea"
           name="textarea"
           id="textarea"
-          autoFocus={true}
           defaultValue={this.props.defaultValue || ""}
           style={{
             height

@@ -6,9 +6,9 @@ import "./index.scss";
 
 class InnerList extends React.PureComponent {
   render() {
-    const { column, cardMap, ...rest } = this.props;
+    const { column, cardMap } = this.props;
     const cards = getCards(cardMap, column.id);
-    return <Column column={column} cards={cards} cardMap={cardMap} {...rest} />;
+    return <Column {...this.props} cards={cards} />;
   }
 }
 
@@ -40,9 +40,9 @@ class Board extends React.Component {
                     <InnerList
                       key={column.id}
                       column={column}
+                      columns={this.props.columns}
                       cardMap={this.props.cards}
                       index={index}
-                      updateCardContent={this.props.updateCardContent}
                       updateBoardContent={this.props.updateBoardContent}
                       addNewCard={this.props.addNewCard}
                       addNewTag={this.props.addNewTag}

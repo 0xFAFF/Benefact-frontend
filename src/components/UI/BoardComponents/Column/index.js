@@ -11,6 +11,7 @@ class InnerList extends React.Component {
         key={card.id}
         card={card}
         index={index}
+        columns={this.props.columns}
         updateBoardContent={this.props.updateBoardContent}
         addNewTag={this.props.addNewTag}
       />
@@ -62,6 +63,7 @@ class Column extends React.Component {
               columnId={this.props.column.id}
               updateBoardContent={this.props.updateBoardContent}
               cardMap={this.props.cardMap}
+              columns={this.props.columns}
               showModal={this.state.showModal}
               handleShowMessageClick={this.handleShowMessageClick}
               handleCloseModal={this.handleCloseModal}
@@ -76,6 +78,7 @@ class Column extends React.Component {
                 >
                   <InnerList
                     cards={this.props.cards}
+                    columns={this.props.columns}
                     updateBoardContent={this.props.updateBoardContent}
                     addNewTag={this.props.addNewTag}
                   />

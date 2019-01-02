@@ -1,52 +1,87 @@
 import React from "react";
-import NavbarItem from "./NavbarItem";
+import ReactModal from "react-modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { get } from "lodash";
+import NavbarPopup from "./NavbarPopup";
 import { Create, Delete, View } from "./components";
 import "./index.scss";
 
+const List = props => {
+  const { configs, onItemClick } = props;
+  return configs.map(ulItem => {
+    const { ulClassName, options } = ulItem;
+    return (
+      <ul key={ulItem.id} className={ulClassName}>
+        {options.map(item => {
+          const { id, icon, title, liClassName } = item;
+          return (
+            <li
+              key={id}
+              className={`${liClassName ? liClassName : ""}`}
+              onClick={e => onItemClick(id, ulItem.id)}
+            >
+              {icon && <FontAwesomeIcon icon={icon} size="lg" />}
+              <span>{title}</span>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  });
+};
+
 class Navbar extends React.Component {
   state = {
-    activePopup: []
+    currItem: null
   };
 
-  handleActivePopup = id => {
-    const idIndex = this.state.activePopup.findIndex(e => e === id);
-    if (idIndex > -1) {
-      let activePopup = [...this.state.activePopup];
-      activePopup.splice(idIndex, 1);
-      this.setState({ activePopup });
-    } else {
-      this.setState({ activePopup: [...this.state.activePopup, id] });
-    }
+  onItemClick = (id, navbarRowId) => {
+    this.setState({ currItem: id, currRow: navbarRowId });
+  };
+
+  cleanCurrentItem = () => {
+    this.setState({ currItem: null, currRow: null });
   };
 
   render() {
     const configs = [
       {
+        id: "menu",
         ulClassName: "menu",
         options: [
           {
+            id: "home",
             title: "Home",
             icon: "home"
           },
           {
+            id: "menu",
             title: "Menu",
             icon: "bars"
           },
           {
+            id: "brand",
             title: "Benefact Faff",
             liClassName: "brand"
           },
           {
+            id: "user",
             title: "User",
-            icon: "user-circle",
-            shift: 200
+            icon: "user-circle"
+          },
+          {
+            id: "settings",
+            title: "Settings",
+            icon: "cog"
           }
         ]
       },
       {
+        id: "sub-menu",
         ulClassName: "sub-menu",
         options: [
           {
+            id: "create",
             title: "Create",
             icon: "plus",
             component: Create,
@@ -57,10 +92,12 @@ class Navbar extends React.Component {
               addNewColumn: this.props.addNewColumn,
               addNewTag: this.props.addNewTag,
               addNewCard: this.props.addNewCard,
-              cardMap: this.props.cardMap
+              cardMap: this.props.cardMap,
+              columns: this.props.columns
             }
           },
           {
+            id: "delete",
             title: "Delete",
             icon: "trash",
             component: Delete,
@@ -75,10 +112,12 @@ class Navbar extends React.Component {
             }
           },
           {
+            id: "filter",
             title: "Filter",
             icon: "filter"
           },
           {
+            id: "view",
             title: "View",
             icon: "list-ul",
             component: View,
@@ -93,24 +132,37 @@ class Navbar extends React.Component {
         ]
       }
     ];
+
+    const configRowIndex = configs.findIndex(
+      row => row.id === this.state.currRow
+    );
+    const configRowOptions =
+      configRowIndex > -1 ? get(configs, `[${configRowIndex}].options`) : [];
+    const item =
+      configRowOptions.length > 1
+        ? configRowOptions.find(item => item.id === this.state.currItem)
+        : null;
+    const component = item ? item["component"] : null;
+    const params = item ? item["params"] : null;
     return (
       <div id="navbar">
-        {configs.map((ulItem, index) => {
-          const { ulClassName, options } = ulItem;
-          return (
-            <ul key={index} className={ulClassName}>
-              {options.map((item, index) => (
-                <NavbarItem
-                  {...item}
-                  key={ulClassName + index}
-                  id={ulClassName + index}
-                  activePopup={this.state.activePopup}
-                  handleActivePopup={this.handleActivePopup}
-                />
-              ))}
-            </ul>
-          );
-        })}
+        <List configs={configs} onItemClick={this.onItemClick} />
+        <ReactModal
+          isOpen={this.state.currItem && this.state.currRow ? true : false}
+          onRequestClose={this.cleanCurrentItem}
+          shouldCloseOnOverlayClick={true}
+          shouldCloseOnEsc={true}
+          className="nav-Modal"
+          overlayClassName="nav-Overlay"
+        >
+          <div className="outer-container">
+            <NavbarPopup
+              onClose={this.cleanCurrentItem}
+              component={component}
+              params={params}
+            />
+          </div>
+        </ReactModal>
       </div>
     );
   }

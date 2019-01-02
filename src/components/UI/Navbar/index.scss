@@ -17,8 +17,11 @@
       margin-right: auto;
     }
     .active-li {
-      background-color: rgba(108, 191, 255, 0.4);
-      // background-color: rgb(201, 201, 201);
+      background-color: rgb(243, 243, 243);
+      transition: box-shadow 0.2s ease;
+      transition: background-color 0.2s ease;
+      box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.16),
+        2px 3px 6px rgba(0, 0, 0, 0.23);
     }
     li > span {
       margin-left: 5px;

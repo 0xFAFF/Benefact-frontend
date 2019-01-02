@@ -7,7 +7,8 @@ import { Create, Delete, View } from "./components";
 import "./index.scss";
 
 const List = props => {
-  const { configs, onItemClick } = props;
+  const { configs, onItemClick, currItem } = props;
+
   return configs.map(ulItem => {
     const { ulClassName, options } = ulItem;
     return (
@@ -17,7 +18,9 @@ const List = props => {
           return (
             <li
               key={id}
-              className={`${liClassName ? liClassName : ""}`}
+              className={`${liClassName ? liClassName : ""} ${
+                currItem === id ? "active-li" : ""
+              }`}
               onClick={e => onItemClick(id, ulItem.id)}
             >
               {icon && <FontAwesomeIcon icon={icon} size="lg" />}
@@ -146,7 +149,11 @@ class Navbar extends React.Component {
     const params = item ? item["params"] : null;
     return (
       <div id="navbar">
-        <List configs={configs} onItemClick={this.onItemClick} />
+        <List
+          configs={configs}
+          onItemClick={this.onItemClick}
+          currItem={this.state.currItem}
+        />
         <ReactModal
           isOpen={this.state.currItem && this.state.currRow ? true : false}
           onRequestClose={this.cleanCurrentItem}

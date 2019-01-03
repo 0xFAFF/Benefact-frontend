@@ -6,8 +6,6 @@ import Base from "./Base";
 import { Navbar } from "../../UI";
 import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
 
-const url = "http://benefact.faffgames.com/api/cards";
-
 class BaseWrapper extends React.Component {
   state = {
     view: "kanban",
@@ -306,4 +304,4 @@ class BaseWrapper extends React.Component {
   }
 }
 
-export default getFetching(url)(BaseWrapper);
+export default getFetching(URLS("cards", "GET"))(BaseWrapper);

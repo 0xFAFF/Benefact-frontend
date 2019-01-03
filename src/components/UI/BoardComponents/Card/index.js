@@ -72,8 +72,10 @@ class Card extends React.Component {
                       columns={this.props.columns}
                       updateBoardContent={this.props.updateBoardContent}
                       addNewTag={this.props.addNewTag}
+                      deleteComponent={this.props.deleteComponent}
                       onAcceptHandler={this.handleCloseModal}
                       onClose={this.handleCloseModal}
+                      showDeleteModal={this.props.showDeleteModal || true}
                     />
                   </Modal>
                 ) : null}

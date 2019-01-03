@@ -232,6 +232,15 @@ class BaseWrapper extends React.Component {
     this.handleUpdate("tags", "ADD", newTag);
   };
 
+  // Convert add tags to this
+  // addComponent = (componentType, content) => {
+  //   this.handleUpdate(componentType, "ADD", content);
+  // }
+
+  deleteComponent = (componentType, content) => {
+    this.handleUpdate(componentType, "DELETE", content);
+  };
+
   changeBoardView = view => {
     this.setState({ view });
   };
@@ -255,13 +264,15 @@ class BaseWrapper extends React.Component {
       kanbanOnDragEnd: this.kanbanOnDragEnd,
       updateBoardContent: this.updateBoardContent,
       addNewCard: this.addNewCard,
-      addNewTag: this.addNewTag
+      addNewTag: this.addNewTag,
+      deleteComponent: this.deleteComponent
     };
 
     const listFunctions = {
       listOnDragEnd: this.listOnDragEnd,
       updateBoardContent: this.updateBoardContent,
-      addNewCard: this.addNewCard
+      addNewCard: this.addNewCard,
+      deleteComponent: this.deleteComponent
     };
 
     if (error) {
@@ -281,7 +292,7 @@ class BaseWrapper extends React.Component {
             cardMap={this.state.cards}
             columns={this.state.columns}
             tags={this.state.tags}
-            deleteComponent={this.handleUpdate}
+            deleteComponent={this.deleteComponent}
           />
           <Base
             {...baseState}

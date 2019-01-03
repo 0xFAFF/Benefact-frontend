@@ -1,12 +1,13 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Modal, MarkdownEditor } from "../..";
+import { Modal, MarkdownEditor } from "../../../UI";
 
 class AddCard extends React.Component {
   render() {
     const {
       useModal = true,
       showModal,
+      showDeleteModal = true,
       handleShowMessageClick,
       handleCloseModal,
       addNewCard,
@@ -34,6 +35,7 @@ class AddCard extends React.Component {
               content={{ id: cardMap.length + 1, columnId: columnId }}
               columns={columns}
               updateBoardContent={newContent => addNewCard(newContent)}
+              showDeleteModal={showDeleteModal}
               onAcceptHandler={() => handleCloseModal()}
               onClose={() => handleCloseModal()}
             />
@@ -45,6 +47,7 @@ class AddCard extends React.Component {
             updateBoardContent={newContent => addNewCard(newContent)}
             onAcceptHandler={onAcceptHandler}
             onClose={onClose}
+            showDeleteModal={showDeleteModal}
           />
         ) : null}
       </React.Fragment>

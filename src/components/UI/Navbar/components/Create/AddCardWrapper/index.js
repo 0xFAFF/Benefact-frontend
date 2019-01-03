@@ -16,6 +16,7 @@ class AddCardWrapper extends React.Component {
           {...this.props}
           showModal={false}
           useModal={false}
+          showDeleteModal={false}
           onAcceptHandler={() => this.props.onClose()}
           onClose={this.props.onClose}
         />

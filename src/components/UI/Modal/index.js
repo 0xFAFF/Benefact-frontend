@@ -4,21 +4,38 @@ import ReactModal from "react-modal";
 import "./index.scss";
 
 ReactModal.setAppElement("#modal-root");
+
 class Modal extends React.Component {
   render() {
+    const {
+      isOpen,
+      onClose,
+      modalClassName,
+      overlayClassName,
+      outerCnterClassName,
+      innerCnterClassName
+    } = this.props;
     return (
       <ReactModal
-        isOpen={this.props.isOpen}
-        onRequestClose={this.props.onClose}
+        isOpen={isOpen}
+        onRequestClose={onClose}
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
-        className="Modal"
-        overlayClassName="Overlay"
+        className={`${modalClassName ? modalClassName : "Modal"}`}
+        overlayClassName={`${overlayClassName ? overlayClassName : "Overlay"}`}
       >
-        <div className="outer-container">
-          <div className="inner-container">
+        <div
+          className={`${
+            outerCnterClassName ? outerCnterClassName : "outer-container"
+          }`}
+        >
+          <div
+            className={`${
+              innerCnterClassName ? innerCnterClassName : "inner-container"
+            }`}
+          >
             <div id="modal-container">
-              <TopDelete onClick={this.props.onClose} />
+              <TopDelete onClick={onClose} />
               <div className="inner-content">{this.props.children}</div>
             </div>
           </div>

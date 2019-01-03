@@ -2,12 +2,14 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Editor from "./Editor";
 import Preview from "./Preview";
+import DeleteModal from "./DeleteModal";
 import "./index.scss";
 
 class MarkdownEditor extends React.Component {
   state = {
     mode: "editor",
-    newContent: {}
+    newContent: {},
+    openDeleteModal: false
   };
 
   componentDidMount() {
@@ -22,6 +24,8 @@ class MarkdownEditor extends React.Component {
       }
     });
   }
+
+  handleCloseModal = () => this.setState({ openDeleteModal: false });
 
   resetContent = () => {
     const updateKeys = ["title", "description", "tagIds"];
@@ -94,12 +98,14 @@ class MarkdownEditor extends React.Component {
           >
             Preview
           </button>
-          <button className={`button-delete-card`}>
-            <div>
+          {this.props.showDeleteModal && (
+            <button
+              className={`button-delete-card`}
+              onClick={() => this.setState({ openDeleteModal: true })}
+            >
               <FontAwesomeIcon icon="trash" size="sm" />
-              <span>Delete</span>
-            </div>
-          </button>
+            </button>
+          )}
         </div>
         <div className="markdown-modes">
           {this.state.mode === "editor" && (
@@ -119,6 +125,14 @@ class MarkdownEditor extends React.Component {
             <Preview content={this.state.newContent} />
           )}
         </div>
+        {this.state.openDeleteModal && (
+          <DeleteModal
+            handleCloseModal={this.handleCloseModal}
+            isOpen={this.state.openDeleteModal}
+            deleteComponent={this.props.deleteComponent}
+            cardId={this.state.newContent.id}
+          />
+        )}
       </div>
     );
   }

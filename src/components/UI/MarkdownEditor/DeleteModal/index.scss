@@ -1,0 +1,34 @@
+.delete-modal-Modal {
+  position: absolute;
+  top: 36%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.delete-modal-outer-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  .inner-content {
+    display: block;
+    text-align: center;
+    padding: 0 10px 10px 10px;
+  }
+  .confirmation {
+    border-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
+
+.delete-modal-inner-container {
+  background: #fff;
+  width: 300px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  border-radius: 10px;
+}

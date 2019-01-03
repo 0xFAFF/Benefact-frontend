@@ -13,6 +13,7 @@ class InnerList extends React.Component {
         index={index}
         columns={this.props.columns}
         updateBoardContent={this.props.updateBoardContent}
+        deleteComponent={this.props.deleteComponent}
       />
     ));
   }
@@ -44,6 +45,7 @@ class Board extends React.Component {
                     cards={this.props.cards}
                     columns={this.props.columns}
                     updateBoardContent={this.props.updateBoardContent}
+                    deleteComponent={this.props.deleteComponent}
                   />
                   {provided.placeholder}
                 </div>

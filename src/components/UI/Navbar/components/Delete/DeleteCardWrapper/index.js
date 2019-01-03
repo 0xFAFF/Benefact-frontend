@@ -16,7 +16,7 @@ class DeleteCardWrapper extends React.Component {
   }
 
   onAcceptHandler = () => {
-    this.props.deleteComponent("cards", "DELETE", { id: this.state.card.id });
+    this.props.deleteComponent("cards", { id: this.state.card.id });
     this.props.onClose();
   };
 

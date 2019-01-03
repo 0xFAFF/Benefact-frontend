@@ -9,7 +9,7 @@ class DeleteColumnWrapper extends React.Component {
   };
 
   onAcceptHandler = () => {
-    this.props.deleteComponent("columns", "DELETE", {
+    this.props.deleteComponent("columns", {
       id: this.state.column.id
     });
     this.props.onClose();

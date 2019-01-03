@@ -46,6 +46,7 @@ class Board extends React.Component {
                       updateBoardContent={this.props.updateBoardContent}
                       addNewCard={this.props.addNewCard}
                       addNewTag={this.props.addNewTag}
+                      deleteComponent={this.props.deleteComponent}
                     />
                   );
                 })}

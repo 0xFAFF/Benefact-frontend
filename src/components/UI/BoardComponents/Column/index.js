@@ -14,6 +14,7 @@ class InnerList extends React.Component {
         columns={this.props.columns}
         updateBoardContent={this.props.updateBoardContent}
         addNewTag={this.props.addNewTag}
+        deleteComponent={this.props.deleteComponent}
       />
     ));
   }
@@ -81,6 +82,7 @@ class Column extends React.Component {
                     columns={this.props.columns}
                     updateBoardContent={this.props.updateBoardContent}
                     addNewTag={this.props.addNewTag}
+                    deleteComponent={this.props.deleteComponent}
                   />
                   {provided.placeholder}
                 </div>

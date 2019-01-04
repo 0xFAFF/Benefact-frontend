@@ -2,17 +2,18 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { Modal, MarkdownEditor } from "../../../UI";
 import marked from "marked";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Tags from "../Tags";
 import "./index.scss";
 
 class Card extends React.Component {
   state = { showModal: false, isDragDisabled: false };
+
   handleOpenModal = () => {
     this.setState({ showModal: true, isDragDisabled: true });
   };
-  handleCloseModal = () =>
+  handleCloseModal = () => {
     this.setState({ showModal: false, isDragDisabled: false });
+  };
 
   rawMarkup = () => {
     const { id = "N/A", title = "N/A" } = this.props.card;
@@ -39,52 +40,44 @@ class Card extends React.Component {
 
   render() {
     return (
-      <Draggable
-        draggableId={`card-${this.props.card.id}`}
-        index={this.props.index}
-        isDragDisabled={this.state.isDragDisabled}
-      >
-        {(provided, snapshot) => {
-          return (
-            <div
-              id="card-draggable"
-              className={snapshot.isDragging ? "card-is-dragging" : ""}
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              style={{ ...provided.draggableProps.style }}
-              {...provided.dragHandleProps}
-            >
-              <div className="card-description">
-                <div dangerouslySetInnerHTML={this.rawMarkup()} />
-                <FontAwesomeIcon
-                  className="edit-icon"
-                  icon="edit"
-                  size="lg"
-                  onClick={this.handleOpenModal}
-                />
-                {this.state.showModal ? (
-                  <Modal
-                    onClose={this.handleCloseModal}
-                    isOpen={this.state.showModal}
-                  >
-                    <MarkdownEditor
-                      content={this.props.card}
-                      columns={this.props.columns}
-                      updateBoardContent={this.props.updateBoardContent}
-                      addNewTag={this.props.addNewTag}
-                      deleteComponent={this.props.deleteComponent}
-                      onAcceptHandler={this.handleCloseModal}
-                      onClose={this.handleCloseModal}
-                      showDeleteModal={this.props.showDeleteModal || true}
-                    />
-                  </Modal>
-                ) : null}
+      <div>
+        <Draggable
+          draggableId={`card-${this.props.card.id}`}
+          index={this.props.index}
+          isDragDisabled={this.state.isDragDisabled}
+        >
+          {(provided, snapshot) => {
+            return (
+              <div
+                id="card-draggable"
+                className={snapshot.isDragging ? "card-is-dragging" : ""}
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                style={{ ...provided.draggableProps.style }}
+                {...provided.dragHandleProps}
+                onClick={this.handleOpenModal}
+              >
+                <div className="card-description">
+                  <div dangerouslySetInnerHTML={this.rawMarkup()} />
+                </div>
+                <Tags tagIds={this.props.card.tagIds} />
               </div>
-              <Tags tagIds={this.props.card.tagIds} />
-            </div>
-          );
-        }}
-      </Draggable>
+            );
+          }}
+        </Draggable>
+        <Modal onClose={this.handleCloseModal} isOpen={this.state.showModal}>
+          <MarkdownEditor
+            content={this.props.card}
+            columns={this.props.columns}
+            updateBoardContent={this.props.updateBoardContent}
+            addNewTag={this.props.addNewTag}
+            deleteComponent={this.props.deleteComponent}
+            onAcceptHandler={this.handleCloseModal}
+            onClose={this.handleCloseModal}
+            showDeleteModal={this.props.showDeleteModal || true}
+          />
+        </Modal>
+      </div>
     );
   }
 }

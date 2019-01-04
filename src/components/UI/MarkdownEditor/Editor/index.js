@@ -73,7 +73,6 @@ const Editor = props => {
       </div>
       <AcceptCancelButtons
         onAcceptHandler={() => {
-          console.log(content);
           updateBoardContent(content, "cards");
           onAcceptHandler();
         }}

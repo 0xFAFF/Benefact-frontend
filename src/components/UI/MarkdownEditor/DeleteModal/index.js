@@ -25,6 +25,7 @@ const DeleteModal = props => {
         <Confirm
           onAcceptHandler={onAcceptHandler}
           onCancelHandler={handleCloseModal}
+          confirmMessage={"Delete this card?"}
         />
       </Modal>
     </div>

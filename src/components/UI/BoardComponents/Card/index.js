@@ -8,7 +8,7 @@ import "./index.scss";
 
 class Card extends React.Component {
   state = { showModal: false, isDragDisabled: false };
-  handleShowMessageClick = () => {
+  handleOpenModal = () => {
     this.setState({ showModal: true, isDragDisabled: true });
   };
   handleCloseModal = () =>
@@ -60,7 +60,7 @@ class Card extends React.Component {
                   className="edit-icon"
                   icon="edit"
                   size="lg"
-                  onClick={this.handleShowMessageClick}
+                  onClick={this.handleOpenModal}
                 />
                 {this.state.showModal ? (
                   <Modal

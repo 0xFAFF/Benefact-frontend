@@ -13,7 +13,9 @@ class Modal extends React.Component {
       modalClassName,
       overlayClassName,
       outerCnterClassName,
-      innerCnterClassName
+      outerCnterStyle = {},
+      innerCnterClassName,
+      innerCnterStyle = {}
     } = this.props;
     return (
       <ReactModal
@@ -25,11 +27,13 @@ class Modal extends React.Component {
         overlayClassName={`${overlayClassName ? overlayClassName : "Overlay"}`}
       >
         <div
+          style={outerCnterStyle}
           className={`${
             outerCnterClassName ? outerCnterClassName : "outer-container"
           }`}
         >
           <div
+            style={innerCnterStyle}
             className={`${
               innerCnterClassName ? innerCnterClassName : "inner-container"
             }`}

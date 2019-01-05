@@ -125,14 +125,12 @@ class MarkdownEditor extends React.Component {
             <Preview content={this.state.newContent} />
           )}
         </div>
-        {this.state.openDeleteModal && (
-          <DeleteModal
-            handleCloseModal={this.handleCloseModal}
-            isOpen={this.state.openDeleteModal}
-            deleteComponent={this.props.deleteComponent}
-            cardId={this.state.newContent.id}
-          />
-        )}
+        <DeleteModal
+          handleCloseModal={this.handleCloseModal}
+          isOpen={this.state.openDeleteModal}
+          deleteComponent={this.props.deleteComponent}
+          cardId={this.state.newContent.id}
+        />
       </div>
     );
   }

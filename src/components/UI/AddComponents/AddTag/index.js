@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { PortalWithState } from "react-portal";
+import { Modal } from "../../../UI";
 import TagPopup from "./TagPopup";
 import "./index.scss";
 
@@ -9,43 +9,45 @@ class AddTag extends React.Component {
     super(props);
     this.state = {
       option: "select",
-      currSelectedTag: null
+      currSelectedTag: null,
+      showModal: false
     };
   }
 
-  handleOptionSelect = (option, tag) => {
-    this.setState({ option, currSelectedTag: tag ? tag : null });
+  handleCloseModal = () => {
+    this.setState({ showModal: false });
   };
 
   render() {
     return (
-      <PortalWithState closeOnEsc>
-        {({ openPortal, closePortal, isOpen, portal }) => (
-          <React.Fragment>
-            <div
-              id="add-tag"
-              onClick={e => {
-                openPortal(e);
-                this.setState({ option: "select" });
-              }}
-            >
-              <FontAwesomeIcon icon="plus" size="sm" />
-            </div>
-            {portal(
-              <TagPopup
-                cardTags={this.props.cardTags}
-                onChangeHandler={this.props.onChangeHandler}
-                addNewTag={this.props.addNewTag}
-                option={this.state.option}
-                currSelectedTag={this.state.currSelectedTag}
-                updateBoardContent={this.props.updateBoardContent}
-                handleOptionSelect={this.handleOptionSelect}
-                onClose={closePortal}
-              />
-            )}
-          </React.Fragment>
-        )}
-      </PortalWithState>
+      <React.Fragment>
+        <div
+          id="add-tag"
+          onClick={e => {
+            this.setState({ showModal: true });
+          }}
+        >
+          <FontAwesomeIcon icon="plus" size="sm" />
+        </div>
+        <Modal
+          isOpen={this.state.showModal}
+          onClose={this.handleCloseModal}
+          modalClassName="add-tag-modal-Modal"
+          innerCnterClassName="add-tag-modal-inner-container"
+          outerCnterClassName="add-tag-modal-outer-container"
+        >
+          <TagPopup
+            cardTags={this.props.cardTags}
+            onChangeHandler={this.props.onChangeHandler}
+            addNewTag={this.props.addNewTag}
+            option={this.state.option}
+            currSelectedTag={this.state.currSelectedTag}
+            updateBoardContent={this.props.updateBoardContent}
+            handleOptionSelect={this.handleOptionSelect}
+            onClose={this.handleCloseModal}
+          />
+        </Modal>
+      </React.Fragment>
     );
   }
 }

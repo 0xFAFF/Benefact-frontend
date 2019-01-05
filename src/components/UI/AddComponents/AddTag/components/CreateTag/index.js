@@ -35,7 +35,7 @@ class CreateTag extends React.Component {
 
   onAcceptHandler = () => {
     const {
-      addNewTag,
+      addComponent,
       onAcceptHandler,
       currSelectedTag,
       updateBoardContent
@@ -43,7 +43,11 @@ class CreateTag extends React.Component {
     if (currSelectedTag) {
       updateBoardContent({ ...this.state, id: currSelectedTag.id }, "tags");
     } else {
-      addNewTag({ ...this.state });
+      addComponent("tags", {
+        name: this.state.name,
+        color: this.state.color === "" ? null : this.state.color,
+        character: this.state.character === "" ? null : this.state.character
+      });
     }
     if (onAcceptHandler) {
       onAcceptHandler();
@@ -52,6 +56,7 @@ class CreateTag extends React.Component {
 
   componentDidMount() {
     const { currSelectedTag } = this.props;
+    console.log(currSelectedTag);
     if (currSelectedTag) {
       const { name = "", color = "", character = "" } = currSelectedTag;
       this.setState({ name, color, character });

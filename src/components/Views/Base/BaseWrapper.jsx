@@ -17,21 +17,15 @@ class BaseWrapper extends React.Component {
   };
 
   handleResetState = data => {
-    let columnOrder = data.columns.map(column => column.id);
+    const { columns = [], cards = [], tags = [] } = data;
+    let columnOrder = columns.map(column => column.id);
     this.setState({
-      cards: data.cards,
-      columns: data.columns,
-      tags: data.tags,
+      cards: cards,
+      columns: columns,
+      tags: tags,
       columnOrder: columnOrder
     });
   };
-
-  componentDidUpdate(prevProps) {
-    if (!prevProps.data && this.props.data) {
-      let formattedData = camelCase(this.props.data);
-      this.handleResetState(formattedData);
-    }
-  }
 
   handleUpdate = async (type, action, newContent) => {
     const url = URLS(type, action);
@@ -48,6 +42,25 @@ class BaseWrapper extends React.Component {
           this.handleResetState(formattedData);
         });
       });
+  };
+
+  updateBoardContent = async (newContent, type) => {
+    let boardType = [...this.state[type]];
+    boardType[
+      boardType.findIndex(type => type.id === newContent.id)
+    ] = newContent;
+    const newState = {
+      ...this.state,
+      [type]: boardType
+    };
+    const url = URLS(type, "UPDATE");
+    await fetching(url, "POST", newContent).then(result => {
+      if (result.hasError) {
+        this.handleError(result.message);
+      } else {
+        this.setState(newState);
+      }
+    });
   };
 
   kanbanOnDragEnd = result => {
@@ -180,66 +193,20 @@ class BaseWrapper extends React.Component {
       cards: [...cards]
     };
     this.setState(newState);
+    this.handleUpdate("cards", "UPDATE", draggedCard);
     return;
-    // Call endpoint here to API endpoint to connect to backend as well
   };
 
-  updateBoardContent = async (newContent, type) => {
-    let boardType = [...this.state[type]];
-    boardType[
-      boardType.findIndex(type => type.id === newContent.id)
-    ] = newContent;
-    const newState = {
-      ...this.state,
-      [type]: boardType
-    };
-    const url = URLS(type, "UPDATE");
-    await fetching(url, "POST", newContent).then(result => {
-      if (result.hasError) {
-        this.handleError(result.message);
-      } else {
-        this.setState(newState);
-      }
-    });
+  addComponent = (componentType, content) => {
+    const updatedComponent = { ...content };
+    this.handleUpdate(componentType, "ADD", updatedComponent);
   };
-
-  addNewCard = newContent => {
-    const newCard = {
-      title: newContent.title || "",
-      description: newContent.description || "",
-      tagIds: newContent.tagIds || [],
-      columnId: newContent.columnId || null
-    };
-    this.handleUpdate("cards", "ADD", newCard);
-  };
-
-  addNewColumn = title => {
-    const newColumn = {
-      title
-    };
-    this.handleUpdate("columns", "ADD", newColumn);
-  };
-
-  addNewTag = tag => {
-    const { name, color = null, character = null } = tag;
-    const newTag = {
-      name,
-      color,
-      character
-    };
-    this.handleUpdate("tags", "ADD", newTag);
-  };
-
-  // Convert add tags to this
-  // addComponent = (componentType, content) => {
-  //   this.handleUpdate(componentType, "ADD", content);
-  // }
 
   deleteComponent = (componentType, content) => {
     this.handleUpdate(componentType, "DELETE", content);
   };
 
-  changeBoardView = view => {
+  handleBoardView = view => {
     this.setState({ view });
   };
 
@@ -248,6 +215,13 @@ class BaseWrapper extends React.Component {
       error: message
     });
   };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.data && this.props.data) {
+      let formattedData = camelCase(this.props.data);
+      this.handleResetState(formattedData);
+    }
+  }
 
   componentDidMount() {
     this.setState({ error: this.props.error });
@@ -261,15 +235,14 @@ class BaseWrapper extends React.Component {
     const kanbanFunctions = {
       kanbanOnDragEnd: this.kanbanOnDragEnd,
       updateBoardContent: this.updateBoardContent,
-      addNewCard: this.addNewCard,
-      addNewTag: this.addNewTag,
+      addComponent: this.addComponent,
       deleteComponent: this.deleteComponent
     };
 
     const listFunctions = {
       listOnDragEnd: this.listOnDragEnd,
       updateBoardContent: this.updateBoardContent,
-      addNewCard: this.addNewCard,
+      addComponent: this.addComponent,
       deleteComponent: this.deleteComponent
     };
 
@@ -282,15 +255,13 @@ class BaseWrapper extends React.Component {
       <TagsProvider value={this.state.tags}>
         <div>
           <Navbar
-            handleBoardView={this.changeBoardView}
+            handleBoardView={this.handleBoardView}
             view={this.state.view}
-            addNewColumn={this.addNewColumn}
-            addNewTag={this.addNewTag}
-            addNewCard={this.addNewCard}
+            addComponent={this.addComponent}
+            deleteComponent={this.deleteComponent}
             cardMap={this.state.cards}
             columns={this.state.columns}
             tags={this.state.tags}
-            deleteComponent={this.deleteComponent}
           />
           <Base
             {...baseState}

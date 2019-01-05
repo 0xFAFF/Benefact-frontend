@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TagsConsumer } from "../../BoardComponents/Tags/TagsContext";
 import { SelectTag, CreateTag } from "./components";
@@ -7,7 +6,8 @@ import { Back } from "../../Popup";
 
 class TagPopup extends React.Component {
   state = {
-    option: "select"
+    option: "select",
+    currSelectedTag: null
   };
 
   handleOptionSelect = (option, tag) => {
@@ -44,8 +44,8 @@ class TagPopup extends React.Component {
                     <Back onClick={() => this.handleOptionSelect("select")} />
                     <CreateTag
                       onAcceptHandler={() => this.handleOptionSelect("select")}
-                      currSelectedTag={this.props.currSelectedTag}
-                      addNewTag={this.props.addNewTag}
+                      currSelectedTag={this.state.currSelectedTag}
+                      addComponent={this.props.addComponent}
                       updateBoardContent={this.props.updateBoardContent}
                       onClose={this.onClose}
                     />
@@ -60,5 +60,4 @@ class TagPopup extends React.Component {
   }
 }
 
-TagPopup.propTypes = {};
 export default TagPopup;

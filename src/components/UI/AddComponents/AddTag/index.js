@@ -5,14 +5,9 @@ import TagPopup from "./TagPopup";
 import "./index.scss";
 
 class AddTag extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      option: "select",
-      currSelectedTag: null,
-      showModal: false
-    };
-  }
+  state = {
+    showModal: false
+  };
 
   handleCloseModal = () => {
     this.setState({ showModal: false });
@@ -39,7 +34,7 @@ class AddTag extends React.Component {
           <TagPopup
             cardTags={this.props.cardTags}
             onChangeHandler={this.props.onChangeHandler}
-            addNewTag={this.props.addNewTag}
+            addComponent={this.props.addComponent}
             option={this.state.option}
             currSelectedTag={this.state.currSelectedTag}
             updateBoardContent={this.props.updateBoardContent}

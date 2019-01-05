@@ -8,7 +8,7 @@ const Editor = props => {
     content,
     columns,
     onChangeHandler,
-    addNewTag,
+    addComponent,
     updateBoardContent,
     onAcceptHandler,
     onCancelHandler
@@ -67,7 +67,7 @@ const Editor = props => {
           tagIds={tagIds}
           displayAddTag={true}
           onChangeHandler={onChangeHandler}
-          addNewTag={addNewTag}
+          addComponent={addComponent}
           updateBoardContent={updateBoardContent}
         />
       </div>

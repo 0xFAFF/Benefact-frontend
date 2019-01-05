@@ -22,7 +22,7 @@ class Tags extends React.Component {
                     <AddTag
                       cardTags={tags}
                       onChangeHandler={this.props.onChangeHandler}
-                      addNewTag={this.props.addNewTag}
+                      addComponent={this.props.addComponent}
                       updateBoardContent={this.props.updateBoardContent}
                     />
                   </li>

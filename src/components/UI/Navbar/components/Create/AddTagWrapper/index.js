@@ -5,7 +5,7 @@ const AddTagWrapper = props => {
   return (
     <CreateTag
       onAcceptHandler={() => props.onClose()}
-      addNewTag={props.addNewTag}
+      addComponent={props.addComponent}
       onClose={props.onClose}
     />
   );

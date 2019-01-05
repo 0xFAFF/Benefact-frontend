@@ -70,7 +70,7 @@ class Card extends React.Component {
             content={this.props.card}
             columns={this.props.columns}
             updateBoardContent={this.props.updateBoardContent}
-            addNewTag={this.props.addNewTag}
+            addComponent={this.props.addComponent}
             deleteComponent={this.props.deleteComponent}
             onAcceptHandler={this.handleCloseModal}
             onClose={this.handleCloseModal}

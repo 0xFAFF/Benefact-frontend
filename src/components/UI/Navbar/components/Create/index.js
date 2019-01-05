@@ -21,7 +21,7 @@ class Create extends React.Component {
         title: "Column",
         component: AddColumnWrapper,
         params: {
-          addNewColumn: this.props.addNewColumn
+          addComponent: this.props.addComponent
         }
       },
       {
@@ -30,15 +30,14 @@ class Create extends React.Component {
         params: {
           cardMap: this.props.cardMap,
           columns: this.props.columns,
-          addNewCard: this.props.addNewCard,
-          addNewTag: this.props.addNewTag
+          addComponent: this.props.addComponent
         }
       },
       {
         title: "Tag",
         component: AddTagWrapper,
         params: {
-          addNewTag: this.props.addNewTag
+          addComponent: this.props.addComponent
         }
       }
     ];

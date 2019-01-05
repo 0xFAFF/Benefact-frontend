@@ -44,8 +44,7 @@ class Board extends React.Component {
                       cardMap={this.props.cards}
                       index={index}
                       updateBoardContent={this.props.updateBoardContent}
-                      addNewCard={this.props.addNewCard}
-                      addNewTag={this.props.addNewTag}
+                      addComponent={this.props.addComponent}
                       deleteComponent={this.props.deleteComponent}
                     />
                   );

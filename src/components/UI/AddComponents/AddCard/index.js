@@ -10,7 +10,7 @@ class AddCard extends React.Component {
       showDeleteModal = true,
       handleShowMessageClick,
       handleCloseModal,
-      addNewCard,
+      addComponent,
       columns,
       cardMap,
       columnId,
@@ -34,7 +34,14 @@ class AddCard extends React.Component {
             <MarkdownEditor
               content={{ id: cardMap.length + 1, columnId: columnId }}
               columns={columns}
-              updateBoardContent={newContent => addNewCard(newContent)}
+              updateBoardContent={newContent =>
+                addComponent("cards", {
+                  title: newContent.title || "",
+                  description: newContent.description || "",
+                  tagIds: newContent.tagIds || [],
+                  columnId: newContent.columnId || null
+                })
+              }
               showDeleteModal={showDeleteModal}
               onAcceptHandler={() => handleCloseModal()}
               onClose={() => handleCloseModal()}
@@ -44,7 +51,14 @@ class AddCard extends React.Component {
           <MarkdownEditor
             content={{ id: cardMap.length + 1 }}
             columns={columns}
-            updateBoardContent={newContent => addNewCard(newContent)}
+            updateBoardContent={newContent =>
+              addComponent("cards", {
+                title: newContent.title || "",
+                description: newContent.description || "",
+                tagIds: newContent.tagIds || [],
+                columnId: newContent.columnId || null
+              })
+            }
             onAcceptHandler={onAcceptHandler}
             onClose={onClose}
             showDeleteModal={showDeleteModal}

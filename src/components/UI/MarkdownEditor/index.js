@@ -114,7 +114,7 @@ class MarkdownEditor extends React.Component {
               columns={this.props.columns}
               onChangeHandler={this.onChangeHandler}
               updateBoardContent={this.props.updateBoardContent}
-              addNewTag={this.props.addNewTag}
+              addComponent={this.props.addComponent}
               onAcceptHandler={this.props.onAcceptHandler}
               onCancelHandler={this.resetContent}
               onClose={this.props.onClose}

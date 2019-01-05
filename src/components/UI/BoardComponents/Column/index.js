@@ -13,7 +13,7 @@ class InnerList extends React.Component {
         index={index}
         columns={this.props.columns}
         updateBoardContent={this.props.updateBoardContent}
-        addNewTag={this.props.addNewTag}
+        addComponent={this.props.addComponent}
         deleteComponent={this.props.deleteComponent}
       />
     ));
@@ -60,7 +60,7 @@ class Column extends React.Component {
             <Header
               dragHandleProps={provided.dragHandleProps}
               title={this.props.column.title}
-              addNewCard={this.props.addNewCard}
+              addComponent={this.props.addComponent}
               columnId={this.props.column.id}
               updateBoardContent={this.props.updateBoardContent}
               cardMap={this.props.cardMap}
@@ -81,7 +81,7 @@ class Column extends React.Component {
                     cards={this.props.cards}
                     columns={this.props.columns}
                     updateBoardContent={this.props.updateBoardContent}
-                    addNewTag={this.props.addNewTag}
+                    addComponent={this.props.addComponent}
                     deleteComponent={this.props.deleteComponent}
                   />
                   {provided.placeholder}

@@ -92,9 +92,7 @@ class Navbar extends React.Component {
               popupStyle: {
                 width: "300px"
               },
-              addNewColumn: this.props.addNewColumn,
-              addNewTag: this.props.addNewTag,
-              addNewCard: this.props.addNewCard,
+              addComponent: this.props.addComponent,
               cardMap: this.props.cardMap,
               columns: this.props.columns
             }

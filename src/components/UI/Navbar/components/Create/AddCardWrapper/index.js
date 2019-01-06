@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { AddCard } from "../../../../AddComponents";
 import "./index.scss";
 
@@ -10,6 +11,7 @@ class AddCardWrapper extends React.Component {
     this.props.setPopupStyle({ width: "300px" });
   }
   render() {
+    const { onClose } = this.props;
     return (
       <div id="add-card-outer">
         <AddCard
@@ -17,11 +19,20 @@ class AddCardWrapper extends React.Component {
           showModal={false}
           useModal={false}
           showDeleteModal={false}
-          onAcceptHandler={() => this.props.onClose()}
-          onClose={this.props.onClose}
+          onAcceptHandler={() => onClose()}
+          onClose={onClose}
         />
       </div>
     );
   }
 }
+
+AddCardWrapper.propTypes = {
+  setPopupStyle: PropTypes.func,
+  addComponent: PropTypes.func,
+  columns: PropTypes.array,
+  cards: PropTypes.array,
+  onClose: PropTypes.func
+};
+
 export default AddCardWrapper;

@@ -1,12 +1,26 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
-import { Modal, MarkdownEditor } from "../../../UI";
 import marked from "marked";
+import { Modal, MarkdownEditor } from "../../../UI";
 import Tags from "../Tags";
 import "./index.scss";
 
 class Card extends React.Component {
-  state = { showModal: false, isDragDisabled: false };
+  static propTypes = {
+    card: PropTypes.object,
+    index: PropTypes.number,
+    columns: PropTypes.array,
+    showDeleteModal: PropTypes.bool,
+    updateBoardContent: PropTypes.func,
+    addComponent: PropTypes.func,
+    deleteComponent: PropTypes.func
+  };
+
+  state = {
+    showModal: false,
+    isDragDisabled: false
+  };
 
   handleOpenModal = () => {
     this.setState({ showModal: true, isDragDisabled: true });
@@ -39,11 +53,12 @@ class Card extends React.Component {
   };
 
   render() {
+    const { card, index, showDeleteModal = true, ...rest } = this.props;
     return (
       <div>
         <Draggable
-          draggableId={`card-${this.props.card.id}`}
-          index={this.props.index}
+          draggableId={`card-${card.id}`}
+          index={index}
           isDragDisabled={this.state.isDragDisabled}
         >
           {(provided, snapshot) => {
@@ -60,21 +75,18 @@ class Card extends React.Component {
                 <div className="card-description">
                   <div dangerouslySetInnerHTML={this.rawMarkup()} />
                 </div>
-                <Tags tagIds={this.props.card.tagIds} />
+                <Tags tagIds={card.tagIds} />
               </div>
             );
           }}
         </Draggable>
         <Modal onClose={this.handleCloseModal} isOpen={this.state.showModal}>
           <MarkdownEditor
-            content={this.props.card}
-            columns={this.props.columns}
-            updateBoardContent={this.props.updateBoardContent}
-            addComponent={this.props.addComponent}
-            deleteComponent={this.props.deleteComponent}
+            content={card}
+            showDeleteModal={showDeleteModal}
             onAcceptHandler={this.handleCloseModal}
             onClose={this.handleCloseModal}
-            showDeleteModal={this.props.showDeleteModal || true}
+            {...rest}
           />
         </Modal>
       </div>

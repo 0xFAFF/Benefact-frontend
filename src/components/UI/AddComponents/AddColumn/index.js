@@ -1,7 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { AcceptCancelButtons } from "../../Popup";
 
 class AddColumn extends React.Component {
+  static propTypes = {
+    addComponent: PropTypes.func,
+    onAcceptHandler: PropTypes.func
+  };
+
   state = {
     title: ""
   };

@@ -1,10 +1,18 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal } from "../../../UI";
 import TagPopup from "./TagPopup";
 import "./index.scss";
 
 class AddTag extends React.Component {
+  static propTypes = {
+    cardTags: PropTypes.array,
+    onChangeHandler: PropTypes.func,
+    addComponent: PropTypes.func,
+    updateBoardContent: PropTypes.func
+  };
+
   state = {
     showModal: false
   };
@@ -14,6 +22,12 @@ class AddTag extends React.Component {
   };
 
   render() {
+    const {
+      cardTags,
+      onChangeHandler,
+      addComponent,
+      updateBoardContent
+    } = this.props;
     return (
       <React.Fragment>
         <div
@@ -32,12 +46,12 @@ class AddTag extends React.Component {
           outerCnterClassName="add-tag-modal-outer-container"
         >
           <TagPopup
-            cardTags={this.props.cardTags}
-            onChangeHandler={this.props.onChangeHandler}
-            addComponent={this.props.addComponent}
+            cardTags={cardTags}
+            onChangeHandler={onChangeHandler}
+            addComponent={addComponent}
             option={this.state.option}
             currSelectedTag={this.state.currSelectedTag}
-            updateBoardContent={this.props.updateBoardContent}
+            updateBoardContent={updateBoardContent}
             handleOptionSelect={this.handleOptionSelect}
             onClose={this.handleCloseModal}
           />

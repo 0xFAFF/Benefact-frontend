@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const DisplayTag = props => {
@@ -24,6 +25,14 @@ const DisplayTag = props => {
       {display}
     </li>
   );
+};
+
+DisplayTag.propTypes = {
+  tag: PropTypes.shape({
+    name: PropTypes.string,
+    color: PropTypes.string,
+    character: PropTypes.string
+  })
 };
 
 export default DisplayTag;

@@ -1,28 +1,43 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { Card } from "..";
+import { Card } from "../../BoardComponents";
 import Header from "./Header";
 import "./index.scss";
 
-class InnerList extends React.Component {
-  render() {
-    return this.props.cards.map((card, index) => (
-      <Card
-        key={card.id}
-        card={card}
-        index={index}
-        columns={this.props.columns}
-        updateBoardContent={this.props.updateBoardContent}
-        addComponent={this.props.addComponent}
-        deleteComponent={this.props.deleteComponent}
-      />
-    ));
-  }
-}
+const InnerList = props => {
+  const { colCards, ...rest } = props;
+  return colCards.map((card, index) => (
+    <Card key={card.id} index={index} card={card} {...rest} />
+  ));
+};
+
+InnerList.propTypes = {
+  colCards: PropTypes.array,
+  columns: PropTypes.array,
+  updateBoardContent: PropTypes.func,
+  addComponent: PropTypes.func,
+  deleteComponent: PropTypes.func
+};
 
 class Column extends React.Component {
-  state = { showModal: false, isDragDisabled: false };
-  handleShowMessageClick = () => {
+  static propTypes = {
+    column: PropTypes.object,
+    columns: PropTypes.array,
+    cards: PropTypes.array,
+    colCards: PropTypes.array,
+    index: PropTypes.number,
+    addComponent: PropTypes.func,
+    deleteComponent: PropTypes.func,
+    updateBoardContent: PropTypes.func
+  };
+
+  state = {
+    showModal: false,
+    isDragDisabled: false
+  };
+
+  handleOpenModal = () => {
     this.setState({ showModal: true, isDragDisabled: true });
   };
   handleCloseModal = () =>
@@ -38,6 +53,17 @@ class Column extends React.Component {
   }
 
   render() {
+    const {
+      column,
+      columns,
+      cards,
+      colCards,
+      index,
+      addComponent,
+      deleteComponent,
+      updateBoardContent
+    } = this.props;
+
     const draggingStyle = {
       backgroundColor: "rgb(238, 238, 238)",
       boxShadow:
@@ -45,8 +71,8 @@ class Column extends React.Component {
     };
     return (
       <Draggable
-        draggableId={this.props.column.id}
-        index={this.props.index}
+        draggableId={column.id}
+        index={index}
         isDragDisabled={this.state.isDragDisabled}
       >
         {(provided, snapshot) => (
@@ -59,17 +85,17 @@ class Column extends React.Component {
           >
             <Header
               dragHandleProps={provided.dragHandleProps}
-              title={this.props.column.title}
-              addComponent={this.props.addComponent}
-              columnId={this.props.column.id}
-              updateBoardContent={this.props.updateBoardContent}
-              cardMap={this.props.cardMap}
-              columns={this.props.columns}
               showModal={this.state.showModal}
-              handleShowMessageClick={this.handleShowMessageClick}
+              handleOpenModal={this.handleOpenModal}
               handleCloseModal={this.handleCloseModal}
+              title={column.title}
+              columnId={column.id}
+              addComponent={addComponent}
+              updateBoardContent={updateBoardContent}
+              cards={cards}
+              columns={columns}
             />
-            <Droppable droppableId={`col-${this.props.column.id}`} type="card">
+            <Droppable droppableId={`col-${column.id}`} type="card">
               {(provided, snapshot) => (
                 <div
                   id="column-droppable"
@@ -78,11 +104,11 @@ class Column extends React.Component {
                   {...provided.droppableProps}
                 >
                   <InnerList
-                    cards={this.props.cards}
-                    columns={this.props.columns}
-                    updateBoardContent={this.props.updateBoardContent}
-                    addComponent={this.props.addComponent}
-                    deleteComponent={this.props.deleteComponent}
+                    colCards={colCards}
+                    columns={columns}
+                    updateBoardContent={updateBoardContent}
+                    addComponent={addComponent}
+                    deleteComponent={deleteComponent}
                   />
                   {provided.placeholder}
                 </div>

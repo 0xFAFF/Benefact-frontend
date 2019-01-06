@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.scss";
 
@@ -14,6 +15,11 @@ const Back = props => {
       </div>
     </div>
   );
+};
+
+Back.propTypes = {
+  onClick: PropTypes.func,
+  title: PropTypes.string
 };
 
 export default Back;

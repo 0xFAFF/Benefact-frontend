@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.scss";
 
@@ -44,6 +45,13 @@ const SelectTag = props => {
       </ul>
     </div>
   );
+};
+
+SelectTag.propTypes = {
+  tagsList: PropTypes.array,
+  onChangeHandler: PropTypes.func,
+  cardTags: PropTypes.array,
+  handleOptionSelect: PropTypes.func
 };
 
 export default SelectTag;

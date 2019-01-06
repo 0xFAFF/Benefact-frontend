@@ -1,9 +1,17 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Confirm } from "../../../../Popup";
 import Preview from "../../../../MarkdownEditor/Preview";
 import "./index.scss";
 
 class DeleteCardWrapper extends React.Component {
+  static propTypes = {
+    cards: PropTypes.array,
+    deleteComponent: PropTypes.func,
+    setPopupStyle: PropTypes.func,
+    onClose: PropTypes.func
+  };
+
   state = {
     card: null
   };
@@ -25,7 +33,7 @@ class DeleteCardWrapper extends React.Component {
   };
 
   render() {
-    const { cardMap } = this.props;
+    const { cards } = this.props;
     return (
       <div id="delete-card-outer">
         {!this.state.card ? (
@@ -33,7 +41,7 @@ class DeleteCardWrapper extends React.Component {
             <div className="title">Cards</div>
             <div className="delete-button-container">
               <div className="delete-button-group">
-                {cardMap.map(card => {
+                {cards.map(card => {
                   return (
                     <button
                       className="delete-button"

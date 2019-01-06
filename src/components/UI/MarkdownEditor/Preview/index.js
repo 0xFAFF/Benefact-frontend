@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import marked from "marked";
 import hljs from "highlight.js";
 import { Tags } from "../../BoardComponents";
@@ -40,6 +41,15 @@ const Preview = props => {
       <Tags tagIds={tagIds} />
     </div>
   );
+};
+
+Preview.propTypes = {
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    tagIds: PropTypes.array
+  })
 };
 
 export default Preview;

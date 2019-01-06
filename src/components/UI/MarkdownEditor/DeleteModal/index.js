@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Modal } from "../../../UI";
 import { Confirm } from "../../Popup";
 import "./index.scss";
@@ -30,6 +31,13 @@ const DeleteModal = props => {
       </Modal>
     </div>
   );
+};
+
+DeleteModal.propTypes = {
+  isOpen: PropTypes.bool,
+  handleCloseModal: PropTypes.func,
+  deleteComponent: PropTypes.func,
+  cardId: PropTypes.number
 };
 
 export default DeleteModal;

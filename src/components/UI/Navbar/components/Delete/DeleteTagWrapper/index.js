@@ -1,9 +1,16 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Confirm } from "../../../../Popup";
 import DisplayTag from "../../../../BoardComponents/Tags/DisplayTag";
 import "./index.scss";
 
 class DeleteTagWrapper extends React.Component {
+  static propTypes = {
+    tags: PropTypes.array,
+    deleteComponent: PropTypes.func,
+    onClose: PropTypes.func
+  };
+
   state = {
     tag: null
   };

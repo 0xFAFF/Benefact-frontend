@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import DeleteColumnWrapper from "./DeleteColumnWrapper";
 import DeleteCardWrapper from "./DeleteCardWrapper";
 import DeleteTagWrapper from "./DeleteTagWrapper";
@@ -6,6 +7,13 @@ import { Back } from "../../../Popup";
 import "./index.scss";
 
 class Delete extends React.Component {
+  static propTypes = {
+    deleteComponent: PropTypes.func,
+    cards: PropTypes.array,
+    columns: PropTypes.array,
+    tags: PropTypes.array
+  };
+
   state = {
     component: null,
     params: {}
@@ -16,31 +24,33 @@ class Delete extends React.Component {
   };
 
   render() {
+    const { deleteComponent, cards, columns, tags } = this.props;
+
     const buttonConfigs = [
       {
         title: "Column",
         component: DeleteColumnWrapper,
         params: {
-          deleteComponent: this.props.deleteComponent,
-          columns: this.props.columns,
-          cardMap: this.props.cardMap
+          deleteComponent: deleteComponent,
+          columns: columns,
+          cards: cards
         }
       },
       {
         title: "Card",
         component: DeleteCardWrapper,
         params: {
-          deleteComponent: this.props.deleteComponent,
-          columns: this.props.columns,
-          cardMap: this.props.cardMap
+          deleteComponent: deleteComponent,
+          columns: columns,
+          cards: cards
         }
       },
       {
         title: "Tag",
         component: DeleteTagWrapper,
         params: {
-          deleteComponent: this.props.deleteComponent,
-          tags: this.props.tags
+          deleteComponent: deleteComponent,
+          tags: tags
         }
       }
     ];

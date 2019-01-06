@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ReactModal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { get } from "lodash";
@@ -33,7 +34,23 @@ const List = props => {
   });
 };
 
+List.propTypes = {
+  configs: PropTypes.array,
+  onItemClick: PropTypes.func,
+  currItem: PropTypes.string
+};
+
 class Navbar extends React.Component {
+  static propTypes = {
+    addComponent: PropTypes.func,
+    deleteComponent: PropTypes.func,
+    cards: PropTypes.array,
+    columns: PropTypes.array,
+    tags: PropTypes.array,
+    handleBoardView: PropTypes.func,
+    view: PropTypes.string
+  };
+
   state = {
     currItem: null
   };
@@ -47,6 +64,15 @@ class Navbar extends React.Component {
   };
 
   render() {
+    const {
+      addComponent,
+      deleteComponent,
+      cards,
+      columns,
+      tags,
+      handleBoardView,
+      view
+    } = this.props;
     const configs = [
       {
         id: "menu",
@@ -92,9 +118,9 @@ class Navbar extends React.Component {
               popupStyle: {
                 width: "300px"
               },
-              addComponent: this.props.addComponent,
-              cardMap: this.props.cardMap,
-              columns: this.props.columns
+              addComponent: addComponent,
+              cards: cards,
+              columns: columns
             }
           },
           {
@@ -106,10 +132,10 @@ class Navbar extends React.Component {
               popupStyle: {
                 width: "300px"
               },
-              deleteComponent: this.props.deleteComponent,
-              columns: this.props.columns,
-              cardMap: this.props.cardMap,
-              tags: this.props.tags
+              deleteComponent: deleteComponent,
+              cards: cards,
+              columns: columns,
+              tags: tags
             }
           },
           {
@@ -126,8 +152,8 @@ class Navbar extends React.Component {
               popupStyle: {
                 width: "200px"
               },
-              handleBoardView: this.props.handleBoardView,
-              view: this.props.view
+              handleBoardView: handleBoardView,
+              view: view
             }
           }
         ]

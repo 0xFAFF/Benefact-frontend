@@ -1,52 +1,64 @@
 import React from "react";
-import TopDelete from "../Popup/TopDelete";
+import PropTypes from "prop-types";
 import ReactModal from "react-modal";
+import TopDelete from "../Popup/TopDelete";
 import "./index.scss";
 
 ReactModal.setAppElement("#modal-root");
 
-class Modal extends React.Component {
-  render() {
-    const {
-      isOpen,
-      onClose,
-      modalClassName,
-      overlayClassName,
-      outerCnterClassName,
-      outerCnterStyle = {},
-      innerCnterClassName,
-      innerCnterStyle = {}
-    } = this.props;
-    return (
-      <ReactModal
-        isOpen={isOpen}
-        onRequestClose={onClose}
-        shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}
-        className={`${modalClassName ? modalClassName : "Modal"}`}
-        overlayClassName={`${overlayClassName ? overlayClassName : "Overlay"}`}
+const Modal = props => {
+  const {
+    isOpen,
+    onClose,
+    modalClassName,
+    overlayClassName,
+    outerCnterClassName,
+    outerCnterStyle = {},
+    innerCnterClassName,
+    innerCnterStyle = {},
+    children
+  } = props;
+  return (
+    <ReactModal
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      shouldCloseOnOverlayClick={true}
+      shouldCloseOnEsc={true}
+      className={`${modalClassName ? modalClassName : "Modal"}`}
+      overlayClassName={`${overlayClassName ? overlayClassName : "Overlay"}`}
+    >
+      <div
+        style={outerCnterStyle}
+        className={`${
+          outerCnterClassName ? outerCnterClassName : "outer-container"
+        }`}
       >
         <div
-          style={outerCnterStyle}
+          style={innerCnterStyle}
           className={`${
-            outerCnterClassName ? outerCnterClassName : "outer-container"
+            innerCnterClassName ? innerCnterClassName : "inner-container"
           }`}
         >
-          <div
-            style={innerCnterStyle}
-            className={`${
-              innerCnterClassName ? innerCnterClassName : "inner-container"
-            }`}
-          >
-            <div id="modal-container">
-              <TopDelete onClick={onClose} />
-              <div className="inner-content">{this.props.children}</div>
-            </div>
+          <div id="modal-container">
+            <TopDelete onClick={onClose} />
+            <div className="inner-content">{children}</div>
           </div>
         </div>
-      </ReactModal>
-    );
-  }
-}
+      </div>
+    </ReactModal>
+  );
+};
+
+Modal.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  modalClassName: PropTypes.string,
+  overlayClassName: PropTypes.string,
+  outerCnterClassName: PropTypes.string,
+  outerCnterStyle: PropTypes.object,
+  innerCnterClassName: PropTypes.string,
+  innerCnterStyle: PropTypes.object,
+  children: PropTypes.object
+};
 
 export default Modal;

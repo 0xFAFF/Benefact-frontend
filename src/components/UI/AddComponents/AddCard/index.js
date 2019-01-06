@@ -1,72 +1,85 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal, MarkdownEditor } from "../../../UI";
 
-class AddCard extends React.Component {
-  render() {
-    const {
-      useModal = true,
-      showModal,
-      showDeleteModal = true,
-      handleShowMessageClick,
-      handleCloseModal,
-      addComponent,
-      columns,
-      cardMap,
-      columnId,
-      onAcceptHandler,
-      onClose
-    } = this.props;
-    return (
-      <React.Fragment>
-        {useModal && (
-          <div
-            className="add-card"
-            onClick={() => {
-              handleShowMessageClick();
-            }}
-          >
-            <FontAwesomeIcon icon="plus" size="sm" />
-          </div>
-        )}
-        {useModal && showModal ? (
-          <Modal isOpen={true} onClose={() => handleCloseModal()}>
-            <MarkdownEditor
-              content={{ id: cardMap.length + 1, columnId: columnId }}
-              columns={columns}
-              updateBoardContent={newContent =>
-                addComponent("cards", {
-                  title: newContent.title || "",
-                  description: newContent.description || "",
-                  tagIds: newContent.tagIds || [],
-                  columnId: newContent.columnId || null
-                })
-              }
-              showDeleteModal={showDeleteModal}
-              onAcceptHandler={() => handleCloseModal()}
-              onClose={() => handleCloseModal()}
-            />
-          </Modal>
-        ) : !useModal ? (
+const AddCard = props => {
+  const {
+    useModal = true,
+    showModal,
+    showDeleteModal = true,
+    handleOpenModal,
+    handleCloseModal,
+    addComponent,
+    columns,
+    cards,
+    columnId,
+    onAcceptHandler,
+    onClose
+  } = props;
+  return (
+    <React.Fragment>
+      {useModal && (
+        <div
+          className="add-card"
+          onClick={() => {
+            handleOpenModal();
+          }}
+        >
+          <FontAwesomeIcon icon="plus" size="sm" />
+        </div>
+      )}
+      {useModal ? (
+        <Modal isOpen={showModal} onClose={() => handleCloseModal()}>
           <MarkdownEditor
-            content={{ id: cardMap.length + 1 }}
+            content={{ id: cards.length + 1, columnId: columnId }}
             columns={columns}
-            updateBoardContent={newContent =>
+            updateBoardContent={({ title, description, tagIds, columnId }) =>
               addComponent("cards", {
-                title: newContent.title || "",
-                description: newContent.description || "",
-                tagIds: newContent.tagIds || [],
-                columnId: newContent.columnId || null
+                title: title || "",
+                description: description || "",
+                tagIds: tagIds || [],
+                columnId: columnId || null
               })
             }
-            onAcceptHandler={onAcceptHandler}
-            onClose={onClose}
             showDeleteModal={showDeleteModal}
+            onAcceptHandler={() => handleCloseModal()}
+            onClose={() => handleCloseModal()}
           />
-        ) : null}
-      </React.Fragment>
-    );
-  }
-}
+        </Modal>
+      ) : (
+        <MarkdownEditor
+          content={{ id: cards.length + 1 }}
+          columns={columns}
+          updateBoardContent={({ title, description, tagIds, columnId }) =>
+            addComponent("cards", {
+              title: title || "",
+              description: description || "",
+              tagIds: tagIds || [],
+              columnId: columnId || null
+            })
+          }
+          onAcceptHandler={onAcceptHandler}
+          onClose={onClose}
+          showDeleteModal={showDeleteModal}
+        />
+      )}
+    </React.Fragment>
+  );
+};
+
+AddCard.propTypes = {
+  useModal: PropTypes.bool,
+  showModal: PropTypes.bool,
+  showDeleteModal: PropTypes.bool,
+  handleOpenModal: PropTypes.func,
+  handleCloseModal: PropTypes.func,
+  addComponent: PropTypes.func,
+  columns: PropTypes.array,
+  cards: PropTypes.array,
+  columnId: PropTypes.number,
+  onAcceptHandler: PropTypes.func,
+  onClose: PropTypes.func
+};
 
 export default AddCard;

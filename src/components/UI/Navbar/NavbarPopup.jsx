@@ -1,9 +1,16 @@
 import React from "react";
-import TopDelete from "../Popup/TopDelete";
+import PropTypes from "prop-types";
 import { get } from "lodash";
+import TopDelete from "../Popup/TopDelete";
 import "./index.scss";
 
 class NavbarPopup extends React.Component {
+  static propTypes = {
+    params: PropTypes.object,
+    onClose: PropTypes.func,
+    component: PropTypes.func
+  };
+
   setPopupStyle = (style = null) => {
     if (style) {
       this.setState({

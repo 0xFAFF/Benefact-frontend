@@ -1,9 +1,17 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Confirm } from "../../../../Popup";
 import { getCards } from "../../../../../../utils";
 import "./index.scss";
 
 class DeleteColumnWrapper extends React.Component {
+  static propTypes = {
+    columns: PropTypes.array,
+    cards: PropTypes.array,
+    deleteComponent: PropTypes.func,
+    onClose: PropTypes.func
+  };
+
   state = {
     column: null
   };
@@ -20,7 +28,7 @@ class DeleteColumnWrapper extends React.Component {
   };
 
   render() {
-    const { columns, cardMap } = this.props;
+    const { columns, cards } = this.props;
     return (
       <div id="delete-column-outer">
         {!this.state.column ? (
@@ -28,7 +36,7 @@ class DeleteColumnWrapper extends React.Component {
             <div className="title">Columns</div>
             <div className="delete-button-group">
               {columns.map(column => {
-                const cardNumber = getCards(cardMap, column.id).length;
+                const cardNumber = getCards(cards, column.id).length;
                 return (
                   <button
                     onClick={() => {

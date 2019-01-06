@@ -1,61 +1,76 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Card } from "../../../UI/BoardComponents";
 import { TagsProvider } from "../../../UI/BoardComponents/Tags/TagsContext";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import "./index.scss";
 
-class InnerList extends React.Component {
-  render() {
-    return this.props.cards.map((card, index) => (
-      <Card
-        key={card.id}
-        card={card}
-        index={index}
-        columns={this.props.columns}
-        updateBoardContent={this.props.updateBoardContent}
-        deleteComponent={this.props.deleteComponent}
-      />
-    ));
-  }
-}
+const InnerList = props => {
+  const { cards, ...rest } = props;
+  return cards.map((card, index) => (
+    <Card key={card.id} card={card} index={index} {...rest} />
+  ));
+};
 
-class Board extends React.Component {
-  render() {
-    return (
-      <div id="list-board">
-        <DragDropContext
-          onDragEnd={res => this.props.listOnDragEnd(res)}
-          // onDragStart={this.onDragStart}
-          // onDragUpdate={this.onDragUpdate}
-        >
-          <Droppable droppableId={"column-droppable"} type="card">
-            {(provided, snapshot) => (
-              <TagsProvider value={this.props.tags}>
-                <div
-                  id="column-droppable"
-                  ref={provided.innerRef}
-                  style={{
-                    backgroundColor: snapshot.isDraggingOver
-                      ? "skyblue"
-                      : "inherit"
-                  }}
-                  {...provided.droppableProps}
-                >
-                  <InnerList
-                    cards={this.props.cards}
-                    columns={this.props.columns}
-                    updateBoardContent={this.props.updateBoardContent}
-                    deleteComponent={this.props.deleteComponent}
-                  />
-                  {provided.placeholder}
-                </div>
-              </TagsProvider>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
-    );
-  }
-}
+InnerList.propTypes = {
+  cards: PropTypes.array,
+  columns: PropTypes.array,
+  updateBoardContent: PropTypes.func,
+  deleteComponent: PropTypes.func
+};
+
+const Board = props => {
+  const {
+    cards,
+    columns,
+    tags,
+    updateBoardContent,
+    deleteComponent,
+    listOnDragEnd
+  } = props;
+  return (
+    <div id="list-board">
+      <DragDropContext
+        onDragEnd={res => listOnDragEnd(res)}
+        // onDragStart={this.onDragStart}
+        // onDragUpdate={this.onDragUpdate}
+      >
+        <Droppable droppableId={"column-droppable"} type="card">
+          {(provided, snapshot) => (
+            <TagsProvider value={tags}>
+              <div
+                id="column-droppable"
+                ref={provided.innerRef}
+                style={{
+                  backgroundColor: snapshot.isDraggingOver
+                    ? "skyblue"
+                    : "inherit"
+                }}
+                {...provided.droppableProps}
+              >
+                <InnerList
+                  cards={cards}
+                  columns={columns}
+                  updateBoardContent={updateBoardContent}
+                  deleteComponent={deleteComponent}
+                />
+                {provided.placeholder}
+              </div>
+            </TagsProvider>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </div>
+  );
+};
+
+Board.propTypes = {
+  cards: PropTypes.array,
+  columns: PropTypes.array,
+  tags: PropTypes.array,
+  updateBoardContent: PropTypes.func,
+  deleteComponent: PropTypes.func,
+  listOnDragEnd: PropTypes.func
+};
 
 export default Board;

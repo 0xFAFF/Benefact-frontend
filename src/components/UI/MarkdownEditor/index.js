@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Editor from "./Editor";
 import Preview from "./Preview";
@@ -6,6 +7,16 @@ import DeleteModal from "./DeleteModal";
 import "./index.scss";
 
 class MarkdownEditor extends React.Component {
+  static propTypes = {
+    columns: PropTypes.array,
+    updateBoardContent: PropTypes.func,
+    addComponent: PropTypes.func,
+    onAcceptHandler: PropTypes.func,
+    onClose: PropTypes.func,
+    type: PropTypes.string,
+    deleteComponent: PropTypes.func
+  };
+
   state = {
     mode: "editor",
     newContent: {},
@@ -79,6 +90,15 @@ class MarkdownEditor extends React.Component {
   };
 
   render() {
+    const {
+      columns,
+      updateBoardContent,
+      addComponent,
+      onAcceptHandler,
+      onClose,
+      type,
+      deleteComponent
+    } = this.props;
     return (
       <div id="markdown-editor">
         <div className="button-group-modes">
@@ -111,14 +131,14 @@ class MarkdownEditor extends React.Component {
           {this.state.mode === "editor" && (
             <Editor
               content={this.state.newContent}
-              columns={this.props.columns}
+              columns={columns}
               onChangeHandler={this.onChangeHandler}
-              updateBoardContent={this.props.updateBoardContent}
-              addComponent={this.props.addComponent}
-              onAcceptHandler={this.props.onAcceptHandler}
+              updateBoardContent={updateBoardContent}
+              addComponent={addComponent}
+              onAcceptHandler={onAcceptHandler}
               onCancelHandler={this.resetContent}
-              onClose={this.props.onClose}
-              type={this.props.type}
+              onClose={onClose}
+              type={type}
             />
           )}
           {this.state.mode === "preview" && (
@@ -128,7 +148,7 @@ class MarkdownEditor extends React.Component {
         <DeleteModal
           handleCloseModal={this.handleCloseModal}
           isOpen={this.state.openDeleteModal}
-          deleteComponent={this.props.deleteComponent}
+          deleteComponent={deleteComponent}
           cardId={this.state.newContent.id}
         />
       </div>

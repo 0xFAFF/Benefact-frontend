@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import AddColumnWrapper from "./AddColumnWrapper";
 import AddCardWrapper from "./AddCardWrapper";
 import AddTagWrapper from "./AddTagWrapper";
@@ -6,6 +7,15 @@ import { Back } from "../../../Popup";
 import "./index.scss";
 
 class Create extends React.Component {
+  static propTypes = {
+    addComponent: PropTypes.func,
+    cards: PropTypes.array,
+    columns: PropTypes.array,
+    onClose: PropTypes.func,
+    popupStyle: PropTypes.object,
+    setPopupStyle: PropTypes.func
+  };
+
   state = {
     component: null,
     params: {}
@@ -16,28 +26,29 @@ class Create extends React.Component {
   };
 
   render() {
+    const { addComponent, cards, columns } = this.props;
     const buttonConfigs = [
       {
         title: "Column",
         component: AddColumnWrapper,
         params: {
-          addComponent: this.props.addComponent
+          addComponent: addComponent
         }
       },
       {
         title: "Card",
         component: AddCardWrapper,
         params: {
-          cardMap: this.props.cardMap,
-          columns: this.props.columns,
-          addComponent: this.props.addComponent
+          cards: cards,
+          columns: columns,
+          addComponent: addComponent
         }
       },
       {
         title: "Tag",
         component: AddTagWrapper,
         params: {
-          addComponent: this.props.addComponent
+          addComponent: addComponent
         }
       }
     ];

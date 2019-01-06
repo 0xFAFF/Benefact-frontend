@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.scss";
 
@@ -11,6 +12,10 @@ const TopDelete = props => {
       </div>
     </div>
   );
+};
+
+TopDelete.propTypes = {
+  onClick: PropTypes.func
 };
 
 export default TopDelete;

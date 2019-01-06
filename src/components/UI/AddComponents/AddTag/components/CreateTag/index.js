@@ -1,10 +1,18 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Colors, Characters } from "./options";
 import { AcceptCancelButtons } from "../../../../Popup";
 import "./index.scss";
 
 class CreateTag extends React.Component {
+  static propTypes = {
+    addComponent: PropTypes.func,
+    onAcceptHandler: PropTypes.func,
+    updateBoardContent: PropTypes.func,
+    currSelectedTag: PropTypes.object
+  };
+
   state = {
     name: "",
     color: "",
@@ -56,7 +64,6 @@ class CreateTag extends React.Component {
 
   componentDidMount() {
     const { currSelectedTag } = this.props;
-    console.log(currSelectedTag);
     if (currSelectedTag) {
       const { name = "", color = "", character = "" } = currSelectedTag;
       this.setState({ name, color, character });
@@ -64,6 +71,7 @@ class CreateTag extends React.Component {
   }
 
   render() {
+    const { currSelectedTag } = this.props;
     return (
       <div id="create-tag">
         <div className="create-tag-inputs">
@@ -113,7 +121,7 @@ class CreateTag extends React.Component {
         <AcceptCancelButtons
           onAcceptHandler={this.onAcceptHandler}
           onCancelHandler={this.onResetHandler}
-          acceptTitle={`${this.props.currSelectedTag ? "Update" : "Create"}`}
+          acceptTitle={`${currSelectedTag ? "Update" : "Create"}`}
           cancelTitle={"Reset"}
         />
       </div>

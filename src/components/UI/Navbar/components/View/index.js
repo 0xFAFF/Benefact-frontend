@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./index.scss";
 
 const View = props => {
@@ -37,6 +38,12 @@ const View = props => {
       </div>
     </div>
   );
+};
+
+View.propTypes = {
+  view: PropTypes.string,
+  handleBoardView: PropTypes.func,
+  onClose: PropTypes.func
 };
 
 export default View;

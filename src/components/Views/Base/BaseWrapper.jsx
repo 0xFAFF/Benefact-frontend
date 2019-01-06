@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { getCards, camelCase, getFetching, fetching } from "../../../utils";
 import { URLS } from "../../../constants";
 import { PacmanLoader } from "../../UI/Loader";
@@ -7,6 +8,16 @@ import { Navbar } from "../../UI";
 import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
 
 class BaseWrapper extends React.Component {
+  static propTypes = {
+    data: PropTypes.shape({
+      cards: PropTypes.array,
+      columns: PropTypes.array,
+      tags: PropTypes.array
+    }),
+    isLoading: PropTypes.bool,
+    error: PropTypes.string
+  };
+
   state = {
     view: "kanban",
     cards: [],
@@ -210,12 +221,6 @@ class BaseWrapper extends React.Component {
     this.setState({ view });
   };
 
-  handleError = message => {
-    this.setState({
-      error: message
-    });
-  };
-
   componentDidUpdate(prevProps) {
     if (!prevProps.data && this.props.data) {
       let formattedData = camelCase(this.props.data);
@@ -259,13 +264,12 @@ class BaseWrapper extends React.Component {
             view={this.state.view}
             addComponent={this.addComponent}
             deleteComponent={this.deleteComponent}
-            cardMap={this.state.cards}
+            cards={this.state.cards}
             columns={this.state.columns}
             tags={this.state.tags}
           />
           <Base
             {...baseState}
-            handleError={this.handleError}
             kanbanFunctions={kanbanFunctions}
             listFunctions={listFunctions}
           />

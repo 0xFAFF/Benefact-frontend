@@ -1,12 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { AddCard } from "../../../UI/AddComponents";
 import { getCards } from "../../../../utils";
 import { TextAreaInput } from "../../../UI";
 
 const Header = props => {
   const { dragHandleProps, title, updateBoardContent, ...rest } = props;
-  const { cardMap, columnId } = rest;
-  const cardNumber = getCards(cardMap, columnId).length;
+  const { cards, columnId } = rest;
+  const cardNumber = getCards(cards, columnId).length;
   return (
     <div className="column-header" {...dragHandleProps}>
       <span className="title">
@@ -28,6 +29,12 @@ const Header = props => {
       <AddCard {...rest} />
     </div>
   );
+};
+
+Header.propTypes = {
+  dragHandleProps: PropTypes.object,
+  title: PropTypes.string,
+  updateBoardContent: PropTypes.func
 };
 
 export default Header;

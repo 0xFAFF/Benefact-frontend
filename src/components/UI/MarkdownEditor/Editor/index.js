@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Tags } from "../../BoardComponents";
 import { AcceptCancelButtons } from "../../Popup";
 import "./index.scss";
@@ -82,6 +83,22 @@ const Editor = props => {
       />
     </div>
   );
+};
+
+Editor.propTypes = {
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    tagIds: PropTypes.array,
+    columnId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+  }),
+  columns: PropTypes.array,
+  onChangeHandler: PropTypes.func,
+  addComponent: PropTypes.func,
+  updateBoardContent: PropTypes.func,
+  onAcceptHandler: PropTypes.func,
+  onCancelHandler: PropTypes.func
 };
 
 export default Editor;

@@ -4,6 +4,7 @@ import { Draggable } from "react-beautiful-dnd";
 import marked from "marked";
 import { Modal, MarkdownEditor } from "../../../UI";
 import Tags from "../Tags";
+import IconRow from "./IconRow";
 import "./index.scss";
 
 class Card extends React.Component {
@@ -30,8 +31,8 @@ class Card extends React.Component {
   };
 
   rawMarkup = () => {
-    const { id = "N/A", title = "N/A" } = this.props.card;
-    const cardDescription = "ID: " + id + "\n" + title;
+    const { title = "N/A" } = this.props.card;
+    const cardDescription = title;
     marked.setOptions({
       renderer: new marked.Renderer(),
       gfm: true,
@@ -54,6 +55,7 @@ class Card extends React.Component {
 
   render() {
     const { card, index, showDeleteModal = true, ...rest } = this.props;
+
     return (
       <div>
         <Draggable
@@ -76,6 +78,7 @@ class Card extends React.Component {
                   <div dangerouslySetInnerHTML={this.rawMarkup()} />
                 </div>
                 <Tags tagIds={card.tagIds} />
+                <IconRow {...card} />
               </div>
             );
           }}

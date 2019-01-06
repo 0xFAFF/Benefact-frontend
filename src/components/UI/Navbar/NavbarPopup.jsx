@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { get } from "lodash";
-import TopDelete from "../Popup/TopDelete";
 import "./index.scss";
 
 class NavbarPopup extends React.Component {

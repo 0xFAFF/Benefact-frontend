@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactModal from "react-modal";
-import TopDelete from "../Popup/TopDelete";
 import "./index.scss";
 
 ReactModal.setAppElement("#modal-root");

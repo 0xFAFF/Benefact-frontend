@@ -24,6 +24,7 @@ const Modal = props => {
       onRequestClose={onClose}
       shouldCloseOnOverlayClick={true}
       shouldCloseOnEsc={true}
+      shouldFocusAfterRender={false}
       className={`${modalClassName ? modalClassName : "Modal"}`}
       overlayClassName={`${overlayClassName ? overlayClassName : "Overlay"}`}
     >
@@ -40,7 +41,6 @@ const Modal = props => {
           }`}
         >
           <div id="modal-container">
-            <TopDelete onClick={onClose} />
             <div className="inner-content">{children}</div>
           </div>
         </div>

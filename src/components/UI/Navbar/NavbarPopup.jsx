@@ -25,8 +25,6 @@ class NavbarPopup extends React.Component {
     return (
       <div id="navbar-portal">
         <div id="navbar-popup" style={{ ...this.state.style }}>
-          <TopDelete onClick={onClose} />
-          <div />
           {this.props.component ? (
             <this.props.component
               onClose={onClose}

@@ -5,11 +5,11 @@
 }
 .tag-popup {
   p {
-    margin-top: 0;
+    margin: 0 auto 10px auto;
   }
   .create-tag-container {
     display: flex;
-    margin: 10px 20px 15px 20px;
+    margin: 10px 20px 0px 20px;
     border: 1px solid lightgray;
     height: 30px;
     align-items: center;
@@ -46,7 +46,6 @@
   .inner-content {
     display: block;
     text-align: center;
-    padding: 0 10px 10px 10px;
   }
 }
 

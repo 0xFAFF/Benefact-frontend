@@ -25,7 +25,7 @@ const List = props => {
               onClick={e => onItemClick(id, ulItem.id)}
             >
               {icon && <FontAwesomeIcon icon={icon} size="lg" />}
-              <span>{title}</span>
+              {title ? <span>{title}</span> : null}
             </li>
           );
         })}
@@ -79,39 +79,8 @@ class Navbar extends React.Component {
         ulClassName: "menu",
         options: [
           {
-            id: "home",
-            title: "Home",
-            icon: "home"
-          },
-          {
-            id: "menu",
-            title: "Menu",
-            icon: "bars"
-          },
-          {
-            id: "brand",
-            title: "Benefact Faff",
-            liClassName: "brand"
-          },
-          {
-            id: "user",
-            title: "User",
-            icon: "user-circle"
-          },
-          {
-            id: "settings",
-            title: "Settings",
-            icon: "cog"
-          }
-        ]
-      },
-      {
-        id: "sub-menu",
-        ulClassName: "sub-menu",
-        options: [
-          {
             id: "create",
-            title: "Create",
+            // title: "Create",
             icon: "plus",
             component: Create,
             params: {
@@ -125,7 +94,7 @@ class Navbar extends React.Component {
           },
           {
             id: "delete",
-            title: "Delete",
+            // title: "Delete",
             icon: "trash",
             component: Delete,
             params: {
@@ -140,12 +109,12 @@ class Navbar extends React.Component {
           },
           {
             id: "filter",
-            title: "Filter",
+            // title: "Filter",
             icon: "filter"
           },
           {
             id: "view",
-            title: "View",
+            // title: "View",
             icon: "list-ul",
             component: View,
             params: {
@@ -155,6 +124,31 @@ class Navbar extends React.Component {
               handleBoardView: handleBoardView,
               view: view
             }
+          },
+          {
+            id: "brand",
+            title: "Benefact Faff",
+            liClassName: "brand"
+          },
+          {
+            id: "home",
+            // title: "Home",
+            icon: "home"
+          },
+          {
+            id: "menu",
+            // title: "Menu",
+            icon: "bars"
+          },
+          {
+            id: "user",
+            // title: "User",
+            icon: "user-circle"
+          },
+          {
+            id: "settings",
+            // title: "Settings",
+            icon: "cog"
           }
         ]
       }
@@ -183,6 +177,7 @@ class Navbar extends React.Component {
           onRequestClose={this.cleanCurrentItem}
           shouldCloseOnOverlayClick={true}
           shouldCloseOnEsc={true}
+          shouldFocusAfterRender={false}
           className="nav-Modal"
           overlayClassName="nav-Overlay"
         >

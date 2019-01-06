@@ -196,6 +196,7 @@ class BaseWrapper extends React.Component {
 
     let cards = [...this.state.cards];
     const draggedCard = cards.find(card => `card-${card.id}` === draggableId);
+    draggedCard.index = destination.index;
     // Orders array for inserting droppable in new spot
     cards.splice(source.index, 1);
     cards.splice(destination.index, 0, draggedCard);

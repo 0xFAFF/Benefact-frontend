@@ -8,13 +8,14 @@
   min-height: 23px;
   padding: 0;
   box-shadow: none;
-  display: block;
   border: none;
+  display: block;
   overflow: hidden; // Removes scrollbar
   transition: height 0.2s ease;
   resize: none;
   font-size: 18px;
   font-family: "Roboto", sans-serif;
+  background-color: inherit;
 }
 
 .textarea--ghost {
@@ -29,4 +30,9 @@
   visibility: hidden;
   position: absolute;
   top: 0;
+}
+
+.textarea:hover,
+.textarea:focus {
+  border: 1px solid rgb(167, 167, 167);
 }

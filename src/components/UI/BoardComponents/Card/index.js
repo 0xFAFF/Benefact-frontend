@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
+import NaturalDragAnimation from "natural-drag-animation-rbdnd";
 import marked from "marked";
 import { Modal, MarkdownEditor } from "../../../UI";
 import Tags from "../Tags";
@@ -65,21 +66,30 @@ class Card extends React.Component {
         >
           {(provided, snapshot) => {
             return (
-              <div
-                id="card-draggable"
-                className={snapshot.isDragging ? "card-is-dragging" : ""}
-                ref={provided.innerRef}
-                {...provided.draggableProps}
+              <NaturalDragAnimation
                 style={{ ...provided.draggableProps.style }}
-                {...provided.dragHandleProps}
-                onClick={this.handleOpenModal}
+                snapshot={snapshot}
+                animationRotationFade={0.6}
+                rotationMultiplier={2.0}
               >
-                <div className="card-description">
-                  <div dangerouslySetInnerHTML={this.rawMarkup()} />
-                </div>
-                <Tags tagIds={card.tagIds} />
-                <IconRow {...card} />
-              </div>
+                {style => (
+                  <div
+                    id="card-draggable"
+                    className={snapshot.isDragging ? "card-is-dragging" : ""}
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    style={style}
+                    onClick={this.handleOpenModal}
+                  >
+                    <div className="card-description">
+                      <div dangerouslySetInnerHTML={this.rawMarkup()} />
+                    </div>
+                    <Tags tagIds={card.tagIds} />
+                    <IconRow {...card} />
+                  </div>
+                )}
+              </NaturalDragAnimation>
             );
           }}
         </Draggable>

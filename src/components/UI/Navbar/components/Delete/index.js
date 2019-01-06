@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import DeleteColumnWrapper from "./DeleteColumnWrapper";
 import DeleteCardWrapper from "./DeleteCardWrapper";
 import DeleteTagWrapper from "./DeleteTagWrapper";
-import { Back } from "../../../Popup";
 import "./index.scss";
 
 class Delete extends React.Component {
@@ -79,10 +78,6 @@ class Delete extends React.Component {
         )}
         {this.state.component && (
           <React.Fragment>
-            <Back
-              title={"Back"}
-              onClick={() => this.resetDeleteComponentHandler()}
-            />
             <this.state.component
               {...this.state.params}
               {...this.props}

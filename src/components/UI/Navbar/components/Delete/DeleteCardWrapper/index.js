@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Confirm } from "../../../../Popup";
+import { Confirm, Back } from "../../../../Popup";
 import Preview from "../../../../MarkdownEditor/Preview";
 import "./index.scss";
 
@@ -38,6 +38,10 @@ class DeleteCardWrapper extends React.Component {
       <div id="delete-card-outer">
         {!this.state.card ? (
           <React.Fragment>
+            <Back
+              title={"Back"}
+              onClick={() => this.props.resetDeleteComponentHandler()}
+            />
             <div className="title">Cards</div>
             <div className="delete-button-container">
               <div className="delete-button-group">
@@ -60,6 +64,7 @@ class DeleteCardWrapper extends React.Component {
             onAcceptHandler={this.onAcceptHandler}
             onCancelHandler={this.onCancelHandler}
           >
+            <Back title={"Back"} onClick={() => this.onCancelHandler()} />
             <div id="selected-card">
               <Preview content={this.state.card} />
             </div>

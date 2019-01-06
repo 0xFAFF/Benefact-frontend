@@ -28,7 +28,7 @@ Confirm.propTypes = {
   onAcceptHandler: PropTypes.func,
   onCancelHandler: PropTypes.func,
   confirmMessage: PropTypes.string,
-  children: PropTypes.object
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 
 export default Confirm;

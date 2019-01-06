@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Confirm } from "../../../../Popup";
+import { Confirm, Back } from "../../../../Popup";
 import DisplayTag from "../../../../BoardComponents/Tags/DisplayTag";
 import "./index.scss";
 
@@ -30,6 +30,10 @@ class DeleteTagWrapper extends React.Component {
       <div id="delete-tag-outer">
         {!this.state.tag ? (
           <React.Fragment>
+            <Back
+              title={"Back"}
+              onClick={() => this.props.resetDeleteComponentHandler()}
+            />
             <div className="title">Tags</div>
             <div className="delete-button-container">
               <div className="delete-ul-container">
@@ -54,6 +58,7 @@ class DeleteTagWrapper extends React.Component {
             onAcceptHandler={this.onAcceptHandler}
             onCancelHandler={this.onCancelHandler}
           >
+            <Back title={"Back"} onClick={() => this.onCancelHandler()} />
             <div id="selected-tag">
               <ul className="delete-tag-ul">
                 <div className="delete-selected-tag-li-container">

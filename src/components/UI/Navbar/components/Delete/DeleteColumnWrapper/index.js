@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Confirm } from "../../../../Popup";
+import { Confirm, Back } from "../../../../Popup";
 import { getCards } from "../../../../../../utils";
 import "./index.scss";
 
@@ -33,6 +33,10 @@ class DeleteColumnWrapper extends React.Component {
       <div id="delete-column-outer">
         {!this.state.column ? (
           <React.Fragment>
+            <Back
+              title={"Back"}
+              onClick={() => this.props.resetDeleteComponentHandler()}
+            />
             <div className="title">Columns</div>
             <div className="delete-button-group">
               {columns.map(column => {
@@ -60,6 +64,7 @@ class DeleteColumnWrapper extends React.Component {
             onAcceptHandler={this.onAcceptHandler}
             onCancelHandler={this.onCancelHandler}
           >
+            <Back title={"Back"} onClick={() => this.onCancelHandler()} />
             <div id="selected-column">Column: {this.state.column.title}</div>
           </Confirm>
         )}

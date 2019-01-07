@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactModal from "react-modal";
+import { isEmpty } from "lodash";
 import "./index.scss";
 
 ReactModal.setAppElement("#modal-root");
@@ -10,6 +11,7 @@ const Modal = props => {
     isOpen,
     onClose,
     modalClassName,
+    modalStyle = {},
     overlayClassName,
     outerCnterClassName,
     outerCnterStyle = {},
@@ -24,8 +26,24 @@ const Modal = props => {
       shouldCloseOnOverlayClick={true}
       shouldCloseOnEsc={true}
       shouldFocusAfterRender={false}
-      className={`${modalClassName ? modalClassName : "Modal"}`}
-      overlayClassName={`${overlayClassName ? overlayClassName : "Overlay"}`}
+      defaultStyles={{}}
+      className={`${
+        modalClassName && isEmpty(modalStyle)
+          ? modalClassName
+          : isEmpty(modalStyle) && !modalClassName
+          ? "Modal"
+          : ""
+      }`}
+      // className={`${modalClassName ? modalClassName : "Modal"}`}
+      overlayClassName={`${
+        overlayClassName && isEmpty(modalStyle)
+          ? overlayClassName
+          : isEmpty(modalStyle) && !overlayClassName
+          ? "Overlay"
+          : ""
+      }`}
+      // overlayClassName={`${overlayClassName ? overlayClassName : "Overlay"}`}
+      style={modalStyle}
     >
       <div
         style={outerCnterStyle}

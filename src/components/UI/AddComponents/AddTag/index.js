@@ -28,6 +28,10 @@ class AddTag extends React.Component {
       addComponent,
       updateBoardContent
     } = this.props;
+    const modalContainer = document.getElementById("markdown-editor");
+    const left = modalContainer
+      ? modalContainer.getBoundingClientRect().right
+      : null;
     return (
       <React.Fragment>
         <div
@@ -41,7 +45,22 @@ class AddTag extends React.Component {
         <Modal
           isOpen={this.state.showModal}
           onClose={this.handleCloseModal}
-          modalClassName="add-tag-modal-Modal"
+          modalStyle={{
+            overlay: {
+              position: "fixed",
+              top: "0",
+              left: "0",
+              right: "0",
+              bottom: "0",
+              backgroundColor: "rgba(0, 0, 0, 0.3)"
+            },
+            content: {
+              position: "absolute",
+              top: "25%",
+              left: `${left + 30}px`,
+              backgroundColor: "rgba(0, 0, 0, 0.3)"
+            }
+          }}
           innerCnterClassName="add-tag-modal-inner-container"
           outerCnterClassName="add-tag-modal-outer-container"
         >

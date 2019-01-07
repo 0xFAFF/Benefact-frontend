@@ -20,7 +20,7 @@ class BaseWrapper extends React.Component {
 
   state = {
     view: "kanban",
-    cards: [],
+    cards: {},
     columns: [],
     tags: [],
     columnOrder: [],
@@ -31,7 +31,7 @@ class BaseWrapper extends React.Component {
     const { columns = [], cards = [], tags = [] } = data;
     let columnOrder = columns.map(column => column.id);
     this.setState({
-      cards: cards,
+      cards: cards.all,
       columns: columns,
       tags: tags,
       columnOrder: columnOrder

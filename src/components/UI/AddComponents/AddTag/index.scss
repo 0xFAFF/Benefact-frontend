@@ -27,28 +27,6 @@
   }
 }
 
-.add-tag-modal-Modal {
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.add-tag-modal-outer-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  .inner-content {
-    display: block;
-    text-align: center;
-  }
-}
-
 .add-tag-modal-inner-container {
   background: #fff;
   width: 250px;

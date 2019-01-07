@@ -15,14 +15,14 @@ const List = props => {
     return (
       <ul key={ulItem.id} className={ulClassName}>
         {options.map(item => {
-          const { id, icon, title, liClassName } = item;
+          const { id, icon, title, liClassName = "" } = item;
           return (
             <li
               key={id}
-              className={`${liClassName ? liClassName : ""} ${
-                currItem === id ? "active-li" : ""
-              }`}
-              onClick={e => onItemClick(id, ulItem.id)}
+              className={`${liClassName}${currItem === id ? "active-li" : ""}`}
+              onClick={e => {
+                if (liClassName !== "brand") onItemClick(id, ulItem.id);
+              }}
             >
               {icon && <FontAwesomeIcon icon={icon} size="lg" />}
               {title ? <span>{title}</span> : null}

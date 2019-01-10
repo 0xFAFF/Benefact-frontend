@@ -41,11 +41,14 @@ const Board = props => {
               <div
                 id="column-droppable"
                 ref={provided.innerRef}
-                style={{
-                  backgroundColor: snapshot.isDraggingOver
-                    ? "skyblue"
-                    : "inherit"
-                }}
+                className={
+                  snapshot.isDraggingOver ? "list-col-is-dragging" : ""
+                }
+                // style={{
+                //   backgroundColor: snapshot.isDraggingOver
+                //     ? "skyblue"
+                //     : "inherit"
+                // }}
                 {...provided.droppableProps}
               >
                 <InnerList

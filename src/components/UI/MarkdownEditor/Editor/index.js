@@ -39,7 +39,7 @@ const Editor = props => {
         <div className="styled-select background-color semi-square">
           <select
             onChange={e => onChangeHandler(e, "columnId")}
-            value={columnId}
+            value={columnId === null ? "" : columnId}
           >
             <option value={""}>No Column (default)</option>
             {columns.map(option => {

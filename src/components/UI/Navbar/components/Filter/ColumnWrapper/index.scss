@@ -1,0 +1,29 @@
+#column-wrapper-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 10px;
+  .styled-select {
+    border: 1px solid rgb(219, 217, 217);
+    overflow: hidden;
+    width: 180px;
+  }
+  .styled-select {
+    select {
+      background: transparent;
+      border: none;
+      font-size: 14px;
+      padding: 5px;
+      width: 200px;
+    }
+  }
+
+  .semi-square {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
+  .background-color {
+    background-color: #ccd9e052;
+  }
+}

@@ -1,13 +1,13 @@
 import { titleCase } from ".";
 
-const fetching = async (url, method, params) => {
+const fetching = async (url, method, queryParams) => {
   let options = {
     method,
     headers: { "Content-Type": "application/json" }
   };
 
-  if (params) {
-    options = { ...options, body: JSON.stringify(titleCase(params)) };
+  if (queryParams) {
+    options = { ...options, body: JSON.stringify(titleCase(queryParams)) };
   }
 
   const data = await fetch(url, options)

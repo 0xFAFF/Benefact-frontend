@@ -31,16 +31,16 @@ class BaseWrapper extends React.Component {
     const { columns = [], cards = [], tags = [] } = data;
     let columnOrder = columns.map(column => column.id);
     this.setState({
-      cards: cards.all,
+      cards: Object.values(cards)[0],
       columns: columns,
       tags: tags,
       columnOrder: columnOrder
     });
   };
 
-  handleUpdate = async (type, action, newContent) => {
+  handleUpdate = async (type, action, queryParams) => {
     const url = URLS(type, action);
-    await fetching(url, "POST", newContent)
+    await fetching(url, "POST", queryParams)
       .then(result => {
         if (result.hasError) {
           this.handleError(result.message);
@@ -53,6 +53,14 @@ class BaseWrapper extends React.Component {
           this.handleResetState(formattedData);
         });
       });
+  };
+
+  handleFilters = async queryParams => {
+    const url = URLS("cards", "GET");
+    await fetching(url, "GET", queryParams).then(result => {
+      let formattedData = camelCase(result.data);
+      this.handleResetState(formattedData);
+    });
   };
 
   updateBoardContent = async (newContent, type) => {
@@ -268,6 +276,7 @@ class BaseWrapper extends React.Component {
             cards={this.state.cards}
             columns={this.state.columns}
             tags={this.state.tags}
+            handleFilters={this.handleFilters}
           />
           <Base
             {...baseState}

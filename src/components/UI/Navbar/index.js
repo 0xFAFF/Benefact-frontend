@@ -4,7 +4,7 @@ import ReactModal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { get } from "lodash";
 import NavbarPopup from "./NavbarPopup";
-import { Create, Delete, View } from "./components";
+import { Create, Delete, View, Filter } from "./components";
 import "./index.scss";
 
 const List = props => {
@@ -48,7 +48,8 @@ class Navbar extends React.Component {
     columns: PropTypes.array,
     tags: PropTypes.array,
     handleBoardView: PropTypes.func,
-    view: PropTypes.string
+    view: PropTypes.string,
+    handleFilters: PropTypes.func
   };
 
   state = {
@@ -71,7 +72,8 @@ class Navbar extends React.Component {
       columns,
       tags,
       handleBoardView,
-      view
+      view,
+      handleFilters
     } = this.props;
     const configs = [
       {
@@ -110,7 +112,16 @@ class Navbar extends React.Component {
           {
             id: "filter",
             // title: "Filter",
-            icon: "filter"
+            icon: "filter",
+            component: Filter,
+            params: {
+              popupStyle: {
+                width: "300px"
+              },
+              handleFilters: handleFilters,
+              columns: columns,
+              tags: tags
+            }
           },
           {
             id: "view",

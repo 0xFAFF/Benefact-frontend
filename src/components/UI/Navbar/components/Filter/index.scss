@@ -1,0 +1,14 @@
+#filter-container {
+  .title {
+    font-size: 1.3em;
+  }
+  label {
+    display: flex;
+    padding: 10px;
+    font-size: 1.1em;
+  }
+  .filter-selected-filters {
+    border-top: 1px solid lightgray;
+    margin-bottom: 20px;
+  }
+}

@@ -1,0 +1,25 @@
+#selected-filters {
+  .tags-ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    li {
+      margin: 5px 5px 5px 0;
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 50px;
+        max-width: 100px;
+        max-height: 25px;
+        height: 25px;
+        font-size: 12px;
+        padding: 2px 5px;
+        color: #fff;
+      }
+    }
+  }
+}

@@ -77,8 +77,12 @@ class MarkdownEditor extends React.Component {
         }
       };
     } else {
-      const value =
-        key === "columnId" ? parseInt(e.target.value) : e.target.value;
+      let value = "";
+      if (key === "columnId") {
+        value = e.target.value === "" ? null : parseInt(e.target.value);
+      } else {
+        value = e.target.value;
+      }
       newState = {
         newContent: {
           ...this.state.newContent,

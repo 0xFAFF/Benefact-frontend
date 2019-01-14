@@ -4,14 +4,14 @@ import "./index.scss";
 const ColumnWrapper = props => {
   const {
     columns = [],
-    onSelectedColumnIdHandler,
+    onSelectColumnIdHandler,
     selectedColumnId = ""
   } = props;
   return (
     <div id="column-wrapper-container">
       <div className="styled-select background-color semi-square">
         <select
-          onChange={e => onSelectedColumnIdHandler(e)}
+          onChange={e => onSelectColumnIdHandler(e)}
           value={selectedColumnId === null ? "" : selectedColumnId}
         >
           <option value={""}>No Column (default)</option>

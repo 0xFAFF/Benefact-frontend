@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import TagWrapper from "./TagWrapper";
 import ColumnWrapper from "./ColumnWrapper";
+import TitleWrapper from "./TitleWrapper";
 import MatchWrapper from "./MatchWrapper";
 import SelectedFilters from "./SelectedFilters";
 import { AcceptCancelButtons } from "../../../Popup";
@@ -12,6 +13,7 @@ class Filter extends React.Component {
     filters: {
       tags: [],
       columnId: "",
+      title: "",
       match: "any"
     }
   };
@@ -28,25 +30,25 @@ class Filter extends React.Component {
       filters: {
         tags: [],
         columnId: "",
+        title: "",
         match: "any"
       }
     });
   };
 
-  // selectFilters = () => {
-  //   let tagsQueryParam = this.state.tags.length > 0 ? this.state.tags
-
-  //   const queryParams = {
-  //     Groups: {
-  //       GroupName: [
-  //         {
-  //           tags: this.state.tags
-  //         }
-  //       ]
-  //     }
-  //   };
-  //   this.props.handleFilters(queryParams);
-  // };
+  selectFilters = () => {
+    // let tagsQueryParam = this.state.tags.length > 0 ? this.state.tags
+    // const queryParams = {
+    //   Groups: {
+    //     GroupName: [
+    //       {
+    //         tags: this.state.tags
+    //       }
+    //     ]
+    //   }
+    // };
+    // this.props.handleFilters(queryParams);
+  };
 
   onMatchHandler = match => {
     this.setState({
@@ -57,7 +59,16 @@ class Filter extends React.Component {
     });
   };
 
-  onSelectedColumnIdHandler = e => {
+  onSelectTitleHandler = e => {
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        title: e.target.valie
+      }
+    });
+  };
+
+  onSelectColumnIdHandler = e => {
     this.setState({
       filters: {
         ...this.state.filters,
@@ -99,8 +110,13 @@ class Filter extends React.Component {
           <label>Column</label>
           <ColumnWrapper
             columns={columns}
-            onSelectedColumnIdHandler={this.onSelectedColumnIdHandler}
+            onSelectColumnIdHandler={this.onSelectColumnIdHandler}
             selectedColumnId={this.state.filters.columnId}
+          />
+          <label>Title</label>
+          <TitleWrapper
+            selectedTitle={this.state.filters.title}
+            onSelectTitleHandler={this.onSelectTitleHandler}
           />
           <label>Match By</label>
           <MatchWrapper
@@ -130,10 +146,7 @@ class Filter extends React.Component {
 
 Filter.propTypes = {
   setPopupStyle: PropTypes.func,
-  addComponent: PropTypes.func,
-  columns: PropTypes.array,
-  cards: PropTypes.array,
-  onClose: PropTypes.func
+  columns: PropTypes.array
 };
 
 export default Filter;

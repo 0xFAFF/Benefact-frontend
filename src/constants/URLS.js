@@ -1,4 +1,4 @@
-const baseURL = "http://benefact.faffgames.com/api/";
+const baseURL = process.env.NODE_ENV == "production" ? "/api/" : "http://benefact.faffgames.com/api/";
 
 const urlKeyMap = {
   cards: {

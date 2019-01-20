@@ -49,7 +49,10 @@ class Navbar extends React.Component {
     tags: PropTypes.array,
     handleBoardView: PropTypes.func,
     view: PropTypes.string,
-    handleFilters: PropTypes.func
+    filters: PropTypes.object,
+    resetFilters: PropTypes.func,
+    onChangeFilterHandler: PropTypes.func,
+    selectFilters: PropTypes.func
   };
 
   state = {
@@ -73,7 +76,10 @@ class Navbar extends React.Component {
       tags,
       handleBoardView,
       view,
-      handleFilters
+      filters,
+      resetFilters,
+      onChangeFilterHandler,
+      selectFilters
     } = this.props;
     const configs = [
       {
@@ -118,9 +124,12 @@ class Navbar extends React.Component {
               popupStyle: {
                 width: "300px"
               },
-              handleFilters: handleFilters,
+              resetFilters: resetFilters,
+              onChangeFilterHandler: onChangeFilterHandler,
+              selectFilters: selectFilters,
               columns: columns,
-              tags: tags
+              tags: tags,
+              filters: filters
             }
           },
           {

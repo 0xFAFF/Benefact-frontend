@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.scss";
 
 const TagWrapper = props => {
-  const { tags, onSelectTagHandler, selectedTags = [] } = props;
+  const { tags, onChangeFilterHandler, selectedTags = [] } = props;
   return (
     <div id="tag-wrapper-container">
       <ul className="tags-ul">
@@ -14,7 +15,7 @@ const TagWrapper = props => {
                 backgroundColor: tag.color ? tag.color : "#DDDDDD"
               }}
               className="tags-li-container"
-              onClick={() => onSelectTagHandler(tag)}
+              onClick={() => onChangeFilterHandler(tag, "tags")}
             >
               <div className="tags-label">
                 {tag.character ? (
@@ -36,6 +37,12 @@ const TagWrapper = props => {
       </ul>
     </div>
   );
+};
+
+TagWrapper.propTypes = {
+  tags: PropTypes.array,
+  onChangeFilterHandler: PropTypes.func,
+  selectedTags: PropTypes.array
 };
 
 export default TagWrapper;

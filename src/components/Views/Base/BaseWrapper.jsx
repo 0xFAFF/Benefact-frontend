@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { isEmpty } from "lodash";
 import { getCards, camelCase, getFetching, fetching } from "../../../utils";
 import { URLS } from "../../../constants";
 import { PacmanLoader } from "../../UI/Loader";
@@ -10,7 +11,7 @@ import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
 class BaseWrapper extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
-      cards: PropTypes.array,
+      cards: PropTypes.object,
       columns: PropTypes.array,
       tags: PropTypes.array
     }),
@@ -24,14 +25,131 @@ class BaseWrapper extends React.Component {
     columns: [],
     tags: [],
     columnOrder: [],
-    error: null
+    error: null,
+    filters: {
+      active: false,
+      filterBy: {
+        tags: [],
+        columnId: "",
+        title: ""
+      },
+      matchBy: "all"
+    }
+  };
+
+  onChangeFilterHandler = (e, key) => {
+    if (key === "matchBy") {
+      this.setState({
+        filters: {
+          ...this.state.filters,
+          matchBy: e
+        }
+      });
+    } else if (key === "tags") {
+      let selectedTags = [...this.state.filters.filterBy.tags];
+      const selectedTagIndex = selectedTags.findIndex(tag => tag.id === e.id);
+      if (selectedTagIndex > -1) {
+        selectedTags.splice(selectedTagIndex, 1);
+      } else {
+        selectedTags.push(e);
+      }
+      this.setState({
+        filters: {
+          ...this.state.filters,
+          filterBy: {
+            ...this.state.filters.filterBy,
+            tags: selectedTags
+          }
+        }
+      });
+    } else if (key === "columnId") {
+      this.setState({
+        filters: {
+          ...this.state.filters,
+          filterBy: {
+            ...this.state.filters.filterBy,
+            columnId: e.target.value === "" ? null : parseInt(e.target.value)
+          }
+        }
+      });
+    } else if (key === "title") {
+      this.setState({
+        filters: {
+          ...this.state.filters,
+          filterBy: {
+            ...this.state.filters.filterBy,
+            title: e.target.value
+          }
+        }
+      });
+    }
+  };
+
+  selectFilters = () => {
+    const {
+      filters: { matchBy, filterBy }
+    } = this.state;
+    const { tags, columnId, title } = filterBy;
+    let queryParams = {};
+    let params;
+    if (matchBy === "all") {
+      params = {};
+      Object.entries(filterBy).forEach(([filterKey, filterValue]) => {
+        if (filterKey === "tags" && filterValue.length > 0) {
+          params[filterKey] = filterValue.map(tag => tag.id);
+        } else if (
+          (filterKey === "columnId" || filterKey === "title") &&
+          filterValue !== ""
+        ) {
+          params[filterKey] = filterValue;
+        }
+      });
+    } else {
+      params = [];
+      if (tags.length > 0) {
+        params = tags.map(tag => ({
+          tags: [tag.id]
+        }));
+      }
+      if (columnId !== "") {
+        params.push({ columnId: columnId });
+      }
+      if (title !== "") {
+        params.push({ title: title });
+      }
+    }
+    if (!isEmpty(params)) {
+      queryParams = {
+        Groups: {
+          GroupName: Array.isArray(params) ? params : [params]
+        }
+      };
+    }
+    !isEmpty(queryParams)
+      ? this.updateFilters(queryParams)
+      : this.updateFilters();
+  };
+
+  resetFilters = () => {
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        filterBy: {
+          tags: [],
+          columnId: "",
+          title: ""
+        },
+        matchBy: "all"
+      }
+    });
+    this.updateFilters();
   };
 
   handleResetState = data => {
     const { columns = [], cards = [], tags = [] } = data;
     let columnOrder = columns.map(column => column.id);
     this.setState({
-      cards: Object.values(cards)[0],
+      cards: Object.values(cards)[0] || [],
       columns: columns,
       tags: tags,
       columnOrder: columnOrder
@@ -55,11 +173,26 @@ class BaseWrapper extends React.Component {
       });
   };
 
-  handleFilters = async queryParams => {
+  updateFilters = async queryParams => {
     const url = URLS("cards", "GET");
-    await fetching(url, "GET", queryParams).then(result => {
+    await fetching(url, "POST", queryParams).then(result => {
       let formattedData = camelCase(result.data);
       this.handleResetState(formattedData);
+      if (queryParams) {
+        this.setState({
+          filters: {
+            ...this.state.filters,
+            active: true
+          }
+        });
+      } else {
+        this.setState({
+          filters: {
+            ...this.state.filters,
+            active: false
+          }
+        });
+      }
     });
   };
 
@@ -242,7 +375,6 @@ class BaseWrapper extends React.Component {
   }
 
   render() {
-    const { cards } = this.state;
     const { isLoading } = this.props;
     const { error = this.props.error, ...baseState } = this.state;
 
@@ -262,7 +394,7 @@ class BaseWrapper extends React.Component {
 
     if (error) {
       return <div>Error: {error}</div>;
-    } else if (isLoading || cards.length === 0) {
+    } else if (isLoading) {
       return <PacmanLoader />;
     }
     return (
@@ -276,12 +408,17 @@ class BaseWrapper extends React.Component {
             cards={this.state.cards}
             columns={this.state.columns}
             tags={this.state.tags}
-            handleFilters={this.handleFilters}
+            filters={this.state.filters}
+            resetFilters={this.resetFilters}
+            onChangeFilterHandler={this.onChangeFilterHandler}
+            selectFilters={this.selectFilters}
           />
           <Base
             {...baseState}
             kanbanFunctions={kanbanFunctions}
             listFunctions={listFunctions}
+            filtersActive={this.state.filters.active}
+            resetFilters={this.resetFilters}
           />
         </div>
       </TagsProvider>

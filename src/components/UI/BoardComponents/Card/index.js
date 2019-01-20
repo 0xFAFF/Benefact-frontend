@@ -83,14 +83,17 @@ class Card extends React.Component {
                     onClick={this.handleOpenModal}
                   >
                     <div className="card-draggable-container">
-                      <div className="left-side">
+                      <div className="card-row">
                         <div className="card-title">
-                          <div dangerouslySetInnerHTML={this.rawMarkup()} />
+                          <div
+                            className="left-side"
+                            dangerouslySetInnerHTML={this.rawMarkup()}
+                          />
+                          <div className="right-side">
+                            <IconRow {...card} />
+                          </div>
                         </div>
                         <Tags tagIds={card.tagIds} />
-                      </div>
-                      <div className="right-side">
-                        <IconRow {...card} />
                       </div>
                     </div>
                   </div>

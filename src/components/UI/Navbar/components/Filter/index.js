@@ -9,13 +9,14 @@ import { AcceptCancelButtons } from "../../../Popup";
 import "./index.scss";
 
 class Filter extends React.Component {
-  state = {
-    filters: {
-      tags: [],
-      columnId: "",
-      title: "",
-      match: "any"
-    }
+  static propTypes = {
+    setPopupStyle: PropTypes.func,
+    columns: PropTypes.array,
+    tags: PropTypes.array,
+    filters: PropTypes.bject,
+    resetFilters: PropTypes.func,
+    onChangeFilterHandler: PropTypes.func,
+    selectFilters: PropTypes.func
   };
 
   componentDidMount() {
@@ -25,78 +26,17 @@ class Filter extends React.Component {
     this.props.setPopupStyle({ width: "300px" });
   }
 
-  resetFilters = () => {
-    this.setState({
-      filters: {
-        tags: [],
-        columnId: "",
-        title: "",
-        match: "any"
-      }
-    });
-  };
-
-  selectFilters = () => {
-    // let tagsQueryParam = this.state.tags.length > 0 ? this.state.tags
-    // const queryParams = {
-    //   Groups: {
-    //     GroupName: [
-    //       {
-    //         tags: this.state.tags
-    //       }
-    //     ]
-    //   }
-    // };
-    // this.props.handleFilters(queryParams);
-  };
-
-  onMatchHandler = match => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        match
-      }
-    });
-  };
-
-  onSelectTitleHandler = e => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        title: e.target.valie
-      }
-    });
-  };
-
-  onSelectColumnIdHandler = e => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        columnId: e.target.value === "" ? null : parseInt(e.target.value)
-      }
-    });
-  };
-
-  onSelectTagHandler = selectedTag => {
-    let selectedTags = [...this.state.filters.tags];
-    const selectedTagIndex = selectedTags.findIndex(
-      tag => tag.id === selectedTag.id
-    );
-    if (selectedTagIndex > -1) {
-      selectedTags.splice(selectedTagIndex, 1);
-    } else {
-      selectedTags.push(selectedTag);
-    }
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        tags: selectedTags
-      }
-    });
-  };
-
   render() {
-    const { tags, columns } = this.props;
+    const {
+      tags,
+      columns,
+      filters,
+      resetFilters,
+      onChangeFilterHandler,
+      selectFilters
+    } = this.props;
+    const { filterBy, matchBy } = filters;
+
     return (
       <div id="filter-container">
         <div className="title">Filter Cards</div>
@@ -104,24 +44,24 @@ class Filter extends React.Component {
           <label>Tags</label>
           <TagWrapper
             tags={tags}
-            onSelectTagHandler={this.onSelectTagHandler}
-            selectedTags={this.state.filters.tags}
+            onChangeFilterHandler={onChangeFilterHandler}
+            selectedTags={filterBy.tags}
           />
           <label>Column</label>
           <ColumnWrapper
             columns={columns}
-            onSelectColumnIdHandler={this.onSelectColumnIdHandler}
-            selectedColumnId={this.state.filters.columnId}
+            onChangeFilterHandler={onChangeFilterHandler}
+            selectedColumnId={filterBy.columnId}
           />
           <label>Title</label>
           <TitleWrapper
-            selectedTitle={this.state.filters.title}
-            onSelectTitleHandler={this.onSelectTitleHandler}
+            selectedTitle={filterBy.title}
+            onChangeFilterHandler={onChangeFilterHandler}
           />
           <label>Match By</label>
           <MatchWrapper
-            selectedMatch={this.state.filters.match}
-            onMatchHandler={this.onMatchHandler}
+            selectedMatch={matchBy}
+            onChangeFilterHandler={onChangeFilterHandler}
           />
         </div>
         {/* <div className="filter-selected-filters">
@@ -133,8 +73,8 @@ class Filter extends React.Component {
         </div> */}
         <div>
           <AcceptCancelButtons
-            onAcceptHandler={this.selectFilters}
-            onCancelHandler={this.resetFilters}
+            onAcceptHandler={selectFilters}
+            onCancelHandler={resetFilters}
             acceptTitle={"Select"}
             cancelTitle={"Reset"}
           />
@@ -143,10 +83,5 @@ class Filter extends React.Component {
     );
   }
 }
-
-Filter.propTypes = {
-  setPopupStyle: PropTypes.func,
-  columns: PropTypes.array
-};
 
 export default Filter;

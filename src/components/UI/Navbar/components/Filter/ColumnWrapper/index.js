@@ -1,17 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./index.scss";
 
 const ColumnWrapper = props => {
-  const {
-    columns = [],
-    onSelectColumnIdHandler,
-    selectedColumnId = ""
-  } = props;
+  const { columns = [], onChangeFilterHandler, selectedColumnId = "" } = props;
   return (
     <div id="column-wrapper-container">
       <div className="styled-select background-color semi-square">
         <select
-          onChange={e => onSelectColumnIdHandler(e)}
+          onChange={e => onChangeFilterHandler(e, "columnId")}
           value={selectedColumnId === null ? "" : selectedColumnId}
         >
           <option value={""}>No Column (default)</option>
@@ -26,6 +23,12 @@ const ColumnWrapper = props => {
       </div>
     </div>
   );
+};
+
+ColumnWrapper.propTypes = {
+  columns: PropTypes.array,
+  onChangeFilterHandler: PropTypes.func,
+  selectedColumnId: PropTypes.string
 };
 
 export default ColumnWrapper;

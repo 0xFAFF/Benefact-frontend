@@ -1,18 +1,19 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./index.scss";
 
 const MatchWrapper = props => {
-  const { selectedMatch, onMatchHandler } = props;
+  const { selectedMatch, onChangeFilterHandler } = props;
   const buttonConfigs = [
-    {
-      title: "Any Filter",
-      className: "button-any",
-      id: "any"
-    },
     {
       title: "All Filters",
       className: "button-all",
       id: "all"
+    },
+    {
+      title: "Any Filter",
+      className: "button-any",
+      id: "any"
     }
   ];
   return (
@@ -24,7 +25,7 @@ const MatchWrapper = props => {
             className={`${btn.className} ${
               selectedMatch === btn.id ? "button-active" : ""
             }`}
-            onClick={e => onMatchHandler(btn.id)}
+            onClick={e => onChangeFilterHandler(btn.id, "matchBy")}
           >
             {btn.title}
           </button>
@@ -32,6 +33,11 @@ const MatchWrapper = props => {
       </div>
     </div>
   );
+};
+
+MatchWrapper.propTypes = {
+  selectedMatch: PropTypes.string,
+  onChangeFilterHandler: PropTypes.func
 };
 
 export default MatchWrapper;

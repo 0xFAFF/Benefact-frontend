@@ -6,6 +6,7 @@ vars:
 cmds:
   checkout:
     - cmd: git checkout {commit}
+    - cmd: git pull
   build:
     - cmd: docker build -t {name} .
   clean:

@@ -16,7 +16,8 @@ class Filter extends React.Component {
     filters: PropTypes.bject,
     resetFilters: PropTypes.func,
     onChangeFilterHandler: PropTypes.func,
-    selectFilters: PropTypes.func
+    selectFilters: PropTypes.func,
+    onClose: PropTypes.func
   };
 
   componentDidMount() {
@@ -25,6 +26,11 @@ class Filter extends React.Component {
   componentWillUnmount() {
     this.props.setPopupStyle({ width: "300px" });
   }
+
+  onAcceptHandler = () => {
+    this.props.selectFilters();
+    this.props.onClose();
+  };
 
   render() {
     const {
@@ -73,7 +79,7 @@ class Filter extends React.Component {
         </div> */}
         <div>
           <AcceptCancelButtons
-            onAcceptHandler={selectFilters}
+            onAcceptHandler={this.onAcceptHandler}
             onCancelHandler={resetFilters}
             acceptTitle={"Select"}
             cancelTitle={"Reset"}

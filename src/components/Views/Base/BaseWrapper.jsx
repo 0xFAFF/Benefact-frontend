@@ -166,10 +166,14 @@ class BaseWrapper extends React.Component {
       })
       .then(async result => {
         const url = URLS("cards", "GET");
-        await fetching(url, "GET").then(result => {
-          let formattedData = camelCase(result.data);
-          this.handleResetState(formattedData);
-        });
+        if (this.state.filters.active) {
+          this.selectFilters();
+        } else {
+          await fetching(url, "GET").then(result => {
+            let formattedData = camelCase(result.data);
+            this.handleResetState(formattedData);
+          });
+        }
       });
   };
 

@@ -1,11 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TagWrapper from "./TagWrapper";
-import ColumnWrapper from "./ColumnWrapper";
-import TitleWrapper from "./TitleWrapper";
-import MatchWrapper from "./MatchWrapper";
-import SelectedFilters from "./SelectedFilters";
-import { AcceptCancelButtons } from "../../../Popup";
+import Basic from "./Basic";
 import "./index.scss";
 
 class Filter extends React.Component {
@@ -13,11 +8,15 @@ class Filter extends React.Component {
     setPopupStyle: PropTypes.func,
     columns: PropTypes.array,
     tags: PropTypes.array,
-    filters: PropTypes.bject,
+    filters: PropTypes.object,
     resetFilters: PropTypes.func,
     onChangeFilterHandler: PropTypes.func,
     selectFilters: PropTypes.func,
     onClose: PropTypes.func
+  };
+
+  state = {
+    mode: "basic"
   };
 
   componentDidMount() {
@@ -32,59 +31,37 @@ class Filter extends React.Component {
     this.props.onClose();
   };
 
-  render() {
-    const {
-      tags,
-      columns,
-      filters,
-      resetFilters,
-      onChangeFilterHandler,
-      selectFilters
-    } = this.props;
-    const { filterBy, matchBy } = filters;
+  toggleMode = mode => {
+    if (mode !== this.state.mode) {
+      this.setState({ mode });
+    }
+  };
 
+  render() {
     return (
       <div id="filter-container">
         <div className="title">Filter Cards</div>
-        <div className="filter-filters-inputs">
-          <label>Tags</label>
-          <TagWrapper
-            tags={tags}
-            onChangeFilterHandler={onChangeFilterHandler}
-            selectedTags={filterBy.tags}
-          />
-          <label>Column</label>
-          <ColumnWrapper
-            columns={columns}
-            onChangeFilterHandler={onChangeFilterHandler}
-            selectedColumnId={filterBy.columnId}
-          />
-          <label>Title</label>
-          <TitleWrapper
-            selectedTitle={filterBy.title}
-            onChangeFilterHandler={onChangeFilterHandler}
-          />
-          <label>Match By</label>
-          <MatchWrapper
-            selectedMatch={matchBy}
-            onChangeFilterHandler={onChangeFilterHandler}
-          />
+        <div className="button-group-modes">
+          <button
+            className={`button-basic ${
+              this.state.mode === "basic" ? "button-active" : ""
+            }`}
+            onClick={() => this.toggleMode("basic")}
+          >
+            Basic
+          </button>
+          <button
+            className={`button-advanced ${
+              this.state.mode === "advanced" ? "button-active" : ""
+            }`}
+            onClick={() => this.toggleMode("advanced")}
+          >
+            Advanced
+          </button>
         </div>
-        {/* <div className="filter-selected-filters">
-          <label>Selected Filters</label>
-          <SelectedFilters
-            tags={this.state.filters.tags}
-            columnId={this.state.filters.columnId}
-          />
-        </div> */}
-        <div>
-          <AcceptCancelButtons
-            onAcceptHandler={this.onAcceptHandler}
-            onCancelHandler={resetFilters}
-            acceptTitle={"Select"}
-            cancelTitle={"Reset"}
-          />
-        </div>
+        {this.state.mode === "basic" && (
+          <Basic {...this.props} onAcceptHandler={this.onAcceptHandler} />
+        )}
       </div>
     );
   }

@@ -11,4 +11,32 @@
     border-top: 1px solid lightgray;
     margin-bottom: 20px;
   }
+  .button-group-modes {
+    padding-left: 10px;
+    padding-top: 10px;
+    display: flex;
+  }
+
+  .button-basic {
+    margin-right: 10px;
+  }
+
+  .button-basic,
+  .button-advanced {
+    border: none;
+    outline: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background-color: #f1f1f1;
+    border: 1px solid lightgray;
+    cursor: pointer;
+  }
+  button:not(.button-active):hover {
+    background-color: rgb(219, 219, 219);
+  }
+
+  .button-active {
+    background-color: #4797e7;
+    color: white;
+  }
 }

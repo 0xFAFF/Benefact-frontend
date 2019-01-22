@@ -1,4 +1,7 @@
-const baseURL = process.env.NODE_ENV == "production" ? "/api/" : "http://benefact.faffgames.com/api/";
+const baseURL =
+  process.env.NODE_ENV === "production"
+    ? "/api/"
+    : "http://benefact.faffgames.com/api/";
 
 const urlKeyMap = {
   cards: {
@@ -20,10 +23,10 @@ const urlKeyMap = {
 };
 
 function URLS(type, action) {
-  if(arguments.length === 0) {
+  if (arguments.length === 0) {
     return baseURL;
   }
   return `${baseURL}${urlKeyMap[type][action]}`;
-};
+}
 
 export default URLS;

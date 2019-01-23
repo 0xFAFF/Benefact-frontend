@@ -31,8 +31,23 @@ const Base = props => {
   return (
     <div id="views-base">
       <Header filtersActive={filtersActive} resetFilters={resetFilters} />
-      {view === "kanban" && <Kanban {...kanbanState} {...kanbanFunctions} />}
-      {view === "list" && <List {...listState} {...listFunctions} />}
+      {Object.entries(cards).map(([groupName, groupCards]) => {
+        if (view === "kanban") {
+          return (
+            <div>
+              <div>{groupName}</div>
+              <Kanban
+                {...kanbanState}
+                {...kanbanFunctions}
+                cards={groupCards}
+              />
+            </div>
+          );
+        } else {
+          return null;
+        }
+      })}
+      {/* {view === "list" && <List {...listState} {...listFunctions} />} */}
     </div>
   );
 };

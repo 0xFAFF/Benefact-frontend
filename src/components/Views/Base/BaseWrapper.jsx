@@ -121,7 +121,8 @@ class BaseWrapper extends React.Component {
     if (!isEmpty(params)) {
       queryParams = {
         Groups: {
-          GroupName: Array.isArray(params) ? params : [params]
+          GroupName1: Array.isArray(params) ? params : [params],
+          GroupName2: Array.isArray(params) ? params : [params]
         }
       };
     }
@@ -149,7 +150,8 @@ class BaseWrapper extends React.Component {
     const { columns = [], cards = [], tags = [] } = data;
     let columnOrder = columns.map(column => column.id);
     this.setState({
-      cards: Object.values(cards)[0] || [],
+      // cards: Object.values(cards)[0] || [],
+      cards: cards,
       columns: columns,
       tags: tags,
       columnOrder: columnOrder

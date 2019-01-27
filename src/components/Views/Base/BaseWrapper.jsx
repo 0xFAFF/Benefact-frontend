@@ -197,7 +197,7 @@ class BaseWrapper extends React.Component {
   };
 
   handleResetState = data => {
-    const { columns = [], cards = [], tags = [] } = data;
+    const { columns = [], cards = {}, tags = [] } = data;
     let columnOrder = columns.map(column => column.id);
     this.setState({
       // cards: Object.values(cards)[0] || [],

@@ -33,12 +33,15 @@ const Base = props => {
     <div id="views-base">
       <Header filtersActive={filtersActive} resetFilters={resetFilters} />
       {Object.entries(cards).map(([groupName, groupCards], index) => {
-        console.log(groupName);
         if (view === "kanban") {
           return (
             <div>
               {filtersActive && (
-                <div className="views-group-name">Group {index + 1}</div>
+                <div className="views-group-name">
+                  <span className="views-group-name-title">
+                    Group {index + 1}
+                  </span>
+                </div>
               )}
               <Kanban
                 {...kanbanState}

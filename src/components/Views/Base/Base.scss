@@ -1,5 +1,10 @@
 #views-base {
   .views-group-name {
     margin: 10px;
+    .views-group-name-title {
+      border: 1px solid lightgray;
+      padding: 10px;
+      background-color: #f5faf8;
+    }
   }
 }

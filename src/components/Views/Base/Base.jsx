@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Kanban from "../Kanban";
 import List from "../List";
 import { Header } from "../../UI/BoardComponents";
+import "./Base.scss";
 
 const Base = props => {
   const {
@@ -31,11 +32,14 @@ const Base = props => {
   return (
     <div id="views-base">
       <Header filtersActive={filtersActive} resetFilters={resetFilters} />
-      {Object.entries(cards).map(([groupName, groupCards]) => {
+      {Object.entries(cards).map(([groupName, groupCards], index) => {
+        console.log(groupName);
         if (view === "kanban") {
           return (
             <div>
-              <div>{groupName}</div>
+              {filtersActive && (
+                <div className="views-group-name">Group {index + 1}</div>
+              )}
               <Kanban
                 {...kanbanState}
                 {...kanbanFunctions}

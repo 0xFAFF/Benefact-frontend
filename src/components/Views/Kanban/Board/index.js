@@ -21,7 +21,6 @@ class InnerList extends React.PureComponent {
       column: { id },
       cards
     } = this.props;
-    console.log(cards);
     const colCards = getCards(cards, id);
     return <Column {...this.props} colCards={colCards} />;
   }
@@ -29,7 +28,6 @@ class InnerList extends React.PureComponent {
 
 const Board = props => {
   const { cards, columns, columnOrder, kanbanOnDragEnd } = props;
-  console.log(cards);
   return (
     <div id="kanban-board">
       <DragDropContext

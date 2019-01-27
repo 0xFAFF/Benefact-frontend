@@ -12,11 +12,9 @@ class Filter extends React.Component {
     resetFilters: PropTypes.func,
     onChangeFilterHandler: PropTypes.func,
     selectFilters: PropTypes.func,
+    createFilterGroup: PropTypes.func,
+    updateFilterGroupIndex: PropTypes.func,
     onClose: PropTypes.func
-  };
-
-  state = {
-    mode: "basic"
   };
 
   componentDidMount() {
@@ -31,37 +29,11 @@ class Filter extends React.Component {
     this.props.onClose();
   };
 
-  toggleMode = mode => {
-    if (mode !== this.state.mode) {
-      this.setState({ mode });
-    }
-  };
-
   render() {
     return (
       <div id="filter-container">
         <div className="title">Filter Cards</div>
-        <div className="button-group-modes">
-          <button
-            className={`button-basic ${
-              this.state.mode === "basic" ? "button-active" : ""
-            }`}
-            onClick={() => this.toggleMode("basic")}
-          >
-            Basic
-          </button>
-          <button
-            className={`button-advanced ${
-              this.state.mode === "advanced" ? "button-active" : ""
-            }`}
-            onClick={() => this.toggleMode("advanced")}
-          >
-            Advanced
-          </button>
-        </div>
-        {this.state.mode === "basic" && (
-          <Basic {...this.props} onAcceptHandler={this.onAcceptHandler} />
-        )}
+        <Basic {...this.props} onAcceptHandler={this.onAcceptHandler} />
       </div>
     );
   }

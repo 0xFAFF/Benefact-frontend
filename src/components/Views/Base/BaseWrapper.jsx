@@ -28,104 +28,149 @@ class BaseWrapper extends React.Component {
     error: null,
     filters: {
       active: false,
-      filterBy: {
-        tags: [],
-        columnId: "",
-        title: ""
-      },
-      matchBy: "all"
+      currGroupIndex: 0,
+      groups: [
+        {
+          filterBy: {
+            tags: [],
+            columnId: "",
+            title: ""
+          },
+          matchBy: "all"
+        }
+      ]
     }
   };
 
-  onChangeFilterHandler = (e, key) => {
+  createFilterGroup = () => {
+    this.setState(prevState => {
+      let newState = { ...prevState };
+      newState.filters.groups.push({
+        filterBy: {
+          tags: [],
+          columnId: "",
+          title: ""
+        },
+        matchBy: "all"
+      });
+      return newState;
+    });
+  };
+
+  updateFilterGroupIndex = index => {
+    this.setState(prevState => {
+      let newState = { ...prevState };
+      newState.filters.currGroupIndex = index;
+      return newState;
+    });
+  };
+
+  onChangeFilterHandler = (e, key, groupIndex = 0) => {
     if (key === "matchBy") {
-      this.setState({
-        filters: {
-          ...this.state.filters,
+      this.setState(prevState => {
+        let newState = { ...prevState };
+        newState.filters.groups[groupIndex] = {
+          ...prevState.filters.groups[groupIndex],
           matchBy: e
-        }
+        };
+        return newState;
       });
     } else if (key === "tags") {
-      let selectedTags = [...this.state.filters.filterBy.tags];
+      let selectedTags = [
+        ...this.state.filters.groups[groupIndex].filterBy.tags
+      ];
       const selectedTagIndex = selectedTags.findIndex(tag => tag.id === e.id);
       if (selectedTagIndex > -1) {
         selectedTags.splice(selectedTagIndex, 1);
       } else {
         selectedTags.push(e);
       }
-      this.setState({
-        filters: {
-          ...this.state.filters,
+      this.setState(prevState => {
+        let newState = { ...prevState };
+        newState.filters.groups[groupIndex] = {
+          ...prevState.filters.groups[groupIndex],
           filterBy: {
-            ...this.state.filters.filterBy,
+            ...prevState.filters.groups[groupIndex].filterBy,
             tags: selectedTags
           }
-        }
+        };
+        return newState;
       });
     } else if (key === "columnId") {
-      this.setState({
-        filters: {
-          ...this.state.filters,
+      e.persist();
+      this.setState(prevState => {
+        let newState = { ...prevState };
+        newState.filters.groups[groupIndex] = {
+          ...prevState.filters.groups[groupIndex],
           filterBy: {
-            ...this.state.filters.filterBy,
+            ...prevState.filters.groups[groupIndex].filterBy,
             columnId: e.target.value === "" ? null : parseInt(e.target.value)
           }
-        }
+        };
+        return newState;
       });
     } else if (key === "title") {
-      this.setState({
-        filters: {
-          ...this.state.filters,
+      e.persist();
+      this.setState(prevState => {
+        let newState = { ...prevState };
+        newState.filters.groups[groupIndex] = {
+          ...prevState.filters.groups[groupIndex],
           filterBy: {
-            ...this.state.filters.filterBy,
+            ...prevState.filters.groups[groupIndex].filterBy,
             title: e.target.value
           }
-        }
+        };
+        return newState;
       });
     }
   };
 
   selectFilters = () => {
-    const {
-      filters: { matchBy, filterBy }
-    } = this.state;
-    const { tags, columnId, title } = filterBy;
     let queryParams = {};
-    let params;
-    if (matchBy === "all") {
-      params = {};
-      Object.entries(filterBy).forEach(([filterKey, filterValue]) => {
-        if (filterKey === "tags" && filterValue.length > 0) {
-          params[filterKey] = filterValue.map(tag => tag.id);
-        } else if (
-          (filterKey === "columnId" || filterKey === "title") &&
-          filterValue !== ""
-        ) {
-          params[filterKey] = filterValue;
+    const {
+      filters: { groups = [] }
+    } = this.state;
+    groups.forEach((group, index) => {
+      const { matchBy, filterBy } = group;
+      const { tags, columnId, title } = filterBy;
+      let params;
+      if (matchBy === "all") {
+        params = {};
+        Object.entries(filterBy).forEach(([filterKey, filterValue]) => {
+          if (filterKey === "tags" && filterValue.length > 0) {
+            params[filterKey] = filterValue.map(tag => tag.id);
+          } else if (
+            (filterKey === "columnId" || filterKey === "title") &&
+            filterValue !== ""
+          ) {
+            params[filterKey] = filterValue;
+          }
+        });
+      } else {
+        params = [];
+        if (tags.length > 0) {
+          params = tags.map(tag => ({
+            tags: [tag.id]
+          }));
         }
-      });
-    } else {
-      params = [];
-      if (tags.length > 0) {
-        params = tags.map(tag => ({
-          tags: [tag.id]
-        }));
-      }
-      if (columnId !== "") {
-        params.push({ columnId: columnId });
-      }
-      if (title !== "") {
-        params.push({ title: title });
-      }
-    }
-    if (!isEmpty(params)) {
-      queryParams = {
-        Groups: {
-          GroupName1: Array.isArray(params) ? params : [params],
-          GroupName2: Array.isArray(params) ? params : [params]
+        if (columnId !== "") {
+          params.push({ columnId: columnId });
         }
-      };
-    }
+        if (title !== "") {
+          params.push({ title: title });
+        }
+      }
+      if (!isEmpty(params)) {
+        const keyName = `Group-${index}`;
+        queryParams = {
+          Groups: {
+            ...queryParams["Groups"],
+            [keyName]: Array.isArray(params) ? params : [params]
+          }
+        };
+      }
+    });
+
     !isEmpty(queryParams)
       ? this.updateFilters(queryParams)
       : this.updateFilters();
@@ -135,19 +180,24 @@ class BaseWrapper extends React.Component {
     this.setState({
       filters: {
         ...this.state.filters,
-        filterBy: {
-          tags: [],
-          columnId: "",
-          title: ""
-        },
-        matchBy: "all"
+        currGroupIndex: 0,
+        groups: [
+          {
+            filterBy: {
+              tags: [],
+              columnId: "",
+              title: ""
+            },
+            matchBy: "all"
+          }
+        ]
       }
     });
     this.updateFilters();
   };
 
   handleResetState = data => {
-    const { columns = [], cards = [], tags = [] } = data;
+    const { columns = [], cards = {}, tags = [] } = data;
     let columnOrder = columns.map(column => column.id);
     this.setState({
       // cards: Object.values(cards)[0] || [],
@@ -433,6 +483,8 @@ class BaseWrapper extends React.Component {
             resetFilters={this.resetFilters}
             onChangeFilterHandler={this.onChangeFilterHandler}
             selectFilters={this.selectFilters}
+            createFilterGroup={this.createFilterGroup}
+            updateFilterGroupIndex={this.updateFilterGroupIndex}
           />
           <Base
             {...baseState}

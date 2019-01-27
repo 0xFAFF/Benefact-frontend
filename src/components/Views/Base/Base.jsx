@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Kanban from "../Kanban";
 import List from "../List";
 import { Header } from "../../UI/BoardComponents";
+import "./Base.scss";
 
 const Base = props => {
   const {
@@ -35,7 +36,13 @@ const Base = props => {
         if (view === "kanban") {
           return (
             <div key={index}>
-              <div>{groupName}</div>
+              {filtersActive && (
+                <div className="views-group-name">
+                  <span className="views-group-name-title">
+                    Group {index + 1}
+                  </span>
+                </div>
+              )}
               <Kanban
                 {...kanbanState}
                 {...kanbanFunctions}

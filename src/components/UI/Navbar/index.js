@@ -52,7 +52,9 @@ class Navbar extends React.Component {
     filters: PropTypes.object,
     resetFilters: PropTypes.func,
     onChangeFilterHandler: PropTypes.func,
-    selectFilters: PropTypes.func
+    selectFilters: PropTypes.func,
+    createFilterGroup: PropTypes.func,
+    updateFilterGroupIndex: PropTypes.func
   };
 
   state = {
@@ -79,7 +81,9 @@ class Navbar extends React.Component {
       filters,
       resetFilters,
       onChangeFilterHandler,
-      selectFilters
+      selectFilters,
+      createFilterGroup,
+      updateFilterGroupIndex
     } = this.props;
     const configs = [
       {
@@ -124,6 +128,8 @@ class Navbar extends React.Component {
               popupStyle: {
                 width: "300px"
               },
+              updateFilterGroupIndex: updateFilterGroupIndex,
+              createFilterGroup: createFilterGroup,
               resetFilters: resetFilters,
               onChangeFilterHandler: onChangeFilterHandler,
               selectFilters: selectFilters,

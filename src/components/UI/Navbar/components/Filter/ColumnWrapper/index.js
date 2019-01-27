@@ -28,7 +28,7 @@ const ColumnWrapper = props => {
 ColumnWrapper.propTypes = {
   columns: PropTypes.array,
   onChangeFilterHandler: PropTypes.func,
-  selectedColumnId: PropTypes.string
+  selectedColumnId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
 export default ColumnWrapper;

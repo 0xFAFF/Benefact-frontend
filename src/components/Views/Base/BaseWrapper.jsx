@@ -173,6 +173,7 @@ class BaseWrapper extends React.Component {
         } else {
           await fetching(url, "GET").then(result => {
             let formattedData = camelCase(result.data);
+            console.log(formattedData);
             this.handleResetState(formattedData);
           });
         }
@@ -221,7 +222,7 @@ class BaseWrapper extends React.Component {
     });
   };
 
-  kanbanOnDragEnd = result => {
+  kanbanOnDragEnd = (result, groupName) => {
     const { destination, source, draggableId, type } = result;
     // check if there is a destination
     if (!destination) return;
@@ -260,8 +261,12 @@ class BaseWrapper extends React.Component {
     // Moving within one column
     if (start === finish) {
       // new cards nonmutated array
-      let cardsSrcCol = getCards(this.state.cards, source.droppableId, "col-");
-      let cardsNotSrcDestCols = this.state.cards.filter(
+      let cardsSrcCol = getCards(
+        this.state.cards[groupName],
+        source.droppableId,
+        "col-"
+      );
+      let cardsNotSrcDestCols = this.state.cards[groupName].filter(
         card =>
           `col-${card.columnId}` !== source.droppableId &&
           `col-${card.columnId}` !== destination.droppableId
@@ -277,7 +282,10 @@ class BaseWrapper extends React.Component {
       cardsSrcCol.splice(destination.index, 0, draggedCard);
       const newState = {
         ...this.state,
-        cards: [...cardsSrcCol, ...cardsNotSrcDestCols]
+        cards: {
+          ...this.state.cards,
+          [groupName]: [...cardsSrcCol, ...cardsNotSrcDestCols]
+        }
       };
       this.setState(newState);
       this.handleUpdate("cards", "UPDATE", draggedCard);
@@ -285,13 +293,17 @@ class BaseWrapper extends React.Component {
     }
 
     // Moving card from one column to another
-    let cardsSrcCol = getCards(this.state.cards, source.droppableId, "col-");
+    let cardsSrcCol = getCards(
+      this.state.cards[groupName],
+      source.droppableId,
+      "col-"
+    );
     let cardsDestCol = getCards(
-      this.state.cards,
+      this.state.cards[groupName],
       destination.droppableId,
       "col-"
     );
-    let cardsNotSrcDestCols = this.state.cards.filter(
+    let cardsNotSrcDestCols = this.state.cards[groupName].filter(
       card =>
         `col-${card.columnId}` !== source.droppableId &&
         `col-${card.columnId}` !== destination.droppableId
@@ -323,7 +335,10 @@ class BaseWrapper extends React.Component {
 
     const newState = {
       ...this.state,
-      cards: [...cardsSrcCol, ...cardsDestCol, ...cardsNotSrcDestCols]
+      cards: {
+        ...this.state.cards,
+        [groupName]: [...cardsSrcCol, ...cardsDestCol, ...cardsNotSrcDestCols]
+      }
     };
     this.setState(newState);
     this.handleUpdate("cards", "UPDATE", draggedCard);

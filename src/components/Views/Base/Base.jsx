@@ -31,15 +31,16 @@ const Base = props => {
   return (
     <div id="views-base">
       <Header filtersActive={filtersActive} resetFilters={resetFilters} />
-      {Object.entries(cards).map(([groupName, groupCards]) => {
+      {Object.entries(cards).map(([groupName, groupCards], index) => {
         if (view === "kanban") {
           return (
-            <div>
+            <div key={index}>
               <div>{groupName}</div>
               <Kanban
                 {...kanbanState}
                 {...kanbanFunctions}
                 cards={groupCards}
+                groupName={groupName}
               />
             </div>
           );

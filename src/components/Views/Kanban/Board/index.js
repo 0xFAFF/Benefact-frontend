@@ -71,6 +71,7 @@ Board.propTypes = {
   cards: PropTypes.array,
   columns: PropTypes.array,
   columnOrder: PropTypes.array,
+  groupName: PropTypes.string,
   kanbanOnDragEnd: PropTypes.func,
   updateBoardContent: PropTypes.func,
   addComponent: PropTypes.func,

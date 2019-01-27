@@ -200,7 +200,6 @@ class BaseWrapper extends React.Component {
     const { columns = [], cards = {}, tags = [] } = data;
     let columnOrder = columns.map(column => column.id);
     this.setState({
-      // cards: Object.values(cards)[0] || [],
       cards: cards,
       columns: columns,
       tags: tags,
@@ -223,7 +222,6 @@ class BaseWrapper extends React.Component {
         } else {
           await fetching(url, "GET").then(result => {
             let formattedData = camelCase(result.data);
-            console.log(formattedData);
             this.handleResetState(formattedData);
           });
         }
@@ -254,14 +252,35 @@ class BaseWrapper extends React.Component {
   };
 
   updateBoardContent = async (newContent, type) => {
-    let boardType = [...this.state[type]];
-    boardType[
-      boardType.findIndex(type => type.id === newContent.id)
-    ] = newContent;
-    const newState = {
-      ...this.state,
-      [type]: boardType
-    };
+    let boardType;
+    let newState;
+    if (type === "cards") {
+      let cardGroups = { ...this.state[type] };
+      const cards = Object.entries(cardGroups).map(
+        ([cardGroupKey, cardGroupValue]) => {
+          const cardIndex = cardGroupValue.findIndex(
+            type => type.id === newContent.id
+          );
+          if (cardIndex > -1) {
+            cardGroupValue[cardIndex] = newContent;
+          }
+          return { [cardGroupKey]: [...cardGroupValue] };
+        }
+      );
+      newState = {
+        ...this.state,
+        cards: Object.assign(...cards)
+      };
+    } else {
+      boardType = [...this.state[type]];
+      boardType[
+        boardType.findIndex(type => type.id === newContent.id)
+      ] = newContent;
+      newState = {
+        ...this.state,
+        [type]: boardType
+      };
+    }
     const url = URLS(type, "UPDATE");
     await fetching(url, "POST", newContent).then(result => {
       if (result.hasError) {

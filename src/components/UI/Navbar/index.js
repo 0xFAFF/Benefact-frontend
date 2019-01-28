@@ -15,7 +15,7 @@ const List = props => {
     return (
       <ul key={ulItem.id} className={ulClassName}>
         {options.map(item => {
-          const { id, icon, title, liClassName = "" } = item;
+          const { id, icon, image, title, liClassName = "" } = item;
           return (
             <li
               key={id}
@@ -26,6 +26,7 @@ const List = props => {
             >
               {icon && <FontAwesomeIcon icon={icon} size="lg" />}
               {title ? <span>{title}</span> : null}
+              {image && <img src={image} alt={image} width="25" height="25" />}
             </li>
           );
         })}
@@ -153,7 +154,8 @@ class Navbar extends React.Component {
           },
           {
             id: "brand",
-            title: "Benefact Faff",
+            title: "Benefact",
+            image: "fafficon.ico",
             liClassName: "brand"
           },
           {

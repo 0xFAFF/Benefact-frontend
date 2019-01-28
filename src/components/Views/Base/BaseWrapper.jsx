@@ -413,7 +413,7 @@ class BaseWrapper extends React.Component {
     this.handleUpdate("cards", "UPDATE", draggedCard);
   };
 
-  listOnDragEnd = result => {
+  listOnDragEnd = (result, groupName) => {
     const { destination, source, draggableId } = result;
     // check if there is a destination
     if (!destination) return;
@@ -425,7 +425,7 @@ class BaseWrapper extends React.Component {
       return;
     }
 
-    let cards = [...this.state.cards];
+    let cards = [...this.state.cards[groupName]];
     const draggedCard = cards.find(card => `card-${card.id}` === draggableId);
     draggedCard.index = destination.index;
     // Orders array for inserting droppable in new spot
@@ -433,7 +433,10 @@ class BaseWrapper extends React.Component {
     cards.splice(destination.index, 0, draggedCard);
     const newState = {
       ...this.state,
-      cards: [...cards]
+      cards: {
+        ...this.state.cards,
+        [groupName]: [...cards]
+      }
     };
     this.setState(newState);
     this.handleUpdate("cards", "UPDATE", draggedCard);

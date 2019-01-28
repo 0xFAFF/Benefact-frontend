@@ -26,12 +26,13 @@ const Board = props => {
     tags,
     updateBoardContent,
     deleteComponent,
-    listOnDragEnd
+    listOnDragEnd,
+    groupName
   } = props;
   return (
     <div id="list-board">
       <DragDropContext
-        onDragEnd={res => listOnDragEnd(res)}
+        onDragEnd={res => listOnDragEnd(res, groupName)}
         // onDragStart={this.onDragStart}
         // onDragUpdate={this.onDragUpdate}
       >
@@ -73,7 +74,8 @@ Board.propTypes = {
   tags: PropTypes.array,
   updateBoardContent: PropTypes.func,
   deleteComponent: PropTypes.func,
-  listOnDragEnd: PropTypes.func
+  listOnDragEnd: PropTypes.func,
+  groupName: PropTypes.string
 };
 
 export default Board;

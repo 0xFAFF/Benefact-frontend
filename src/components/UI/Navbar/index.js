@@ -155,7 +155,7 @@ class Navbar extends React.Component {
           {
             id: "brand",
             title: "Benefact",
-            image: "fafficon.png",
+            image: "fafficon.ico",
             liClassName: "brand"
           },
           {

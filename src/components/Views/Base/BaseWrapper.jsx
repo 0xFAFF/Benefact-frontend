@@ -306,15 +306,19 @@ class BaseWrapper extends React.Component {
 
     // Move columns around
     if (type === "column") {
-      const newColumnOrder = Array.from(this.state.columnOrder);
+      const newColumnOrder = [...this.state.columnOrder];
       newColumnOrder.splice(source.index, 1);
       newColumnOrder.splice(destination.index, 0, draggableId);
-
+      let draggedColumn = [...this.state.columns].find(
+        column => column.index === source.index
+      );
+      draggedColumn.index = destination.index;
       const newState = {
         ...this.state,
         columnOrder: newColumnOrder
       };
       this.setState(newState);
+      this.handleUpdate("columns", "UPDATE", draggedColumn);
       return;
     }
 

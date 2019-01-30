@@ -45,7 +45,7 @@ class Navbar extends React.Component {
   static propTypes = {
     addComponent: PropTypes.func,
     deleteComponent: PropTypes.func,
-    cards: PropTypes.array,
+    cards: PropTypes.object,
     columns: PropTypes.array,
     tags: PropTypes.array,
     handleBoardView: PropTypes.func,

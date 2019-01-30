@@ -39,7 +39,7 @@ const AddCard = props => {
                 title: title || "",
                 description: description || "",
                 tagIds: tagIds || [],
-                columnId: columnId || null
+                columnId: columnId || 0
               })
             }
             showDeleteModal={showDeleteModal}
@@ -49,14 +49,14 @@ const AddCard = props => {
         </Modal>
       ) : (
         <MarkdownEditor
-          content={{ id: cards.length + 1 }}
+          content={{}}
           columns={columns}
           updateBoardContent={({ title, description, tagIds, columnId }) =>
             addComponent("cards", {
               title: title || "",
               description: description || "",
               tagIds: tagIds || [],
-              columnId: columnId || null
+              columnId: columnId || 0
             })
           }
           onAcceptHandler={onAcceptHandler}
@@ -76,7 +76,7 @@ AddCard.propTypes = {
   handleCloseModal: PropTypes.func,
   addComponent: PropTypes.func,
   columns: PropTypes.array,
-  cards: PropTypes.array,
+  cards: PropTypes.object,
   columnId: PropTypes.number,
   onAcceptHandler: PropTypes.func,
   onClose: PropTypes.func

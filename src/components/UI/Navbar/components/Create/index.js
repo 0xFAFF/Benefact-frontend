@@ -9,7 +9,7 @@ import "./index.scss";
 class Create extends React.Component {
   static propTypes = {
     addComponent: PropTypes.func,
-    cards: PropTypes.array,
+    cards: PropTypes.object,
     columns: PropTypes.array,
     onClose: PropTypes.func,
     popupStyle: PropTypes.object,

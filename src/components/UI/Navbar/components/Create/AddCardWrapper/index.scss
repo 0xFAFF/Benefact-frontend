@@ -9,7 +9,8 @@
     #editor-mode {
       .editor-id,
       .editor-title,
-      .editor-description {
+      .editor-description,
+      .editor-comments {
         display: flex;
         flex-direction: column;
         align-items: flex-start;

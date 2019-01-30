@@ -19,13 +19,13 @@ const Editor = props => {
     title = "",
     description = "",
     tagIds = [],
-    columnId = "",
+    columnId = 0,
     comment = ""
   } = content;
 
   return (
     <div id="editor-mode">
-      <div className="editor-id">ID: {id}</div>
+      {id ? <div className="editor-id">ID: {id}</div> : null}
       <div className="editor-title">
         <label>Title: </label>
         <input
@@ -40,9 +40,8 @@ const Editor = props => {
         <div className="styled-select background-color semi-square">
           <select
             onChange={e => onChangeHandler(e, "columnId")}
-            value={columnId === null ? "" : columnId}
+            value={columnId}
           >
-            <option value={""}>No Column (default)</option>
             {columns.map(option => {
               return (
                 <option key={option.id} value={option.id}>
@@ -83,6 +82,7 @@ const Editor = props => {
       </div>
       <AcceptCancelButtons
         onAcceptHandler={() => {
+          console.log(content);
           updateBoardContent(content, "cards");
           onAcceptHandler();
         }}

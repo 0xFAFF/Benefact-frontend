@@ -31,7 +31,7 @@ AddCardWrapper.propTypes = {
   setPopupStyle: PropTypes.func,
   addComponent: PropTypes.func,
   columns: PropTypes.array,
-  cards: PropTypes.array,
+  cards: PropTypes.object,
   onClose: PropTypes.func
 };
 

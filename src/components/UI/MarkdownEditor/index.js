@@ -30,7 +30,7 @@ class MarkdownEditor extends React.Component {
         title: "",
         description: "",
         tagIds: [],
-        columnId: "",
+        columnId: 0,
         ...rest
       }
     });

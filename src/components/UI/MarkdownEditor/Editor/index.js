@@ -19,7 +19,7 @@ const Editor = props => {
     title = "",
     description = "",
     tagIds = [],
-    columnId = 0,
+    columnId,
     comment = ""
   } = content;
 
@@ -82,7 +82,6 @@ const Editor = props => {
       </div>
       <AcceptCancelButtons
         onAcceptHandler={() => {
-          console.log(content);
           updateBoardContent(content, "cards");
           onAcceptHandler();
         }}

@@ -24,13 +24,15 @@ class MarkdownEditor extends React.Component {
   };
 
   componentDidMount() {
-    const { index, ...rest } = this.props.content;
+    const { columns = [], content } = this.props;
+    const { index, ...rest } = content;
+    const defaultColumnId = columns[0].id;
     this.setState({
       newContent: {
         title: "",
         description: "",
         tagIds: [],
-        columnId: 0,
+        columnId: defaultColumnId,
         ...rest
       }
     });

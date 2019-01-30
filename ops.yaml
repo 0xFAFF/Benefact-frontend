@@ -15,7 +15,7 @@ cmds:
     - steps: [stop]
     - cmd: docker image rm {name}
   run:
-    - cmd: docker run -itd -p {port}:80 --name {name} {name}
+    - cmd: docker run -itd --name {name} {name}
     - cmd: docker network connect --ip {ip} {network} {name}
   stop:
     - cmd: docker stop {name}

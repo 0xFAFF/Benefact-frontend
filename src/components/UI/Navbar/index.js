@@ -26,7 +26,7 @@ const List = props => {
             >
               {icon && <FontAwesomeIcon icon={icon} size="lg" />}
               {title ? <span>{title}</span> : null}
-              {image && <img src={image} alt={image} width="25" height="25" />}
+              {image && <img src={image} alt={image} width="45" height="45" />}
             </li>
           );
         })}

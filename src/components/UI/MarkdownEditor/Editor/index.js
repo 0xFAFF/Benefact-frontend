@@ -19,7 +19,8 @@ const Editor = props => {
     title = "",
     description = "",
     tagIds = [],
-    columnId = ""
+    columnId = "",
+    comment = ""
   } = content;
 
   return (
@@ -58,6 +59,14 @@ const Editor = props => {
           id="editor-text-area"
           value={description}
           onChange={e => onChangeHandler(e, "description")}
+        />
+      </div>
+      <div className="editor-comments">
+        <div>Comment: </div>
+        <textarea
+          id="editor-text-area"
+          value={comment}
+          onChange={e => onChangeHandler(e, "comment")}
         />
       </div>
       <div className="tag-container">

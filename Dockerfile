@@ -14,6 +14,4 @@ FROM nginx:1.13.9-alpine
 ARG GIT_COMMIT=unspecified
 LABEL git_commit=$GIT_COMMIT
 COPY --from=builder /usr/src/app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

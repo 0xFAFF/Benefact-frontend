@@ -1,7 +1,7 @@
 const baseURL =
   process.env.NODE_ENV === "production"
-    ? "/api/"
-    : "http://benefact.faffgames.com:8080/api/";
+    ? "https://benefact.app/api/"
+    : "https://staging.benefact.app/api/";
 
 const urlKeyMap = {
   cards: {

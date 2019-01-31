@@ -1,6 +1,6 @@
 const baseURL =
   process.env.NODE_ENV === "production"
-    ? "https://benefact.app/api/"
+    ? "/api/" // Don't change this
     : "https://staging.benefact.app/api/";
 
 const urlKeyMap = {

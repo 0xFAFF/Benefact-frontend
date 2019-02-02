@@ -11,6 +11,14 @@
       width: 100%;
     }
   }
+  .editor-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .editor-vote {
+      margin-left: auto;
+    }
+  }
   .tag-container {
     margin: 10px 0;
   }

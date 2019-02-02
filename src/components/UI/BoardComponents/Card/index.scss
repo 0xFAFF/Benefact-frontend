@@ -8,15 +8,14 @@
   box-shadow: 0 1px 0px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.23);
 
   &:hover {
-    border-radius: 5px;
-    background-color: rgb(243, 243, 243);
+    background-color: #e5eae9;
     transition: background-color 0.8s ease;
     .edit-icon {
       visibility: visible;
       opacity: 1;
       transition: opacity 0.8s linear;
     }
-    box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.16), 2px 3px 6px rgba(0, 0, 0, 0.23);
+    box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.26), 2px 3px 6px rgba(0, 0, 0, 0.33);
   }
 
   .card-draggable-container {
@@ -47,12 +46,6 @@
             margin-top: 5px;
           }
           #vote-container {
-            .vote-thumbs-container {
-              margin: 0;
-            }
-            .vote-thumbs-container:first-child {
-              margin-right: 5px;
-            }
             .vote-counter {
               width: 25px;
               height: 15px;

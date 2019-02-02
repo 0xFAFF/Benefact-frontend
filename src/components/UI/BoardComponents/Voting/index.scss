@@ -4,7 +4,6 @@
   .vote-thumbs-container {
     display: flex;
     align-items: center;
-    margin-right: 15px;
     .vote-counter {
       width: 40px;
       height: 20px;
@@ -19,5 +18,8 @@
       margin-right: 5px;
       cursor: pointer;
     }
+  }
+  .vote-thumbs-container:first-child {
+    margin-right: 5px;
   }
 }

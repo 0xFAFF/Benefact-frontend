@@ -25,10 +25,12 @@ const Editor = props => {
 
   return (
     <div id="editor-mode">
-      <div className="editor-vote">
-        <Voting />
+      <div className="editor-header">
+        {id ? <div className="editor-id">ID: {id}</div> : null}
+        <div className="editor-vote">
+          <Voting />
+        </div>
       </div>
-      {id ? <div className="editor-id">ID: {id}</div> : null}
       <div className="editor-title">
         <label>Title: </label>
         <input

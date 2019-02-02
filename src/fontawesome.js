@@ -23,7 +23,9 @@ import {
   faFilter,
   faListUl,
   faCog,
-  faStream
+  faStream,
+  faThumbsUp,
+  faThumbsDown
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -47,5 +49,7 @@ library.add(
   faFilter,
   faListUl,
   faCog,
-  faStream
+  faStream,
+  faThumbsUp,
+  faThumbsDown
 );

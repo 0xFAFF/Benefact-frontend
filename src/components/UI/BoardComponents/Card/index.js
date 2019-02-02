@@ -4,7 +4,7 @@ import { Draggable } from "react-beautiful-dnd";
 import NaturalDragAnimation from "natural-drag-animation-rbdnd";
 import marked from "marked";
 import { Modal, MarkdownEditor } from "../../../UI";
-import Tags from "../Tags";
+import { Tags, Voting } from "../../BoardComponents";
 import IconRow from "./IconRow";
 import "./index.scss";
 
@@ -94,6 +94,7 @@ class Card extends React.Component {
                           </div>
                         </div>
                         <Tags tagIds={card.tagIds} />
+                        <Voting />
                       </div>
                     </div>
                   </div>

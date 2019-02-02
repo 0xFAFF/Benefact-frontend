@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Tags } from "../../BoardComponents";
+import { Tags, Voting } from "../../BoardComponents";
 import { AcceptCancelButtons } from "../../Popup";
 import "./index.scss";
 
@@ -25,6 +25,9 @@ const Editor = props => {
 
   return (
     <div id="editor-mode">
+      <div className="editor-vote">
+        <Voting />
+      </div>
       {id ? <div className="editor-id">ID: {id}</div> : null}
       <div className="editor-title">
         <label>Title: </label>

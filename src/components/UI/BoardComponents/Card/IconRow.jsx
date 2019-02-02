@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const IconRow = card => {
   const { description } = card;
   return description ? (
-    <div>
+    <div className="card-icon-row">
       <FontAwesomeIcon icon="stream" size="sm" color="#000" />
     </div>
   ) : null;

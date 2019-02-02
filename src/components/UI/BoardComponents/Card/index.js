@@ -90,11 +90,11 @@ class Card extends React.Component {
                             dangerouslySetInnerHTML={this.rawMarkup()}
                           />
                           <div className="right-side">
+                            <Voting />
                             <IconRow {...card} />
                           </div>
                         </div>
                         <Tags tagIds={card.tagIds} />
-                        <Voting />
                       </div>
                     </div>
                   </div>

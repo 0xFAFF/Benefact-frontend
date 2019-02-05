@@ -1,0 +1,67 @@
+#signin-container {
+  border: none;
+  background-color: #f6faf9;
+  width: 500px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  .signin-inner {
+    padding: 20px;
+    .signin-header {
+      font-size: 1.6em;
+      text-align: center;
+      margin-bottom: 19px;
+    }
+    .signin-button {
+      text-align: center;
+      background: dodgerblue;
+      color: white;
+      width: 100%;
+      border: none;
+      padding: 10px;
+      font-size: 1.2em;
+      opacity: 0.9;
+      cursor: pointer;
+    }
+    .input-container {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 20px;
+      .input-field {
+        width: 100%;
+        padding: 10px;
+        outline: none;
+        font-size: 1.1em;
+      }
+      .input-field:focus {
+        border: 2px solid dodgerblue;
+      }
+      .input-icon {
+        text-align: center;
+        font-size: 1.1em;
+        padding: 12px;
+        background: dodgerblue;
+        color: white;
+      }
+    }
+  }
+  .signin-bottom-container {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+    .signin-bottom-circle {
+      display: flex;
+      align-items: center;
+      font-size: 5px;
+      margin: 0 5px;
+    }
+    .register,
+    .forgot-password {
+      cursor: pointer;
+    }
+  }
+}

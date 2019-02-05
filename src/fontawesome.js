@@ -18,6 +18,8 @@ import {
   faChevronLeft,
   faTrash,
   faUserCircle,
+  faUser,
+  faKey,
   faHome,
   faBars,
   faFilter,
@@ -25,7 +27,9 @@ import {
   faCog,
   faStream,
   faThumbsUp,
-  faThumbsDown
+  faThumbsDown,
+  faCircle,
+  faEnvelope
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -44,6 +48,8 @@ library.add(
   faChevronLeft,
   faTrash,
   faUserCircle,
+  faUser,
+  faKey,
   faHome,
   faBars,
   faFilter,
@@ -51,5 +57,7 @@ library.add(
   faCog,
   faStream,
   faThumbsUp,
-  faThumbsDown
+  faThumbsDown,
+  faCircle,
+  faEnvelope
 );

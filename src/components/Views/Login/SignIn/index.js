@@ -8,7 +8,6 @@ const SignIn = props => {
   return (
     <div id="signin-container">
       <div className="signin-inner">
-        <div className="signin-header">Log in</div>
         <div className="input-container">
           <div className="input-icon">
             <FontAwesomeIcon icon={"user"} size="sm" />

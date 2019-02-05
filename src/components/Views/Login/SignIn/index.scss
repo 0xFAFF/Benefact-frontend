@@ -1,19 +1,7 @@
 #signin-container {
-  border: none;
-  background-color: #f6faf9;
-  width: 500px;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
   .signin-inner {
-    padding: 20px;
-    .signin-header {
-      font-size: 1.6em;
-      text-align: center;
-      margin-bottom: 19px;
-    }
+    padding: 18px;
+    margin-bottom: 1px;
     .signin-button {
       text-align: center;
       background: dodgerblue;

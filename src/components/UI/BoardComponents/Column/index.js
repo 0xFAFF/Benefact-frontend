@@ -64,7 +64,7 @@ class Column extends React.Component {
       updateBoardContent
     } = this.props;
 
-    const draggingStyle = { backgroundColor: "#e5eae9" };
+    const draggingStyle = { backgroundColor: "#f3f3f3" };
     return (
       <Draggable
         draggableId={column.id}

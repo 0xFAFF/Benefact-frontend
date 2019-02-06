@@ -1,4 +1,16 @@
+#base-container {
+  height: 95%;
+}
 #views-base {
+  height: 100%;
+  background-image: linear-gradient(
+    to bottom,
+    #7494c6,
+    #84a3d4,
+    #94b3e2,
+    #a4c2f1,
+    #b5d2ff
+  );
   .views-group-name {
     margin: 10px;
     .views-group-name-title {

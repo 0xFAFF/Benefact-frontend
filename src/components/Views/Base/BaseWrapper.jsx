@@ -496,7 +496,7 @@ class BaseWrapper extends React.Component {
     }
     return (
       <TagsProvider value={this.state.tags}>
-        <div>
+        <div id="base-container">
           <Navbar
             handleBoardView={this.handleBoardView}
             view={this.state.view}

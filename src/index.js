@@ -17,7 +17,7 @@ class App extends React.Component {
   render() {
     const { auth } = this.state;
     return (
-      <div>
+      <div id="app-container">
         {!auth && <Login onLoginHandler={this.onLoginHandler} />}
         {auth && <BaseWrapper />}
       </div>

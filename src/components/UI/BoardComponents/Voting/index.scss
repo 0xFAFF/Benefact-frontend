@@ -5,21 +5,23 @@
     display: flex;
     align-items: center;
     .vote-counter {
-      width: 40px;
+      width: 35px;
       height: 20px;
       border: 1px solid lightgray;
       background-color: #f6faf9;
-      border-radius: 50px;
+      border-radius: 3px;
       display: flex;
       justify-content: center;
       align-items: center;
     }
     .vote-thumb {
-      margin-right: 5px;
       cursor: pointer;
     }
+    .has-votes {
+      margin-right: 5px;
+    }
   }
-  .vote-thumbs-container:first-child {
+  .vote-thumbs-container .has-votes:first-child {
     margin-right: 5px;
   }
 }

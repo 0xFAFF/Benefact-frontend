@@ -4,7 +4,7 @@ import ReactModal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { get } from "lodash";
 import NavbarPopup from "./NavbarPopup";
-import { Create, Delete, View, Filter } from "./components";
+import { Create, Delete, View, Filter, User } from "./components";
 import "./index.scss";
 
 const List = props => {
@@ -96,6 +96,7 @@ class Navbar extends React.Component {
             // title: "Create",
             icon: "plus",
             component: Create,
+            modal: true,
             params: {
               popupStyle: {
                 width: "300px"
@@ -110,6 +111,7 @@ class Navbar extends React.Component {
             // title: "Delete",
             icon: "trash",
             component: Delete,
+            modal: true,
             params: {
               popupStyle: {
                 width: "300px"
@@ -125,6 +127,7 @@ class Navbar extends React.Component {
             // title: "Filter",
             icon: "filter",
             component: Filter,
+            modal: true,
             params: {
               popupStyle: {
                 width: "300px"
@@ -144,6 +147,7 @@ class Navbar extends React.Component {
             // title: "View",
             icon: "list-ul",
             component: View,
+            modal: true,
             params: {
               popupStyle: {
                 width: "200px"
@@ -171,7 +175,9 @@ class Navbar extends React.Component {
           {
             id: "user",
             // title: "User",
-            icon: "user-circle"
+            icon: "user-circle",
+            modal: false,
+            component: <User />
           },
           {
             id: "settings",
@@ -193,30 +199,38 @@ class Navbar extends React.Component {
         : null;
     const component = item ? item["component"] : null;
     const params = item ? item["params"] : null;
+    const modal = item ? item["modal"] : null;
     return (
       <div id="navbar">
-        <List
-          configs={configs}
-          onItemClick={this.onItemClick}
-          currItem={this.state.currItem}
-        />
-        <ReactModal
-          isOpen={this.state.currItem && this.state.currRow ? true : false}
-          onRequestClose={this.cleanCurrentItem}
-          shouldCloseOnOverlayClick={true}
-          shouldCloseOnEsc={true}
-          shouldFocusAfterRender={false}
-          className="nav-Modal"
-          overlayClassName="nav-Overlay"
-        >
-          <div className="outer-container">
-            <NavbarPopup
-              onClose={this.cleanCurrentItem}
-              component={component}
-              params={params}
-            />
-          </div>
-        </ReactModal>
+        <div className="navbar-list">
+          <List
+            configs={configs}
+            onItemClick={this.onItemClick}
+            currItem={this.state.currItem}
+          />
+        </div>
+        {modal && (
+          <ReactModal
+            isOpen={
+              this.state.currItem && this.state.currRow && modal ? true : false
+            }
+            onRequestClose={this.cleanCurrentItem}
+            shouldCloseOnOverlayClick={true}
+            shouldCloseOnEsc={true}
+            shouldFocusAfterRender={false}
+            className="nav-Modal"
+            overlayClassName="nav-Overlay"
+          >
+            <div className="outer-container">
+              <NavbarPopup
+                onClose={this.cleanCurrentItem}
+                component={component}
+                params={params}
+              />
+            </div>
+          </ReactModal>
+        )}
+        {!modal && this.state.currItem && this.state.currRow && component}
       </div>
     );
   }

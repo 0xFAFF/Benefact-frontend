@@ -1,47 +1,49 @@
 #navbar {
-  align-items: center;
-  box-shadow: 5px 10px 20px -20px rgb(97, 186, 253);
-  background-color: #f6faf9;
-  ul.menu {
-    height: 45px;
-    margin: 0 auto;
+  .navbar-list {
     align-items: center;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    .brand {
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .active-li {
-      background-color: rgb(243, 243, 243);
-      transition: box-shadow 0.2s ease;
-      transition: background-color 0.2s ease;
-      box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.16),
-        2px 3px 6px rgba(0, 0, 0, 0.23);
-    }
-    li > span {
-      margin-left: 5px;
-    }
-    li {
-      padding: 0 10px;
-      height: 100%;
-      display: flex;
+    box-shadow: 5px 10px 20px -20px rgb(97, 186, 253);
+    background-color: #f6faf9;
+    ul.menu {
+      height: 45px;
+      margin: 0 auto;
       align-items: center;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      .brand {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .active-li {
+        background-color: rgb(243, 243, 243);
+        transition: box-shadow 0.2s ease;
+        transition: background-color 0.2s ease;
+        box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.16),
+          2px 3px 6px rgba(0, 0, 0, 0.23);
+      }
+      li > span {
+        margin-left: 5px;
+      }
+      li {
+        padding: 0 10px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+      li:not(.brand) {
+        cursor: pointer;
+      }
+      li:not(.brand):hover {
+        background-color: rgb(243, 243, 243);
+        transition: box-shadow 0.2s ease;
+        transition: background-color 0.2s ease;
+        box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.23),
+          2px 3px 6px rgba(0, 0, 0, 0.43);
+      }
     }
-    li:not(.brand) {
-      cursor: pointer;
+    ul > li:not(:first-child):not(.brand) {
+      border: 1px solid #d4d6d6;
     }
-    li:not(.brand):hover {
-      background-color: rgb(243, 243, 243);
-      transition: box-shadow 0.2s ease;
-      transition: background-color 0.2s ease;
-      box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.23),
-        2px 3px 6px rgba(0, 0, 0, 0.43);
-    }
-  }
-  ul > li:not(:first-child):not(.brand) {
-    border: 1px solid #d4d6d6;
   }
 }
 

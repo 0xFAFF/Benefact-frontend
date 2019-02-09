@@ -1,45 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactModal from "react-modal";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { get } from "lodash";
-import NavbarPopup from "./NavbarPopup";
-import { Create, Delete, View, Filter, User } from "./components";
+import {
+  NavbarPopup,
+  NavbarList,
+  Create,
+  Delete,
+  View,
+  Filter
+} from "./components";
 import "./index.scss";
-
-const List = props => {
-  const { configs, onItemClick, currItem } = props;
-
-  return configs.map(ulItem => {
-    const { ulClassName, options } = ulItem;
-    return (
-      <ul key={ulItem.id} className={ulClassName}>
-        {options.map(item => {
-          const { id, icon, image, title, liClassName = "" } = item;
-          return (
-            <li
-              key={id}
-              className={`${liClassName}${currItem === id ? "active-li" : ""}`}
-              onClick={e => {
-                if (liClassName !== "brand") onItemClick(id, ulItem.id);
-              }}
-            >
-              {icon && <FontAwesomeIcon icon={icon} size="lg" />}
-              {title ? <span>{title}</span> : null}
-              {image && <img src={image} alt={image} width="45" height="45" />}
-            </li>
-          );
-        })}
-      </ul>
-    );
-  });
-};
-
-List.propTypes = {
-  configs: PropTypes.array,
-  onItemClick: PropTypes.func,
-  currItem: PropTypes.string
-};
 
 class Navbar extends React.Component {
   static propTypes = {
@@ -175,9 +146,10 @@ class Navbar extends React.Component {
           {
             id: "user",
             // title: "User",
+            liClassName: "user",
             icon: "user-circle",
             modal: false,
-            component: <User />
+            url: "/user"
           },
           {
             id: "settings",
@@ -202,13 +174,11 @@ class Navbar extends React.Component {
     const modal = item ? item["modal"] : null;
     return (
       <div id="navbar">
-        <div className="navbar-list">
-          <List
-            configs={configs}
-            onItemClick={this.onItemClick}
-            currItem={this.state.currItem}
-          />
-        </div>
+        <NavbarList
+          configs={configs}
+          onItemClick={this.onItemClick}
+          currItem={this.state.currItem}
+        />
         {modal && (
           <ReactModal
             isOpen={
@@ -230,7 +200,6 @@ class Navbar extends React.Component {
             </div>
           </ReactModal>
         )}
-        {!modal && this.state.currItem && this.state.currRow && component}
       </div>
     );
   }

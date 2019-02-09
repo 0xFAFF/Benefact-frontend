@@ -1,15 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./fontawesome";
-import "./index.scss";
-import BaseWrapper from "./components/Views/Base/BaseWrapper";
-import Login from "./components/Views/Login";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect
 } from "react-router-dom";
+import BaseWrapper from "./components/Views/Base/BaseWrapper";
+import { User } from "./components/UI/Navbar/components";
+import Login from "./components/Views/Login";
+import "./fontawesome";
+import "./index.scss";
 
 class App extends React.Component {
   state = {
@@ -22,6 +23,9 @@ class App extends React.Component {
 
   render() {
     const { auth } = this.state;
+
+    const RedirectLogin = () => <Redirect to="/login" />;
+
     return (
       <div id="app-container">
         <Router>
@@ -30,7 +34,7 @@ class App extends React.Component {
               exact
               path="/"
               render={props =>
-                auth ? <Redirect to="/board" /> : <Redirect to="/login" />
+                auth ? <Redirect to="/board" /> : <RedirectLogin />
               }
             />
             <Route
@@ -46,8 +50,12 @@ class App extends React.Component {
             <Route
               path="/board"
               render={props =>
-                auth ? <BaseWrapper {...props} /> : <Redirect to="/login" />
+                auth ? <BaseWrapper {...props} /> : <RedirectLogin />
               }
+            />
+            <Route
+              path="/user"
+              render={props => (auth ? <User {...props} /> : <RedirectLogin />)}
             />
           </Switch>
         </Router>

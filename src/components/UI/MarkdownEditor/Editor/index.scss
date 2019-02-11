@@ -2,7 +2,15 @@
   height: 100%;
   .editor-title {
     input {
+      background-color: rgb(243, 243, 243);
+      border: none;
       width: 100%;
+      padding: 5px 0;
+      cursor: pointer;
+    }
+    input:focus {
+      background-color: white;
+      cursor: initial;
     }
   }
   .editor-header {
@@ -27,6 +35,7 @@
     }
     .styled-select {
       select {
+        cursor: pointer;
         background: transparent;
         border: none;
         font-size: 14px;

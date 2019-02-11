@@ -47,9 +47,14 @@
     min-height: 40px;
     width: 99%;
     resize: none;
+    background-color: rgb(243, 243, 243);
+    cursor: pointer;
+    border: none;
   }
   #editor-text-area:focus {
     height: 150px;
+    cursor: initial;
+    background-color: white;
   }
 
   .tag-label {

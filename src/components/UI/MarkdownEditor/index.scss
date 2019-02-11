@@ -44,10 +44,14 @@
     color: white;
   }
   #editor-text-area {
-    height: 100px;
+    min-height: 40px;
     width: 99%;
     resize: none;
   }
+  #editor-text-area:focus {
+    height: 150px;
+  }
+
   .tag-label {
     display: flex;
     align-items: center;

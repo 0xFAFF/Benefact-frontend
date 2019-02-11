@@ -9,15 +9,15 @@
       height: 40px;
       margin: 0 10px;
       padding: 10px 10px;
-      background-color: #f1f1f1;
+      background-color: #4797e7;
+      color: white;
       cursor: pointer;
     }
     button:not(.button-active):hover {
-      background-color: rgb(219, 219, 219);
+      background-color: #2b6aa8;
     }
     .button-active {
-      background-color: #4797e7;
-      color: white;
+      background-color: #2b6aa8;
     }
   }
 }

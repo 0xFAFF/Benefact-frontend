@@ -18,15 +18,15 @@
       outline: none;
       height: 50px;
       border-radius: 10px;
-      background-color: #f1f1f1;
-      border: 1px solid lightgray;
+      background-color: #4797e7;
+      color: white;
       cursor: pointer;
     }
     .delete-popup-button:not(:last-child) {
       margin-bottom: 10px;
     }
     .delete-popup-button:hover {
-      background-color: rgb(219, 219, 219);
+      background-color: #2b6aa8;
     }
   }
 }

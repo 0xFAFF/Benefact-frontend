@@ -31,12 +31,4 @@
     border: 1px solid lightgray;
     cursor: pointer;
   }
-  button:not(.button-active):hover {
-    background-color: rgb(219, 219, 219);
-  }
-
-  .button-active {
-    background-color: #4797e7;
-    color: white;
-  }
 }

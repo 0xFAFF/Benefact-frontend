@@ -23,9 +23,10 @@
     outline: none;
     padding: 10px 16px;
     border-radius: 10px;
-    background-color: #f1f1f1;
     border: 1px solid lightgray;
     cursor: pointer;
+    background-color: #4797e7;
+    color: white;
   }
 
   .button-delete-card {
@@ -36,12 +37,11 @@
   }
 
   button:not(.button-active):hover {
-    background-color: rgb(219, 219, 219);
+    background-color: #2b6aa8;
   }
 
   .button-active {
-    background-color: #4797e7;
-    color: white;
+    background-color: #2b6aa8;
   }
   #editor-text-area {
     min-height: 40px;

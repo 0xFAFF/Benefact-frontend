@@ -7,8 +7,7 @@ import {
   Redirect
 } from "react-router-dom";
 import BaseWrapper from "./components/Views/Base/BaseWrapper";
-import { User } from "./components/UI/Navbar/components";
-import Login from "./components/Views/Login";
+import { User, Login } from "./components/Views";
 import "./fontawesome";
 import "./index.scss";
 

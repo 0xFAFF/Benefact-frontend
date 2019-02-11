@@ -1,5 +1,7 @@
 import React from "react";
-import { NavbarList } from "../../components";
+import { NavbarList } from "../../UI/Navbar/components";
+import { Profile } from "./components";
+import "./index.scss";
 
 class User extends React.Component {
   render() {
@@ -45,9 +47,11 @@ class User extends React.Component {
       }
     ];
     return (
-      <div>
+      <div id="user">
         <NavbarList configs={configs} />
-        <div>Hello World</div>
+        <div id="user-container">
+          <Profile />
+        </div>
       </div>
     );
   }

@@ -13,11 +13,12 @@ import "./index.scss";
 
 class App extends React.Component {
   state = {
-    auth: false
+    auth: false,
+    token: ""
   };
 
-  onLoginHandler = auth => {
-    this.setState({ auth });
+  onLoginHandler = token => {
+    this.setState({ auth: true, token });
   };
 
   render() {

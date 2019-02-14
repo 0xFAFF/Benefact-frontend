@@ -1,68 +1,94 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { URLS } from "../../../../constants";
+import { fetching } from "../../../../utils";
+import { Create, Login } from "./components";
 import "./index.scss";
 
-const Register = props => {
-  const { onViewChangeHandler } = props;
-  return (
-    <div id="register-container">
-      <div className="register-inner">
-        <div className="register-header">Create a New Account</div>
-        <div className="input-container">
-          <div className="input-icon">
-            <FontAwesomeIcon icon={"user"} size="sm" />
-          </div>
-          <input
-            className="input-field"
-            id="username"
-            name="username"
-            placeholder="Username"
+class Register extends React.Component {
+  state = {
+    fields: {
+      email: "",
+      username: "",
+      password: "",
+      confirmPassword: ""
+    },
+    registered: false,
+    token: ""
+  };
+
+  onInputChangeHandler = (e, field) => {
+    this.setState({
+      fields: {
+        ...this.state.fields,
+        [field]: e.target.value
+      }
+    });
+  };
+
+  onCreateAccount = async () => {
+    const {
+      fields: { email, username, password, confirmPassword }
+    } = this.state;
+    if (!email || !username || !password || !confirmPassword) {
+      console.warn("There's an empty field");
+      console.log(this.state);
+      return;
+    }
+
+    // Validate password and confirmPassword
+    if (password === confirmPassword) {
+      const url = URLS("users", "ADD");
+      const queryParams = {
+        email: email,
+        name: username,
+        password: password
+      };
+      await fetching(url, "POST", queryParams)
+        .then(result => {
+          if (result.hasError) {
+            this.handleError(result.message);
+          } else {
+            this.setState({ registered: true });
+          }
+        })
+        .then(async result => {
+          const url = URLS("users", "GET");
+          const queryParams = {
+            email: email,
+            password: password
+          };
+          await fetching(url, "POST", queryParams).then(result => {
+            if (result.hasError) {
+              this.handleError(result.message);
+            } else {
+              this.setState({ token: result.data });
+            }
+          });
+        });
+    } else {
+      console.warn("password and confirmPassword are different");
+    }
+  };
+
+  render() {
+    const { onViewChangeHandler, onLoginHandler } = this.props;
+    const { fields, registered, token } = this.state;
+    return (
+      <div id="register-container">
+        {!registered && (
+          <Create
+            fields={fields}
+            onViewChangeHandler={onViewChangeHandler}
+            onInputChangeHandler={this.onInputChangeHandler}
+            onCreateAccount={this.onCreateAccount}
           />
-        </div>
-        <div className="input-container">
-          <div className="input-icon">
-            <FontAwesomeIcon icon={"envelope"} size="sm" />
-          </div>
-          <input
-            className="input-field"
-            id="email"
-            name="email"
-            placeholder="Email"
-          />
-        </div>
-        <div className="input-container">
-          <div className="input-icon">
-            <FontAwesomeIcon icon={"key"} size="sm" />
-          </div>
-          <input
-            className="input-field"
-            id="password"
-            name="password"
-            placeholder="Password"
-          />
-        </div>
-        <div className="input-container">
-          <div className="input-icon">
-            <FontAwesomeIcon icon={"key"} size="sm" />
-          </div>
-          <input
-            className="input-field"
-            id="confirm-password"
-            name="confirm-password"
-            placeholder="Confirm Password"
-          />
-        </div>
-        <button className="register-button">Create Account</button>
+        )}
+        {registered && <Login token={token} onLoginHandler={onLoginHandler} />}
       </div>
-      <div className="register-bottom-container">
-        <div className="register" onClick={() => onViewChangeHandler("signin")}>
-          Already Registered? Login Here
-        </div>
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 Register.propTypes = {
   onViewChangeHandler: PropTypes.func

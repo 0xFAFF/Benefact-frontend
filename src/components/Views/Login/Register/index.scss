@@ -59,7 +59,19 @@
       font-size: 5px;
       margin: 0 5px;
     }
-    .register {
+    .register,
+    .login {
+      cursor: pointer;
+    }
+    .login {
+      text-align: center;
+      background: dodgerblue;
+      color: white;
+      width: 100%;
+      border: none;
+      padding: 10px;
+      font-size: 1.2em;
+      opacity: 0.9;
       cursor: pointer;
     }
   }

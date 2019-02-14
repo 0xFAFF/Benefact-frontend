@@ -39,7 +39,10 @@ class Login extends React.Component {
             />
           )}
           {view === "register" && (
-            <Register onViewChangeHandler={this.onViewChangeHandler} />
+            <Register
+              onViewChangeHandler={this.onViewChangeHandler}
+              onLoginHandler={onLoginHandler}
+            />
           )}
         </div>
       </div>

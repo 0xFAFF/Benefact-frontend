@@ -19,6 +19,10 @@ const urlKeyMap = {
     UPDATE: "updatetag",
     ADD: "addtag",
     DELETE: "deletetag"
+  },
+  users: {
+    GET: "authuser",
+    ADD: "createuser"
   }
 };
 

@@ -1,4 +1,4 @@
-import { titleCase } from ".";
+import { titleCase } from "../utils";
 
 const fetching = async (url, method, queryParams) => {
   let options = {

@@ -53,4 +53,16 @@
       background-color: #ccd9e052;
     }
   }
+  .editor-comments-save {
+    border: none;
+    outline: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    background-color: rgba(19, 180, 5, 0.7);
+    color: white;
+    cursor: pointer;
+  }
+  .editor-comments-save:hover {
+    background-color: rgba(19, 180, 5, 0.9) !important;
+  }
 }

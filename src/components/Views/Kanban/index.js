@@ -12,7 +12,8 @@ Kanban.propTypes = {
   updateBoardContent: PropTypes.func,
   addComponent: PropTypes.func,
   deleteComponent: PropTypes.func,
-  groupName: PropTypes.string
+  groupName: PropTypes.string,
+  handleResetBoard: PropTypes.func
 };
 
 export default Kanban;

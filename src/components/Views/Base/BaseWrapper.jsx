@@ -7,6 +7,7 @@ import { PacmanLoader } from "../../UI/Loader";
 import Base from "./Base";
 import { Navbar } from "../../UI";
 import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
+import { AuthProvider } from "../../Auth/AuthContext";
 
 class BaseWrapper extends React.Component {
   static propTypes = {
@@ -196,7 +197,7 @@ class BaseWrapper extends React.Component {
     this.updateFilters();
   };
 
-  handleResetState = data => {
+  handleResetBoard = data => {
     const { columns = [], cards = {}, tags = [] } = data;
     let columnOrder = columns.map(column => column.id);
     this.setState({
@@ -208,8 +209,9 @@ class BaseWrapper extends React.Component {
   };
 
   handleUpdate = async (type, action, queryParams) => {
+    const { token } = this.props;
     const url = URLS(type, action);
-    await fetching(url, "POST", queryParams)
+    await fetching(url, "POST", queryParams, token)
       .then(result => {
         if (result.hasError) {
           this.handleError(result.message);
@@ -222,7 +224,7 @@ class BaseWrapper extends React.Component {
         } else {
           await fetching(url, "GET").then(result => {
             let formattedData = camelCase(result.data);
-            this.handleResetState(formattedData);
+            this.handleResetBoard(formattedData);
           });
         }
       });
@@ -232,7 +234,7 @@ class BaseWrapper extends React.Component {
     const url = URLS("cards", "GET");
     await fetching(url, "POST", queryParams).then(result => {
       let formattedData = camelCase(result.data);
-      this.handleResetState(formattedData);
+      this.handleResetBoard(formattedData);
       if (queryParams) {
         this.setState({
           filters: {
@@ -281,8 +283,9 @@ class BaseWrapper extends React.Component {
         [type]: boardType
       };
     }
+    const { token } = this.props;
     const url = URLS(type, "UPDATE");
-    await fetching(url, "POST", newContent).then(result => {
+    await fetching(url, "POST", newContent, token).then(result => {
       if (result.hasError) {
         this.handleError(result.message);
       } else {
@@ -463,7 +466,7 @@ class BaseWrapper extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.data && this.props.data) {
       let formattedData = camelCase(this.props.data);
-      this.handleResetState(formattedData);
+      this.handleResetBoard(formattedData);
     }
   }
 
@@ -479,7 +482,8 @@ class BaseWrapper extends React.Component {
       kanbanOnDragEnd: this.kanbanOnDragEnd,
       updateBoardContent: this.updateBoardContent,
       addComponent: this.addComponent,
-      deleteComponent: this.deleteComponent
+      deleteComponent: this.deleteComponent,
+      handleResetBoard: this.handleResetBoard
     };
 
     const listFunctions = {
@@ -495,32 +499,34 @@ class BaseWrapper extends React.Component {
       return <PacmanLoader />;
     }
     return (
-      <TagsProvider value={this.state.tags}>
-        <div id="base-container">
-          <Navbar
-            handleBoardView={this.handleBoardView}
-            view={this.state.view}
-            addComponent={this.addComponent}
-            deleteComponent={this.deleteComponent}
-            cards={this.state.cards}
-            columns={this.state.columns}
-            tags={this.state.tags}
-            filters={this.state.filters}
-            resetFilters={this.resetFilters}
-            onChangeFilterHandler={this.onChangeFilterHandler}
-            selectFilters={this.selectFilters}
-            createFilterGroup={this.createFilterGroup}
-            updateFilterGroupIndex={this.updateFilterGroupIndex}
-          />
-          <Base
-            {...baseState}
-            kanbanFunctions={kanbanFunctions}
-            listFunctions={listFunctions}
-            filtersActive={this.state.filters.active}
-            resetFilters={this.resetFilters}
-          />
-        </div>
-      </TagsProvider>
+      <AuthProvider value={this.props.token}>
+        <TagsProvider value={this.state.tags}>
+          <div id="base-container">
+            <Navbar
+              handleBoardView={this.handleBoardView}
+              view={this.state.view}
+              addComponent={this.addComponent}
+              deleteComponent={this.deleteComponent}
+              cards={this.state.cards}
+              columns={this.state.columns}
+              tags={this.state.tags}
+              filters={this.state.filters}
+              resetFilters={this.resetFilters}
+              onChangeFilterHandler={this.onChangeFilterHandler}
+              selectFilters={this.selectFilters}
+              createFilterGroup={this.createFilterGroup}
+              updateFilterGroupIndex={this.updateFilterGroupIndex}
+            />
+            <Base
+              {...baseState}
+              kanbanFunctions={kanbanFunctions}
+              listFunctions={listFunctions}
+              filtersActive={this.state.filters.active}
+              resetFilters={this.resetFilters}
+            />
+          </div>
+        </TagsProvider>
+      </AuthProvider>
     );
   }
 }

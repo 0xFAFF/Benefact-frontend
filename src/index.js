@@ -13,16 +13,15 @@ import "./index.scss";
 
 class App extends React.Component {
   state = {
-    auth: false,
     token: ""
   };
 
   onLoginHandler = token => {
-    this.setState({ auth: true, token });
+    this.setState({ token });
   };
 
   render() {
-    const { auth } = this.state;
+    const { token } = this.state;
 
     const RedirectLogin = () => <Redirect to="/login" />;
 
@@ -34,13 +33,13 @@ class App extends React.Component {
               exact
               path="/"
               render={props =>
-                auth ? <Redirect to="/board" /> : <RedirectLogin />
+                token ? <Redirect to="/board" /> : <RedirectLogin />
               }
             />
             <Route
               path="/login"
               render={props =>
-                auth ? (
+                token ? (
                   <Redirect to="/board" />
                 ) : (
                   <Login {...props} onLoginHandler={this.onLoginHandler} />
@@ -50,12 +49,18 @@ class App extends React.Component {
             <Route
               path="/board"
               render={props =>
-                auth ? <BaseWrapper {...props} /> : <RedirectLogin />
+                token ? (
+                  <BaseWrapper {...props} token={token} />
+                ) : (
+                  <RedirectLogin />
+                )
               }
             />
             <Route
               path="/user"
-              render={props => (auth ? <User {...props} /> : <RedirectLogin />)}
+              render={props =>
+                token ? <User {...props} token={token} /> : <RedirectLogin />
+              }
             />
           </Switch>
         </Router>

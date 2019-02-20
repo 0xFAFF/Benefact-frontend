@@ -1,13 +1,19 @@
 import { titleCase } from "../utils";
 
-const fetching = async (url, method, queryParams) => {
+const fetching = async (url, method, queryParams, token) => {
   let options = {
     method,
-    headers: { "Content-Type": "application/json" }
+    headers: {
+      "Content-Type": "application/json"
+    }
   };
 
   if (queryParams) {
     options = { ...options, body: JSON.stringify(titleCase(queryParams)) };
+  }
+
+  if (token) {
+    options.headers["Authorization"] = "Bearer " + token;
   }
 
   const data = await fetch(url, options)

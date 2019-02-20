@@ -14,7 +14,8 @@ class InnerList extends React.PureComponent {
     kanbanOnDragEnd: PropTypes.func,
     updateBoardContent: PropTypes.func,
     addComponent: PropTypes.func,
-    deleteComponent: PropTypes.func
+    deleteComponent: PropTypes.func,
+    handleResetBoard: PropTypes.func
   };
   render() {
     const {
@@ -75,7 +76,8 @@ Board.propTypes = {
   kanbanOnDragEnd: PropTypes.func,
   updateBoardContent: PropTypes.func,
   addComponent: PropTypes.func,
-  deleteComponent: PropTypes.func
+  deleteComponent: PropTypes.func,
+  handleResetBoard: PropTypes.func
 };
 
 export default Board;

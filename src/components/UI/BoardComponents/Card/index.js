@@ -16,7 +16,8 @@ class Card extends React.Component {
     showDeleteModal: PropTypes.bool,
     updateBoardContent: PropTypes.func,
     addComponent: PropTypes.func,
-    deleteComponent: PropTypes.func
+    deleteComponent: PropTypes.func,
+    handleResetBoard: PropTypes.func
   };
 
   state = {

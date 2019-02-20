@@ -23,6 +23,11 @@ const urlKeyMap = {
   users: {
     GET: "authuser",
     ADD: "createuser"
+  },
+  comments: {
+    ADD: "addcomment",
+    DELETE: "deletecomment",
+    UPDATE: "updatecomment"
   }
 };
 

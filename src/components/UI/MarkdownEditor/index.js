@@ -109,32 +109,14 @@ class MarkdownEditor extends React.Component {
     } = this.props;
     return (
       <div id="markdown-editor">
-        <div className="button-group-modes">
-          <button
-            className={`button-editor ${
-              this.state.mode === "editor" ? "button-active" : ""
-            }`}
-            onClick={() => this.toggleMode("editor")}
-          >
-            Editor
-          </button>
-          <button
-            className={`button-preview ${
-              this.state.mode === "preview" ? "button-active" : ""
-            }`}
-            onClick={() => this.toggleMode("preview")}
-          >
-            Preview
-          </button>
-          {this.props.showDeleteModal && (
+        {/* {this.props.showDeleteModal && (
             <button
               className={`button-delete-card`}
               onClick={() => this.setState({ openDeleteModal: true })}
             >
               <FontAwesomeIcon icon="trash" size="sm" />
             </button>
-          )}
-        </div>
+          )} */}
         <div className="markdown-modes">
           {this.state.mode === "editor" && (
             <Editor

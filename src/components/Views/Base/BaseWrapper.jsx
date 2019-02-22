@@ -8,13 +8,15 @@ import Base from "./Base";
 import { Navbar } from "../../UI";
 import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
 import { AuthProvider } from "../../Auth/AuthContext";
+import { UsersProvider } from "../../Users/UsersContext";
 
 class BaseWrapper extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
       cards: PropTypes.object,
       columns: PropTypes.array,
-      tags: PropTypes.array
+      tags: PropTypes.array,
+      users: PropTypes.array
     }),
     isLoading: PropTypes.bool,
     error: PropTypes.string
@@ -25,6 +27,7 @@ class BaseWrapper extends React.Component {
     cards: {},
     columns: [],
     tags: [],
+    users: [],
     columnOrder: [],
     error: null,
     filters: {
@@ -467,6 +470,7 @@ class BaseWrapper extends React.Component {
     if (!prevProps.data && this.props.data) {
       let formattedData = camelCase(this.props.data);
       this.handleResetBoard(formattedData);
+      this.setState({ users: formattedData.users });
     }
   }
 
@@ -500,32 +504,34 @@ class BaseWrapper extends React.Component {
     }
     return (
       <AuthProvider value={this.props.token}>
-        <TagsProvider value={this.state.tags}>
-          <div id="base-container">
-            <Navbar
-              handleBoardView={this.handleBoardView}
-              view={this.state.view}
-              addComponent={this.addComponent}
-              deleteComponent={this.deleteComponent}
-              cards={this.state.cards}
-              columns={this.state.columns}
-              tags={this.state.tags}
-              filters={this.state.filters}
-              resetFilters={this.resetFilters}
-              onChangeFilterHandler={this.onChangeFilterHandler}
-              selectFilters={this.selectFilters}
-              createFilterGroup={this.createFilterGroup}
-              updateFilterGroupIndex={this.updateFilterGroupIndex}
-            />
-            <Base
-              {...baseState}
-              kanbanFunctions={kanbanFunctions}
-              listFunctions={listFunctions}
-              filtersActive={this.state.filters.active}
-              resetFilters={this.resetFilters}
-            />
-          </div>
-        </TagsProvider>
+        <UsersProvider value={this.state.users}>
+          <TagsProvider value={this.state.tags}>
+            <div id="base-container">
+              <Navbar
+                handleBoardView={this.handleBoardView}
+                view={this.state.view}
+                addComponent={this.addComponent}
+                deleteComponent={this.deleteComponent}
+                cards={this.state.cards}
+                columns={this.state.columns}
+                tags={this.state.tags}
+                filters={this.state.filters}
+                resetFilters={this.resetFilters}
+                onChangeFilterHandler={this.onChangeFilterHandler}
+                selectFilters={this.selectFilters}
+                createFilterGroup={this.createFilterGroup}
+                updateFilterGroupIndex={this.updateFilterGroupIndex}
+              />
+              <Base
+                {...baseState}
+                kanbanFunctions={kanbanFunctions}
+                listFunctions={listFunctions}
+                filtersActive={this.state.filters.active}
+                resetFilters={this.resetFilters}
+              />
+            </div>
+          </TagsProvider>
+        </UsersProvider>
       </AuthProvider>
     );
   }

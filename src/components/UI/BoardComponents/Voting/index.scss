@@ -1,11 +1,11 @@
 #vote-container {
-  display: flex;
-  align-items: center;
-  .vote-thumbs-container {
+  .flex-row {
     display: flex;
     align-items: center;
-    .vote-counter {
-      width: 35px;
+    flex-direction: row;
+  }
+  .vote-thumbs-container {
+    .vote-tracker {
       height: 20px;
       border: 1px solid lightgray;
       background-color: #f6faf9;
@@ -14,7 +14,7 @@
       justify-content: center;
       align-items: center;
     }
-    .vote-thumb {
+    .vote-counter {
       cursor: pointer;
     }
     .has-votes {

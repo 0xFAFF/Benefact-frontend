@@ -1,22 +1,47 @@
 #editor-mode {
   height: 100%;
-  .editor-title {
-    input {
-      background-color: rgb(243, 243, 243);
-      border: none;
-      width: 100%;
-      padding: 5px 0;
-      cursor: pointer;
-    }
-    input:focus {
-      background-color: white;
-      cursor: initial;
-    }
-  }
-  .editor-header {
+  .editor-container {
     display: flex;
-    flex-direction: row;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+  }
+
+  .flex-row {
+    display: flex;
     align-items: center;
+    flex-direction: row;
+  }
+
+  .flex-column {
+    flex-direction: column;
+  }
+
+  .container-icon {
+    margin-right: 15px;
+    padding-top: 4px;
+  }
+  .container-icon-padding {
+    padding-top: 0;
+  }
+
+  .row-margin {
+    margin-bottom: 5px;
+  }
+
+  #editor-title {
+    background-color: rgb(255, 255, 255);
+    width: 98%;
+    padding: 5px;
+    font-size: 1.3em;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #editor-title:focus {
+    border: none;
+  }
+
+  .editor-header {
     .editor-vote {
       margin-left: auto;
     }
@@ -24,10 +49,7 @@
   .tag-container {
     margin: 10px 0;
   }
-  .editor-column {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  #editor-column {
     .styled-select {
       border: 1px solid rgb(219, 217, 217);
       overflow: hidden;
@@ -57,12 +79,56 @@
     border: none;
     outline: none;
     padding: 8px 16px;
+    margin-left: 15px;
     border-radius: 10px;
     background-color: rgba(19, 180, 5, 0.7);
     color: white;
     cursor: pointer;
   }
-  .editor-comments-save:hover {
+  .editor-comments-save:hover:enabled {
     background-color: rgba(19, 180, 5, 0.9) !important;
+  }
+  .editor-comments-save:disabled,
+  .editor-comments-save:hover:disabled {
+    background-color: lightgray;
+    cursor: initial;
+  }
+  .editor-activity {
+    background-color: rgb(243, 243, 243);
+    margin: 10px auto;
+    padding: 10px;
+  }
+  .editor-activity-header {
+    display: flex;
+    .editor-activity-name {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+  }
+  .editor-activity-text,
+  .editor-activity-name {
+    margin-bottom: 10px;
+  }
+
+  .editor-activity-text {
+    display: inline-block;
+    border: 1px solid rgb(153, 153, 153);
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+  }
+
+  .editor-activity-actions {
+    display: flex;
+    font-size: 0.8em;
+    text-decoration: underline;
+    font-style: italic;
+    .editor-activity-edit {
+      margin-right: 5px;
+    }
+    .editor-activity-edit,
+    .editor-activity-delete {
+      cursor: pointer;
+    }
   }
 }

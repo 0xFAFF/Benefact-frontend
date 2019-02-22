@@ -29,7 +29,15 @@ import {
   faThumbsUp,
   faThumbsDown,
   faCircle,
-  faEnvelope
+  faEnvelope,
+  faOutdent,
+  faColumns,
+  faIdCard,
+  faArrowCircleUp,
+  faArrowCircleDown,
+  faNewspaper,
+  faComment,
+  faComments
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -59,5 +67,13 @@ library.add(
   faThumbsUp,
   faThumbsDown,
   faCircle,
-  faEnvelope
+  faEnvelope,
+  faOutdent,
+  faColumns,
+  faIdCard,
+  faArrowCircleUp,
+  faArrowCircleDown,
+  faNewspaper,
+  faComment,
+  faComments
 );

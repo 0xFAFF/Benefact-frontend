@@ -4,12 +4,13 @@
   left: 0;
   right: 0;
   bottom: 0;
+  overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.3);
 }
 
 .Modal {
   position: absolute;
-  top: 10%;
+  top: 7%;
   left: 50%;
   background-color: rgba(0, 0, 0, 0.3);
 }

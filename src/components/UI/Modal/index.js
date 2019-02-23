@@ -4,9 +4,13 @@ import ReactModal from "react-modal";
 import { isEmpty } from "lodash";
 import "./index.scss";
 
-ReactModal.setAppElement("#modal-root");
+ReactModal.setAppElement("#root");
 
 const Modal = props => {
+  function getParent() {
+    return document.querySelector("#root");
+  }
+
   const {
     isOpen,
     onClose,
@@ -21,6 +25,7 @@ const Modal = props => {
   } = props;
   return (
     <ReactModal
+      parentSelector={getParent}
       isOpen={isOpen}
       onRequestClose={onClose}
       shouldCloseOnOverlayClick={true}

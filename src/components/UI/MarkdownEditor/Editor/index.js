@@ -119,7 +119,7 @@ class Editor extends React.Component {
         <div className="editor-container">
           <FontAwesomeIcon
             className="container-icon"
-            style={{ paddingTop: "10px" }}
+            style={{ paddingTop: "5px" }}
             icon={"tag"}
             size="lg"
           />
@@ -206,8 +206,12 @@ class Editor extends React.Component {
                             </div>
                             <div className="editor-activity-time">
                               {editedTime
-                                ? moment(editedTime).fromNow()
-                                : moment(createdTime).fromNow()}
+                                ? moment
+                                    .unix(editedTime)
+                                    .format("MMM D [at] h:mm A z")
+                                : moment
+                                    .unix(createdTime)
+                                    .format("MMM D [at] h:mm A z")}
                             </div>
                           </div>
                           <div className="editor-activity-text">{text}</div>

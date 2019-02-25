@@ -6,9 +6,10 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
+import "./fontawesome";
 import BaseWrapper from "./components/Views/Base/BaseWrapper";
 import { User, Login } from "./components/Views";
-import "./fontawesome";
+import { Version } from "./components/Version";
 import "./index.scss";
 
 class App extends React.Component {
@@ -62,6 +63,7 @@ class App extends React.Component {
                 token ? <User {...props} token={token} /> : <RedirectLogin />
               }
             />
+            <Route path="/version" render={props => <Version />} />
           </Switch>
         </Router>
       </div>

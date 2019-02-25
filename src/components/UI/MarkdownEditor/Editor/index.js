@@ -62,7 +62,6 @@ class Editor extends React.Component {
           });
         });
     };
-
     return (
       <div id="editor-mode">
         <div className="editor-container">
@@ -173,7 +172,7 @@ class Editor extends React.Component {
                   if (this.state.addComment) onAddComment(token);
                 }}
               >
-                Save
+                Add
               </button>
             )}
           </AuthConsumer>
@@ -188,7 +187,7 @@ class Editor extends React.Component {
           <UsersConsumer>
             {users => {
               return (
-                <div>
+                <div id="editor-activity-container">
                   {comments.map(
                     ({ id, text, userId, createdTime, editedTime }) => {
                       const userData = users.find(user => user.id === userId);
@@ -197,28 +196,38 @@ class Editor extends React.Component {
                       return (
                         <div key={id} className="editor-activity">
                           <div className="editor-activity-header">
-                            <div className="editor-activity-name">
-                              {userName ? (
-                                <div>{userName}</div>
-                              ) : (
-                                <div>{userEmail}</div>
-                              )}
+                            <div className="editor-activity-header-left">
+                              <div className="editor-activity-name">
+                                {userName ? (
+                                  <div>{userName}</div>
+                                ) : (
+                                  <div>{userEmail}</div>
+                                )}
+                              </div>
+                              <div className="editor-activity-time">
+                                {editedTime
+                                  ? moment
+                                      .unix(editedTime)
+                                      .format("MMM D [at] h:mm A z")
+                                  : moment
+                                      .unix(createdTime)
+                                      .format("MMM D [at] h:mm A z")}
+                              </div>
                             </div>
-                            <div className="editor-activity-time">
-                              {editedTime
-                                ? moment
-                                    .unix(editedTime)
-                                    .format("MMM D [at] h:mm A z")
-                                : moment
-                                    .unix(createdTime)
-                                    .format("MMM D [at] h:mm A z")}
+                            <div className="editor-activity-header-right">
+                              <FontAwesomeIcon
+                                icon={"edit"}
+                                size="sm"
+                                className="edit"
+                              />
+                              <FontAwesomeIcon
+                                icon={"trash"}
+                                size="sm"
+                                className="delete"
+                              />
                             </div>
                           </div>
                           <div className="editor-activity-text">{text}</div>
-                          <div className="editor-activity-actions">
-                            <div className="editor-activity-edit">Edit</div>
-                            <div className="editor-activity-delete">Delete</div>
-                          </div>
                         </div>
                       );
                     }

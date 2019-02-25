@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { isEqual, sortBy, get } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Editor from "./Editor";
 import Preview from "./Preview";
@@ -23,6 +24,21 @@ class MarkdownEditor extends React.Component {
     newContent: {},
     openDeleteModal: false
   };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const prevComments = get(prevState, "newContent.comments", []);
+    const nextComments = get(nextProps, "content.comments", []);
+    if (!isEqual(sortBy(prevComments), sortBy(nextComments))) {
+      return {
+        ...prevState,
+        newContent: {
+          ...prevState.newContent,
+          comments: nextComments
+        }
+      };
+    }
+    return prevState;
+  }
 
   componentDidMount() {
     const { columns = [], content } = this.props;

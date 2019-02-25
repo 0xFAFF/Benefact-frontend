@@ -93,42 +93,72 @@
     background-color: lightgray;
     cursor: initial;
   }
-  .editor-activity {
-    background-color: rgb(243, 243, 243);
-    margin: 10px auto;
-    padding: 10px;
-  }
-  .editor-activity-header {
+  #editor-activity-container {
     display: flex;
-    .editor-activity-name {
-      font-weight: bold;
-      margin-right: 5px;
-    }
-  }
-  .editor-activity-text,
-  .editor-activity-name {
-    margin-bottom: 10px;
-  }
+    flex-direction: column;
 
-  .editor-activity-text {
-    display: inline-block;
-    border: 1px solid rgb(153, 153, 153);
-    padding: 10px;
-    border-radius: 10px;
-    background-color: white;
-  }
-
-  .editor-activity-actions {
-    display: flex;
-    font-size: 0.8em;
-    text-decoration: underline;
-    font-style: italic;
-    .editor-activity-edit {
-      margin-right: 5px;
+    flex-grow: 1;
+    .editor-activity {
+      background-color: rgb(243, 243, 243);
+      margin: 5px 0;
+      padding: 7px;
     }
-    .editor-activity-edit,
-    .editor-activity-delete {
+    .editor-activity-header {
+      display: flex;
+      justify-content: space-between;
+      .editor-activity-header-left {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+      .editor-activity-header-right {
+        visibility: hidden;
+        opacity: 0;
+      }
+      .editor-activity-name {
+        font-weight: bold;
+        margin-right: 5px;
+      }
+    }
+    .editor-activity:hover {
+      .editor-activity-header-right {
+        visibility: visible;
+        transition: opacity 0.8s linear;
+        opacity: 1;
+        .edit {
+          margin-right: 5px;
+        }
+        .edit,
+        .delete {
+          cursor: pointer;
+        }
+      }
+    }
+    .editor-activity-time {
+      font-size: 0.8em;
+    }
+
+    .editor-activity-text {
+      display: inline-block;
+      border: 1px solid rgb(153, 153, 153);
+      padding: 10px;
+      border-radius: 5px;
+      background-color: white;
       cursor: pointer;
+    }
+
+    .editor-activity-actions {
+      display: flex;
+      font-size: 0.8em;
+      text-decoration: underline;
+      font-style: italic;
+      .editor-activity-edit {
+        margin-right: 5px;
+      }
+      .editor-activity-edit,
+      .editor-activity-delete {
+        cursor: pointer;
+      }
     }
   }
 }

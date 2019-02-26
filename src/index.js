@@ -45,9 +45,7 @@ class App extends React.Component {
                   token ? (
                     <Redirect to="/board" />
                   ) : (
-                    <ErrorBoundary>
-                      <Login {...props} onLoginHandler={this.onLoginHandler} />
-                    </ErrorBoundary>
+                    <Login {...props} onLoginHandler={this.onLoginHandler} />
                   )
                 }
               />

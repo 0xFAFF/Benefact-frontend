@@ -1,4 +1,5 @@
 import React from "react";
+import "./index.scss";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -7,7 +8,6 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, info) {
-    console.log(error);
     if (error) {
       console.log(error);
       this.setState({ hasError: true });
@@ -15,9 +15,15 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
-    console.log("TEST");
     if (this.state.hasError) {
-      return <h4>Something went wrong.</h4>;
+      return (
+        <div id="error-boundary">
+          <div className="container">
+            <div>Oops! Something went wrong! :(</div>
+            <div>Refresh the page and try again.</div>
+          </div>
+        </div>
+      );
     }
     return this.props.children;
   }

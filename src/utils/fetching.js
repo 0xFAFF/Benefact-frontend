@@ -21,7 +21,8 @@ const fetching = async (url, method, queryParams, token) => {
       if (res.status === 200) {
         return res.json();
       } else {
-        throw new Error("Something went wrong");
+        console.log(res);
+        throw new Error(res.statusText);
       }
     })
     .then(res => {

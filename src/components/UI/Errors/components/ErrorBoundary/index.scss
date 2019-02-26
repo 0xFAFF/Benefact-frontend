@@ -1,0 +1,32 @@
+#error-boundary {
+  height: 100vh;
+  background-image: linear-gradient(
+    to left top,
+    #a482e3,
+    #947fe0,
+    #837cdc,
+    #7178d8,
+    #5e75d4,
+    #5e75d4,
+    #5e75d4,
+    #5e75d4,
+    #7178d8,
+    #837cdc,
+    #947fe0,
+    #a482e3
+  );
+  .container {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    height: 50%;
+    width: 100%;
+    text-shadow: 4px 4px gray;
+    font-size: 2em;
+    font-weight: 800;
+    font-family: "Montserrat", sans-serif;
+  }
+}

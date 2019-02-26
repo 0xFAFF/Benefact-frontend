@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { URLS } from "../../../../constants";
+import { ErrorHandling } from "../../../UI";
 import { fetching } from "../../../../utils";
 import "./index.scss";
 
@@ -9,6 +10,10 @@ class SignIn extends React.Component {
   state = {
     email: "",
     password: ""
+  };
+
+  handleError = message => {
+    this.setState({ showError: true, errorMessage: message });
   };
 
   onInputChangeHandler = (e, field) => {
@@ -35,6 +40,7 @@ class SignIn extends React.Component {
         this.handleError(result.message);
       } else {
         token = result.data;
+        console.log(result);
       }
     });
 
@@ -46,52 +52,57 @@ class SignIn extends React.Component {
   render() {
     const { onViewChangeHandler } = this.props;
     return (
-      <div id="signin-container">
-        <div className="signin-inner">
-          <div className="input-container">
-            <div className="input-icon">
-              <FontAwesomeIcon icon={"user"} size="sm" />
+      <ErrorHandling
+        showError={this.state.showError}
+        errorMessage={this.state.errorMessage}
+      >
+        <div id="signin-container">
+          <div className="signin-inner">
+            <div className="input-container">
+              <div className="input-icon">
+                <FontAwesomeIcon icon={"user"} size="sm" />
+              </div>
+              <input
+                className="input-field"
+                id="username"
+                name="username"
+                placeholder="Username or Email"
+                value={this.state.email}
+                onChange={e => this.onInputChangeHandler(e, "email")}
+              />
             </div>
-            <input
-              className="input-field"
-              id="username"
-              name="username"
-              placeholder="Username or Email"
-              value={this.state.email}
-              onChange={e => this.onInputChangeHandler(e, "email")}
-            />
-          </div>
-          <div className="input-container">
-            <div className="input-icon">
-              <FontAwesomeIcon icon={"key"} size="sm" />
+            <div className="input-container">
+              <div className="input-icon">
+                <FontAwesomeIcon icon={"key"} size="sm" />
+              </div>
+              <input
+                className="input-field"
+                id="password"
+                name="password"
+                placeholder="Password"
+                type="password"
+                value={this.state.password}
+                onChange={e => this.onInputChangeHandler(e, "password")}
+              />
             </div>
-            <input
-              className="input-field"
-              id="password"
-              name="password"
-              placeholder="Password"
-              type="password"
-              value={this.state.password}
-              onChange={e => this.onInputChangeHandler(e, "password")}
-            />
+            <button className="signin-button" onClick={this.onAuthCheck}>
+              Login
+            </button>
           </div>
-          <button className="signin-button" onClick={this.onAuthCheck}>
-            Login
-          </button>
+          <div className="signin-bottom-container">
+            <div
+              className="register"
+              onClick={() => onViewChangeHandler("register")}
+            >
+              Register
+            </div>
+            <div className="signin-bottom-circle">
+              <FontAwesomeIcon icon={"circle"} size="sm" />
+            </div>
+            <div className="forgot-password">Forgot Password?</div>
+          </div>
         </div>
-        <div className="signin-bottom-container">
-          <div
-            className="register"
-            onClick={() => onViewChangeHandler("register")}
-          >
-            Register
-          </div>
-          <div className="signin-bottom-circle">
-            <FontAwesomeIcon icon={"circle"} size="sm" />
-          </div>
-          <div className="forgot-password">Forgot Password?</div>
-        </div>
-      </div>
+      </ErrorHandling>
     );
   }
 }

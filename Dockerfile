@@ -1,7 +1,9 @@
 # build environment
 FROM node:9.6.1 as builder
+ARG GIT_COMMIT=unspecified
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
+ENV REACT_APP_GIT_COMMIT $GIT_COMMIT
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 COPY package.json /usr/src/app/package.json
 RUN npm install

@@ -5,3 +5,4 @@ export { default as Navbar } from "./Navbar";
 export { default as FilterView } from "./FilterView";
 export * from "./BoardComponents";
 export * from "./AddComponents";
+export { default as ErrorBoundary } from "./ErrorBoundary";

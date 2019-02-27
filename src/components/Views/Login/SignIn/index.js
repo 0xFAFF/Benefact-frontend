@@ -26,7 +26,6 @@ class SignIn extends React.Component {
 
     if (!email || !password) {
       console.warn("There's an empty field");
-      console.log(this.state);
       return;
     }
 
@@ -36,11 +35,11 @@ class SignIn extends React.Component {
       password: password
     };
     await fetching(url, "POST", queryParams).then(result => {
-      if (result.hasError) {
-        this.handleError(result.message);
+      const { hasError, message, data } = result;
+      if (hasError) {
+        this.handleError(message);
       } else {
-        token = result.data;
-        console.log(result);
+        token = data;
       }
     });
 
@@ -51,11 +50,9 @@ class SignIn extends React.Component {
 
   render() {
     const { onViewChangeHandler } = this.props;
+    const { showError, errorMessage } = this.state;
     return (
-      <ErrorHandling
-        showError={this.state.showError}
-        errorMessage={this.state.errorMessage}
-      >
+      <ErrorHandling showError={showError} errorMessage={errorMessage}>
         <div id="signin-container">
           <div className="signin-inner">
             <div className="input-container">

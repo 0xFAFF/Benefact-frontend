@@ -50,15 +50,19 @@ class Editor extends React.Component {
       this.setState({ addComment: "" });
       await fetching(url, "POST", queryParams, token)
         .then(result => {
-          if (result.hasError) {
-            this.handleError(result.message);
-          }
+          const { hasError, message } = result;
+          if (hasError) this.handleError(message);
         })
         .then(async result => {
           const url = URLS("cards", "GET");
           await fetching(url, "GET").then(result => {
-            let formattedData = camelCase(result.data);
-            handleResetBoard(formattedData);
+            const { hasError, message, data } = result;
+            if (hasError) {
+              this.handleError(message);
+            } else {
+              let formattedData = camelCase(data);
+              handleResetBoard(formattedData);
+            }
           });
         });
     };

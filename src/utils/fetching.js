@@ -21,7 +21,6 @@ const fetching = async (url, method, queryParams, token) => {
       if (res.status === 200) {
         return res.json();
       } else {
-        console.log(res);
         throw new Error(res.statusText);
       }
     })

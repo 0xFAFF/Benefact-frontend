@@ -8,30 +8,26 @@ const getFetching = url => Component =>
 
       this.state = {
         data: null,
-        isLoading: false,
-        error: null
+        isLoading: false
       };
     }
 
     componentDidMount = async () => {
       this.setState({ isLoading: true });
 
-      try {
-        const config = {
-          method: "GET",
-          headers: { "Content-Type": "application/json" }
-        };
-        const result = await fetch(url, config);
-        if (result.status === 200) {
-          this.setState({
-            data: await result.json(),
-            // data: mockdata,
-            isLoading: false
-          });
-        }
-      } catch (error) {
+      const config = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      };
+      const result = await fetch(url, config);
+      if (result.status === 200) {
         this.setState({
-          error,
+          data: await result.json(),
+          // data: mockdata,
+          isLoading: false
+        });
+      } else {
+        this.setState({
           isLoading: false
         });
       }

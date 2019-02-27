@@ -5,7 +5,7 @@ import { getCards, camelCase, getFetching, fetching } from "../../../utils";
 import { URLS } from "../../../constants";
 import { PacmanLoader } from "../../UI/Loader";
 import Base from "./Base";
-import { Navbar } from "../../UI";
+import { Navbar, ErrorHandling } from "../../UI";
 import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
 import { AuthProvider } from "../../Auth/AuthContext";
 import { UsersProvider } from "../../Users/UsersContext";
@@ -18,8 +18,7 @@ class BaseWrapper extends React.Component {
       tags: PropTypes.array,
       users: PropTypes.array
     }),
-    isLoading: PropTypes.bool,
-    error: PropTypes.string
+    isLoading: PropTypes.bool
   };
 
   state = {
@@ -29,7 +28,6 @@ class BaseWrapper extends React.Component {
     tags: [],
     users: [],
     columnOrder: [],
-    error: null,
     filters: {
       active: false,
       currGroupIndex: 0,
@@ -44,6 +42,10 @@ class BaseWrapper extends React.Component {
         }
       ]
     }
+  };
+
+  handleError = message => {
+    this.setState({ showError: true, errorMessage: message });
   };
 
   createFilterGroup = () => {
@@ -216,9 +218,8 @@ class BaseWrapper extends React.Component {
     const url = URLS(type, action);
     await fetching(url, "POST", queryParams, token)
       .then(result => {
-        if (result.hasError) {
-          this.handleError(result.message);
-        }
+        const { hasError, message } = result;
+        if (hasError) this.handleError(message);
       })
       .then(async result => {
         const url = URLS("cards", "GET");
@@ -226,8 +227,13 @@ class BaseWrapper extends React.Component {
           this.selectFilters();
         } else {
           await fetching(url, "GET").then(result => {
-            let formattedData = camelCase(result.data);
-            this.handleResetBoard(formattedData);
+            const { hasError, message, data } = result;
+            if (hasError) {
+              this.handleError(message);
+            } else {
+              let formattedData = camelCase(data);
+              this.handleResetBoard(formattedData);
+            }
           });
         }
       });
@@ -236,22 +242,27 @@ class BaseWrapper extends React.Component {
   updateFilters = async queryParams => {
     const url = URLS("cards", "GET");
     await fetching(url, "POST", queryParams).then(result => {
-      let formattedData = camelCase(result.data);
-      this.handleResetBoard(formattedData);
-      if (queryParams) {
-        this.setState({
-          filters: {
-            ...this.state.filters,
-            active: true
-          }
-        });
+      const { hasError, message, data } = result;
+      if (hasError) {
+        this.handleError(message);
       } else {
-        this.setState({
-          filters: {
-            ...this.state.filters,
-            active: false
-          }
-        });
+        let formattedData = camelCase(data);
+        this.handleResetBoard(formattedData);
+        if (queryParams) {
+          this.setState({
+            filters: {
+              ...this.state.filters,
+              active: true
+            }
+          });
+        } else {
+          this.setState({
+            filters: {
+              ...this.state.filters,
+              active: false
+            }
+          });
+        }
       }
     });
   };
@@ -289,8 +300,9 @@ class BaseWrapper extends React.Component {
     const { token } = this.props;
     const url = URLS(type, "UPDATE");
     await fetching(url, "POST", newContent, token).then(result => {
-      if (result.hasError) {
-        this.handleError(result.message);
+      const { hasError, message } = result;
+      if (hasError) {
+        this.handleError(message);
       } else {
         this.setState(newState);
       }
@@ -474,13 +486,9 @@ class BaseWrapper extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.setState({ error: this.props.error });
-  }
-
   render() {
     const { isLoading } = this.props;
-    const { error = this.props.error, ...baseState } = this.state;
+    const { showError, errorMessage, ...baseState } = this.state;
 
     const kanbanFunctions = {
       kanbanOnDragEnd: this.kanbanOnDragEnd,
@@ -497,42 +505,42 @@ class BaseWrapper extends React.Component {
       deleteComponent: this.deleteComponent
     };
 
-    if (error) {
-      return <div>Error: {error}</div>;
-    } else if (isLoading) {
+    if (isLoading) {
       return <PacmanLoader />;
     }
     return (
-      <AuthProvider value={this.props.token}>
-        <UsersProvider value={this.state.users}>
-          <TagsProvider value={this.state.tags}>
-            <div id="base-container">
-              <Navbar
-                handleBoardView={this.handleBoardView}
-                view={this.state.view}
-                addComponent={this.addComponent}
-                deleteComponent={this.deleteComponent}
-                cards={this.state.cards}
-                columns={this.state.columns}
-                tags={this.state.tags}
-                filters={this.state.filters}
-                resetFilters={this.resetFilters}
-                onChangeFilterHandler={this.onChangeFilterHandler}
-                selectFilters={this.selectFilters}
-                createFilterGroup={this.createFilterGroup}
-                updateFilterGroupIndex={this.updateFilterGroupIndex}
-              />
-              <Base
-                {...baseState}
-                kanbanFunctions={kanbanFunctions}
-                listFunctions={listFunctions}
-                filtersActive={this.state.filters.active}
-                resetFilters={this.resetFilters}
-              />
-            </div>
-          </TagsProvider>
-        </UsersProvider>
-      </AuthProvider>
+      <ErrorHandling showError={showError} errorMessage={errorMessage}>
+        <AuthProvider value={this.props.token}>
+          <UsersProvider value={this.state.users}>
+            <TagsProvider value={this.state.tags}>
+              <div id="base-container">
+                <Navbar
+                  handleBoardView={this.handleBoardView}
+                  view={this.state.view}
+                  addComponent={this.addComponent}
+                  deleteComponent={this.deleteComponent}
+                  cards={this.state.cards}
+                  columns={this.state.columns}
+                  tags={this.state.tags}
+                  filters={this.state.filters}
+                  resetFilters={this.resetFilters}
+                  onChangeFilterHandler={this.onChangeFilterHandler}
+                  selectFilters={this.selectFilters}
+                  createFilterGroup={this.createFilterGroup}
+                  updateFilterGroupIndex={this.updateFilterGroupIndex}
+                />
+                <Base
+                  {...baseState}
+                  kanbanFunctions={kanbanFunctions}
+                  listFunctions={listFunctions}
+                  filtersActive={this.state.filters.active}
+                  resetFilters={this.resetFilters}
+                />
+              </div>
+            </TagsProvider>
+          </UsersProvider>
+        </AuthProvider>
+      </ErrorHandling>
     );
   }
 }

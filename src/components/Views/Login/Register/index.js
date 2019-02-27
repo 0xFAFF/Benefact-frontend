@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { URLS } from "../../../../constants";
+import { ErrorHandling } from "../../../UI";
 import { fetching } from "../../../../utils";
 import { Create, Login } from "./components";
 import "./index.scss";
@@ -15,6 +16,10 @@ class Register extends React.Component {
     },
     registered: false,
     token: ""
+  };
+
+  handleError = message => {
+    this.setState({ showError: true, errorMessage: message });
   };
 
   onInputChangeHandler = (e, field) => {
@@ -32,7 +37,6 @@ class Register extends React.Component {
     } = this.state;
     if (!email || !username || !password || !confirmPassword) {
       console.warn("There's an empty field");
-      console.log(this.state);
       return;
     }
 
@@ -46,8 +50,9 @@ class Register extends React.Component {
       };
       await fetching(url, "POST", queryParams)
         .then(result => {
-          if (result.hasError) {
-            this.handleError(result.message);
+          const { hasError, message } = result;
+          if (hasError) {
+            this.handleError(message);
           } else {
             this.setState({ registered: true });
           }
@@ -59,10 +64,11 @@ class Register extends React.Component {
             password: password
           };
           await fetching(url, "POST", queryParams).then(result => {
-            if (result.hasError) {
-              this.handleError(result.message);
+            const { hasError, message, data } = result;
+            if (hasError) {
+              this.handleError(message);
             } else {
-              this.setState({ token: result.data });
+              this.setState({ token: data });
             }
           });
         });
@@ -73,19 +79,23 @@ class Register extends React.Component {
 
   render() {
     const { onViewChangeHandler, onLoginHandler } = this.props;
-    const { fields, registered, token } = this.state;
+    const { fields, registered, token, showError, errorMessage } = this.state;
     return (
-      <div id="register-container">
-        {!registered && (
-          <Create
-            fields={fields}
-            onViewChangeHandler={onViewChangeHandler}
-            onInputChangeHandler={this.onInputChangeHandler}
-            onCreateAccount={this.onCreateAccount}
-          />
-        )}
-        {registered && <Login token={token} onLoginHandler={onLoginHandler} />}
-      </div>
+      <ErrorHandling showError={showError} errorMessage={errorMessage}>
+        <div id="register-container">
+          {!registered && (
+            <Create
+              fields={fields}
+              onViewChangeHandler={onViewChangeHandler}
+              onInputChangeHandler={this.onInputChangeHandler}
+              onCreateAccount={this.onCreateAccount}
+            />
+          )}
+          {registered && (
+            <Login token={token} onLoginHandler={onLoginHandler} />
+          )}
+        </div>
+      </ErrorHandling>
     );
   }
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Cookies from 'js-cookie'
 import {
   BrowserRouter as Router,
   Route,
@@ -15,11 +16,18 @@ import "./index.scss";
 
 class App extends React.Component {
   state = {
-    token: ""
+    token: Cookies.get("token")
   };
 
   onLoginHandler = token => {
     this.setState({ token });
+    Cookies.set("token", token);
+  };
+
+  // TODO: Call this from the signout button
+  onLogoutHandler = () => {
+    this.setState({ token: "" });
+    Cookies.set("token", "");
   };
 
   render() {

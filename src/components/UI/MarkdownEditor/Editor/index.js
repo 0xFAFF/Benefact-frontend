@@ -13,7 +13,81 @@ import "./index.scss";
 
 class Editor extends React.Component {
   state = {
-    addComment: ""
+    addComment: "",
+    editComment: {
+      id: null,
+      message: ""
+    }
+  };
+
+  handleError = message => {
+    this.setState({ showError: true, errorMessage: message });
+  };
+
+  onChangeComment = (e, type) => {
+    if (type === "add") this.setState({ addComment: e.target.value });
+    if (type === "edit") {
+      e.persist();
+      this.setState(prevState => {
+        return {
+          ...prevState,
+          editComment: {
+            ...prevState.editComment,
+            message: e.target.value
+          }
+        };
+      });
+    }
+  };
+
+  onUpdateComment = async (token, type) => {
+    let url = "";
+    let text = "";
+    let queryParams = {};
+    if (type === "add") {
+      url = URLS("comments", "ADD");
+      text = this.state.addComment;
+      queryParams = {
+        cardId: this.props.content.id,
+        text
+      };
+    } else if (type === "edit") {
+      url = URLS("comments", "UPDATE");
+      text = this.state.editComment.message;
+      queryParams = {
+        id: this.state.editComment.id,
+        text
+      };
+    }
+
+    await fetching(url, "POST", queryParams, token)
+      .then(result => {
+        const { hasError, message } = result;
+        if (hasError) this.handleError(message);
+      })
+      .then(async result => {
+        const url = URLS("cards", "GET");
+        await fetching(url, "GET").then(result => {
+          const { hasError, message, data } = result;
+          if (hasError) {
+            this.handleError(message);
+          } else {
+            let formattedData = camelCase(data);
+            this.props.handleResetBoard(formattedData);
+          }
+        });
+      });
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        addComment: "",
+        editComment: {
+          ...prevState.editComment,
+          id: null,
+          message: ""
+        }
+      };
+    });
   };
 
   render() {
@@ -24,8 +98,7 @@ class Editor extends React.Component {
       addComponent,
       updateBoardContent,
       onAcceptHandler,
-      onCancelHandler,
-      handleResetBoard
+      onCancelHandler
     } = this.props;
     const {
       id = "",
@@ -37,35 +110,6 @@ class Editor extends React.Component {
     } = content;
     const { addComment } = this.state;
 
-    const onChangeComment = e => {
-      this.setState({ addComment: e.target.value });
-    };
-
-    const onAddComment = async token => {
-      const url = URLS("comments", "ADD");
-      const queryParams = {
-        cardId: id,
-        text: this.state.addComment
-      };
-      this.setState({ addComment: "" });
-      await fetching(url, "POST", queryParams, token)
-        .then(result => {
-          const { hasError, message } = result;
-          if (hasError) this.handleError(message);
-        })
-        .then(async result => {
-          const url = URLS("cards", "GET");
-          await fetching(url, "GET").then(result => {
-            const { hasError, message, data } = result;
-            if (hasError) {
-              this.handleError(message);
-            } else {
-              let formattedData = camelCase(data);
-              handleResetBoard(formattedData);
-            }
-          });
-        });
-    };
     return (
       <div id="editor-mode">
         <div className="editor-container">
@@ -165,7 +209,7 @@ class Editor extends React.Component {
             // onFocus={() =>
             //   onChangeHandler({ target: { value: "hello" } }, "description")
             // }
-            onChange={onChangeComment}
+            onChange={e => this.onChangeComment(e, "add")}
           />
           <AuthConsumer>
             {token => (
@@ -173,7 +217,7 @@ class Editor extends React.Component {
                 className="editor-comments-save"
                 disabled={!this.state.addComment}
                 onMouseDown={() => {
-                  if (this.state.addComment) onAddComment(token);
+                  if (this.state.addComment) this.onUpdateComment(token, "add");
                 }}
               >
                 Add
@@ -209,13 +253,20 @@ class Editor extends React.Component {
                                 )}
                               </div>
                               <div className="editor-activity-time">
-                                {editedTime
-                                  ? moment
-                                      .unix(editedTime)
-                                      .format("MMM D [at] h:mm A z")
-                                  : moment
-                                      .unix(createdTime)
-                                      .format("MMM D [at] h:mm A z")}
+                                {editedTime ? (
+                                  <div>
+                                    <span>
+                                      {moment
+                                        .unix(editedTime)
+                                        .format("MMM D [at] h:mm A z")}
+                                    </span>
+                                    <span>(Edited)</span>
+                                  </div>
+                                ) : (
+                                  moment
+                                    .unix(createdTime)
+                                    .format("MMM D [at] h:mm A z")
+                                )}
                               </div>
                             </div>
                             <div className="editor-activity-header-right">
@@ -231,7 +282,37 @@ class Editor extends React.Component {
                               />
                             </div>
                           </div>
-                          <div className="editor-activity-text">{text}</div>
+                          <div className="editor-activity-text-container">
+                            <TextArea
+                              className="editor-activity-text"
+                              minRows={1}
+                              value={
+                                this.state.editComment.id === id
+                                  ? this.state.editComment.message
+                                  : text
+                              }
+                              onFocus={() => {
+                                this.setState({
+                                  editComment: { id, message: text }
+                                });
+                              }}
+                              onChange={e => this.onChangeComment(e, "edit")}
+                            />
+                            {this.state.editComment.id === id && (
+                              <AuthConsumer>
+                                {token => (
+                                  <button
+                                    className="editor-comments-save edit-comment-save"
+                                    onMouseDown={() => {
+                                      this.onUpdateComment(token, "edit");
+                                    }}
+                                  >
+                                    Save
+                                  </button>
+                                )}
+                              </AuthConsumer>
+                            )}
+                          </div>
                         </div>
                       );
                     }

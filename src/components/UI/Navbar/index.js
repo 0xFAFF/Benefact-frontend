@@ -8,7 +8,8 @@ import {
   Create,
   Delete,
   View,
-  Filter
+  Filter,
+  Logout
 } from "./components";
 import "./index.scss";
 
@@ -26,7 +27,8 @@ class Navbar extends React.Component {
     onChangeFilterHandler: PropTypes.func,
     selectFilters: PropTypes.func,
     createFilterGroup: PropTypes.func,
-    updateFilterGroupIndex: PropTypes.func
+    updateFilterGroupIndex: PropTypes.func,
+    onLogoutHandler: PropTypes.func
   };
 
   state = {
@@ -55,7 +57,8 @@ class Navbar extends React.Component {
       onChangeFilterHandler,
       selectFilters,
       createFilterGroup,
-      updateFilterGroupIndex
+      updateFilterGroupIndex,
+      onLogoutHandler
     } = this.props;
     const configs = [
       {
@@ -152,9 +155,14 @@ class Navbar extends React.Component {
             url: "/user"
           },
           {
-            id: "settings",
-            // title: "Settings",
-            icon: "cog"
+            id: "logout",
+            // title: "Logout",
+            icon: "sign-out-alt",
+            component: Logout,
+            modal: true,
+            params: {
+              onLogoutHandler: onLogoutHandler
+            }
           }
         ]
       }

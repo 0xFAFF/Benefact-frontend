@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 import {
   BrowserRouter as Router,
   Route,
@@ -24,7 +24,6 @@ class App extends React.Component {
     Cookies.set("token", token);
   };
 
-  // TODO: Call this from the signout button
   onLogoutHandler = () => {
     this.setState({ token: "" });
     Cookies.set("token", "");
@@ -61,7 +60,11 @@ class App extends React.Component {
                 path="/board"
                 render={props =>
                   token ? (
-                    <BaseWrapper {...props} token={token} />
+                    <BaseWrapper
+                      {...props}
+                      token={token}
+                      onLogoutHandler={this.onLogoutHandler}
+                    />
                   ) : (
                     <RedirectLogin />
                   )

@@ -37,7 +37,8 @@ import {
   faArrowCircleDown,
   faNewspaper,
   faComment,
-  faComments
+  faComments,
+  faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -75,5 +76,6 @@ library.add(
   faArrowCircleDown,
   faNewspaper,
   faComment,
-  faComments
+  faComments,
+  faSignOutAlt
 );

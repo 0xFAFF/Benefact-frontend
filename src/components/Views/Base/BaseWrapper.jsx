@@ -18,7 +18,8 @@ class BaseWrapper extends React.Component {
       tags: PropTypes.array,
       users: PropTypes.array
     }),
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    onLogoutHandler: PropTypes.func
   };
 
   state = {
@@ -487,7 +488,7 @@ class BaseWrapper extends React.Component {
   }
 
   render() {
-    const { isLoading } = this.props;
+    const { isLoading, onLogoutHandler } = this.props;
     const { showError, errorMessage, ...baseState } = this.state;
 
     const kanbanFunctions = {
@@ -508,6 +509,7 @@ class BaseWrapper extends React.Component {
     if (isLoading) {
       return <PacmanLoader />;
     }
+
     return (
       <ErrorHandling showError={showError} errorMessage={errorMessage}>
         <AuthProvider value={this.props.token}>
@@ -528,6 +530,7 @@ class BaseWrapper extends React.Component {
                   selectFilters={this.selectFilters}
                   createFilterGroup={this.createFilterGroup}
                   updateFilterGroupIndex={this.updateFilterGroupIndex}
+                  onLogoutHandler={onLogoutHandler}
                 />
                 <Base
                   {...baseState}

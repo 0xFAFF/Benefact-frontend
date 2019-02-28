@@ -40,25 +40,35 @@ class Editor extends React.Component {
     }
   };
 
-  onUpdateComment = async (token, type) => {
-    let url = "";
+  onUpdateComment = async (token, type, id) => {
+    const {
+      addComment,
+      editComment: { message }
+    } = this.state;
+    let urlType = "";
     let text = "";
     let queryParams = {};
     if (type === "add") {
-      url = URLS("comments", "ADD");
-      text = this.state.addComment;
+      urlType = "ADD";
+      text = addComment;
       queryParams = {
-        cardId: this.props.content.id,
+        cardId: id,
         text
       };
     } else if (type === "edit") {
-      url = URLS("comments", "UPDATE");
-      text = this.state.editComment.message;
+      urlType = "UPDATE";
+      text = message;
       queryParams = {
-        id: this.state.editComment.id,
+        id,
         text
       };
+    } else if (type === "delete") {
+      urlType = "DELETE";
+      queryParams = {
+        id
+      };
     }
+    const url = URLS("comments", urlType);
 
     await fetching(url, "POST", queryParams, token)
       .then(result => {
@@ -217,7 +227,8 @@ class Editor extends React.Component {
                 className="editor-comments-save"
                 disabled={!this.state.addComment}
                 onMouseDown={() => {
-                  if (this.state.addComment) this.onUpdateComment(token, "add");
+                  if (this.state.addComment)
+                    this.onUpdateComment(token, "add", this.props.content.id);
                 }}
               >
                 Add
@@ -270,16 +281,23 @@ class Editor extends React.Component {
                               </div>
                             </div>
                             <div className="editor-activity-header-right">
-                              <FontAwesomeIcon
+                              {/* <FontAwesomeIcon
                                 icon={"edit"}
                                 size="sm"
                                 className="edit"
-                              />
-                              <FontAwesomeIcon
-                                icon={"trash"}
-                                size="sm"
-                                className="delete"
-                              />
+                              /> */}
+                              <AuthConsumer>
+                                {token => (
+                                  <FontAwesomeIcon
+                                    icon={"trash"}
+                                    size="sm"
+                                    className="delete"
+                                    onClick={() =>
+                                      this.onUpdateComment(token, "delete", id)
+                                    }
+                                  />
+                                )}
+                              </AuthConsumer>
                             </div>
                           </div>
                           <div className="editor-activity-text-container">
@@ -296,7 +314,9 @@ class Editor extends React.Component {
                                   editComment: { id, message: text }
                                 });
                               }}
-                              onChange={e => this.onChangeComment(e, "edit")}
+                              onChange={e =>
+                                this.onChangeComment(e, "edit", id)
+                              }
                             />
                             {this.state.editComment.id === id && (
                               <AuthConsumer>

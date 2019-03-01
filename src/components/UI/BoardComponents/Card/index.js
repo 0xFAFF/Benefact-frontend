@@ -57,6 +57,7 @@ class Card extends React.Component {
 
   render() {
     const { card, index, showDeleteModal = true, ...rest } = this.props;
+    const { votes } = card;
 
     return (
       <div>
@@ -91,7 +92,7 @@ class Card extends React.Component {
                             dangerouslySetInnerHTML={this.rawMarkup()}
                           />
                           <div className="right-side">
-                            <Voting />
+                            <Voting votes={votes} />
                             <IconRow {...card} />
                           </div>
                         </div>

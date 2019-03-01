@@ -28,6 +28,9 @@ const urlKeyMap = {
     ADD: "addcomment",
     DELETE: "deletecomment",
     UPDATE: "updatecomment"
+  },
+  votes: {
+    UPDATE: "cardvote"
   }
 };
 

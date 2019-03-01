@@ -4,17 +4,22 @@ import "./index.scss";
 
 const Voting = props => {
   const {
-    upvotes = 0,
+    votes = [],
     size = "sm",
     defaultDisplay = false,
     counterWidth = "50px"
   } = props;
 
+  const totalVotes = votes.reduce((arr, curr) => {
+    const { count = 0 } = curr;
+    return arr + count;
+  }, 0);
+
   return (
     <div id="vote-container" className="flex-row">
       <div
         className={`flex-row vote-thumbs-container ${
-          upvotes ? "has-votes" : ""
+          totalVotes ? "has-votes" : ""
         }`}
       >
         <div
@@ -22,7 +27,7 @@ const Voting = props => {
             e.stopPropagation();
           }}
           className={`vote-counter  ${
-            upvotes || defaultDisplay ? "has-votes" : ""
+            totalVotes || defaultDisplay ? "has-votes" : ""
           }`}
         >
           <FontAwesomeIcon
@@ -31,13 +36,13 @@ const Voting = props => {
             color={"#13b405"}
           />
         </div>
-        {(upvotes !== 0 || defaultDisplay) && (
+        {(totalVotes !== 0 || defaultDisplay) && (
           <div
             onClick={e => {
               e.stopPropagation();
             }}
             className={`vote-counter  ${
-              upvotes || defaultDisplay ? "has-votes" : ""
+              totalVotes || defaultDisplay ? "has-votes" : ""
             }`}
           >
             <FontAwesomeIcon
@@ -47,14 +52,14 @@ const Voting = props => {
             />
           </div>
         )}
-        {(defaultDisplay || (upvotes !== 0 && !defaultDisplay)) && (
+        {(defaultDisplay || (totalVotes !== 0 && !defaultDisplay)) && (
           <div className="vote-tracker" style={{ width: counterWidth }}>
-            {upvotes}
+            {totalVotes}
           </div>
         )}
         {/* {defaultDisplay && (
           <div className="vote-double-counter flex-row">
-            <div className="thumb-container">{upvotes}</div>
+            <div className="thumb-container"> totalVotes}</div>
           </div>
         )} */}
       </div>

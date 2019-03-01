@@ -1,10 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { isEqual, sortBy, get } from "lodash";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Editor from "./Editor";
-import Preview from "./Preview";
-import DeleteModal from "./DeleteModal";
 import "./index.scss";
 
 class MarkdownEditor extends React.Component {
@@ -20,9 +17,7 @@ class MarkdownEditor extends React.Component {
   };
 
   state = {
-    mode: "editor",
-    newContent: {},
-    openDeleteModal: false
+    newContent: {}
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -55,8 +50,6 @@ class MarkdownEditor extends React.Component {
     });
   }
 
-  handleCloseModal = () => this.setState({ openDeleteModal: false });
-
   resetContent = () => {
     const updateKeys = ["title", "description", "tagIds"];
     const resetVals = { ...this.state.newContent };
@@ -71,12 +64,6 @@ class MarkdownEditor extends React.Component {
       }
     });
     this.setState({ newContent: resetVals });
-  };
-
-  toggleMode = mode => {
-    if (mode !== this.state.mode) {
-      this.setState({ mode });
-    }
   };
 
   onChangeHandler = (e, key) => {
@@ -125,39 +112,21 @@ class MarkdownEditor extends React.Component {
     } = this.props;
     return (
       <div id="markdown-editor">
-        {/* {this.props.showDeleteModal && (
-            <button
-              className={`button-delete-card`}
-              onClick={() => this.setState({ openDeleteModal: true })}
-            >
-              <FontAwesomeIcon icon="trash" size="sm" />
-            </button>
-          )} */}
         <div className="markdown-modes">
-          {this.state.mode === "editor" && (
-            <Editor
-              content={this.state.newContent}
-              columns={columns}
-              onChangeHandler={this.onChangeHandler}
-              updateBoardContent={updateBoardContent}
-              addComponent={addComponent}
-              onAcceptHandler={onAcceptHandler}
-              onCancelHandler={this.resetContent}
-              onClose={onClose}
-              type={type}
-              handleResetBoard={handleResetBoard}
-            />
-          )}
-          {this.state.mode === "preview" && (
-            <Preview content={this.state.newContent} />
-          )}
+          <Editor
+            content={this.state.newContent}
+            columns={columns}
+            onChangeHandler={this.onChangeHandler}
+            updateBoardContent={updateBoardContent}
+            addComponent={addComponent}
+            onAcceptHandler={onAcceptHandler}
+            onCancelHandler={this.resetContent}
+            onClose={onClose}
+            type={type}
+            handleResetBoard={handleResetBoard}
+            deleteComponent={deleteComponent}
+          />
         </div>
-        <DeleteModal
-          handleCloseModal={this.handleCloseModal}
-          isOpen={this.state.openDeleteModal}
-          deleteComponent={deleteComponent}
-          cardId={this.state.newContent.id}
-        />
       </div>
     );
   }

@@ -9,6 +9,7 @@ import { AuthConsumer } from "../../../Auth/AuthContext";
 import { UsersConsumer } from "../../../Users/UsersContext";
 import { URLS } from "../../../../constants";
 import { fetching, camelCase } from "../../../../utils";
+import DeleteModal from "../DeleteModal";
 import "./index.scss";
 
 class Editor extends React.Component {
@@ -17,8 +18,12 @@ class Editor extends React.Component {
     editComment: {
       id: null,
       message: ""
-    }
+    },
+    openDeleteModal: false,
+    showDeleteModal: true
   };
+
+  handleCloseModal = () => this.setState({ openDeleteModal: false });
 
   handleError = message => {
     this.setState({ showError: true, errorMessage: message });
@@ -116,7 +121,8 @@ class Editor extends React.Component {
       description = "",
       tagIds = [],
       columnId,
-      comments = []
+      comments = [],
+      votes = []
     } = content;
     const { addComment } = this.state;
 
@@ -136,6 +142,16 @@ class Editor extends React.Component {
             value={title}
             onChange={e => onChangeHandler(e, "title")}
           />
+          {this.state.showDeleteModal && (
+            <div className="editor-delete-card">
+              <FontAwesomeIcon
+                icon="trash"
+                size="lg"
+                className="editor-delete-card-icon"
+                onClick={() => this.setState({ openDeleteModal: true })}
+              />
+            </div>
+          )}
         </div>
         <div className="editor-header flex-row row-margin">
           {id ? (
@@ -149,7 +165,7 @@ class Editor extends React.Component {
             </div>
           ) : null}
           <div className="editor-vote">
-            <Voting defaultDisplay={true} size="lg" />
+            <Voting defaultDisplay={true} size="lg" votes={votes} />
           </div>
         </div>
         <div id="editor-column" className="flex-row row-margin">
@@ -354,6 +370,12 @@ class Editor extends React.Component {
           acceptTitle={"Save"}
           cancelTitle={"Reset"}
         />
+        <DeleteModal
+          handleCloseModal={this.handleCloseModal}
+          isOpen={this.state.openDeleteModal}
+          deleteComponent={this.props.deleteComponent}
+          cardId={this.props.content.id}
+        />
       </div>
     );
   }
@@ -372,7 +394,9 @@ Editor.propTypes = {
   addComponent: PropTypes.func,
   updateBoardContent: PropTypes.func,
   onAcceptHandler: PropTypes.func,
-  onCancelHandler: PropTypes.func
+  onCancelHandler: PropTypes.func,
+  openDeleteModal: PropTypes.func,
+  deleteComponent: PropTypes.func
 };
 
 export default Editor;

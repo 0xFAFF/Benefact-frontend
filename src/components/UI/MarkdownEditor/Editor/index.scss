@@ -31,7 +31,7 @@
 
   #editor-title {
     background-color: rgb(255, 255, 255);
-    width: 98%;
+    width: 80%;
     padding: 5px;
     font-size: 1.3em;
     font-weight: 600;
@@ -49,6 +49,17 @@
   .tag-container {
     margin: 10px 0;
   }
+
+  .editor-delete-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    .editor-delete-card-icon {
+      cursor: pointer;
+    }
+  }
+
   #editor-column {
     .styled-select {
       border: 1px solid rgb(219, 217, 217);

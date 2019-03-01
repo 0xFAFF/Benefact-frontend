@@ -17,8 +17,7 @@
   }
 
   .button-editor,
-  .button-preview,
-  .button-delete-card {
+  .button-preview {
     border: none;
     outline: none;
     padding: 10px 16px;
@@ -27,13 +26,6 @@
     cursor: pointer;
     background-color: #4797e7;
     color: white;
-  }
-
-  .button-delete-card {
-    margin-left: auto;
-    span {
-      margin-left: 5px;
-    }
   }
 
   button:not(.button-active):hover {

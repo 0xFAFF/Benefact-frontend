@@ -39,9 +39,14 @@ class User extends React.Component {
             url: "/user"
           },
           {
-            id: "settings",
-            // title: "Settings",
-            icon: "cog"
+            id: "logout",
+            // title: "Logout",
+            icon: "sign-out-alt",
+            // component: Logout,
+            modal: true
+            // params: {
+            //   onLogoutHandler: onLogoutHandler
+            // }
           }
         ]
       }

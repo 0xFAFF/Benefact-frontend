@@ -19,7 +19,7 @@ InnerList.propTypes = {
   addComponent: PropTypes.func,
   deleteComponent: PropTypes.func,
   handleResetBoard: PropTypes.func,
-  updateComment: PropTypes.func
+  handleUpdateS: PropTypes.func
 };
 
 class Column extends React.Component {
@@ -33,7 +33,7 @@ class Column extends React.Component {
     deleteComponent: PropTypes.func,
     updateBoardContent: PropTypes.func,
     handleResetBoard: PropTypes.func,
-    updateComment: PropTypes.func
+    handleUpdate: PropTypes.func
   };
 
   state = {
@@ -67,7 +67,7 @@ class Column extends React.Component {
       deleteComponent,
       updateBoardContent,
       handleResetBoard,
-      updateComment
+      handleUpdate
     } = this.props;
 
     const draggingStyle = { backgroundColor: "#f3f3f3" };
@@ -112,7 +112,7 @@ class Column extends React.Component {
                     addComponent={addComponent}
                     deleteComponent={deleteComponent}
                     handleResetBoard={handleResetBoard}
-                    updateComment={updateComment}
+                    handleUpdate={handleUpdate}
                   />
                   {provided.placeholder}
                 </div>

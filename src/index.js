@@ -30,7 +30,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { token } = this.state;
+    const { token = "" } = this.state;
 
     const RedirectLogin = () => <Redirect to="/login" />;
 

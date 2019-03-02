@@ -16,7 +16,7 @@ class InnerList extends React.PureComponent {
     addComponent: PropTypes.func,
     deleteComponent: PropTypes.func,
     handleResetBoard: PropTypes.func,
-    updateComment: PropTypes.func
+    handleUpdate: PropTypes.func
   };
   render() {
     const {
@@ -79,7 +79,7 @@ Board.propTypes = {
   addComponent: PropTypes.func,
   deleteComponent: PropTypes.func,
   handleResetBoard: PropTypes.func,
-  updateComment: PropTypes.func
+  handleUpdate: PropTypes.func
 };
 
 export default Board;

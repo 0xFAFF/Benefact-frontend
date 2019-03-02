@@ -507,7 +507,7 @@ class BaseWrapper extends React.Component {
       updateBoardContent: this.updateBoardContent,
       addComponent: this.addComponent,
       deleteComponent: this.deleteComponent,
-      updateComment: this.handleUpdate
+      handleUpdate: this.handleUpdate
     };
 
     const kanbanFunctions = {

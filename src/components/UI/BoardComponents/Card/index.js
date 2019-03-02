@@ -18,7 +18,7 @@ class Card extends React.Component {
     addComponent: PropTypes.func,
     deleteComponent: PropTypes.func,
     handleResetBoard: PropTypes.func,
-    updateComment: PropTypes.func
+    handleUpdate: PropTypes.func
   };
 
   state = {

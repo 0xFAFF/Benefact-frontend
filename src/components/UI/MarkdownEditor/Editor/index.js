@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextArea from "react-textarea-autosize";
 import { Tags, Voting } from "../../BoardComponents";
+import { Comments } from "../../BoardComponents/Card/components";
 import { AcceptCancelButtons } from "../../Popup";
-import { UsersConsumer } from "../../../Users/UsersContext";
 import DeleteModal from "../DeleteModal";
 import "./index.scss";
 
@@ -24,6 +23,12 @@ class Editor extends React.Component {
 
   handleError = message => {
     this.setState({ showError: true, errorMessage: message });
+  };
+
+  onFocusEditComment = (id, text) => {
+    this.setState({
+      editComment: { id, message: text }
+    });
   };
 
   onChangeComment = (e, type) => {
@@ -72,7 +77,7 @@ class Editor extends React.Component {
       };
     }
 
-    this.props.updateComment(type, action, queryParams);
+    this.props.handleUpdate(type, action, queryParams);
     this.setState(prevState => {
       return {
         ...prevState,
@@ -196,9 +201,6 @@ class Editor extends React.Component {
             className="editor-text-area"
             minRows={1}
             value={description}
-            // onFocus={() =>
-            //   onChangeHandler({ target: { value: "hello" } }, "description")
-            // }
             onChange={e => onChangeHandler(e, "description")}
           />
         </div>
@@ -213,9 +215,6 @@ class Editor extends React.Component {
             className="editor-text-area"
             minRows={1}
             value={addComment}
-            // onFocus={() =>
-            //   onChangeHandler({ target: { value: "hello" } }, "description")
-            // }
             onChange={e => this.onChangeComment(e, "add")}
           />
           <button
@@ -236,96 +235,13 @@ class Editor extends React.Component {
             icon={"comments"}
             size="lg"
           />
-          <UsersConsumer>
-            {users => {
-              return (
-                <div id="editor-activity-container">
-                  {comments.map(
-                    ({ id, text, userId, createdTime, editedTime }) => {
-                      const userData = users.find(user => user.id === userId);
-                      const userName = userData["name"];
-                      const userEmail = userData["email"];
-                      return (
-                        <div key={id} className="editor-activity">
-                          <div className="editor-activity-header">
-                            <div className="editor-activity-header-left">
-                              <div className="editor-activity-name">
-                                {userName ? (
-                                  <div>{userName}</div>
-                                ) : (
-                                  <div>{userEmail}</div>
-                                )}
-                              </div>
-                              <div className="editor-activity-time">
-                                {editedTime ? (
-                                  <div>
-                                    <span>
-                                      {moment
-                                        .unix(editedTime)
-                                        .format("MMM D [at] h:mm A z")}
-                                    </span>
-                                    <span>(Edited)</span>
-                                  </div>
-                                ) : (
-                                  moment
-                                    .unix(createdTime)
-                                    .format("MMM D [at] h:mm A z")
-                                )}
-                              </div>
-                            </div>
-                            <div className="editor-activity-header-right">
-                              {/* <FontAwesomeIcon
-                                icon={"edit"}
-                                size="sm"
-                                className="edit"
-                              /> */}
-                              <FontAwesomeIcon
-                                icon={"trash"}
-                                size="sm"
-                                className="delete"
-                                onClick={() =>
-                                  this.onUpdateComment("delete", id)
-                                }
-                              />
-                            </div>
-                          </div>
-                          <div className="editor-activity-text-container">
-                            <TextArea
-                              className="editor-activity-text"
-                              minRows={1}
-                              value={
-                                this.state.editComment.id === id
-                                  ? this.state.editComment.message
-                                  : text
-                              }
-                              onFocus={() => {
-                                this.setState({
-                                  editComment: { id, message: text }
-                                });
-                              }}
-                              onChange={e =>
-                                this.onChangeComment(e, "edit", id)
-                              }
-                            />
-                            {this.state.editComment.id === id && (
-                              <button
-                                className="editor-comments-save edit-comment-save"
-                                onMouseDown={() => {
-                                  this.onUpdateComment("edit");
-                                }}
-                              >
-                                Save
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    }
-                  )}
-                </div>
-              );
-            }}
-          </UsersConsumer>
+          <Comments
+            comments={comments}
+            onUpdateComment={this.onUpdateComment}
+            onChangeComment={this.onChangeComment}
+            editComment={this.state.editComment}
+            onFocusEditComment={this.onFocusEditComment}
+          />
         </div>
         <AcceptCancelButtons
           onAcceptHandler={() => {

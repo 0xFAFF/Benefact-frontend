@@ -26,7 +26,7 @@ class App extends React.Component {
 
   onLogoutHandler = () => {
     this.setState({ token: "" });
-    Cookies.set("token", "");
+    Cookies.remove("token");
   };
 
   render() {

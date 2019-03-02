@@ -9,7 +9,6 @@ import "./index.scss";
 class Create extends React.Component {
   static propTypes = {
     addComponent: PropTypes.func,
-    cards: PropTypes.object,
     columns: PropTypes.array,
     onClose: PropTypes.func,
     popupStyle: PropTypes.object,
@@ -26,7 +25,7 @@ class Create extends React.Component {
   };
 
   render() {
-    const { addComponent, cards, columns } = this.props;
+    const { addComponent, columns } = this.props;
     const buttonConfigs = [
       {
         title: "Column",
@@ -39,7 +38,6 @@ class Create extends React.Component {
         title: "Card",
         component: AddCardWrapper,
         params: {
-          cards: cards,
           columns: columns,
           addComponent: addComponent
         }

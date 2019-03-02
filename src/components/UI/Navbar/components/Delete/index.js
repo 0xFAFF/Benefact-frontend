@@ -8,7 +8,7 @@ import "./index.scss";
 class Delete extends React.Component {
   static propTypes = {
     deleteComponent: PropTypes.func,
-    cards: PropTypes.object,
+    cards: PropTypes.array,
     columns: PropTypes.array,
     tags: PropTypes.array
   };

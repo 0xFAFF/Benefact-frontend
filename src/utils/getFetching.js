@@ -1,5 +1,4 @@
 import React from "react";
-// import mockdata from "../initial-data";
 
 const getFetching = url => Component =>
   class GetFetching extends React.Component {
@@ -23,7 +22,6 @@ const getFetching = url => Component =>
       if (result.status === 200) {
         this.setState({
           data: await result.json(),
-          // data: mockdata,
           isLoading: false
         });
       } else {

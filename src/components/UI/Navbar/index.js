@@ -17,7 +17,7 @@ class Navbar extends React.Component {
   static propTypes = {
     addComponent: PropTypes.func,
     deleteComponent: PropTypes.func,
-    cards: PropTypes.object,
+    allCards: PropTypes.array,
     columns: PropTypes.array,
     tags: PropTypes.array,
     handleBoardView: PropTypes.func,
@@ -47,7 +47,7 @@ class Navbar extends React.Component {
     const {
       addComponent,
       deleteComponent,
-      cards,
+      allCards,
       columns,
       tags,
       handleBoardView,
@@ -76,7 +76,6 @@ class Navbar extends React.Component {
                 width: "300px"
               },
               addComponent: addComponent,
-              cards: cards,
               columns: columns
             }
           },
@@ -91,7 +90,7 @@ class Navbar extends React.Component {
                 width: "300px"
               },
               deleteComponent: deleteComponent,
-              cards: cards,
+              cards: allCards,
               columns: columns,
               tags: tags
             }

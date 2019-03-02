@@ -234,6 +234,7 @@ class BaseWrapper extends React.Component {
             } else {
               let formattedData = camelCase(data);
               this.handleResetBoard(formattedData);
+              this.getAllCards(formattedData);
             }
           });
         }
@@ -479,10 +480,21 @@ class BaseWrapper extends React.Component {
     this.setState({ view });
   };
 
+  getAllCards = data => {
+    const { cards = {} } = data;
+    const cardGroups = Object.values(cards);
+    if (cardGroups.length > 0) {
+      this.setState({
+        allCards: cardGroups[0]
+      });
+    }
+  };
+
   componentDidUpdate(prevProps) {
     if (!prevProps.data && this.props.data) {
       let formattedData = camelCase(this.props.data);
       this.handleResetBoard(formattedData);
+      this.getAllCards(formattedData);
       this.setState({ users: formattedData.users });
     }
   }
@@ -531,14 +543,7 @@ class BaseWrapper extends React.Component {
           <UsersProvider value={this.state.users}>
             <TagsProvider value={this.state.tags}>
               <div id="base-container">
-                <Navbar
-                  view={this.state.view}
-                  cards={this.state.cards}
-                  columns={this.state.columns}
-                  tags={this.state.tags}
-                  filters={this.state.filters}
-                  {...navBarFunctions}
-                />
+                <Navbar {...baseState} {...navBarFunctions} />
                 <Base
                   {...baseState}
                   kanbanFunctions={kanbanFunctions}

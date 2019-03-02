@@ -76,7 +76,7 @@ AddCard.propTypes = {
   handleCloseModal: PropTypes.func,
   addComponent: PropTypes.func,
   columns: PropTypes.array,
-  cards: PropTypes.object,
+  cards: PropTypes.array,
   columnId: PropTypes.number,
   onAcceptHandler: PropTypes.func,
   onClose: PropTypes.func

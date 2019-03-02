@@ -5,10 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextArea from "react-textarea-autosize";
 import { Tags, Voting } from "../../BoardComponents";
 import { AcceptCancelButtons } from "../../Popup";
-import { AuthConsumer } from "../../../Auth/AuthContext";
 import { UsersConsumer } from "../../../Users/UsersContext";
-import { URLS } from "../../../../constants";
-import { fetching, camelCase } from "../../../../utils";
 import DeleteModal from "../DeleteModal";
 import "./index.scss";
 
@@ -45,53 +42,37 @@ class Editor extends React.Component {
     }
   };
 
-  onUpdateComment = async (token, type, id) => {
+  onUpdateComment = async (commentType, id) => {
     const {
       addComment,
       editComment: { message }
     } = this.state;
-    let urlType = "";
+    let action = "";
     let text = "";
+    const type = "comments";
     let queryParams = {};
-    if (type === "add") {
-      urlType = "ADD";
+    if (commentType === "add") {
+      action = "ADD";
       text = addComment;
       queryParams = {
         cardId: id,
         text
       };
-    } else if (type === "edit") {
-      urlType = "UPDATE";
+    } else if (commentType === "edit") {
+      action = "UPDATE";
       text = message;
       queryParams = {
         id,
         text
       };
-    } else if (type === "delete") {
-      urlType = "DELETE";
+    } else if (commentType === "delete") {
+      action = "DELETE";
       queryParams = {
         id
       };
     }
-    const url = URLS("comments", urlType);
 
-    await fetching(url, "POST", queryParams, token)
-      .then(result => {
-        const { hasError, message } = result;
-        if (hasError) this.handleError(message);
-      })
-      .then(async result => {
-        const url = URLS("cards", "GET");
-        await fetching(url, "GET").then(result => {
-          const { hasError, message, data } = result;
-          if (hasError) {
-            this.handleError(message);
-          } else {
-            let formattedData = camelCase(data);
-            this.props.handleResetBoard(formattedData);
-          }
-        });
-      });
+    this.props.updateComment(type, action, queryParams);
     this.setState(prevState => {
       return {
         ...prevState,
@@ -237,20 +218,16 @@ class Editor extends React.Component {
             // }
             onChange={e => this.onChangeComment(e, "add")}
           />
-          <AuthConsumer>
-            {token => (
-              <button
-                className="editor-comments-save"
-                disabled={!this.state.addComment}
-                onMouseDown={() => {
-                  if (this.state.addComment)
-                    this.onUpdateComment(token, "add", this.props.content.id);
-                }}
-              >
-                Add
-              </button>
-            )}
-          </AuthConsumer>
+          <button
+            className="editor-comments-save"
+            disabled={!this.state.addComment}
+            onMouseDown={() => {
+              if (this.state.addComment)
+                this.onUpdateComment("add", this.props.content.id);
+            }}
+          >
+            Add
+          </button>
         </div>
         <div className="editor-container">
           <FontAwesomeIcon
@@ -302,18 +279,14 @@ class Editor extends React.Component {
                                 size="sm"
                                 className="edit"
                               /> */}
-                              <AuthConsumer>
-                                {token => (
-                                  <FontAwesomeIcon
-                                    icon={"trash"}
-                                    size="sm"
-                                    className="delete"
-                                    onClick={() =>
-                                      this.onUpdateComment(token, "delete", id)
-                                    }
-                                  />
-                                )}
-                              </AuthConsumer>
+                              <FontAwesomeIcon
+                                icon={"trash"}
+                                size="sm"
+                                className="delete"
+                                onClick={() =>
+                                  this.onUpdateComment("delete", id)
+                                }
+                              />
                             </div>
                           </div>
                           <div className="editor-activity-text-container">
@@ -335,18 +308,14 @@ class Editor extends React.Component {
                               }
                             />
                             {this.state.editComment.id === id && (
-                              <AuthConsumer>
-                                {token => (
-                                  <button
-                                    className="editor-comments-save edit-comment-save"
-                                    onMouseDown={() => {
-                                      this.onUpdateComment(token, "edit");
-                                    }}
-                                  >
-                                    Save
-                                  </button>
-                                )}
-                              </AuthConsumer>
+                              <button
+                                className="editor-comments-save edit-comment-save"
+                                onMouseDown={() => {
+                                  this.onUpdateComment("edit");
+                                }}
+                              >
+                                Save
+                              </button>
                             )}
                           </div>
                         </div>

@@ -491,19 +491,34 @@ class BaseWrapper extends React.Component {
     const { isLoading, onLogoutHandler } = this.props;
     const { showError, errorMessage, ...baseState } = this.state;
 
-    const kanbanFunctions = {
-      kanbanOnDragEnd: this.kanbanOnDragEnd,
+    const generalFunctions = {
       updateBoardContent: this.updateBoardContent,
       addComponent: this.addComponent,
       deleteComponent: this.deleteComponent,
-      handleResetBoard: this.handleResetBoard
+      updateComment: this.handleUpdate
+    };
+
+    const kanbanFunctions = {
+      kanbanOnDragEnd: this.kanbanOnDragEnd,
+      handleResetBoard: this.handleResetBoard,
+      ...generalFunctions
     };
 
     const listFunctions = {
       listOnDragEnd: this.listOnDragEnd,
-      updateBoardContent: this.updateBoardContent,
+      ...generalFunctions
+    };
+
+    const navBarFunctions = {
+      handleBoardView: this.handleBoardView,
       addComponent: this.addComponent,
-      deleteComponent: this.deleteComponent
+      deleteComponent: this.deleteComponent,
+      resetFilters: this.resetFilters,
+      onChangeFilterHandler: this.onChangeFilterHandler,
+      selectFilters: this.selectFilters,
+      createFilterGroup: this.createFilterGroup,
+      updateFilterGroupIndex: this.updateFilterGroupIndex,
+      onLogoutHandler: onLogoutHandler
     };
 
     if (isLoading) {
@@ -517,20 +532,12 @@ class BaseWrapper extends React.Component {
             <TagsProvider value={this.state.tags}>
               <div id="base-container">
                 <Navbar
-                  handleBoardView={this.handleBoardView}
                   view={this.state.view}
-                  addComponent={this.addComponent}
-                  deleteComponent={this.deleteComponent}
                   cards={this.state.cards}
                   columns={this.state.columns}
                   tags={this.state.tags}
                   filters={this.state.filters}
-                  resetFilters={this.resetFilters}
-                  onChangeFilterHandler={this.onChangeFilterHandler}
-                  selectFilters={this.selectFilters}
-                  createFilterGroup={this.createFilterGroup}
-                  updateFilterGroupIndex={this.updateFilterGroupIndex}
-                  onLogoutHandler={onLogoutHandler}
+                  {...navBarFunctions}
                 />
                 <Base
                   {...baseState}

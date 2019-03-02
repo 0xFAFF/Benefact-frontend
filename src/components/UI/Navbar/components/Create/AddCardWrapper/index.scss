@@ -7,23 +7,8 @@
   flex-grow: 1;
   .markdown-modes {
     #editor-mode {
-      .editor-id,
-      .editor-title,
-      .editor-description,
-      .editor-comments {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-    #preview-mode {
-      .preview-id,
-      .preview-title,
-      .preview-description,
-      .preview-tags {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+      #editor-title {
+        background-color: #f3f3f3;
       }
     }
   }

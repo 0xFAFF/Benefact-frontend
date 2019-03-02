@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ReactModal from "react-modal";
+import { Modal } from "../../UI";
 import { get } from "lodash";
 import {
   NavbarPopup,
@@ -180,6 +180,7 @@ class Navbar extends React.Component {
     const component = item ? item["component"] : null;
     const params = item ? item["params"] : null;
     const modal = item ? item["modal"] : null;
+
     return (
       <div id="navbar">
         <NavbarList
@@ -188,16 +189,12 @@ class Navbar extends React.Component {
           currItem={this.state.currItem}
         />
         {modal && (
-          <ReactModal
+          <Modal
             isOpen={
               this.state.currItem && this.state.currRow && modal ? true : false
             }
-            onRequestClose={this.cleanCurrentItem}
-            shouldCloseOnOverlayClick={true}
-            shouldCloseOnEsc={true}
-            shouldFocusAfterRender={false}
-            className="nav-Modal"
-            overlayClassName="nav-Overlay"
+            onClose={this.cleanCurrentItem}
+            innerCnterClassName="nav-inner-container"
           >
             <div className="outer-container">
               <NavbarPopup
@@ -206,7 +203,7 @@ class Navbar extends React.Component {
                 params={params}
               />
             </div>
-          </ReactModal>
+          </Modal>
         )}
       </div>
     );

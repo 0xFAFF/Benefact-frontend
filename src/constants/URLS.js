@@ -6,31 +6,31 @@ const baseURL =
 const urlKeyMap = {
   cards: {
     GET: "cards",
-    UPDATE: "updatecard",
-    ADD: "addcard",
-    DELETE: "deletecard"
+    UPDATE: "cards/update",
+    ADD: "cards/add",
+    DELETE: "cards/delete"
   },
   columns: {
-    UPDATE: "updatecolumn",
-    ADD: "addcolumn",
-    DELETE: "deletecolumn"
+    UPDATE: "columns/update",
+    ADD: "columns/add",
+    DELETE: "columns/delete"
   },
   tags: {
-    UPDATE: "updatetag",
-    ADD: "addtag",
-    DELETE: "deletetag"
+    UPDATE: "tags/update",
+    ADD: "tags/add",
+    DELETE: "tags/delete"
   },
   users: {
-    GET: "authuser",
-    ADD: "createuser"
+    GET: "users/auth",
+    ADD: "users/add"
   },
   comments: {
-    ADD: "addcomment",
-    DELETE: "deletecomment",
-    UPDATE: "updatecomment"
+    ADD: "comments/add",
+    DELETE: "comments/delete",
+    UPDATE: "comments/update"
   },
   votes: {
-    UPDATE: "cardvote"
+    UPDATE: "cards/vote"
   }
 };
 

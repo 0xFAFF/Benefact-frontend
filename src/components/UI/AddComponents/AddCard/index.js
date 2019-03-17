@@ -39,7 +39,8 @@ const AddCard = props => {
                 title: title || "",
                 description: description || "",
                 tagIds: tagIds || [],
-                columnId: columnId
+                columnId: columnId,
+                boardId: 1, // TODO: Don't hard code
               })
             }
             showDeleteModal={showDeleteModal}
@@ -56,7 +57,8 @@ const AddCard = props => {
               title: title || "",
               description: description || "",
               tagIds: tagIds || [],
-              columnId: columnId
+              columnId: columnId,
+              boardId: 1, // TODO: Don't hard code
             })
           }
           onAcceptHandler={onAcceptHandler}

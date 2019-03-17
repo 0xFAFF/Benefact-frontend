@@ -15,8 +15,9 @@ const getFetching = url => Component =>
       this.setState({ isLoading: true });
 
       const config = {
-        method: "GET",
-        headers: { "Content-Type": "application/json" }
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({"BoardId": 1}),
       };
       const result = await fetch(url, config);
       if (result.status === 200) {

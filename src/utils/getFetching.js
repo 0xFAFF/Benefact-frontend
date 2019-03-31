@@ -1,4 +1,5 @@
 import React from "react";
+import { titleCase } from ".";
 
 const getFetching = url => Component =>
   class GetFetching extends React.Component {
@@ -17,7 +18,7 @@ const getFetching = url => Component =>
       const config = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({"BoardId": 1}),
+        body: JSON.stringify(titleCase({ boardId: 1 }))
       };
       const result = await fetch(url, config);
       if (result.status === 200) {

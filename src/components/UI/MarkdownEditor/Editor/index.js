@@ -91,6 +91,23 @@ class Editor extends React.Component {
     });
   };
 
+  onUpdateVote = async voteType => {
+    let queryParams = {};
+    if (voteType === "add") {
+      queryParams = {
+        cardId: this.props.content.id,
+        count: 1
+      };
+    } else if (voteType === "subtract") {
+      queryParams = {
+        cardId: this.props.content.id,
+        count: -1
+      };
+    }
+
+    await this.props.handleUpdate("votes", "UPDATE", queryParams);
+  };
+
   render() {
     const {
       content,
@@ -151,7 +168,12 @@ class Editor extends React.Component {
             </div>
           ) : null}
           <div className="editor-vote">
-            <Voting defaultDisplay={true} size="lg" votes={votes} />
+            <Voting
+              defaultDisplay={true}
+              size="lg"
+              votes={votes}
+              onUpdateVote={this.onUpdateVote}
+            />
           </div>
         </div>
         <div id="editor-column" className="flex-row row-margin">

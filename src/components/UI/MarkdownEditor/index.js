@@ -33,6 +33,18 @@ class MarkdownEditor extends React.Component {
         }
       };
     }
+    const prevVotes = get(prevState, "newContent.votes", []);
+    const nextVotes = get(nextProps, "content.votes", []);
+    if (!isEqual(sortBy(prevVotes), sortBy(nextVotes))) {
+      return {
+        ...prevState,
+        newContent: {
+          ...prevState.newContent,
+          votes: nextVotes
+        }
+      };
+    }
+
     return prevState;
   }
 

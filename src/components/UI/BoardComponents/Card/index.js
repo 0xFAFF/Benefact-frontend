@@ -56,10 +56,26 @@ class Card extends React.Component {
     };
   };
 
+  onUpdateVote = async voteType => {
+    let queryParams = {};
+    if (voteType === "add") {
+      queryParams = {
+        cardId: this.props.card.id,
+        count: 1
+      };
+    } else if (voteType === "subtract") {
+      queryParams = {
+        cardId: this.props.card.id,
+        count: -1
+      };
+    }
+
+    await this.props.handleUpdate("votes", "UPDATE", queryParams);
+  };
+
   render() {
     const { card, index, showDeleteModal = true, ...rest } = this.props;
     const { votes } = card;
-
     return (
       <div>
         <Draggable
@@ -93,7 +109,10 @@ class Card extends React.Component {
                             dangerouslySetInnerHTML={this.rawMarkup()}
                           />
                           <div className="right-side">
-                            <Voting votes={votes} />
+                            <Voting
+                              votes={votes}
+                              onUpdateVote={this.onUpdateVote}
+                            />
                             <IconRow {...card} />
                           </div>
                         </div>

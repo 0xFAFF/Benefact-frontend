@@ -54,7 +54,9 @@ class CreateTag extends React.Component {
       addComponent("tags", {
         name: this.state.name,
         color: this.state.color === "" ? null : this.state.color,
-        character: this.state.character === "" ? null : this.state.character
+        character: this.state.character === "" ? null : this.state.character,
+        // TODO: Don't hardcode boardId
+        boardId: 1,
       });
     }
     if (onAcceptHandler) {

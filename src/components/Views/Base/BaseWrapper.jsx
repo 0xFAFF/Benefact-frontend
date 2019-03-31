@@ -227,7 +227,7 @@ class BaseWrapper extends React.Component {
         if (this.state.filters.active) {
           this.selectFilters();
         } else {
-          await fetching(url, "GET").then(result => {
+          await fetching(url, "POST", { boardId: 1 }, token).then(result => {
             const { hasError, message, data } = result;
             if (hasError) {
               this.handleError(message);

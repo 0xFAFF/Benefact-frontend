@@ -77,7 +77,7 @@ class Editor extends React.Component {
       };
     }
 
-    this.props.handleUpdate(type, action, queryParams);
+    await this.props.handleUpdate(type, action, queryParams);
     this.setState(prevState => {
       return {
         ...prevState,

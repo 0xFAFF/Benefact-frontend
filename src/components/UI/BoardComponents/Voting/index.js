@@ -66,7 +66,12 @@ const Voting = props => {
               )}
               {(defaultDisplay || (totalVotes !== 0 && !defaultDisplay)) && (
                 <div className="vote-tracker">
-                  {totalVotes} / {currUserVotes}
+                  <span>{totalVotes}</span>
+                  {currUserVotes !== 0 && (
+                    <span style={{ paddingLeft: "3px" }}>
+                      ({currUserVotes})
+                    </span>
+                  )}
                 </div>
               )}
             </div>

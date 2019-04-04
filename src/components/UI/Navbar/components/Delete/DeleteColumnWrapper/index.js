@@ -32,7 +32,7 @@ class DeleteColumnWrapper extends React.Component {
     return (
       <div id="delete-column-outer">
         {!this.state.column ? (
-          <React.Fragment>
+          <>
             <Back
               title={"Back"}
               onClick={() => this.props.resetDeleteComponentHandler()}
@@ -58,7 +58,7 @@ class DeleteColumnWrapper extends React.Component {
                 );
               })}
             </div>
-          </React.Fragment>
+          </>
         ) : (
           <Confirm
             onAcceptHandler={this.onAcceptHandler}

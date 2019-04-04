@@ -37,7 +37,7 @@ class DeleteCardWrapper extends React.Component {
     return (
       <div id="delete-card-outer">
         {!this.state.card ? (
-          <React.Fragment>
+          <>
             <Back
               title={"Back"}
               onClick={() => this.props.resetDeleteComponentHandler()}
@@ -58,7 +58,7 @@ class DeleteCardWrapper extends React.Component {
                 })}
               </div>
             </div>
-          </React.Fragment>
+          </>
         ) : (
           <Confirm
             onAcceptHandler={this.onAcceptHandler}

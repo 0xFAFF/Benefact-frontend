@@ -73,14 +73,14 @@ class Create extends React.Component {
           </div>
         )}
         {this.state.component && (
-          <React.Fragment>
+          <>
             <Back onClick={() => this.resetCreateComponentHandler()} />
             <this.state.component
               {...this.state.params}
               {...this.props}
               resetCreateComponentHandler={this.resetCreateComponentHandler}
             />
-          </React.Fragment>
+          </>
         )}
       </div>
     );

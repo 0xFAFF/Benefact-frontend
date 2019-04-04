@@ -3,6 +3,7 @@ import { UsersConsumer } from "../../../../../Users/UsersContext";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextArea from "react-textarea-autosize";
+import "./index.scss";
 
 class Comments extends React.Component {
   render() {
@@ -51,11 +52,6 @@ class Comments extends React.Component {
                         </div>
                       </div>
                       <div className="editor-activity-header-right">
-                        {/* <FontAwesomeIcon
-                                icon={"edit"}
-                                size="sm"
-                                className="edit"
-                              /> */}
                         <FontAwesomeIcon
                           icon={"trash"}
                           size="sm"

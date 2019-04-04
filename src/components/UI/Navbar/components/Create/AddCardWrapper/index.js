@@ -21,6 +21,7 @@ class AddCardWrapper extends React.Component {
           showDeleteModal={false}
           onAcceptHandler={() => onClose()}
           onClose={onClose}
+          disableComponents={true}
         />
       </div>
     );

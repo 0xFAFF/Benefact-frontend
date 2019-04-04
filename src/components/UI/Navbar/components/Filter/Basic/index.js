@@ -28,7 +28,7 @@ class Basic extends React.Component {
     };
 
     const currGroupsFilters = (
-      <React.Fragment>
+      <>
         <div className="filter-filters-inputs">
           <label>Tags</label>
           <TagWrapper
@@ -53,7 +53,7 @@ class Basic extends React.Component {
             onChangeFilterHandler={onChangeFilterHandlerWrapper}
           />
         </div>
-      </React.Fragment>
+      </>
     );
     return (
       <div id="filters-basic">

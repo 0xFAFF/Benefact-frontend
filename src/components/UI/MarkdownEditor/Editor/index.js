@@ -116,7 +116,8 @@ class Editor extends React.Component {
       addComponent,
       updateBoardContent,
       onAcceptHandler,
-      onCancelHandler
+      onCancelHandler,
+      disableComponents = false
     } = this.props;
     const {
       id = "",
@@ -128,7 +129,6 @@ class Editor extends React.Component {
       votes = []
     } = content;
     const { addComment } = this.state;
-
     return (
       <div id="editor-mode">
         <div className="editor-container">
@@ -156,8 +156,8 @@ class Editor extends React.Component {
             </div>
           )}
         </div>
-        <div className="editor-header flex-row row-margin">
-          {id ? (
+        {disableComponents ? null : (
+          <div className="editor-header flex-row row-margin">
             <div id="editor-id" className="flex-row">
               <FontAwesomeIcon
                 className="container-icon container-icon-padding"
@@ -166,16 +166,16 @@ class Editor extends React.Component {
               />
               <div>{id}</div>
             </div>
-          ) : null}
-          <div className="editor-vote">
-            <Voting
-              defaultDisplay={true}
-              size="lg"
-              votes={votes}
-              onUpdateVote={this.onUpdateVote}
-            />
+            <div className="editor-vote">
+              <Voting
+                defaultDisplay={true}
+                size="lg"
+                votes={votes}
+                onUpdateVote={this.onUpdateVote}
+              />
+            </div>
           </div>
-        </div>
+        )}
         <div id="editor-column" className="flex-row row-margin">
           <FontAwesomeIcon
             className="container-icon container-icon-padding"
@@ -226,45 +226,50 @@ class Editor extends React.Component {
             onChange={e => onChangeHandler(e, "description")}
           />
         </div>
-        <div className="editor-container">
-          <FontAwesomeIcon
-            className="container-icon"
-            style={{ paddingTop: "10px" }}
-            icon={"comment"}
-            size="lg"
-          />
-          <TextArea
-            className="editor-text-area"
-            minRows={1}
-            value={addComment}
-            onChange={e => this.onChangeComment(e, "add")}
-          />
-          <button
-            className="editor-comments-save"
-            disabled={!this.state.addComment}
-            onMouseDown={() => {
-              if (this.state.addComment)
-                this.onUpdateComment("add", this.props.content.id);
-            }}
-          >
-            Add
-          </button>
-        </div>
-        <div className="editor-container">
-          <FontAwesomeIcon
-            className="container-icon"
-            style={{ paddingTop: comments.length > 0 ? "10px" : "0px" }}
-            icon={"comments"}
-            size="lg"
-          />
-          <Comments
-            comments={comments}
-            onUpdateComment={this.onUpdateComment}
-            onChangeComment={this.onChangeComment}
-            editComment={this.state.editComment}
-            onFocusEditComment={this.onFocusEditComment}
-          />
-        </div>
+        {disableComponents ? null : (
+          <>
+            <div className="editor-container">
+              <FontAwesomeIcon
+                className="container-icon"
+                style={{ paddingTop: "10px" }}
+                icon={"comment"}
+                size="lg"
+              />
+              <TextArea
+                className="editor-text-area"
+                minRows={1}
+                value={addComment}
+                onChange={e => this.onChangeComment(e, "add")}
+              />
+              <button
+                className="editor-comments-save"
+                disabled={!this.state.addComment}
+                onMouseDown={() => {
+                  if (this.state.addComment)
+                    this.onUpdateComment("add", this.props.content.id);
+                }}
+              >
+                Add
+              </button>
+            </div>
+
+            <div className="editor-container">
+              <FontAwesomeIcon
+                className="container-icon"
+                style={{ paddingTop: comments.length > 0 ? "10px" : "0px" }}
+                icon={"comments"}
+                size="lg"
+              />
+              <Comments
+                comments={comments}
+                onUpdateComment={this.onUpdateComment}
+                onChangeComment={this.onChangeComment}
+                editComment={this.state.editComment}
+                onFocusEditComment={this.onFocusEditComment}
+              />
+            </div>
+          </>
+        )}
         <AcceptCancelButtons
           onAcceptHandler={() => {
             updateBoardContent(content, "cards");

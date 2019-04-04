@@ -14,7 +14,8 @@ class MarkdownEditor extends React.Component {
     type: PropTypes.string,
     deleteComponent: PropTypes.func,
     handleResetBoard: PropTypes.func,
-    handleUpdate: PropTypes.func
+    handleUpdate: PropTypes.func,
+    disableComponents: PropTypes.bool
   };
 
   state = {
@@ -122,7 +123,8 @@ class MarkdownEditor extends React.Component {
       type,
       deleteComponent,
       handleResetBoard,
-      handleUpdate
+      handleUpdate,
+      disableComponents
     } = this.props;
     return (
       <div id="markdown-editor">
@@ -140,6 +142,7 @@ class MarkdownEditor extends React.Component {
             handleResetBoard={handleResetBoard}
             deleteComponent={deleteComponent}
             handleUpdate={handleUpdate}
+            disableComponents={disableComponents}
           />
         </div>
       </div>

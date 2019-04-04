@@ -77,13 +77,13 @@ class Delete extends React.Component {
           </div>
         )}
         {this.state.component && (
-          <React.Fragment>
+          <>
             <this.state.component
               {...this.state.params}
               {...this.props}
               resetDeleteComponentHandler={this.resetDeleteComponentHandler}
             />
-          </React.Fragment>
+          </>
         )}
       </div>
     );

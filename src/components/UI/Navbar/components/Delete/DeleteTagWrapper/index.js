@@ -29,7 +29,7 @@ class DeleteTagWrapper extends React.Component {
     return (
       <div id="delete-tag-outer">
         {!this.state.tag ? (
-          <React.Fragment>
+          <>
             <Back
               title={"Back"}
               onClick={() => this.props.resetDeleteComponentHandler()}
@@ -52,7 +52,7 @@ class DeleteTagWrapper extends React.Component {
                 </ul>
               </div>
             </div>
-          </React.Fragment>
+          </>
         ) : (
           <Confirm
             onAcceptHandler={this.onAcceptHandler}

@@ -34,9 +34,9 @@ class TagPopup extends React.Component {
         <TagsConsumer>
           {tagsList => {
             return (
-              <React.Fragment>
+              <>
                 {this.state.option === "select" && (
-                  <React.Fragment>
+                  <>
                     <p>Select A Tag</p>
                     <SelectTag
                       tagsList={tagsList}
@@ -51,10 +51,10 @@ class TagPopup extends React.Component {
                       <FontAwesomeIcon icon="plus" size="sm" />
                       <span>Create New Tag</span>
                     </div>
-                  </React.Fragment>
+                  </>
                 )}
                 {this.state.option === "create" && (
-                  <React.Fragment>
+                  <>
                     <Back onClick={() => this.handleOptionSelect("select")} />
                     <CreateTag
                       onAcceptHandler={() => this.handleOptionSelect("select")}
@@ -63,9 +63,9 @@ class TagPopup extends React.Component {
                       updateBoardContent={updateBoardContent}
                       onClose={this.onClose}
                     />
-                  </React.Fragment>
+                  </>
                 )}
-              </React.Fragment>
+              </>
             );
           }}
         </TagsConsumer>

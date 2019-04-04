@@ -15,10 +15,11 @@ const AddCard = props => {
     cards,
     columnId,
     onAcceptHandler,
-    onClose
+    onClose,
+    disableComponents
   } = props;
   return (
-    <React.Fragment>
+    <>
       {useModal && (
         <div
           className="add-card"
@@ -40,12 +41,13 @@ const AddCard = props => {
                 description: description || "",
                 tagIds: tagIds || [],
                 columnId: columnId,
-                boardId: 1, // TODO: Don't hard code
+                boardId: 1 // TODO: Don't hard code
               })
             }
             showDeleteModal={showDeleteModal}
             onAcceptHandler={() => handleCloseModal()}
             onClose={() => handleCloseModal()}
+            disableComponents={disableComponents}
           />
         </Modal>
       ) : (
@@ -58,15 +60,16 @@ const AddCard = props => {
               description: description || "",
               tagIds: tagIds || [],
               columnId: columnId,
-              boardId: 1, // TODO: Don't hard code
+              boardId: 1 // TODO: Don't hard code
             })
           }
           onAcceptHandler={onAcceptHandler}
           onClose={onClose}
           showDeleteModal={showDeleteModal}
+          disableComponents={disableComponents}
         />
       )}
-    </React.Fragment>
+    </>
   );
 };
 
@@ -81,7 +84,8 @@ AddCard.propTypes = {
   cards: PropTypes.array,
   columnId: PropTypes.number,
   onAcceptHandler: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  disableComponents: PropTypes.bool
 };
 
 export default AddCard;

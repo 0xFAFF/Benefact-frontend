@@ -33,7 +33,7 @@ class AddTag extends React.Component {
       ? modalContainer.getBoundingClientRect().right
       : null;
     return (
-      <React.Fragment>
+      <>
         <div
           id="add-tag"
           onClick={e => {
@@ -75,7 +75,7 @@ class AddTag extends React.Component {
             onClose={this.handleCloseModal}
           />
         </Modal>
-      </React.Fragment>
+      </>
     );
   }
 }

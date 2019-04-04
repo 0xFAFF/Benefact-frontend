@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AuthConsumer } from "../../../Auth/AuthContext";
-import { parseToken } from "../../../../utils";
+import { AuthConsumer } from "../../../../../Auth/AuthContext";
+import { parseToken } from "../../../../../../utils";
 import "./index.scss";
 
 const Voting = props => {
@@ -9,7 +9,6 @@ const Voting = props => {
     votes = [],
     size = "sm",
     defaultDisplay = false,
-    // counterWidth = "50px",
     onUpdateVote
   } = props;
   const totalVotes = votes.reduce((arr, curr) => {

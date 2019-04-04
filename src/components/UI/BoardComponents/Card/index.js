@@ -4,7 +4,8 @@ import { Draggable } from "react-beautiful-dnd";
 import NaturalDragAnimation from "natural-drag-animation-rbdnd";
 import marked from "marked";
 import { Modal, MarkdownEditor } from "../../../UI";
-import { Tags, Voting } from "../../BoardComponents";
+import { Tags } from "../../BoardComponents";
+import { Voting } from "./components";
 import IconRow from "./IconRow";
 import "./index.scss";
 

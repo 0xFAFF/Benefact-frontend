@@ -5,13 +5,13 @@
   max-width: 400px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  padding: 5px;
 
   .column-header {
-    background-color: #f3f3f3;
+    background-color: #2d323a0d;
     padding: 8px;
     margin: 0 0 0 0;
-    border: 1px solid lightgray;
+    border: 1px solid rgb(151, 137, 137);
     display: flex;
     align-items: center;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05), 0px 0px 6px rgba(0, 0, 0, 0.15);
@@ -39,7 +39,6 @@
 
   #column-droppable {
     transition: background-color 0.2s ease;
-    height: 150%;
     border: 1px solid lightgrey;
     border-top: none;
     border-radius: 0 0 5px 5px;

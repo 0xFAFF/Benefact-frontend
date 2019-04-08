@@ -2,10 +2,15 @@
   display: flex;
   // min-height: 20vh;
   // max-height: 40vh;
-  justify-content: center;
   padding: 10px;
   overflow-x: auto;
   overflow-y: auto;
+}
+
+#kanban-board {
+  display: flex;
+  flex-grow: 1;
+  background-color: #eef1f5;
 }
 
 .add-column-outer {

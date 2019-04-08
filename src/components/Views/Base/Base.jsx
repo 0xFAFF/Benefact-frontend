@@ -34,7 +34,7 @@ const Base = props => {
       <Header filtersActive={filtersActive} resetFilters={resetFilters} />
       {Object.entries(cards).map(([groupName, groupCards], index) => {
         return (
-          <div key={index}>
+          <div id="views-base-container" key={index}>
             {filtersActive && (
               <div className="views-group-name">
                 <span className="views-group-name-title">

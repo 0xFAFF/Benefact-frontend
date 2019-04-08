@@ -5,40 +5,94 @@ const baseURL =
 
 const urlKeyMap = {
   cards: {
-    GET: "cards",
-    UPDATE: "cards/update",
-    ADD: "cards/add",
-    DELETE: "cards/delete"
+    GET: {
+      url: "cards",
+      whiteList: null
+    },
+    UPDATE: {
+      url: "cards/update",
+      whiteList: ["id", "index", "columnId", "tagIds", "description"]
+    },
+    ADD: {
+      url: "cards/add",
+      whiteList: null
+    },
+    DELETE: {
+      url: "cards/delete",
+      whiteList: null
+    }
   },
   columns: {
-    UPDATE: "columns/update",
-    ADD: "columns/add",
-    DELETE: "columns/delete"
+    UPDATE: {
+      url: "columns/update",
+      whiteList: ["id", "index", "title"]
+    },
+    ADD: {
+      url: "columns/add",
+      whiteList: null
+    },
+    DELETE: {
+      url: "columns/delete",
+      whiteList: null
+    }
   },
   tags: {
-    UPDATE: "tags/update",
-    ADD: "tags/add",
-    DELETE: "tags/delete"
+    UPDATE: {
+      url: "tags/update",
+      whiteList: ["id", "name", "color", "character"]
+    },
+    ADD: {
+      url: "tags/add",
+      whiteList: null
+    },
+    DELETE: {
+      url: "tags/delete",
+      whiteList: null
+    }
   },
   users: {
-    GET: "users/auth",
-    ADD: "users/add"
+    GET: {
+      url: "users/auth",
+      whiteList: null
+    },
+    ADD: {
+      url: "users/add",
+      whiteList: null
+    }
   },
   comments: {
-    ADD: "comments/add",
-    DELETE: "comments/delete",
-    UPDATE: "comments/update"
+    ADD: {
+      url: "comments/add",
+      whiteList: null
+    },
+    DELETE: {
+      url: "comments/delete",
+      whiteList: null
+    },
+    UPDATE: {
+      url: "comments/update",
+      whiteList: ["id", "text"]
+    }
   },
   votes: {
-    UPDATE: "cards/vote"
+    UPDATE: {
+      url: "cards/vote",
+      whiteList: null
+    }
   }
 };
 
 function URLS(type, action) {
   if (arguments.length === 0) {
-    return baseURL;
+    return {
+      name: baseURL,
+      whiteList: []
+    };
   }
-  return `${baseURL}${urlKeyMap[type][action]}`;
+  return {
+    name: `${baseURL}${urlKeyMap[type][action]["url"]}`,
+    whiteList: urlKeyMap[type][action]["whiteList"]
+  };
 }
 
 export default URLS;

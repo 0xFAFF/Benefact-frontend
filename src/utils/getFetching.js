@@ -20,7 +20,8 @@ const getFetching = url => Component =>
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(titleCase({ boardId: 1 }))
       };
-      const result = await fetch(url, config);
+      const { name: urlName } = url;
+      const result = await fetch(urlName, config);
       if (result.status === 200) {
         this.setState({
           data: await result.json(),

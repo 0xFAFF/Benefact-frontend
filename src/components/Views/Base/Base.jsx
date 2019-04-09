@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import Kanban from "../Kanban";
 import List from "../List";
-import { Header } from "../../UI/BoardComponents";
 import "./Base.scss";
 
 const Base = props => {
@@ -14,8 +13,7 @@ const Base = props => {
     columnOrder,
     kanbanFunctions,
     listFunctions,
-    filtersActive,
-    resetFilters
+    filtersActive
   } = props;
 
   const kanbanState = {
@@ -31,23 +29,17 @@ const Base = props => {
 
   return (
     <div id="views-base">
-      <Header filtersActive={filtersActive} resetFilters={resetFilters} />
       {Object.entries(cards).map(([groupName, groupCards], index) => {
         return (
           <div id="views-base-container" key={index}>
-            {filtersActive && (
-              <div className="views-group-name">
-                <span className="views-group-name-title">
-                  Group {index + 1}
-                </span>
-              </div>
-            )}
             {view === "kanban" && (
               <Kanban
                 {...kanbanState}
                 {...kanbanFunctions}
                 cards={groupCards}
                 groupName={groupName}
+                filterIndex={index}
+                filtersActive={filtersActive}
               />
             )}
             {view === "list" && (
@@ -72,9 +64,7 @@ Base.propTypes = {
   tags: PropTypes.array,
   columnOrder: PropTypes.array,
   kanbanFunctions: PropTypes.object,
-  listFunctions: PropTypes.object,
-  filtersActive: PropTypes.bool,
-  resetFilters: PropTypes.func
+  listFunctions: PropTypes.object
 };
 
 export default Base;

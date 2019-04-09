@@ -543,13 +543,17 @@ class BaseWrapper extends React.Component {
           <UsersProvider value={this.state.users}>
             <TagsProvider value={this.state.tags}>
               <div id="base-container">
-                <Navbar {...baseState} {...navBarFunctions} />
+                <Navbar
+                  {...baseState}
+                  {...navBarFunctions}
+                  filtersActive={this.state.filters.active}
+                  resetFilters={this.resetFilters}
+                />
                 <Base
                   {...baseState}
                   kanbanFunctions={kanbanFunctions}
                   listFunctions={listFunctions}
                   filtersActive={this.state.filters.active}
-                  resetFilters={this.resetFilters}
                 />
               </div>
             </TagsProvider>

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Modal } from "../../UI";
+import { Modal, FilterView } from "../../UI";
 import { get } from "lodash";
 import {
   NavbarPopup,
@@ -28,7 +28,8 @@ class Navbar extends React.Component {
     selectFilters: PropTypes.func,
     createFilterGroup: PropTypes.func,
     updateFilterGroupIndex: PropTypes.func,
-    onLogoutHandler: PropTypes.func
+    onLogoutHandler: PropTypes.func,
+    filtersActive: PropTypes.bool
   };
 
   state = {
@@ -58,7 +59,8 @@ class Navbar extends React.Component {
       selectFilters,
       createFilterGroup,
       updateFilterGroupIndex,
-      onLogoutHandler
+      onLogoutHandler,
+      filtersActive
     } = this.props;
     const configs = [
       {
@@ -97,7 +99,9 @@ class Navbar extends React.Component {
           },
           {
             id: "filter",
-            // title: "Filter",
+            title: filtersActive ? (
+              <FilterView resetFilters={resetFilters} />
+            ) : null,
             icon: "filter",
             component: Filter,
             modal: true,
@@ -133,7 +137,7 @@ class Navbar extends React.Component {
             id: "brand",
             title: "Benefact",
             image: "fafficon.ico",
-            liClassName: "brand"
+            liClassName: `brand${filtersActive ? " active-filter" : ""}`
           },
           {
             id: "home",

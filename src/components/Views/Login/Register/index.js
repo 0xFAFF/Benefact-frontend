@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { URLS } from "../../../../constants";
 import { ErrorHandling } from "../../../UI";
 import { fetching } from "../../../../utils";
-import { Create, Login } from "./components";
+import { Create, Verification } from "./components";
 import "./index.scss";
 
 class Register extends React.Component {
@@ -92,7 +92,11 @@ class Register extends React.Component {
             />
           )}
           {registered && (
-            <Login token={token} onLoginHandler={onLoginHandler} />
+            <Verification
+              token={token}
+              onLoginHandler={onLoginHandler}
+              email={this.state.fields.email}
+            />
           )}
         </div>
       </ErrorHandling>

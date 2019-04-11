@@ -61,6 +61,7 @@ class App extends React.Component {
                 render={props =>
                   token ? (
                     <BaseWrapper
+                      boardId={1}
                       {...props}
                       token={token}
                       onLogoutHandler={this.onLogoutHandler}

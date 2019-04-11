@@ -13,6 +13,13 @@ import { ErrorBoundary } from "./components/UI";
 import { User, Login } from "./components/Views";
 import { Version } from "./components/Version";
 import "./index.scss";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure({
+  autoClose: 5000,
+  draggable: false
+});
 
 class App extends React.Component {
   state = {

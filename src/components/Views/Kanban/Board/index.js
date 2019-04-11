@@ -29,7 +29,14 @@ class InnerList extends React.PureComponent {
 }
 
 const Board = props => {
-  const { columns, columnOrder, kanbanOnDragEnd, groupName } = props;
+  const {
+    columns,
+    columnOrder,
+    kanbanOnDragEnd,
+    groupName,
+    filterIndex,
+    filtersActive
+  } = props;
   return (
     <div id="kanban-board">
       <DragDropContext
@@ -48,6 +55,14 @@ const Board = props => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
+              <div className="views-group-name">
+                <span
+                  className="views-group-name-title"
+                  style={!filtersActive ? { visibility: "hidden" } : null}
+                >
+                  Group {filterIndex + 1}
+                </span>
+              </div>
               {columnOrder.map((columnId, index) => {
                 const column = columns.find(column => column.id === columnId);
                 return (
@@ -78,7 +93,8 @@ Board.propTypes = {
   addComponent: PropTypes.func,
   deleteComponent: PropTypes.func,
   handleResetBoard: PropTypes.func,
-  handleUpdate: PropTypes.func
+  handleUpdate: PropTypes.func,
+  filtersActive: PropTypes.bool
 };
 
 export default Board;

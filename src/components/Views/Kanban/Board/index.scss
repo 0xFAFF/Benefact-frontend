@@ -1,8 +1,5 @@
 #board-droppable {
   display: flex;
-  // min-height: 20vh;
-  // max-height: 40vh;
-  padding: 10px;
   overflow-x: auto;
   overflow-y: auto;
 }
@@ -11,6 +8,7 @@
   display: flex;
   flex-grow: 1;
   background-color: #eef1f5;
+  max-width: 100%;
 }
 
 .add-column-outer {

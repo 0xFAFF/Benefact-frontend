@@ -227,7 +227,7 @@ class BaseWrapper extends React.Component {
         if (this.state.filters.active) {
           this.selectFilters();
         } else {
-          await fetching(url, "POST", { }, token).then(result => {
+          await fetching(url, "POST", {}, token).then(result => {
             const { hasError, message, data } = result;
             if (hasError) {
               this.handleError(message);
@@ -243,7 +243,12 @@ class BaseWrapper extends React.Component {
 
   updateFilters = async queryParams => {
     const url = URLS("cards", "GET");
-    await fetching(url, "POST", {"boardId": 1, ...queryParams}, this.props.token).then(result => {
+    await fetching(
+      url,
+      "POST",
+      { boardId: 1, ...queryParams },
+      this.props.token
+    ).then(result => {
       const { hasError, message, data } = result;
       if (hasError) {
         this.handleError(message);

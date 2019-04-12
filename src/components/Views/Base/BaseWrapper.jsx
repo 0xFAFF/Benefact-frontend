@@ -12,7 +12,7 @@ import { UsersProvider } from "../../Users/UsersContext";
 
 class BaseWrapper extends React.Component {
   static propTypes = {
-    boardId: PropTypes.number,
+    boardId: PropTypes.string,
     data: PropTypes.shape({
       cards: PropTypes.object,
       columns: PropTypes.array,
@@ -240,7 +240,6 @@ class BaseWrapper extends React.Component {
         if (hasError) this.handleError(message);
       })
       .then(async result => {
-        const url = URLS("cards", "GET", { boardId: 1 });
         if (this.state.filters.active) {
           this.selectFilters();
         } else {
@@ -259,7 +258,6 @@ class BaseWrapper extends React.Component {
   };
 
   updateFilters = async queryParams => {
-    const url = URLS("cards", "GET");
     await this.fetch("cards", "GET", queryParams).then(result => {
       const { hasError, message, data } = result;
       if (hasError) {

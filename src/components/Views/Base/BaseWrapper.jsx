@@ -47,13 +47,13 @@ class BaseWrapper extends React.Component {
       ]
     }
   };
-  fetch = async (type, action, queryParams) => {
+  compFetch = async (type, action, queryParams) => {
     const { boardId, token } = this.props;
     return await fetching(URLS(type, action, { boardId }), queryParams, token);
   };
 
   componentDidMount = async () => {
-    const result = await this.fetch("cards", "GET");
+    const result = await this.compFetch("cards", "GET");
     this.setState({
       data: result.data,
       isLoading: false
@@ -234,7 +234,7 @@ class BaseWrapper extends React.Component {
   };
 
   handleUpdate = async (type, action, queryParams) => {
-    await this.fetch(type, action, queryParams)
+    await this.compFetch(type, action, queryParams)
       .then(result => {
         const { hasError, message } = result;
         if (hasError) this.handleError(message);
@@ -243,7 +243,7 @@ class BaseWrapper extends React.Component {
         if (this.state.filters.active) {
           this.selectFilters();
         } else {
-          await this.fetch("cards", "GET").then(result => {
+          await this.compFetch("cards", "GET").then(result => {
             const { hasError, message, data } = result;
             if (hasError) {
               this.handleError(message);
@@ -258,7 +258,7 @@ class BaseWrapper extends React.Component {
   };
 
   updateFilters = async queryParams => {
-    await this.fetch("cards", "GET", queryParams).then(result => {
+    await this.compFetch("cards", "GET", queryParams).then(result => {
       const { hasError, message, data } = result;
       if (hasError) {
         this.handleError(message);

@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
-import { getCards, camelCase, fetching } from "../../../utils";
-import { URLS } from "../../../constants";
+import { getCards, camelCase } from "../../../utils";
 import Base from "./Base";
 import { Navbar } from "../../UI";
 import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
@@ -45,16 +44,16 @@ class BaseWrapper extends React.Component {
     }
   };
 
-
-  dataSource = async() => {
+  dataSource = async () => {
     const result = await this.props.compFetch("cards", "GET");
-    var data = camelCase(result);
+    const data = camelCase(result);
     this.handleResetBoard(data);
     this.getAllCards(data);
     return data;
-  }
+  };
+
   componentDidMount = async () => {
-    this.props.dataSource(this.dataSource);
+    this.props.setDataSource(this.dataSource);
   };
 
   createFilterGroup = () => {
@@ -224,37 +223,35 @@ class BaseWrapper extends React.Component {
 
   handleUpdate = async (type, action, queryParams) => {
     await this.props.compFetch(type, action, queryParams).then(async _ => {
-        if (this.state.filters.active) {
-          this.selectFilters();
-        } else {
-          await this.dataSource().then(result => {
-            this.handleResetBoard(result);
-            this.getAllCards(result);
-          });
-        }
-      });
+      if (this.state.filters.active) {
+        this.selectFilters();
+      } else {
+        await this.props.dataSource().then(result => {
+          this.handleResetBoard(result);
+          this.getAllCards(result);
+        });
+      }
+    });
   };
 
   updateFilters = async queryParams => {
-    await this.compFetch("cards", "GET", queryParams).then(result => {
-      if (!result.error) {
-        let formattedData = camelCase(result.data);
-        this.handleResetBoard(formattedData);
-        if (queryParams) {
-          this.setState({
-            filters: {
-              ...this.state.filters,
-              active: true
-            }
-          });
-        } else {
-          this.setState({
-            filters: {
-              ...this.state.filters,
-              active: false
-            }
-          });
-        }
+    await this.props.compFetch("cards", "GET", queryParams).then(result => {
+      let formattedData = camelCase(result);
+      this.handleResetBoard(formattedData);
+      if (queryParams) {
+        this.setState({
+          filters: {
+            ...this.state.filters,
+            active: true
+          }
+        });
+      } else {
+        this.setState({
+          filters: {
+            ...this.state.filters,
+            active: false
+          }
+        });
       }
     });
   };
@@ -289,12 +286,8 @@ class BaseWrapper extends React.Component {
         [type]: boardType
       };
     }
-    const { token } = this.props;
-    const url = URLS(type, "UPDATE");
-    await fetching(url, newContent, token).then(result => {
-      if (!result.error) {
-        this.setState(newState);
-      }
+    await this.props.compFetch(type, "UPDATE", newContent).then(_ => {
+      this.setState(newState);
     });
   };
 

@@ -1,9 +1,13 @@
 import PropTypes from "prop-types";
 import { titleCase, notifyToast } from "../utils";
-import { FetchError } from "../constants";
+import { STATUS_ERRORS } from "../constants";
 
 const fetching = async (url, queryParams, token) => {
-  const { name: urlName, whiteList: urlWhiteList = null, method = "POST" } = url;
+  const {
+    name: urlName,
+    whiteList: urlWhiteList = null,
+    method = "POST"
+  } = url;
   let options = {
     method,
     headers: {
@@ -37,8 +41,9 @@ const fetching = async (url, queryParams, token) => {
 
   const handleErrors = res => {
     if (!res.ok) {
-      notifyToast("error", res.statusText);
-      throw new FetchError(res.status, res.statusText, res.statusText);
+      const { status } = res;
+      notifyToast("error", STATUS_ERRORS(status), "top-center");
+      throw new Error(res.statusText);
     }
     return res;
   };
@@ -46,7 +51,6 @@ const fetching = async (url, queryParams, token) => {
   const handleSuccess = res => {
     return res.json().then(res => {
       return {
-        hasError: false,
         data: res
       };
     });
@@ -56,9 +60,7 @@ const fetching = async (url, queryParams, token) => {
     .then(handleErrors)
     .then(handleSuccess)
     .catch(error => {
-      console.log(error.info);
       return {
-        hasError: true,
         error
       };
     });

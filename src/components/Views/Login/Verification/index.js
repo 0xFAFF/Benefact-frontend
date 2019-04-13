@@ -6,10 +6,6 @@ import { toast } from "react-toastify";
 import "./index.scss";
 
 class Verification extends React.Component {
-  handleError = message => {
-    this.setState({ showError: true, errorMessage: message });
-  };
-
   notify = () => {
     toast.success("Successfully sent verification email.");
   };
@@ -34,10 +30,8 @@ class Verification extends React.Component {
             onClick={async () => {
               const url = URLS("users", "SEND_VERIFICATION");
               await fetching(url, "POST", {}, token).then(result => {
-                const { hasError, message } = result;
-                if (hasError) {
-                  this.handleError(message);
-                } else {
+                const { error } = result;
+                if (!error) {
                   this.notify();
                 }
               });

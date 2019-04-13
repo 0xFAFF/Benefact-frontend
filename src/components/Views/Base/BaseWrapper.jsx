@@ -5,7 +5,7 @@ import { getCards, camelCase, fetching } from "../../../utils";
 import { URLS } from "../../../constants";
 import { PacmanLoader } from "../../UI/Loader";
 import Base from "./Base";
-import { Navbar, ErrorHandling } from "../../UI";
+import { Navbar } from "../../UI";
 import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
 import { AuthProvider } from "../../Auth/AuthContext";
 import { UsersProvider } from "../../Users/UsersContext";
@@ -62,10 +62,6 @@ class BaseWrapper extends React.Component {
     this.handleResetBoard(formattedData);
     this.getAllCards(formattedData);
     this.setState({ users: formattedData.users });
-  };
-
-  handleError = message => {
-    this.setState({ showError: true, errorMessage: message });
   };
 
   createFilterGroup = () => {
@@ -234,36 +230,25 @@ class BaseWrapper extends React.Component {
   };
 
   handleUpdate = async (type, action, queryParams) => {
-    await this.compFetch(type, action, queryParams)
-      .then(result => {
-        const { hasError, message } = result;
-        if (hasError) this.handleError(message);
-      })
-      .then(async result => {
-        if (this.state.filters.active) {
-          this.selectFilters();
-        } else {
-          await this.compFetch("cards", "GET").then(result => {
-            const { hasError, message, data } = result;
-            if (hasError) {
-              this.handleError(message);
-            } else {
-              let formattedData = camelCase(data);
-              this.handleResetBoard(formattedData);
-              this.getAllCards(formattedData);
-            }
-          });
-        }
-      });
+    await this.compFetch(type, action, queryParams).then(async result => {
+      if (this.state.filters.active) {
+        this.selectFilters();
+      } else {
+        await this.compFetch("cards", "GET").then(result => {
+          if (!result.error) {
+            let formattedData = camelCase(result.data);
+            this.handleResetBoard(formattedData);
+            this.getAllCards(formattedData);
+          }
+        });
+      }
+    });
   };
 
   updateFilters = async queryParams => {
     await this.compFetch("cards", "GET", queryParams).then(result => {
-      const { hasError, message, data } = result;
-      if (hasError) {
-        this.handleError(message);
-      } else {
-        let formattedData = camelCase(data);
+      if (!result.error) {
+        let formattedData = camelCase(result.data);
         this.handleResetBoard(formattedData);
         if (queryParams) {
           this.setState({
@@ -317,10 +302,7 @@ class BaseWrapper extends React.Component {
     const { token } = this.props;
     const url = URLS(type, "UPDATE");
     await fetching(url, newContent, token).then(result => {
-      const { hasError, message } = result;
-      if (hasError) {
-        this.handleError(message);
-      } else {
+      if (!result.error) {
         this.setState(newState);
       }
     });
@@ -507,7 +489,7 @@ class BaseWrapper extends React.Component {
 
   render() {
     const { onLogoutHandler } = this.props;
-    const { isLoading, showError, errorMessage, ...baseState } = this.state;
+    const { isLoading, ...baseState } = this.state;
 
     const generalFunctions = {
       updateBoardContent: this.updateBoardContent,
@@ -544,28 +526,26 @@ class BaseWrapper extends React.Component {
     }
 
     return (
-      <ErrorHandling showError={showError} errorMessage={errorMessage}>
-        <AuthProvider value={this.props.token}>
-          <UsersProvider value={this.state.users}>
-            <TagsProvider value={this.state.tags}>
-              <div id="base-container">
-                <Navbar
-                  {...baseState}
-                  {...navBarFunctions}
-                  filtersActive={this.state.filters.active}
-                  resetFilters={this.resetFilters}
-                />
-                <Base
-                  {...baseState}
-                  kanbanFunctions={kanbanFunctions}
-                  listFunctions={listFunctions}
-                  filtersActive={this.state.filters.active}
-                />
-              </div>
-            </TagsProvider>
-          </UsersProvider>
-        </AuthProvider>
-      </ErrorHandling>
+      <AuthProvider value={this.props.token}>
+        <UsersProvider value={this.state.users}>
+          <TagsProvider value={this.state.tags}>
+            <div id="base-container">
+              <Navbar
+                {...baseState}
+                {...navBarFunctions}
+                filtersActive={this.state.filters.active}
+                resetFilters={this.resetFilters}
+              />
+              <Base
+                {...baseState}
+                kanbanFunctions={kanbanFunctions}
+                listFunctions={listFunctions}
+                filtersActive={this.state.filters.active}
+              />
+            </div>
+          </TagsProvider>
+        </UsersProvider>
+      </AuthProvider>
     );
   }
 }

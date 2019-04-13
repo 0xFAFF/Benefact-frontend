@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { fetching, notifyToast } from "../../utils";
+import { fetching, notifyToast, camelCase } from "../../utils";
 import { URLS } from "../../constants";
 import { PacmanLoader } from "../UI/Loader";
 
@@ -33,9 +33,10 @@ const PageWrapper = Component => {
         queryParams,
         token
       ).then(async res => {
-        if (res.status === 200) return res.json();
+        var result = camelCase(await res.json());
+        if (res.status === 200) return result;
         else {
-          const error = { status: res.status, message: await res.text() };
+          const error = { status: res.status, ...result };
           errorHandler = errorHandler || this.errorHandler;
           if (errorHandler) errorHandler(error);
           else console.warn(error);

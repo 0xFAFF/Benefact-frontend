@@ -46,10 +46,9 @@ class Board extends React.Component {
 
   dataSource = async () => {
     const result = await this.props.compFetch("cards", "GET");
-    const data = camelCase(result);
-    this.handleResetBoard(data);
-    this.getAllCards(data);
-    return data;
+    this.handleResetBoard(result);
+    this.getAllCards(result);
+    return result;
   };
 
   componentDidMount = async () => {
@@ -236,8 +235,7 @@ class Board extends React.Component {
 
   updateFilters = async queryParams => {
     await this.props.compFetch("cards", "GET", queryParams).then(result => {
-      let formattedData = camelCase(result);
-      this.handleResetBoard(formattedData);
+      this.handleResetBoard(result);
       if (queryParams) {
         this.setState({
           filters: {

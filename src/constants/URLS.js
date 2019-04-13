@@ -73,7 +73,7 @@ const urlKeyMap = {
 
 function URLS(type, action, urlParams = {}) {
   let urlEntry = urlKeyMap[type][action];
-  let url = `${baseURL}${urlEntry.url}`.replace(/{(.*?)}/, (_, m) => urlParams[m]);
+  let url = `${baseURL}${urlEntry.url}`.replace(/{(.*?)}/g, (_, m) => urlParams[m]);
   return {name: url, ...urlEntry};
 }
 

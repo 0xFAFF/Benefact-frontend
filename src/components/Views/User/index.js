@@ -17,7 +17,7 @@ class User extends React.Component {
           {
             id: "brand",
             title: "Benefact",
-            image: "fafficon.ico",
+            image: "/fafficon.ico",
             liClassName: "brand"
           },
           {

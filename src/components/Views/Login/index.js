@@ -26,7 +26,7 @@ class Login extends React.Component {
           <div className="header">
             <div className="app-title">Benefact</div>
             <img
-              src={"fafficon.ico"}
+              src={"/fafficon.ico"}
               alt={"fafficon.ico"}
               width="70"
               height="70"

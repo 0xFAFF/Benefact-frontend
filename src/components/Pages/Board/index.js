@@ -2,14 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 import { getCards, camelCase } from "../../../utils";
-import Base from "./Base";
+import Views from "./Views";
 import { Navbar } from "../../UI";
 import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
 import { AuthProvider } from "../../Auth/AuthContext";
 import { UsersProvider } from "../../Users/UsersContext";
 import PageWrapper from "../PageWrapper";
 
-class BaseWrapper extends React.Component {
+class Board extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
       cards: PropTypes.object,
@@ -515,7 +515,7 @@ class BaseWrapper extends React.Component {
                 filtersActive={this.state.filters.active}
                 resetFilters={this.resetFilters}
               />
-              <Base
+              <Views
                 {...baseState}
                 kanbanFunctions={kanbanFunctions}
                 listFunctions={listFunctions}
@@ -529,4 +529,4 @@ class BaseWrapper extends React.Component {
   }
 }
 
-export default PageWrapper(BaseWrapper);
+export default PageWrapper(Board);

@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Kanban from "../Kanban";
-import List from "../List";
-import "./Base.scss";
+import Kanban from "./Kanban";
+import List from "./List";
+import "./index.scss";
 
-const Base = props => {
+const Views = props => {
   const {
     view,
     cards,
@@ -57,7 +57,7 @@ const Base = props => {
   );
 };
 
-Base.propTypes = {
+Views.propTypes = {
   view: PropTypes.string,
   cards: PropTypes.object,
   columns: PropTypes.array,
@@ -67,4 +67,4 @@ Base.propTypes = {
   listFunctions: PropTypes.object
 };
 
-export default Base;
+export default Views;

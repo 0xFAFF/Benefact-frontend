@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ErrorHandling } from "../../../UI";
 import { Create } from "./components";
 import Verification from "../Verification";
 import "./index.scss";
@@ -16,7 +15,7 @@ class Register extends React.Component {
     },
     token: ""
   };
-  
+
   componentDidMount() {
     this.props.handleError(this.handleError);
   }
@@ -46,11 +45,9 @@ class Register extends React.Component {
         name: username,
         password: password
       };
-      await this.props.compFetch("users", "ADD", queryParams)
-        .then(result => {
-          this.setState({ registered: true });
-          this.props.onLoginHandler(result);
-        });
+      await this.props.compFetch("users", "ADD", queryParams).then(result => {
+        this.props.onLoginHandler(result);
+      });
     } else {
       console.warn("password and confirmPassword are different");
     }

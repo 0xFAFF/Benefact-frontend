@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { fetching } from "../../../../../../utils";
-import { URLS } from "../../../../../../constants";
+import { fetching } from "../../../../utils";
+import { URLS } from "../../../../constants";
 import { toast } from "react-toastify";
 import "./index.scss";
 
@@ -15,7 +15,7 @@ class Verification extends React.Component {
   };
 
   render() {
-    const { token, email } = this.props;
+    const { token = "", email } = this.props;
     return (
       <div id="verification-inner">
         <div className="verification-header">Verify your email address</div>

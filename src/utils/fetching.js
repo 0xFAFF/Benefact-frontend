@@ -1,5 +1,6 @@
-import { titleCase } from "../utils";
 import PropTypes from "prop-types";
+import { titleCase, notifyToast } from "../utils";
+import { FetchError } from "../constants";
 
 const fetching = async (url, method, queryParams, token) => {
   const { name: urlName, whiteList: urlWhiteList } = url;
@@ -34,24 +35,31 @@ const fetching = async (url, method, queryParams, token) => {
     options.headers["Authorization"] = "Bearer " + token;
   }
 
-  const data = await fetch(urlName, options)
-    .then(res => {
-      if (res.status === 200) {
-        return res.json();
-      } else {
-        throw new Error(res.statusText);
-      }
-    })
-    .then(res => {
+  const handleErrors = res => {
+    if (!res.ok) {
+      notifyToast("error", res.statusText);
+      throw new FetchError(res.status, res.statusText, res.statusText);
+    }
+    return res;
+  };
+
+  const handleSuccess = res => {
+    return res.json().then(res => {
       return {
         hasError: false,
         data: res
       };
-    })
-    .catch(err => {
+    });
+  };
+
+  const data = await fetch(urlName, options)
+    .then(handleErrors)
+    .then(handleSuccess)
+    .catch(error => {
+      console.log(error.info);
       return {
         hasError: true,
-        message: err
+        error
       };
     });
   return data;

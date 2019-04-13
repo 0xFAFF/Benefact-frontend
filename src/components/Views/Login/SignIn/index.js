@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { URLS } from "../../../../constants";
-import { ErrorHandling } from "../../../UI";
+import { ErrorHandling } from "../../../UI/Errors/components";
 import { fetching } from "../../../../utils";
 import "./index.scss";
 
@@ -12,8 +12,8 @@ class SignIn extends React.Component {
     password: ""
   };
 
-  handleError = message => {
-    this.setState({ showError: true, errorMessage: message });
+  handleError = error => {
+    this.setState({ showError: true, error });
   };
 
   onInputChangeHandler = (e, field) => {
@@ -35,9 +35,9 @@ class SignIn extends React.Component {
       password: password
     };
     await fetching(url, "POST", queryParams).then(result => {
-      const { hasError, message, data } = result;
+      const { hasError, data } = result;
       if (hasError) {
-        this.handleError(message);
+        this.handleError(result.error);
       } else {
         token = data;
       }
@@ -50,9 +50,13 @@ class SignIn extends React.Component {
 
   render() {
     const { onViewChangeHandler } = this.props;
-    const { showError, errorMessage } = this.state;
+    const { showError, error } = this.state;
     return (
-      <ErrorHandling showError={showError} errorMessage={errorMessage}>
+      <ErrorHandling
+        showError={showError}
+        error={error}
+        email={this.state.email}
+      >
         <div id="signin-container">
           <div className="signin-inner">
             <div className="input-container">

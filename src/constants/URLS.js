@@ -1,7 +1,7 @@
 const baseURL =
   process.env.NODE_ENV === "production"
     ? "/api/" // Don't change this
-    : "https://staging.benefact.dev/api/";
+    : "https://benefact.dev/api/";
 
 const urlKeyMap = {
   cards: {
@@ -57,6 +57,10 @@ const urlKeyMap = {
     },
     ADD: {
       url: "users/add",
+      whiteList: null
+    },
+    SEND_VERIFICATION: {
+      url: "users/sendverification",
       whiteList: null
     }
   },

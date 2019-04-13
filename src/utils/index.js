@@ -5,3 +5,4 @@ export { default as getTags } from "./getTags";
 export { default as getFetching } from "./getFetching";
 export { default as fetching } from "./fetching";
 export { default as parseToken } from "./parseToken";
+export { default as notifyToast } from "./notifyToast";

@@ -22,8 +22,7 @@ class AddColumn extends React.Component {
 
   onAcceptHandler = () => {
     const { addComponent, onAcceptHandler } = this.props;
-    // TODO: Don't hardcode boardId
-    addComponent("columns", { title: this.state.title, boardId: 1});
+    addComponent("columns", { title: this.state.title });
     if (onAcceptHandler) {
       onAcceptHandler();
     }

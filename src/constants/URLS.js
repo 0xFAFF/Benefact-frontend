@@ -1,102 +1,86 @@
 const baseURL =
   process.env.NODE_ENV === "production"
     ? "/api/" // Don't change this
-    : "https://benefact.dev/api/";
+    : "https://staging.benefact.dev/api/";
 
 const urlKeyMap = {
   cards: {
     GET: {
-      url: "cards",
-      whiteList: null
+      url: "board/{boardId}/cards",
+      method: "GET"
     },
     UPDATE: {
-      url: "cards/update",
+      url: "board/{boardId}/cards/update",
       whiteList: ["id", "index", "columnId", "tagIds", "description"]
     },
     ADD: {
-      url: "cards/add",
-      whiteList: null
+      url: "board/{boardId}/cards/add"
     },
     DELETE: {
-      url: "cards/delete",
-      whiteList: null
+      url: "board/{boardId}/cards/delete"
     }
   },
   columns: {
     UPDATE: {
-      url: "columns/update",
+      url: "board/{boardId}/columns/update",
       whiteList: ["id", "index", "title"]
     },
     ADD: {
-      url: "columns/add",
-      whiteList: null
+      url: "board/{boardId}/columns/add"
     },
     DELETE: {
-      url: "columns/delete",
-      whiteList: null
+      url: "board/{boardId}/columns/delete"
     }
   },
   tags: {
     UPDATE: {
-      url: "tags/update",
+      url: "board/{boardId}/tags/update",
       whiteList: ["id", "name", "color", "character"]
     },
     ADD: {
-      url: "tags/add",
-      whiteList: null
+      url: "board/{boardId}/tags/add"
     },
     DELETE: {
-      url: "tags/delete",
-      whiteList: null
+      url: "board/{boardId}/tags/delete"
     }
   },
   users: {
     GET: {
-      url: "users/auth",
-      whiteList: null
+      url: "users/auth"
     },
     ADD: {
-      url: "users/add",
-      whiteList: null
+      url: "users/add"
     },
     SEND_VERIFICATION: {
-      url: "users/sendverification",
-      whiteList: null
+      url: "users/sendverification"
     }
   },
   comments: {
     ADD: {
-      url: "comments/add",
-      whiteList: null
+      url: "board/{boardId}/comments/add"
     },
     DELETE: {
-      url: "comments/delete",
-      whiteList: null
+      url: "board/{boardId}/comments/delete"
     },
     UPDATE: {
-      url: "comments/update",
+      url: "board/{boardId}/comments/update",
       whiteList: ["id", "text"]
     }
   },
   votes: {
     UPDATE: {
-      url: "cards/vote",
-      whiteList: null
+      url: "board/{boardId}/cards/vote"
     }
   }
 };
 
-function URLS(type, action) {
-  if (arguments.length === 0) {
-    return {
-      name: baseURL,
-      whiteList: []
-    };
-  }
-  return {
-    name: `${baseURL}${urlKeyMap[type][action]["url"]}`,
-    whiteList: urlKeyMap[type][action]["whiteList"]
-  };
+function URLS(type, action, urlParams = {}) {
+  let urlEntry = urlKeyMap[type][action];
+  let url = `${baseURL}${urlEntry.url}`.replace(
+    /{(.*?)}/g,
+    (_, m) => urlParams[m]
+  );
+  return { name: url, ...urlEntry };
 }
 
 export default URLS;

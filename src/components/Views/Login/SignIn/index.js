@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { URLS } from "../../../../constants";
-import { ErrorHandling } from "../../../UI/Errors/components";
 import { fetching } from "../../../../utils";
 import "./index.scss";
 
@@ -10,10 +9,6 @@ class SignIn extends React.Component {
   state = {
     email: "",
     password: ""
-  };
-
-  handleError = error => {
-    this.setState({ showError: true, error });
   };
 
   onInputChangeHandler = (e, field) => {
@@ -34,76 +29,64 @@ class SignIn extends React.Component {
       email: email,
       password: password
     };
-    await fetching(url, "POST", queryParams).then(result => {
-      const { hasError, data } = result;
-      if (hasError) {
-        this.handleError(result.error);
-      } else {
+    await fetching(url, queryParams).then(result => {
+      const { error, data } = result;
+      if (!error) {
         token = data;
+        this.props.onLoginHandler(token);
       }
     });
-
-    if (token) {
-      this.props.onLoginHandler(token);
-    }
   };
 
   render() {
     const { onViewChangeHandler } = this.props;
-    const { showError, error } = this.state;
     return (
-      <ErrorHandling
-        showError={showError}
-        error={error}
-        email={this.state.email}
-      >
-        <div id="signin-container">
-          <div className="signin-inner">
-            <div className="input-container">
-              <div className="input-icon">
-                <FontAwesomeIcon icon={"user"} size="sm" />
-              </div>
-              <input
-                className="input-field"
-                id="username"
-                name="username"
-                placeholder="Username or Email"
-                value={this.state.email}
-                onChange={e => this.onInputChangeHandler(e, "email")}
-              />
+      <div id="signin-container">
+        <div className="signin-inner">
+          <div className="input-container">
+            <div className="input-icon">
+              <FontAwesomeIcon icon={"user"} size="sm" />
             </div>
-            <div className="input-container">
-              <div className="input-icon">
-                <FontAwesomeIcon icon={"key"} size="sm" />
-              </div>
-              <input
-                className="input-field"
-                id="password"
-                name="password"
-                placeholder="Password"
-                type="password"
-                value={this.state.password}
-                onChange={e => this.onInputChangeHandler(e, "password")}
-              />
-            </div>
-            <button className="signin-button" onClick={this.onAuthCheck}>
-              Login
-            </button>
+            <input
+              className="input-field"
+              id="username"
+              name="username"
+              placeholder="Username or Email"
+              value={this.state.email}
+              onChange={e => this.onInputChangeHandler(e, "email")}
+            />
           </div>
-          <div className="signin-bottom-container">
-            <div
-              className="register"
-              onClick={() => onViewChangeHandler("register")}
-            >
-              Register
+          <div className="input-container">
+            <div className="input-icon">
+              <FontAwesomeIcon icon={"key"} size="sm" />
             </div>
-            <div className="signin-bottom-circle">
-              <FontAwesomeIcon icon={"circle"} size="sm" />
-            </div>
-            <div className="forgot-password">Forgot Password?</div>
+            <input
+              className="input-field"
+              id="password"
+              name="password"
+              placeholder="Password"
+              type="password"
+              value={this.state.password}
+              onChange={e => this.onInputChangeHandler(e, "password")}
+            />
           </div>
+          <button className="signin-button" onClick={this.onAuthCheck}>
+            Login
+          </button>
         </div>
-      </ErrorHandling>
+        <div className="signin-bottom-container">
+          <div
+            className="register"
+            onClick={() => onViewChangeHandler("register")}
+          >
+            Register
+          </div>
+          <div className="signin-bottom-circle">
+            <FontAwesomeIcon icon={"circle"} size="sm" />
+          </div>
+          <div className="forgot-password">Forgot Password?</div>
+        </div>
+      </div>
     );
   }
 }

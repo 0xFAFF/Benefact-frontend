@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { titleCase, notifyToast } from "../utils";
+import { titleCase } from "../utils";
 
 const fetching = async (url, queryParams, token) => {
   const {

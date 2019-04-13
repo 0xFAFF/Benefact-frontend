@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Column } from "../../../UI/BoardComponents";
-import { getCards } from "../../../../utils";
+import { Column } from "../../../../UI/BoardComponents";
+import { getCards } from "../../../../../utils";
 import "./index.scss";
 
 class InnerList extends React.PureComponent {
@@ -28,7 +28,7 @@ class InnerList extends React.PureComponent {
   }
 }
 
-const Board = props => {
+const Kanban = props => {
   const {
     columns,
     columnOrder,
@@ -83,7 +83,7 @@ const Board = props => {
   );
 };
 
-Board.propTypes = {
+Kanban.propTypes = {
   cards: PropTypes.array,
   columns: PropTypes.array,
   columnOrder: PropTypes.array,
@@ -97,4 +97,4 @@ Board.propTypes = {
   filtersActive: PropTypes.bool
 };
 
-export default Board;
+export default Kanban;

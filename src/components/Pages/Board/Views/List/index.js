@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Card } from "../../../UI/BoardComponents";
-import { TagsProvider } from "../../../UI/BoardComponents/Tags/TagsContext";
+import { Card } from "../../../../UI/BoardComponents";
+import { TagsProvider } from "../../../../UI/BoardComponents/Tags/TagsContext";
 import "./index.scss";
 
 const InnerList = props => {
@@ -19,7 +19,7 @@ InnerList.propTypes = {
   deleteComponent: PropTypes.func
 };
 
-const Board = props => {
+const List = props => {
   const {
     cards,
     columns,
@@ -68,7 +68,7 @@ const Board = props => {
   );
 };
 
-Board.propTypes = {
+List.propTypes = {
   cards: PropTypes.array,
   columns: PropTypes.array,
   tags: PropTypes.array,
@@ -78,4 +78,4 @@ Board.propTypes = {
   groupName: PropTypes.string
 };
 
-export default Board;
+export default List;

@@ -61,9 +61,9 @@
         color: #fff;
         outline: none;
         cursor: pointer;
-      }
-      button:active {
-        box-shadow: inset 1px 1px 10px rgb(112, 111, 111);
+        &:active {
+          box-shadow: inset 1px 1px 10px rgb(112, 111, 111);
+        }
       }
     }
   }
@@ -72,11 +72,10 @@
 .closed {
   height: 30px;
   cursor: pointer;
-}
-
-.closed:hover {
-  background-color: rgb(185, 189, 190);
-  transition: background-color 0.8s ease;
+  &:hover {
+    background-color: rgb(185, 189, 190);
+    transition: background-color 0.8s ease;
+  }
 }
 
 .open {

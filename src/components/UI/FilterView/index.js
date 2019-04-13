@@ -3,13 +3,16 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.scss";
 
-const FilterView = props => {
-  const { resetFilters } = props;
+const FilterView = ({ resetFilters }) => {
+  const onClick = e => {
+    e.stopPropagation();
+    resetFilters();
+  };
   return (
     <div id="filter-view">
       <span className="message">Filter Active</span>
       <span className="reset-filters">
-        <FontAwesomeIcon icon="times" size="lg" onClick={resetFilters} />
+        <FontAwesomeIcon icon="times" size="lg" onClick={onClick} />
       </span>
     </div>
   );

@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { URLS } from "../../../../constants";
-import { fetching } from "../../../../utils";
 import "./index.scss";
+import PageWrapper from "../../PageWrapper";
 
 class SignIn extends React.Component {
   state = {
@@ -17,24 +16,17 @@ class SignIn extends React.Component {
 
   onAuthCheck = async () => {
     const { email, password } = this.state;
-    let token = "";
-
     if (!email || !password) {
       console.warn("There's an empty field");
       return;
     }
 
-    const url = URLS("users", "GET");
     const queryParams = {
       email: email,
       password: password
     };
-    await fetching(url, queryParams).then(result => {
-      const { error, data } = result;
-      if (!error) {
-        token = data;
-        this.props.onLoginHandler(token);
-      }
+    await this.props.compFetch("users", "GET", queryParams).then(result => {
+      this.props.onLoginHandler(result);
     });
   };
 
@@ -96,4 +88,4 @@ SignIn.propTypes = {
   onLoginHandler: PropTypes.func
 };
 
-export default SignIn;
+export default PageWrapper(SignIn);

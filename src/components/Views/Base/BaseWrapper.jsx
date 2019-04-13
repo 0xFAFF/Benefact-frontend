@@ -3,28 +3,25 @@ import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 import { getCards, camelCase, fetching } from "../../../utils";
 import { URLS } from "../../../constants";
-import { PacmanLoader } from "../../UI/Loader";
 import Base from "./Base";
 import { Navbar } from "../../UI";
 import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
 import { AuthProvider } from "../../Auth/AuthContext";
 import { UsersProvider } from "../../Users/UsersContext";
+import PageWrapper from "../PageWrapper";
 
 class BaseWrapper extends React.Component {
   static propTypes = {
-    boardId: PropTypes.string,
     data: PropTypes.shape({
       cards: PropTypes.object,
       columns: PropTypes.array,
       tags: PropTypes.array,
       users: PropTypes.array
     }),
-    isLoading: PropTypes.bool,
     onLogoutHandler: PropTypes.func
   };
 
   state = {
-    isLoading: true,
     data: null,
     view: "kanban",
     cards: {},
@@ -47,21 +44,17 @@ class BaseWrapper extends React.Component {
       ]
     }
   };
-  compFetch = async (type, action, queryParams) => {
-    const { boardId, token } = this.props;
-    return await fetching(URLS(type, action, { boardId }), queryParams, token);
-  };
 
+
+  dataSource = async() => {
+    const result = await this.props.compFetch("cards", "GET");
+    var data = camelCase(result);
+    this.handleResetBoard(data);
+    this.getAllCards(data);
+    return data;
+  }
   componentDidMount = async () => {
-    const result = await this.compFetch("cards", "GET");
-    this.setState({
-      data: result.data,
-      isLoading: false
-    });
-    let formattedData = camelCase(this.state.data);
-    this.handleResetBoard(formattedData);
-    this.getAllCards(formattedData);
-    this.setState({ users: formattedData.users });
+    this.props.dataSource(this.dataSource);
   };
 
   createFilterGroup = () => {
@@ -230,19 +223,16 @@ class BaseWrapper extends React.Component {
   };
 
   handleUpdate = async (type, action, queryParams) => {
-    await this.compFetch(type, action, queryParams).then(async result => {
-      if (this.state.filters.active) {
-        this.selectFilters();
-      } else {
-        await this.compFetch("cards", "GET").then(result => {
-          if (!result.error) {
-            let formattedData = camelCase(result.data);
-            this.handleResetBoard(formattedData);
-            this.getAllCards(formattedData);
-          }
-        });
-      }
-    });
+    await this.props.compFetch(type, action, queryParams).then(async _ => {
+        if (this.state.filters.active) {
+          this.selectFilters();
+        } else {
+          await this.dataSource().then(result => {
+            this.handleResetBoard(result);
+            this.getAllCards(result);
+          });
+        }
+      });
   };
 
   updateFilters = async queryParams => {
@@ -521,10 +511,6 @@ class BaseWrapper extends React.Component {
       onLogoutHandler: onLogoutHandler
     };
 
-    if (isLoading) {
-      return <PacmanLoader />;
-    }
-
     return (
       <AuthProvider value={this.props.token}>
         <UsersProvider value={this.state.users}>
@@ -550,4 +536,4 @@ class BaseWrapper extends React.Component {
   }
 }
 
-export default BaseWrapper;
+export default PageWrapper(BaseWrapper);

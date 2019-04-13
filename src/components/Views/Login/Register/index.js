@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { URLS } from "../../../../constants";
-import { fetching } from "../../../../utils";
+import { ErrorHandling } from "../../../UI";
 import { Create } from "./components";
 import Verification from "../Verification";
 import "./index.scss";
+import PageWrapper from "../../PageWrapper";
 
 class Register extends React.Component {
   state = {
@@ -16,6 +16,10 @@ class Register extends React.Component {
     },
     token: ""
   };
+  
+  componentDidMount() {
+    this.props.handleError(this.handleError);
+  }
 
   onInputChangeHandler = (e, field) => {
     this.setState({
@@ -37,26 +41,16 @@ class Register extends React.Component {
 
     // Validate password and confirmPassword
     if (password === confirmPassword) {
-      const url = URLS("users", "ADD");
       const queryParams = {
         email: email,
         name: username,
         password: password
       };
-      await fetching(url, queryParams).then(async result => {
-        const url = URLS("users", "GET");
-        const queryParams = {
-          email: email,
-          password: password
-        };
-        await fetching(url, queryParams).then(result => {
-          const { error, data } = result;
-          if (!error) {
-            this.setState({ token: data });
-            this.props.onLoginHandler(data);
-          }
+      await this.props.compFetch("users", "ADD", queryParams)
+        .then(result => {
+          this.setState({ registered: true });
+          this.props.onLoginHandler(result);
         });
-      });
     } else {
       console.warn("password and confirmPassword are different");
     }
@@ -82,4 +76,4 @@ Register.propTypes = {
   onViewChangeHandler: PropTypes.func
 };
 
-export default Register;
+export default PageWrapper(Register);

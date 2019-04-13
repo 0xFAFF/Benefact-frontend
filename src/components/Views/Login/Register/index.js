@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { URLS } from "../../../../constants";
-import { ErrorHandling } from "../../../UI";
 import { fetching } from "../../../../utils";
-import { Create, Verification } from "./components";
+import { Create } from "./components";
+import Verification from "../Verification";
 import "./index.scss";
 
 class Register extends React.Component {
@@ -14,12 +14,7 @@ class Register extends React.Component {
       password: "",
       confirmPassword: ""
     },
-    registered: false,
     token: ""
-  };
-
-  handleError = message => {
-    this.setState({ showError: true, errorMessage: message });
   };
 
   onInputChangeHandler = (e, field) => {
@@ -48,58 +43,37 @@ class Register extends React.Component {
         name: username,
         password: password
       };
-      await fetching(url, queryParams)
-        .then(result => {
-          const { hasError, message } = result;
-          if (hasError) {
-            this.handleError(message);
-          } else {
-            this.setState({ registered: true });
+      await fetching(url, queryParams).then(async result => {
+        const url = URLS("users", "GET");
+        const queryParams = {
+          email: email,
+          password: password
+        };
+        await fetching(url, queryParams).then(result => {
+          const { error, data } = result;
+          if (!error) {
+            this.setState({ token: data });
+            this.props.onLoginHandler(data);
           }
-        })
-        .then(async result => {
-          const url = URLS("users", "GET");
-          const queryParams = {
-            email: email,
-            password: password
-          };
-          await fetching(url, queryParams).then(result => {
-            const { hasError, message, data } = result;
-            if (hasError) {
-              this.handleError(message);
-            } else {
-              this.setState({ token: data });
-            }
-          });
         });
+      });
     } else {
       console.warn("password and confirmPassword are different");
     }
   };
 
   render() {
-    const { onViewChangeHandler, onLoginHandler } = this.props;
-    const { fields, registered, token, showError, errorMessage } = this.state;
+    const { onViewChangeHandler } = this.props;
+    const { fields } = this.state;
     return (
-      <ErrorHandling showError={showError} errorMessage={errorMessage}>
-        <div id="register-container">
-          {!registered && (
-            <Create
-              fields={fields}
-              onViewChangeHandler={onViewChangeHandler}
-              onInputChangeHandler={this.onInputChangeHandler}
-              onCreateAccount={this.onCreateAccount}
-            />
-          )}
-          {registered && (
-            <Verification
-              token={token}
-              onLoginHandler={onLoginHandler}
-              email={this.state.fields.email}
-            />
-          )}
-        </div>
-      </ErrorHandling>
+      <div id="register-container">
+        <Create
+          fields={fields}
+          onViewChangeHandler={onViewChangeHandler}
+          onInputChangeHandler={this.onInputChangeHandler}
+          onCreateAccount={this.onCreateAccount}
+        />
+      </div>
     );
   }
 }

@@ -8,13 +8,12 @@ import {
   Redirect
 } from "react-router-dom";
 import "./fontawesome";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import BaseWrapper from "./components/Views/Base/BaseWrapper";
-import { ErrorBoundary } from "./components/UI";
 import { User, Login } from "./components/Views";
 import { Version } from "./components/Version";
 import "./index.scss";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 toast.configure({
   autoClose: 5000,
@@ -43,51 +42,49 @@ class App extends React.Component {
 
     return (
       <div id="app-container">
-        <ErrorBoundary>
-          <Router>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props =>
-                  token ? <Redirect to="/board/1" /> : <RedirectLogin />
-                }
-              />
-              <Route
-                path="/login"
-                render={props =>
-                  token ? (
-                    <Redirect to="/board/1" />
-                  ) : (
-                    <Login {...props} onLoginHandler={this.onLoginHandler} />
-                  )
-                }
-              />
-              <Route
-                path="/board/:boardId"
-                render={props =>
-                  token ? (
-                    <BaseWrapper
-                      boardId={props.match.params.boardId}
-                      {...props}
-                      token={token}
-                      onLogoutHandler={this.onLogoutHandler}
-                    />
-                  ) : (
-                    <RedirectLogin />
-                  )
-                }
-              />
-              <Route
-                path="/user"
-                render={props =>
-                  token ? <User {...props} token={token} /> : <RedirectLogin />
-                }
-              />
-              <Route path="/version" render={props => <Version />} />
-            </Switch>
-          </Router>
-        </ErrorBoundary>
+        <Router>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={props =>
+                token ? <Redirect to="/board/1" /> : <RedirectLogin />
+              }
+            />
+            <Route
+              path="/login"
+              render={props =>
+                token ? (
+                  <Redirect to="/board/1" />
+                ) : (
+                  <Login {...props} onLoginHandler={this.onLoginHandler} />
+                )
+              }
+            />
+            <Route
+              path="/board/:boardId"
+              render={props =>
+                token ? (
+                  <BaseWrapper
+                    boardId={props.match.params.boardId}
+                    {...props}
+                    token={token}
+                    onLogoutHandler={this.onLogoutHandler}
+                  />
+                ) : (
+                  <RedirectLogin />
+                )
+              }
+            />
+            <Route
+              path="/user"
+              render={props =>
+                token ? <User {...props} token={token} /> : <RedirectLogin />
+              }
+            />
+            <Route path="/version" render={props => <Version />} />
+          </Switch>
+        </Router>
       </div>
     );
   }

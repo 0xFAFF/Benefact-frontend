@@ -7,17 +7,17 @@ const urlKeyMap = {
   cards: {
     GET: {
       url: "board/{boardId}/cards",
-      method: "GET",
+      method: "GET"
     },
     UPDATE: {
       url: "board/{boardId}/cards/update",
       whiteList: ["id", "index", "columnId", "tagIds", "description"]
     },
     ADD: {
-      url: "board/{boardId}/cards/add",
+      url: "board/{boardId}/cards/add"
     },
     DELETE: {
-      url: "board/{boardId}/cards/delete",
+      url: "board/{boardId}/cards/delete"
     }
   },
   columns: {
@@ -26,10 +26,10 @@ const urlKeyMap = {
       whiteList: ["id", "index", "title"]
     },
     ADD: {
-      url: "board/{boardId}/columns/add",
+      url: "board/{boardId}/columns/add"
     },
     DELETE: {
-      url: "board/{boardId}/columns/delete",
+      url: "board/{boardId}/columns/delete"
     }
   },
   tags: {
@@ -38,26 +38,29 @@ const urlKeyMap = {
       whiteList: ["id", "name", "color", "character"]
     },
     ADD: {
-      url: "board/{boardId}/tags/add",
+      url: "board/{boardId}/tags/add"
     },
     DELETE: {
-      url: "board/{boardId}/tags/delete",
+      url: "board/{boardId}/tags/delete"
     }
   },
   users: {
     GET: {
-      url: "users/auth",
+      url: "users/auth"
     },
     ADD: {
-      url: "users/add",
+      url: "users/add"
+    },
+    SEND_VERIFICATION: {
+      url: "users/sendverification"
     }
   },
   comments: {
     ADD: {
-      url: "board/{boardId}/comments/add",
+      url: "board/{boardId}/comments/add"
     },
     DELETE: {
-      url: "board/{boardId}/comments/delete",
+      url: "board/{boardId}/comments/delete"
     },
     UPDATE: {
       url: "board/{boardId}/comments/update",
@@ -66,15 +69,18 @@ const urlKeyMap = {
   },
   votes: {
     UPDATE: {
-      url: "board/{boardId}/cards/vote",
+      url: "board/{boardId}/cards/vote"
     }
   }
 };
 
 function URLS(type, action, urlParams = {}) {
   let urlEntry = urlKeyMap[type][action];
-  let url = `${baseURL}${urlEntry.url}`.replace(/{(.*?)}/g, (_, m) => urlParams[m]);
-  return {name: url, ...urlEntry};
+  let url = `${baseURL}${urlEntry.url}`.replace(
+    /{(.*?)}/g,
+    (_, m) => urlParams[m]
+  );
+  return { name: url, ...urlEntry };
 }
 
 export default URLS;

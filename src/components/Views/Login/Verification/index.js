@@ -1,21 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { fetching } from "../../../../../../utils";
-import { URLS } from "../../../../../../constants";
+import { fetching } from "../../../../utils";
+import { URLS } from "../../../../constants";
 import { toast } from "react-toastify";
 import "./index.scss";
 
 class Verification extends React.Component {
-  handleError = message => {
-    this.setState({ showError: true, errorMessage: message });
-  };
-
   notify = () => {
     toast.success("Successfully sent verification email.");
   };
 
   render() {
-    const { token, email } = this.props;
+    const { token = "", email } = this.props;
     return (
       <div id="verification-inner">
         <div className="verification-header">Verify your email address</div>
@@ -34,10 +30,8 @@ class Verification extends React.Component {
             onClick={async () => {
               const url = URLS("users", "SEND_VERIFICATION");
               await fetching(url, "POST", {}, token).then(result => {
-                const { hasError, message } = result;
-                if (hasError) {
-                  this.handleError(message);
-                } else {
+                const { error } = result;
+                if (!error) {
                   this.notify();
                 }
               });

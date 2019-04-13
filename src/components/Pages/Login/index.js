@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SignIn from "./SignIn";
-import Register from "./Register";
+import { SignIn, Register } from "./Views";
+import PageWrapper from "../../Pages/PageWrapper";
 import "./index.scss";
 
 class Login extends React.Component {
@@ -19,7 +19,7 @@ class Login extends React.Component {
 
   render() {
     const { view } = this.state;
-    const { onLoginHandler } = this.props;
+    const { onLoginHandler, compFetch } = this.props;
     return (
       <div id="login">
         <div className="login-container">
@@ -36,12 +36,14 @@ class Login extends React.Component {
             <SignIn
               onViewChangeHandler={this.onViewChangeHandler}
               onLoginHandler={onLoginHandler}
+              compFetch={compFetch}
             />
           )}
           {view === "register" && (
             <Register
               onViewChangeHandler={this.onViewChangeHandler}
               onLoginHandler={onLoginHandler}
+              compFetch={compFetch}
             />
           )}
         </div>
@@ -50,4 +52,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default PageWrapper(Login);

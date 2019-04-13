@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { fetching } from "../../../../utils";
-import { URLS } from "../../../../constants";
+import { fetching } from "../../../../../utils";
+import { URLS } from "../../../../../constants";
 import { toast } from "react-toastify";
 import "./index.scss";
 

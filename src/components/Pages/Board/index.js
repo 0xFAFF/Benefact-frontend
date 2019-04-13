@@ -7,7 +7,7 @@ import { Navbar } from "../../UI";
 import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
 import { AuthProvider } from "../../Auth/AuthContext";
 import { UsersProvider } from "../../Users/UsersContext";
-import PageWrapper from "../PageWrapper";
+import { PageWrapper } from "../../Pages";
 
 class Board extends React.Component {
   static propTypes = {

@@ -27,7 +27,9 @@ const PageWrapper = Component => {
     compFetch = async (type, action, queryParams, errorHandler) => {
       const { boardId, token } = this.props;
       return await fetching(
-        URLS(type, action, { boardId }),
+        URLS(type, action, {
+          ...(boardId && { boardId })
+        }),
         queryParams,
         token
       ).then(async res => {

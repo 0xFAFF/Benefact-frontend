@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.scss";
-import PageWrapper from "../../PageWrapper";
 
 class SignIn extends React.Component {
   state = {
@@ -88,4 +87,4 @@ SignIn.propTypes = {
   onLoginHandler: PropTypes.func
 };
 
-export default PageWrapper(SignIn);
+export default SignIn;

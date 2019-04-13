@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Create } from "./components";
-import Verification from "../Verification";
 import "./index.scss";
-import PageWrapper from "../../PageWrapper";
 
 class Register extends React.Component {
   state = {
@@ -73,4 +71,4 @@ Register.propTypes = {
   onViewChangeHandler: PropTypes.func
 };
 
-export default PageWrapper(Register);
+export default Register;

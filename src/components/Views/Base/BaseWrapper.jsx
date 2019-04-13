@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
-import { getCards, camelCase, getFetching, fetching } from "../../../utils";
+import { getCards, camelCase, fetching } from "../../../utils";
 import { URLS } from "../../../constants";
 import { PacmanLoader } from "../../UI/Loader";
 import Base from "./Base";
@@ -12,6 +12,7 @@ import { UsersProvider } from "../../Users/UsersContext";
 
 class BaseWrapper extends React.Component {
   static propTypes = {
+    boardId: PropTypes.string,
     data: PropTypes.shape({
       cards: PropTypes.object,
       columns: PropTypes.array,
@@ -23,6 +24,8 @@ class BaseWrapper extends React.Component {
   };
 
   state = {
+    isLoading: true,
+    data: null,
     view: "kanban",
     cards: {},
     columns: [],
@@ -43,6 +46,22 @@ class BaseWrapper extends React.Component {
         }
       ]
     }
+  };
+  compFetch = async (type, action, queryParams) => {
+    const { boardId, token } = this.props;
+    return await fetching(URLS(type, action, { boardId }), queryParams, token);
+  };
+
+  componentDidMount = async () => {
+    const result = await this.compFetch("cards", "GET");
+    this.setState({
+      data: result.data,
+      isLoading: false
+    });
+    let formattedData = camelCase(this.state.data);
+    this.handleResetBoard(formattedData);
+    this.getAllCards(formattedData);
+    this.setState({ users: formattedData.users });
   };
 
   handleError = message => {
@@ -215,19 +234,16 @@ class BaseWrapper extends React.Component {
   };
 
   handleUpdate = async (type, action, queryParams) => {
-    const { token } = this.props;
-    const url = URLS(type, action);
-    await fetching(url, "POST", queryParams, token)
+    await this.compFetch(type, action, queryParams)
       .then(result => {
         const { hasError, message } = result;
         if (hasError) this.handleError(message);
       })
       .then(async result => {
-        const url = URLS("cards", "GET");
         if (this.state.filters.active) {
           this.selectFilters();
         } else {
-          await fetching(url, "POST", {}, token).then(result => {
+          await this.compFetch("cards", "GET").then(result => {
             const { hasError, message, data } = result;
             if (hasError) {
               this.handleError(message);
@@ -242,13 +258,7 @@ class BaseWrapper extends React.Component {
   };
 
   updateFilters = async queryParams => {
-    const url = URLS("cards", "GET");
-    await fetching(
-      url,
-      "POST",
-      { boardId: 1, ...queryParams },
-      this.props.token
-    ).then(result => {
+    await this.compFetch("cards", "GET", queryParams).then(result => {
       const { hasError, message, data } = result;
       if (hasError) {
         this.handleError(message);
@@ -306,7 +316,7 @@ class BaseWrapper extends React.Component {
     }
     const { token } = this.props;
     const url = URLS(type, "UPDATE");
-    await fetching(url, "POST", newContent, token).then(result => {
+    await fetching(url, newContent, token).then(result => {
       const { hasError, message } = result;
       if (hasError) {
         this.handleError(message);
@@ -495,18 +505,9 @@ class BaseWrapper extends React.Component {
     }
   };
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.data && this.props.data) {
-      let formattedData = camelCase(this.props.data);
-      this.handleResetBoard(formattedData);
-      this.getAllCards(formattedData);
-      this.setState({ users: formattedData.users });
-    }
-  }
-
   render() {
-    const { isLoading, onLogoutHandler } = this.props;
-    const { showError, errorMessage, ...baseState } = this.state;
+    const { onLogoutHandler } = this.props;
+    const { isLoading, showError, errorMessage, ...baseState } = this.state;
 
     const generalFunctions = {
       updateBoardContent: this.updateBoardContent,
@@ -569,4 +570,4 @@ class BaseWrapper extends React.Component {
   }
 }
 
-export default getFetching(URLS("cards", "GET"))(BaseWrapper);
+export default BaseWrapper;

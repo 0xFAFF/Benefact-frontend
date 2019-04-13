@@ -50,24 +50,25 @@ class App extends React.Component {
                 exact
                 path="/"
                 render={props =>
-                  token ? <Redirect to="/board" /> : <RedirectLogin />
+                  token ? <Redirect to="/board/1" /> : <RedirectLogin />
                 }
               />
               <Route
                 path="/login"
                 render={props =>
                   token ? (
-                    <Redirect to="/board" />
+                    <Redirect to="/board/1" />
                   ) : (
                     <Login {...props} onLoginHandler={this.onLoginHandler} />
                   )
                 }
               />
               <Route
-                path="/board"
+                path="/board/:boardId"
                 render={props =>
                   token ? (
                     <BaseWrapper
+                      boardId={props.match.params.boardId}
                       {...props}
                       token={token}
                       onLogoutHandler={this.onLogoutHandler}

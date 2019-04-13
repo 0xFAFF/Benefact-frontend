@@ -48,7 +48,7 @@ class Register extends React.Component {
         name: username,
         password: password
       };
-      await fetching(url, "POST", queryParams)
+      await fetching(url, queryParams)
         .then(result => {
           const { hasError, message } = result;
           if (hasError) {
@@ -63,7 +63,7 @@ class Register extends React.Component {
             email: email,
             password: password
           };
-          await fetching(url, "POST", queryParams).then(result => {
+          await fetching(url, queryParams).then(result => {
             const { hasError, message, data } = result;
             if (hasError) {
               this.handleError(message);

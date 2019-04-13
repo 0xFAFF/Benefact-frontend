@@ -1,8 +1,8 @@
 import { titleCase } from "../utils";
 import PropTypes from "prop-types";
 
-const fetching = async (url, method, queryParams, token) => {
-  const { name: urlName, whiteList: urlWhiteList } = url;
+const fetching = async (url, queryParams, token) => {
+  const { name: urlName, whiteList: urlWhiteList = null, method = "POST" } = url;
   let options = {
     method,
     headers: {
@@ -63,7 +63,6 @@ fetching.propTypes = {
     whiteList: PropTypes.array
   }),
   queryParams: PropTypes.object,
-  method: PropTypes.object,
   token: PropTypes.string
 };
 

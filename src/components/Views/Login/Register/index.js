@@ -70,6 +70,7 @@ class Register extends React.Component {
               this.handleError(message);
             } else {
               this.setState({ token: data });
+              this.props.onLoginHandler(data);
             }
           });
         });

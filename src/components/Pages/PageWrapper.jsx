@@ -70,4 +70,8 @@ const PageWrapper = Component => {
   };
 };
 
+PageWrapper.propTypes = {
+  Component: PropTypes.element.isRequired
+};
+
 export default PageWrapper;

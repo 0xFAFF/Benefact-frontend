@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Create } from "./components";
-import "./index.scss";
+import Create from "./Create";
+import "./Register.scss";
 
 class Register extends React.Component {
   state = {

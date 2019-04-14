@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Column } from "../../../../UI/BoardComponents";
-import { getCards } from "../../../../../utils";
-import "./index.scss";
+import { Column } from "../../../UI/BoardComponents";
+import { getCards } from "../../../../utils";
+import "./Kanban.scss";
 
 class InnerList extends React.PureComponent {
   static propTypes = {

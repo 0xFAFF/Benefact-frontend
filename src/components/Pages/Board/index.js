@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
-import { getCards, camelCase } from "../../../utils";
+import { getCards } from "../../../utils";
 import Views from "./Views";
 import { Navbar } from "../../UI";
 import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
@@ -514,14 +514,16 @@ class Board extends React.Component {
                 filtersActive={this.state.filters.active}
                 resetFilters={this.resetFilters}
               />
-              {this.props.isLoading
-              ? <PacmanLoader/>
-              : <Views
-                {...baseState}
-                kanbanFunctions={kanbanFunctions}
-                listFunctions={listFunctions}
-                filtersActive={this.state.filters.active}
-              />}
+              {this.props.isLoading ? (
+                <PacmanLoader />
+              ) : (
+                <Views
+                  {...baseState}
+                  kanbanFunctions={kanbanFunctions}
+                  listFunctions={listFunctions}
+                  filtersActive={this.state.filters.active}
+                />
+              )}
             </div>
           </TagsProvider>
         </UsersProvider>

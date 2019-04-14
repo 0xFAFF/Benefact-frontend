@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./index.scss";
+import "./SignIn.scss";
 
 class SignIn extends React.Component {
   state = {

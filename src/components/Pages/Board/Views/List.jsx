@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Card } from "../../../../UI/BoardComponents";
-import { TagsProvider } from "../../../../UI/BoardComponents/Tags/TagsContext";
-import "./index.scss";
+import { Card } from "../../../UI/BoardComponents";
+import { TagsProvider } from "../../../UI/BoardComponents/Tags/TagsContext";
+import "./List.scss";
 
 const InnerList = props => {
   const { cards, ...rest } = props;

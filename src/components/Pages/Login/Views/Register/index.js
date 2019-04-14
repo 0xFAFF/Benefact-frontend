@@ -14,10 +14,6 @@ class Register extends React.Component {
     token: ""
   };
 
-  componentDidMount() {
-    this.props.handleError(this.handleError);
-  }
-
   onInputChangeHandler = (e, field) => {
     this.setState({
       fields: {

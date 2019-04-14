@@ -8,6 +8,7 @@ import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
 import { AuthProvider } from "../../Auth/AuthContext";
 import { UsersProvider } from "../../Users/UsersContext";
 import { PageWrapper } from "../../Pages";
+import { PacmanLoader } from "../../UI/Loader";
 
 class Board extends React.Component {
   static propTypes = {
@@ -51,7 +52,7 @@ class Board extends React.Component {
     return result;
   };
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     this.props.setDataSource(this.dataSource);
   };
 
@@ -513,12 +514,14 @@ class Board extends React.Component {
                 filtersActive={this.state.filters.active}
                 resetFilters={this.resetFilters}
               />
-              <Views
+              {this.props.isLoading
+              ? <PacmanLoader/>
+              : <Views
                 {...baseState}
                 kanbanFunctions={kanbanFunctions}
                 listFunctions={listFunctions}
                 filtersActive={this.state.filters.active}
-              />
+              />}
             </div>
           </TagsProvider>
         </UsersProvider>

@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { fetching, notifyToast, camelCase } from "../../utils";
 import { URLS } from "../../constants";
-import { PacmanLoader } from "../UI/Loader";
 
 const PageWrapper = Component => {
   return class extends React.Component {
@@ -15,13 +14,26 @@ const PageWrapper = Component => {
       this.state = {
         isLoading: false,
         data: null,
-        dataSource: null
       };
+      this.dataSource = null;
       this.errorHandler = e => notifyToast("error", e.message, "top-center");
       this.extraProps = {
         compFetch: this.compFetch,
-        handleError: h => (this.errorHandler = h)
+        handleError: h => (this.errorHandler = h),
+        setDataSource: d => (this.dataSource = d),
       };
+    }
+
+    componentDidMount = async () =>  {
+      this.setState({isLoading: true});
+      let data = null;
+      if (this.dataSource) {
+        data = await this.dataSource({
+          ...this.props,
+          ...this.extraProps
+        });
+      }
+      this.setState({ data, isLoading: false });
     }
 
     compFetch = async (type, action, queryParams, errorHandler) => {
@@ -44,31 +56,14 @@ const PageWrapper = Component => {
       });
     };
 
-    setDataSource = async dataSource => {
-      this.setState({ dataSource });
-      let data = null;
-      if (dataSource) {
-        data = await dataSource({
-          ...this.props,
-          ...this.extraProps
-        });
-      }
-      this.setState({ data, isLoading: false });
-    };
-
     render = () => {
-      if (this.state.isLoading) {
-        return <PacmanLoader />;
-      }
-      return (
-        <Component
+      return <Component
           data={this.state.data}
-          dataSource={this.state.dataSource}
-          setDataSource={this.setDataSource}
+          dataSource={this.dataSource}
+          isLoading={this.state.isLoading}
           {...this.extraProps}
           {...this.props}
         />
-      );
     };
   };
 };

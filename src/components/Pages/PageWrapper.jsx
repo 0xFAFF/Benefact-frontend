@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { fetching, notifyToast, camelCase } from "../../utils";
+import { fetching, notifyToast, camelCase, parseQuery, middleWare } from "../../utils";
 import { URLS } from "../../constants";
 
 const PageWrapper = Component => {
@@ -15,23 +15,24 @@ const PageWrapper = Component => {
         isLoading: false,
         data: null,
       };
-      this.dataSource = null;
-      this.errorHandler = e => notifyToast("error", e.message, "top-center");
+      this.handleError = e => notifyToast("error", e.message, "top-center");
+      this.child = {};
+      this.urlParams = this.props.match.params;
       this.extraProps = {
+        query: parseQuery(this.props.location.search),
         compFetch: this.compFetch,
-        handleError: h => (this.errorHandler = h),
-        setDataSource: d => (this.dataSource = d),
+        setChild: c => this.child = c,
       };
     }
 
     componentDidMount = async () =>  {
       this.setState({isLoading: true});
       let data = null;
-      if (this.dataSource) {
-        data = await this.dataSource({
+      if (this.child.dataSource) {
+        data = await this.child.dataSource({
           ...this.props,
           ...this.extraProps
-        });
+        }).catch(e => null);
       }
       this.setState({ data, isLoading: false });
     }
@@ -45,13 +46,18 @@ const PageWrapper = Component => {
         queryParams,
         token
       ).then(async res => {
-        var result = camelCase(await res.json());
+        let result = null;
+        try { result = camelCase(await res.json()); }
+        catch (err) { result = { message: err.message }; }
         if (res.status === 200) return result;
         else {
           const error = { status: res.status, ...result };
-          errorHandler = errorHandler || this.errorHandler;
-          if (errorHandler) errorHandler(error);
-          else console.warn(error);
+          let handle = middleWare(error, this.handleError);
+          if(this.child.handleError)
+            handle = middleWare(error, this.child.handleError, handle);
+          if (errorHandler)
+            handle = middleWare(error, this.child.handleError, handle);
+          handle();
         }
       });
     };

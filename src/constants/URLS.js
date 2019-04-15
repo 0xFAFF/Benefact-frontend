@@ -17,7 +17,7 @@ const urlKeyMap = {
     },
     DELETE: {
       url: "board/{boardId}/cards/delete"
-    }
+    },
   },
   columns: {
     UPDATE: {
@@ -29,7 +29,7 @@ const urlKeyMap = {
     },
     DELETE: {
       url: "board/{boardId}/columns/delete"
-    }
+    },
   },
   tags: {
     UPDATE: {
@@ -41,7 +41,7 @@ const urlKeyMap = {
     },
     DELETE: {
       url: "board/{boardId}/tags/delete"
-    }
+    },
   },
   users: {
     GET: {
@@ -52,7 +52,10 @@ const urlKeyMap = {
     },
     SEND_VERIFICATION: {
       url: "users/sendverification"
-    }
+    },
+    VERIFY: {
+      url: "users/verify"
+    },
   },
   comments: {
     ADD: {
@@ -64,12 +67,12 @@ const urlKeyMap = {
     UPDATE: {
       url: "board/{boardId}/comments/update",
       whiteList: ["id", "text"]
-    }
+    },
   },
   votes: {
     UPDATE: {
       url: "board/{boardId}/cards/vote"
-    }
+    },
   }
 };
 

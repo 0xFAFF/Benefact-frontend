@@ -52,12 +52,7 @@ class App extends React.Component {
             />
             <Route
               path="/login"
-              render={props =>
-                token ? (
-                  <Redirect to="/board/1" />
-                ) : (
-                  <Login {...props} onLoginHandler={this.onLoginHandler} />
-                )
+              render={props => <Login token={token} {...props} onLoginHandler={this.onLoginHandler} />
               }
             />
             <Route

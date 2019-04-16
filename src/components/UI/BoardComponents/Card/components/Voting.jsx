@@ -1,8 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AuthConsumer } from "../../../../../Auth/AuthContext";
-import { parseToken } from "../../../../../../utils";
-import "./index.scss";
+import { AuthConsumer } from "components/Auth/AuthContext";
+import { parseToken } from "utils";
+import "./Voting.scss";
 
 const Voting = props => {
   const {

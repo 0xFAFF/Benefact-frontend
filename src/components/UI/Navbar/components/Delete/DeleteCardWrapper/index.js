@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Confirm, Back } from "../../../../Popup";
-import Preview from "../../../../MarkdownEditor/Preview";
+import Preview from "../../../../MarkdownEditor";
 import "./index.scss";
 
 class DeleteCardWrapper extends React.Component {

@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
 import NaturalDragAnimation from "natural-drag-animation-rbdnd";
 import marked from "marked";
-import { Modal, MarkdownEditor } from "../../../UI";
+import { Modal } from "../../../UI";
 import { Tags } from "../../BoardComponents";
-import { Voting } from "./components";
+import Voting from "./components/Voting";
 import IconRow from "./IconRow";
+import CardEditor from "./CardEditor";
 import "./index.scss";
 
 class Card extends React.Component {
@@ -127,7 +128,7 @@ class Card extends React.Component {
           }}
         </Draggable>
         <Modal onClose={this.handleCloseModal} isOpen={this.state.showModal}>
-          <MarkdownEditor
+          <CardEditor
             content={card}
             showDeleteModal={showDeleteModal}
             onAcceptHandler={this.handleCloseModal}

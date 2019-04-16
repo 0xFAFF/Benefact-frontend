@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Modal } from "../../../UI";
-import { Confirm } from "../../Popup";
-import "./index.scss";
+import "./DeleteModal.scss";
+import { Modal } from "components/UI";
+import { Confirm } from "components/UI/Popup";
 
 const DeleteModal = props => {
   const { isOpen, handleCloseModal, deleteComponent, cardId } = props;

@@ -1,9 +1,9 @@
 import React from "react";
-import { UsersConsumer } from "../../../../../Users/UsersContext";
 import moment from "moment";
+import { UsersConsumer } from "components/Users/UsersContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextArea from "react-textarea-autosize";
-import "./index.scss";
+import "./Comments.scss";
 
 class Comments extends React.Component {
   render() {

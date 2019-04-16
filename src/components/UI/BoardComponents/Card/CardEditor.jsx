@@ -25,26 +25,10 @@ class CardEditor extends React.Component {
   };
 
   state = {
-    newContent: {},
-    addComment: "",
-    editComment: {
-      id: null,
-      message: ""
-    }
+    newContent: {}
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const prevComments = get(prevState, "newContent.comments", []);
-    const nextComments = get(nextProps, "content.comments", []);
-    if (!isEqual(sortBy(prevComments), sortBy(nextComments))) {
-      return {
-        ...prevState,
-        newContent: {
-          ...prevState.newContent,
-          comments: nextComments
-        }
-      };
-    }
     const prevVotes = get(prevState, "newContent.votes", []);
     const nextVotes = get(nextProps, "content.votes", []);
     if (!isEqual(sortBy(prevVotes), sortBy(nextVotes))) {
@@ -119,66 +103,6 @@ class CardEditor extends React.Component {
     this.setState(newState);
   };
 
-  onChangeComment = (e, type) => {
-    if (type === "add") this.setState({ addComment: e.target.value });
-    if (type === "edit") {
-      e.persist();
-      this.setState(prevState => {
-        return {
-          ...prevState,
-          editComment: {
-            ...prevState.editComment,
-            message: e.target.value
-          }
-        };
-      });
-    }
-  };
-
-  onUpdateComment = async (commentType, id) => {
-    const {
-      addComment,
-      editComment: { message }
-    } = this.state;
-    let action = "";
-    let text = "";
-    const type = "comments";
-    let queryParams = {};
-    if (commentType === "add") {
-      action = "ADD";
-      text = addComment;
-      queryParams = {
-        cardId: id,
-        text
-      };
-    } else if (commentType === "edit") {
-      action = "UPDATE";
-      text = message;
-      queryParams = {
-        id,
-        text
-      };
-    } else if (commentType === "delete") {
-      action = "DELETE";
-      queryParams = {
-        id
-      };
-    }
-
-    await this.props.handleUpdate(type, action, queryParams);
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        addComment: "",
-        editComment: {
-          ...prevState.editComment,
-          id: null,
-          message: ""
-        }
-      };
-    });
-  };
-
   onUpdateVote = async voteType => {
     let queryParams = {};
     if (voteType === "add") {
@@ -204,10 +128,8 @@ class CardEditor extends React.Component {
       description = "",
       tagIds = [],
       columnId,
-      comments = [],
       votes = []
     } = this.state.newContent;
-    const { addComment } = this.state;
     return (
       <div id="markdown-editor">
         <div className="markdown-modes">
@@ -273,51 +195,10 @@ class CardEditor extends React.Component {
               <MarkdownEditor onChange={e => this.onChangeHandler(e, "description")} value={description} />
             </div>
             {disableComponents ? null : (
-              <>
-                <div className="editor-container">
-                  <FontAwesomeIcon
-                    className="container-icon"
-                    style={{ paddingTop: "10px" }}
-                    icon={"comment"}
-                    size="lg"
-                  />
-                  <TextArea
-                    className="editor-text-area"
-                    minRows={1}
-                    value={addComment}
-                    onChange={e => this.onChangeComment(e, "add")}
-                  />
-                  <button
-                    className="editor-comments-save"
-                    disabled={!this.state.addComment}
-                    onMouseDown={() => {
-                      if (this.state.addComment) this.onUpdateComment("add", id);
-                    }}
-                  >
-                    Add
-                  </button>
-                </div>
-
-                <div className="editor-container">
-                  <FontAwesomeIcon
-                    className="container-icon"
-                    style={{ paddingTop: comments.length > 0 ? "10px" : "0px" }}
-                    icon={"comments"}
-                    size="lg"
-                  />
-                  <Comments
-                    comments={comments}
-                    onUpdateComment={this.onUpdateComment}
-                    onChangeComment={this.onChangeComment}
-                    editComment={this.state.editComment}
-                    onFocusEditComment={(id, text) =>
-                      this.setState({
-                        editComment: { id, message: text }
-                      })
-                    }
-                  />
-                </div>
-              </>
+              <Comments
+                {...this.props}
+                comments={this.props.content.comments}
+              />
             )}
             <AcceptCancelButtons
               onAcceptHandler={() => {

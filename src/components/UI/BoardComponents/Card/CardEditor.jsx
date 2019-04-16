@@ -116,7 +116,6 @@ class CardEditor extends React.Component {
         }
       };
     }
-    console.log(newState);
     this.setState(newState);
   };
 
@@ -271,13 +270,7 @@ class CardEditor extends React.Component {
             </div>
             <div className="editor-container">
               <FontAwesomeIcon className="container-icon" style={{ paddingTop: "10px" }} icon={"newspaper"} size="lg" />
-              <MarkdownEditor onChange={e => this.onChangeHandler(e, "description")} content={description}/>
-              {/* <TextArea
-                className="editor-text-area"
-                minRows={1}
-                value={description}
-                onChange={e => this.onChangeHandler(e, "description")}
-              /> */}
+              <MarkdownEditor onChange={e => this.onChangeHandler(e, "description")} value={description} />
             </div>
             {disableComponents ? null : (
               <>
@@ -317,7 +310,11 @@ class CardEditor extends React.Component {
                     onUpdateComment={this.onUpdateComment}
                     onChangeComment={this.onChangeComment}
                     editComment={this.state.editComment}
-                    onFocusEditComment={this.onFocusEditComment}
+                    onFocusEditComment={(id, text) =>
+                      this.setState({
+                        editComment: { id, message: text }
+                      })
+                    }
                   />
                 </div>
               </>

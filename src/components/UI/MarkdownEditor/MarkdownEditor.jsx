@@ -10,11 +10,6 @@ class MarkdownEditor extends React.Component {
     editing: false
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (!prevState.editing) return { content: nextProps.content };
-    else return {};
-  }
-
   rawMarkup = () => {
     marked.setOptions({
       renderer: new marked.Renderer(),
@@ -30,7 +25,7 @@ class MarkdownEditor extends React.Component {
       }
     });
 
-    const rawMarkup = marked(this.state.content || "", {
+    const rawMarkup = marked(this.props.value || "", {
       sanitize: true
     });
     return {
@@ -38,9 +33,10 @@ class MarkdownEditor extends React.Component {
     };
   };
 
-  onBlur = () => {
+  onBlur = (e) => {
     this.setState({ editing: false });
-    this.props.onChange({ target: { value: this.state.content } });
+    if(this.props.onBlur)
+      this.props.onBlur(e);
   };
 
   render = () => {
@@ -48,11 +44,11 @@ class MarkdownEditor extends React.Component {
       <div id="markdown-editor">
         {this.state.editing ? (
           <TextArea
+            {...this.props}
             autoFocus
             className="editor-text-area"
             minRows={1}
-            value={this.state.content}
-            onChange={e => this.setState({ content: e.target.value })}
+            value={this.props.value}
             onBlur={this.onBlur}
           />
         ) : (

@@ -4,6 +4,7 @@ import { UsersConsumer } from "components/Users/UsersContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextArea from "react-textarea-autosize";
 import "./Comments.scss";
+import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
 
 class Comments extends React.Component {
   render() {
@@ -20,7 +21,7 @@ class Comments extends React.Component {
           return (
             <div id="editor-activity-container">
               {comments.map(({ id, text, userId, createdTime, editedTime }) => {
-                const userData = users.find(user => user.id === userId);
+                const userData = users.find(user => user.id === userId) || {name: "", email: ""};
                 const userName = userData["name"];
                 const userEmail = userData["email"];
                 return (
@@ -61,9 +62,7 @@ class Comments extends React.Component {
                       </div>
                     </div>
                     <div className="editor-activity-text-container">
-                      <TextArea
-                        className="editor-activity-text"
-                        minRows={1}
+                      <MarkdownEditor
                         value={
                           editComment.id === id ? editComment.message : text
                         }

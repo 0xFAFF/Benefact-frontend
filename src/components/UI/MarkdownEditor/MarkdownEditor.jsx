@@ -44,15 +44,16 @@ class MarkdownEditor extends React.Component {
       <div id="markdown-editor">
         {this.state.editing ? (
           <TextArea
+            className="editor-text-area"
             {...this.props}
             autoFocus
-            className="editor-text-area"
             minRows={1}
             value={this.props.value}
             onBlur={this.onBlur}
           />
         ) : (
           <div
+            className={this.props.className || "editor-text-area"}
             id="preview-mode"
             onClick={() => this.setState({ editing: true })}
             dangerouslySetInnerHTML={this.rawMarkup()}

@@ -1,80 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Modal, MarkdownEditor } from "../../../UI";
+import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 
 const AddCard = props => {
   const {
-    useModal = true,
-    showModal,
-    showDeleteModal = true,
-    handleOpenModal,
-    handleCloseModal,
     addComponent,
     columns,
-    cards,
-    columnId,
     onAcceptHandler,
     onClose,
     disableComponents
   } = props;
   return (
-    <>
-      {useModal && (
-        <div
-          className="add-card"
-          onClick={() => {
-            handleOpenModal();
-          }}
-        >
-          <FontAwesomeIcon icon="plus" size="sm" />
-        </div>
-      )}
-      {useModal ? (
-        <Modal isOpen={showModal} onClose={() => handleCloseModal()}>
-          <MarkdownEditor
-            content={{ id: cards.length + 1, columnId: columnId }}
-            columns={columns}
-            updateBoardContent={({ title, description, tagIds, columnId }) =>
-              addComponent("cards", {
-                title: title || "",
-                description: description || "",
-                tagIds: tagIds || [],
-                columnId: columnId,
-              })
-            }
-            showDeleteModal={showDeleteModal}
-            onAcceptHandler={() => handleCloseModal()}
-            onClose={() => handleCloseModal()}
-            disableComponents={disableComponents}
-          />
-        </Modal>
-      ) : (
-        <MarkdownEditor
-          content={{}}
-          columns={columns}
-          updateBoardContent={({ title, description, tagIds, columnId }) =>
-            addComponent("cards", {
-              title: title || "",
-              description: description || "",
-              tagIds: tagIds || [],
-              columnId: columnId,
-            })
-          }
-          onAcceptHandler={onAcceptHandler}
-          onClose={onClose}
-          showDeleteModal={showDeleteModal}
-          disableComponents={disableComponents}
-        />
-      )}
-    </>
+    <CardEditor
+      content={{}}
+      columns={columns}
+      updateBoardContent={({ title, description, tagIds, columnId }) =>
+        addComponent("cards", {
+          title: title || "",
+          description: description || "",
+          tagIds: tagIds || [],
+          columnId: columnId,
+        })
+      }
+      showDeleteModal={false}
+      onAcceptHandler={onAcceptHandler}
+      onClose={onClose}
+      disableComponents={disableComponents}
+    />
   );
 };
 
 AddCard.propTypes = {
   useModal: PropTypes.bool,
   showModal: PropTypes.bool,
-  showDeleteModal: PropTypes.bool,
   handleOpenModal: PropTypes.func,
   handleCloseModal: PropTypes.func,
   addComponent: PropTypes.func,

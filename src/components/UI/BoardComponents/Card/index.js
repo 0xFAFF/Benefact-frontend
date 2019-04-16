@@ -5,7 +5,7 @@ import NaturalDragAnimation from "natural-drag-animation-rbdnd";
 import marked from "marked";
 import { Modal } from "../../../UI";
 import { Tags } from "../../BoardComponents";
-import Voting from "./components/Voting";
+import { Voting } from "./components";
 import IconRow from "./IconRow";
 import CardEditor from "./CardEditor";
 import "./index.scss";

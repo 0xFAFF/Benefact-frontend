@@ -69,8 +69,8 @@ class Navbar extends React.Component {
         options: [
           {
             id: "create",
-            // title: "Create",
-            icon: "plus",
+            title: "Create",
+            icon: "plus-circle",
             component: Create,
             modal: true,
             params: {
@@ -83,8 +83,8 @@ class Navbar extends React.Component {
           },
           {
             id: "delete",
-            // title: "Delete",
-            icon: "trash",
+            title: "Delete",
+            icon: "minus-circle",
             component: Delete,
             modal: true,
             params: {
@@ -101,7 +101,9 @@ class Navbar extends React.Component {
             id: "filter",
             title: filtersActive ? (
               <FilterView resetFilters={resetFilters} />
-            ) : null,
+            ) : (
+              "Filter"
+            ),
             icon: "filter",
             component: Filter,
             modal: true,
@@ -121,7 +123,7 @@ class Navbar extends React.Component {
           },
           {
             id: "view",
-            // title: "View",
+            title: "View",
             icon: "list-ul",
             component: View,
             modal: true,
@@ -141,17 +143,17 @@ class Navbar extends React.Component {
           },
           {
             id: "home",
-            // title: "Home",
+            title: "Home",
             icon: "home"
           },
           {
             id: "menu",
-            // title: "Menu",
+            title: "Menu",
             icon: "bars"
           },
           {
             id: "user",
-            // title: "User",
+            title: "User",
             liClassName: "user",
             icon: "user-circle",
             modal: false,
@@ -159,7 +161,7 @@ class Navbar extends React.Component {
           },
           {
             id: "logout",
-            // title: "Logout",
+            title: "Logout",
             icon: "sign-out-alt",
             component: Logout,
             modal: true,

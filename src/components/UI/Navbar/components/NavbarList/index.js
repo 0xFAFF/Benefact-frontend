@@ -24,9 +24,16 @@ const NavbarList = props => {
                         currItem === id ? "active-li" : ""
                       }`}
                     >
-                      {icon && (
-                        <FontAwesomeIcon icon={icon} size="lg" color="black" />
-                      )}
+                      <div className="icon-title">
+                        {icon && (
+                          <FontAwesomeIcon
+                            icon={icon}
+                            size="lg"
+                            color="black"
+                          />
+                        )}
+                        {title ? <span>{title}</span> : null}
+                      </div>
                     </li>
                   </Link>
                 );
@@ -41,10 +48,12 @@ const NavbarList = props => {
                       onItemClick(id, ulItem.id);
                   }}
                 >
-                  {icon && <FontAwesomeIcon icon={icon} size="lg" />}
-                  {title ? <span>{title}</span> : null}
+                  <div className="icon-title">
+                    {icon && <FontAwesomeIcon icon={icon} size="lg" />}
+                    {title ? <span>{title}</span> : null}
+                  </div>
                   {image && (
-                    <img src={image} alt={image} width="45" height="45" />
+                    <img src={image} alt={image} width="55" height="55" />
                   )}
                 </li>
               );

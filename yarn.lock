@@ -6917,13 +6917,6 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-natural-drag-animation-rbdnd@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/natural-drag-animation-rbdnd/-/natural-drag-animation-rbdnd-2.0.1.tgz#50ab708048196298cd89bb585a185b6b72e4334d"
-  integrity sha512-sEElZoEiLxELewPRG1gmH/vSUreMcSwrfGHcwCZipANwZ9EMY/7/3VGvKdi6GqFq9YKuyLj0Bf9x35kGfNgaYg==
-  dependencies:
-    prop-types "^15.6.2"
-
 needle@^2.2.1:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/needle/-/needle-2.2.4.tgz#51931bff82533b1928b7d1d69e01f1b00ffd2a4e"

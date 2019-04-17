@@ -22,7 +22,7 @@ class Login extends React.Component {
       notifyToast("info", "Please login to verify your email address", "top-center");
   };
 
-  componentDidUpdate = async props => {
+  componentDidUpdate = async _ => {
     if (!this.props.token) return;
     if (this.props.query.nonce && !this.state.verifyDone) {
       let verified = await this.props.compFetch("users", "VERIFY", {
@@ -39,9 +39,9 @@ class Login extends React.Component {
   };
 
   render() {
-    const { view } = this.state;
-    const { onLoginHandler, compFetch } = this.props;
-    if (this.state.verifyDone && this.props.token) return <Redirect to="/board/1" />;
+    const { view, verifyDone } = this.state;
+    const { onLoginHandler, compFetch, token } = this.props;
+    if (verifyDone && token) return <Redirect to="/board/1" />;
     return (
       <div id="login">
         <div className="login-container">

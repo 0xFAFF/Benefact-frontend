@@ -211,13 +211,14 @@ class Board extends React.Component {
   };
 
   handleResetBoard = data => {
-    const { columns = [], cards = {}, tags = [] } = data;
+    const { columns = [], cards = {}, tags = [], users = [] } = data;
     let columnOrder = columns.map(column => column.id);
     this.setState({
       cards: cards,
       columns: columns,
       tags: tags,
-      columnOrder: columnOrder
+      columnOrder: columnOrder,
+      users: users
     });
   };
 

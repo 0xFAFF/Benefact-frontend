@@ -10,8 +10,7 @@ cmds:
   version:
     - cmd: docker inspect {name} --format '\{\{ index .Config.Labels.git_commit \}\}'
   build:
-    - cmd: docker build --no-cache -t {name} --build-arg GIT_COMMIT=$(git log -1 --format=%h) .
-    - cmd: docker image prune -f
+    - cmd: docker build -t {name} --build-arg GIT_COMMIT=$(git log -1 --format=%h) .
   clean:
     - steps: [stop]
     - cmd: docker image rm {name}

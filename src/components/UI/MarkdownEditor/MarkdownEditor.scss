@@ -1,67 +1,22 @@
-#preview-mode {
-  border: 1px solid lightgray;
-  height: 95%;
+.markdown-preview {
   overflow-y: auto;
-  padding: 10px;
   cursor: pointer;
+  p { margin-bottom: 16px; margin-top: 0; }
+  min-height: 1em;
 }
 
-#markdown-editor {
+.markdown-preview>:last-child {
+  margin-bottom: 0;
+}
+.markdown-preview>:first-child {
+  margin-top: 0;
+}
+
+.markdown-area {
+  min-height: 1em;
+  padding: 10px !important;
   display: flex;
-  width: 100%;
   flex-direction: column;
-  .editor-button-group {
-    margin-top: 2%;
-    float: right;
-  }
-
-  .button-group-modes {
-    padding-bottom: 10px;
-    display: flex;
-  }
-
-  .button-editor {
-    margin-right: 10px;
-  }
-
-  .button-editor,
-  .button-preview {
-    border: none;
-    outline: none;
-    padding: 10px 16px;
-    border-radius: 10px;
-    border: 1px solid lightgray;
-    cursor: pointer;
-    background-color: #4797e7;
-    color: white;
-  }
-
-  button:not(.button-active):hover {
-    background-color: #2b6aa8;
-  }
-
-  .button-active {
-    background-color: #2b6aa8;
-  }
-  .editor-text-area {
-    width: 94%;
-    resize: none;
-    background-color: rgb(243, 243, 243);
-    cursor: pointer;
-    border: none;
-    padding: 15px;
-  }
-  .editor-text-area:focus {
-    height: 150px;
-    cursor: initial;
-    background-color: white;
-  }
-
-  .tag-label {
-    display: flex;
-    align-items: center;
-    span {
-      margin-right: 5px;
-    }
-  }
+  flex-grow: 1;
+  border: none;
 }

@@ -5,6 +5,7 @@ import { UsersConsumer } from "components/Users/UsersContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Comments.scss";
 import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
+import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
 
 class Comments extends React.Component {
   state = {
@@ -88,13 +89,13 @@ class Comments extends React.Component {
   render() {
     const {
       content: { id },
-      comments = [],
+      comments = []
     } = this.props;
     const editComment = this.state.editComment || {};
     const onFocusEditComment = (id, text) =>
-    this.setState({
-      editComment: { id, message: text }
-    });
+      this.setState({
+        editComment: { id, message: text }
+      });
     return (
       <UsersConsumer>
         {users => {
@@ -102,12 +103,13 @@ class Comments extends React.Component {
             <>
               <div className="editor-container">
                 <FontAwesomeIcon className="container-icon" style={{ paddingTop: "10px" }} icon={"comment"} size="lg" />
-                <MarkdownEditor
-                  className="editor-text-area"
-                  minRows={1}
-                  value={this.state.addComment}
-                  onChange={e => this.setState({ addComment: e.target.value })}
-                />
+                <div id="comment-entry-container">
+                  <MarkdownEditor
+                    minRows={1}
+                    value={this.state.addComment}
+                    onChange={e => this.setState({ addComment: e.target.value })}
+                  />
+                </div>
                 <button
                   className="editor-comments-save"
                   disabled={!this.state.addComment}
@@ -118,26 +120,20 @@ class Comments extends React.Component {
                   Add
                 </button>
               </div>
-              <div className="editor-container">
-                <FontAwesomeIcon
-                  className="container-icon"
-                  style={{ paddingTop: comments.length > 0 ? "10px" : "0px" }}
-                  icon={"comments"}
-                  size="lg"
-                />
-                <div id="editor-activity-container">
+              <EditorActivity icon={"comments"}>
+                <div id="comment-entry-container">
                   {comments.map(({ id, text, userId, createdTime, editedTime }) => {
                     const userData = users.find(user => user.id === userId) || { name: "", email: "" };
                     const userName = userData["name"];
                     const userEmail = userData["email"];
                     return (
-                      <div key={id} className="editor-activity">
-                        <div className="editor-activity-header">
-                          <div className="editor-activity-header-left">
-                            <div className="editor-activity-name">
+                      <div key={id} className="comment-entry">
+                        <div className="comment-entry-header">
+                          <div className="comment-entry-header-left">
+                            <div className="comment-entry-name">
                               {userName ? <div>{userName}</div> : <div>{userEmail}</div>}
                             </div>
-                            <div className="editor-activity-time">
+                            <div className="comment-entry-time">
                               {editedTime ? (
                                 <div>
                                   <span>{moment.unix(editedTime).format("MMM D [at] h:mm A z")}</span>
@@ -148,7 +144,7 @@ class Comments extends React.Component {
                               )}
                             </div>
                           </div>
-                          <div className="editor-activity-header-right">
+                          <div className="comment-entry-header-right">
                             <FontAwesomeIcon
                               icon={"trash"}
                               size="sm"
@@ -157,7 +153,7 @@ class Comments extends React.Component {
                             />
                           </div>
                         </div>
-                        <div className="editor-activity-text-container">
+                        <div className="comment-entry-text-container">
                           <MarkdownEditor
                             value={editComment.id === id ? editComment.message : text}
                             onFocus={() => onFocusEditComment(id, text)}
@@ -178,7 +174,7 @@ class Comments extends React.Component {
                     );
                   })}
                 </div>
-              </div>
+              </EditorActivity>
             </>
           );
         }}

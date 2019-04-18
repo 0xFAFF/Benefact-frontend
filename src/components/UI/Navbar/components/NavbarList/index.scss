@@ -1,8 +1,9 @@
 .navbar-list {
   align-items: center;
-  box-shadow: 5px 10px 20px -20px rgb(97, 186, 253);
   background-color: #eef1f5;
   border-bottom: 1px solid #d4d6d6;
+  box-shadow: 0px 5px 2px 0px rgba(168, 168, 168, 0.5);
+  margin-bottom: 2px;
   ul.menu {
     margin: 0 auto;
     align-items: center;
@@ -15,7 +16,6 @@
       letter-spacing: 3px;
       margin-left: auto;
       margin-right: auto;
-      font-style: italic;
       font-weight: 600;
       .icon-title > span {
         margin-top: 0;
@@ -61,10 +61,10 @@
       transition: box-shadow 0.2s ease;
       transition: background-color 0.2s ease;
       box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.23),
-        2px 3px 6px rgba(0, 0, 0, 0.43);
+        2px 3px 6px rgba(0, 0, 0, 0.03);
     }
     .active-filter {
-      padding-right: 77px;
+      padding-right: 76px;
     }
   }
 }

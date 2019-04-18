@@ -7,20 +7,16 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  background-image: linear-gradient(
-    to bottom,
-    #7494c6,
-    #84a3d4,
-    #94b3e2,
-    #a4c2f1,
-    #b5d2ff
-  );
   .views-group-name {
     border: 1px solid #d4d6d6;
     padding: 5px 10px;
+    margin-right: 10px;
+    box-shadow: 2px 0px 2px 0px rgba(168, 168, 168, 0.5);
     .views-group-name-title {
       writing-mode: vertical-rl;
       padding-top: 10px;
+      letter-spacing: 3px;
+      font-size: 1.8em;
     }
   }
 }

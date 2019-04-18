@@ -48,7 +48,7 @@ class TagPopup extends React.Component {
                       className="create-tag-container"
                       onClick={() => this.handleOptionSelect("create")}
                     >
-                      <FontAwesomeIcon icon="plus" size="sm" />
+                      <FontAwesomeIcon icon="plus-circle" size="sm" />
                       <span>Create New Tag</span>
                     </div>
                   </>

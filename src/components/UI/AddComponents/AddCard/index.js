@@ -27,7 +27,7 @@ const AddCard = props => {
             handleOpenModal();
           }}
         >
-          <FontAwesomeIcon icon="plus" size="sm" />
+          <FontAwesomeIcon icon="plus-circle" size="lg" />
         </div>
       )}
       {useModal ? (
@@ -40,7 +40,7 @@ const AddCard = props => {
                 title: title || "",
                 description: description || "",
                 tagIds: tagIds || [],
-                columnId: columnId,
+                columnId: columnId
               })
             }
             showDeleteModal={showDeleteModal}
@@ -58,7 +58,7 @@ const AddCard = props => {
               title: title || "",
               description: description || "",
               tagIds: tagIds || [],
-              columnId: columnId,
+              columnId: columnId
             })
           }
           onAcceptHandler={onAcceptHandler}

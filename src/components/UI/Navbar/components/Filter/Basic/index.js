@@ -77,7 +77,7 @@ class Basic extends React.Component {
             className="filters-group-button filters-group-button-add"
             onClick={createFilterGroup}
           >
-            <FontAwesomeIcon icon="plus" size="sm" />
+            <FontAwesomeIcon icon="plus-circle" size="sm" />
           </div>
         </div>
         <div>{currGroupsFilters}</div>

@@ -53,7 +53,7 @@ class Comments extends React.Component {
                       </div>
                       <div className="editor-activity-header-right">
                         <FontAwesomeIcon
-                          icon={"trash"}
+                          icon="minus-circle"
                           size="sm"
                           className="delete"
                           onClick={() => onUpdateComment("delete", id)}

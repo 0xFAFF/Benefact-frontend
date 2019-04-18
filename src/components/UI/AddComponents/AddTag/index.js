@@ -40,7 +40,7 @@ class AddTag extends React.Component {
             this.setState({ showModal: true });
           }}
         >
-          <FontAwesomeIcon icon="plus" size="sm" />
+          <FontAwesomeIcon icon="plus-circle" size="lg" />
         </div>
         <Modal
           isOpen={this.state.showModal}

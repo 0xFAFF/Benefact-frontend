@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
-import NaturalDragAnimation from "natural-drag-animation-rbdnd";
 import marked from "marked";
 import { Modal } from "../../../UI";
 import { Tags } from "../../BoardComponents";
@@ -9,6 +8,7 @@ import { Voting } from "./components";
 import IconRow from "./IconRow";
 import CardEditor from "./CardEditor";
 import "./index.scss";
+import UnnaturalDND from "components/UnnaturalDND";
 
 class Card extends React.Component {
   static propTypes = {
@@ -87,11 +87,9 @@ class Card extends React.Component {
         >
           {(provided, snapshot) => {
             return (
-              <NaturalDragAnimation
+              <UnnaturalDND
                 style={{ ...provided.draggableProps.style }}
                 snapshot={snapshot}
-                animationRotationFade={0.6}
-                rotationMultiplier={2.0}
               >
                 {style => (
                   <div
@@ -123,7 +121,7 @@ class Card extends React.Component {
                     </div>
                   </div>
                 )}
-              </NaturalDragAnimation>
+              </UnnaturalDND>
             );
           }}
         </Draggable>

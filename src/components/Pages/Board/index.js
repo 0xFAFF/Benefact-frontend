@@ -45,15 +45,17 @@ class Board extends React.Component {
     }
   };
 
-  dataSource = async () => {
-    const result = await this.props.compFetch("cards", "GET");
-    this.handleResetBoard(result);
-    this.getAllCards(result);
-    return result;
+  dataSource = () => {
+    return this.props.compFetch("cards", "GET")
+      .then(result => {
+        this.handleResetBoard(result);
+        this.getAllCards(result);
+        return result;
+      })
   };
 
   componentDidMount = () => {
-    this.props.setDataSource(this.dataSource);
+    this.props.setChild(this);
   };
 
   createFilterGroup = () => {
@@ -227,7 +229,7 @@ class Board extends React.Component {
       if (this.state.filters.active) {
         this.selectFilters();
       } else {
-        await this.props.dataSource().then(result => {
+        await this.dataSource().then(result => {
           this.handleResetBoard(result);
           this.getAllCards(result);
         });

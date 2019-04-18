@@ -52,6 +52,9 @@ const urlKeyMap = {
     },
     SEND_VERIFICATION: {
       url: "users/sendverification"
+    },
+    VERIFY: {
+      url: "users/verify"
     }
   },
   comments: {

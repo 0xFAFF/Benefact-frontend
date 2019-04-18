@@ -1,11 +1,11 @@
-function parseQuery(queryString) {
-  var query = {};
-  var pairs = (queryString[0] === "?" ? queryString.substr(1) : queryString).split("&");
-  for (var i = 0; i < pairs.length; i++) {
-    var pair = pairs[i].split("=");
-    query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || "");
-  }
+const parseQuery = queryString => {
+  let query = {};
+  let pairs = (queryString[0] === "?" ? queryString.substr(1) : queryString).split("&");
+  pairs.forEach(pair => {
+    const splitPair = pair.split("=");
+    query[decodeURIComponent(splitPair[0])] = decodeURIComponent(splitPair[1] || "");
+  });
   return query;
-}
+};
 
 export default parseQuery;

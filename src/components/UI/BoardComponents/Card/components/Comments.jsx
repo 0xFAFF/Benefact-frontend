@@ -101,8 +101,7 @@ class Comments extends React.Component {
         {users => {
           return (
             <>
-              <div className="editor-container">
-                <FontAwesomeIcon className="container-icon" style={{ paddingTop: "10px" }} icon={"comment"} size="lg" />
+              <EditorActivity icon={"comment"}>
                 <div id="comment-entry-container">
                   <MarkdownEditor
                     minRows={1}
@@ -119,8 +118,8 @@ class Comments extends React.Component {
                 >
                   Add
                 </button>
-              </div>
-              <EditorActivity icon={"comments"}>
+              </EditorActivity>
+              {!comments.length ? null : <EditorActivity icon={"comments"}>
                 <div id="comment-entry-container">
                   {comments.map(({ id, text, userId, createdTime, editedTime }) => {
                     const userData = users.find(user => user.id === userId) || { name: "", email: "" };
@@ -174,7 +173,7 @@ class Comments extends React.Component {
                     );
                   })}
                 </div>
-              </EditorActivity>
+              </EditorActivity>}
             </>
           );
         }}

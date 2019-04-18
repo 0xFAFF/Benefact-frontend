@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { isEqual, sortBy, get } from "lodash";
 import TextArea from "react-textarea-autosize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Voting, Comments, DeleteModal } from "components/UI/BoardComponents/Card/components";
+import { Voting, Comments, DeleteModal, Attachments } from "components/UI/BoardComponents/Card/components";
 import { Tags } from "components/UI/BoardComponents";
 import { AcceptCancelButtons } from "components/UI/Popup";
 import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
@@ -186,6 +186,7 @@ class CardEditor extends React.Component {
             value={description}
           />
         </EditorActivity>
+        <Attachments attachmentIds={this.props.content.attachmentIds}/>
         {disableComponents ? null : <Comments {...this.props} comments={this.props.content.comments} />}
         <AcceptCancelButtons
           onAcceptHandler={() => {

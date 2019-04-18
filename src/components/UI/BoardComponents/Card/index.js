@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
-import marked from "marked";
 import { Modal } from "../../../UI";
 import { Tags } from "../../BoardComponents";
 import { Voting } from "./components";
@@ -33,29 +32,6 @@ class Card extends React.Component {
   };
   handleCloseModal = () => {
     this.setState({ showModal: false, isDragDisabled: false });
-  };
-
-  rawMarkup = () => {
-    const { title = "N/A" } = this.props.card;
-    const cardDescription = title;
-    marked.setOptions({
-      renderer: new marked.Renderer(),
-      gfm: true,
-      tables: true,
-      breaks: true,
-      pedantic: false,
-      sanitize: true,
-      smartLists: true,
-      smartypants: false
-      // highlight: function (code) {
-      //     return hljs.highlightAuto(code).value
-      // }
-    });
-
-    let rawMarkup = marked(cardDescription, { sanitize: true });
-    return {
-      __html: rawMarkup
-    };
   };
 
   onUpdateVote = async voteType => {
@@ -104,10 +80,9 @@ class Card extends React.Component {
                     <div className="card-draggable-container">
                       <div className="card-row">
                         <div className="card-title">
-                          <div
-                            className="left-side"
-                            dangerouslySetInnerHTML={this.rawMarkup()}
-                          />
+                          <div className="left-side">
+                            {this.props.card.title}
+                          </div>
                           <div className="right-side">
                             <Voting
                               votes={votes}

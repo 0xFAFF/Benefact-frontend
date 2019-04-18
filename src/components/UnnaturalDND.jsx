@@ -81,12 +81,11 @@ class UnnaturalDND extends Component {
   };
 
   render() {
+    let childProps = {...this.props.style};
+    if(this.state.transform) childProps.transform = this.state.transform;
     return (
       <Fragment>
-        {this.props.children({
-          ...this.props.style,
-          transform: this.state.transform
-        })}
+        {this.props.children(childProps)}
       </Fragment>
     );
   }

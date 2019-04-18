@@ -1,11 +1,11 @@
 #comment-entry-container {
   display: flex;
   flex-direction: column;
-
   flex-grow: 1;
+
   .comment-entry {
-    margin: 5px 0;
-    padding: 7px;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
   .comment-entry-header {
     display: flex;

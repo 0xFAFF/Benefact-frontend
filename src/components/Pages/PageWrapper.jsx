@@ -13,7 +13,7 @@ const PageWrapper = Component => {
       super(props);
       this.state = {
         isLoading: false,
-        data: null,
+        data: null
       };
       this.handleError = e => notifyToast("error", e.message, "top-center");
       this.child = {};
@@ -21,21 +21,23 @@ const PageWrapper = Component => {
       this.extraProps = {
         query: parseQuery(this.props.location.search),
         compFetch: this.compFetch,
-        setChild: c => this.child = c,
+        setChild: c => (this.child = c)
       };
     }
 
-    componentDidMount = async () =>  {
-      this.setState({isLoading: true});
+    componentDidMount = async () => {
+      this.setState({ isLoading: true });
       let data = null;
       if (this.child.dataSource) {
-        data = await this.child.dataSource({
-          ...this.props,
-          ...this.extraProps
-        }).catch(e => null);
+        data = await this.child
+          .dataSource({
+            ...this.props,
+            ...this.extraProps
+          })
+          .catch(e => null);
       }
       this.setState({ data, isLoading: false });
-    }
+    };
 
     compFetch = async (type, action, queryParams, errorHandler) => {
       const { boardId, token } = this.props;
@@ -47,29 +49,32 @@ const PageWrapper = Component => {
         token
       ).then(async res => {
         let result = null;
-        try { result = camelCase(await res.json()); }
-        catch (err) { result = { message: err.message }; }
+        try {
+          result = camelCase(await res.json());
+        } catch (err) {
+          result = { message: err.message };
+        }
         if (res.status === 200) return result;
         else {
           const error = { status: res.status, ...result };
           let handle = middleWare(error, this.handleError);
-          if(this.child.handleError)
-            handle = middleWare(error, this.child.handleError, handle);
-          if (errorHandler)
-            handle = middleWare(error, this.child.handleError, handle);
+          if (this.child.handleError) handle = middleWare(error, this.child.handleError, handle);
+          if (errorHandler) handle = middleWare(error, this.child.handleError, handle);
           handle();
         }
       });
     };
 
     render = () => {
-      return <Component
+      return (
+        <Component
           data={this.state.data}
           dataSource={this.dataSource}
           isLoading={this.state.isLoading}
           {...this.extraProps}
           {...this.props}
         />
+      );
     };
   };
 };

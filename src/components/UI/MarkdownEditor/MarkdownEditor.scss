@@ -1,0 +1,22 @@
+.markdown-preview {
+  overflow-y: auto;
+  cursor: pointer;
+  p { margin-bottom: 16px; margin-top: 0; }
+  min-height: 1em;
+}
+
+.markdown-preview>:last-child {
+  margin-bottom: 0;
+}
+.markdown-preview>:first-child {
+  margin-top: 0;
+}
+
+.markdown-area {
+  min-height: 1em;
+  padding: 10px !important;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  border: none;
+}

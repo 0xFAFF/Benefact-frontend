@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { AddCard } from "../../../UI/AddComponents";
-import { getCards } from "../../../../utils";
-import { TextAreaInput } from "../../../UI";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Modal, TextAreaInput } from "components/UI";
+import { getCards } from "utils";
+import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 
 const Header = props => {
   const { dragHandleProps, title, updateBoardContent, ...rest } = props;
-  const { cards, columnId } = rest;
+  const { cards, columnId, handleOpenModal, handleCloseModal, showModal, addComponent } = rest;
   const cardNumber = getCards(cards, columnId).length;
   return (
     <div className="column-header" {...dragHandleProps}>
@@ -26,7 +27,30 @@ const Header = props => {
           }
         />
       </span>
-      <AddCard {...rest} />
+      <div
+        className="add-card"
+        onClick={() => {
+          handleOpenModal();
+        }}
+      >
+        <FontAwesomeIcon icon="plus" size="sm" />
+      </div>
+      <Modal isOpen={showModal} onClose={() => handleCloseModal()}>
+        <CardEditor
+          disableComponents
+          onAcceptHandler={() => handleCloseModal()}
+          onClose={() => handleCloseModal()}
+          updateBoardContent={({ title, description, tagIds, columnId }) =>
+            addComponent("cards", {
+              title: title || "",
+              description: description || "",
+              tagIds: tagIds || [],
+              columnId: columnId
+            })
+          }
+          {...rest}
+        />
+      </Modal>
     </div>
   );
 };

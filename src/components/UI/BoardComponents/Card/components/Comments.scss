@@ -1,32 +1,31 @@
-#editor-activity-container {
+#comment-entry-container {
   display: flex;
   flex-direction: column;
 
   flex-grow: 1;
-  .editor-activity {
-    background-color: rgb(243, 243, 243);
+  .comment-entry {
     margin: 5px 0;
     padding: 7px;
   }
-  .editor-activity-header {
+  .comment-entry-header {
     display: flex;
     justify-content: space-between;
-    .editor-activity-header-left {
+    .comment-entry-header-left {
       display: flex;
       align-items: center;
       margin-bottom: 5px;
     }
-    .editor-activity-header-right {
+    .comment-entry-header-right {
       visibility: hidden;
       opacity: 0;
     }
-    .editor-activity-name {
+    .comment-entry-name {
       font-weight: bold;
       margin-right: 5px;
     }
   }
-  .editor-activity:hover {
-    .editor-activity-header-right {
+  .comment-entry:hover {
+    .comment-entry-header-right {
       visibility: visible;
       transition: opacity 0.8s linear;
       opacity: 1;
@@ -39,14 +38,14 @@
       }
     }
   }
-  .editor-activity-time {
+  .comment-entry-time {
     font-size: 0.8em;
   }
 
-  .editor-activity-text-container {
+  .comment-entry-text-container {
     display: flex;
     flex-direction: column;
-    .editor-activity-text {
+    .comment-entry-text {
       display: inline-block;
       border: 1px solid rgb(153, 153, 153);
       padding: 10px;
@@ -56,7 +55,7 @@
       resize: none;
       max-width: 94%;
     }
-    .editor-activity-text:focus {
+    .comment-entry-text:focus {
       cursor: initial;
     }
     .edit-comment-save {
@@ -65,16 +64,16 @@
     }
   }
 
-  .editor-activity-actions {
+  .comment-entry-actions {
     display: flex;
     font-size: 0.8em;
     text-decoration: underline;
     font-style: italic;
-    .editor-activity-edit {
+    .comment-entry-edit {
       margin-right: 5px;
     }
-    .editor-activity-edit,
-    .editor-activity-delete {
+    .comment-entry-edit,
+    .comment-entry-delete {
       cursor: pointer;
     }
   }

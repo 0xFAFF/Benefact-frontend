@@ -1,14 +1,13 @@
 # build environment
 FROM node:9.6.1 as builder
-ARG GIT_COMMIT=unspecified
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
-ENV REACT_APP_GIT_COMMIT $GIT_COMMIT
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 COPY package.json /usr/src/app/package.json
 RUN npm install
 RUN npm install react-scripts@1.1.1 -g --silent
 COPY . /usr/src/app
+ENV REACT_APP_GIT_COMMIT $GIT_COMMIT
 RUN npm run build
 
 # production environment

@@ -7,6 +7,7 @@ COPY package.json /usr/src/app/package.json
 RUN npm install
 RUN npm install react-scripts@1.1.1 -g --silent
 COPY . /usr/src/app
+ARG GIT_COMMIT=unspecified
 ENV REACT_APP_GIT_COMMIT $GIT_COMMIT
 RUN npm run build
 

@@ -186,7 +186,7 @@ class CardEditor extends React.Component {
             value={description}
           />
         </EditorActivity>
-        <Attachments attachmentIds={this.props.content.attachmentIds}/>
+        <Attachments attachments={this.props.content.attachments}/>
         {disableComponents ? null : <Comments {...this.props} comments={this.props.content.comments} />}
         <AcceptCancelButtons
           onAcceptHandler={() => {

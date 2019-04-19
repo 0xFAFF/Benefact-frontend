@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 import { isEqual, sortBy, get } from "lodash";
-import { UsersConsumer } from "components/Users/UsersContext";
+import { PageConsumer } from "components/Pages/PageContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Comments.scss";
 import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
@@ -97,8 +97,9 @@ class Comments extends React.Component {
         editComment: { id, message: text }
       });
     return (
-      <UsersConsumer>
-        {users => {
+      <PageConsumer>
+        {page => {
+          const { data: { users } } = page;
           return (
             <>
               <EditorActivity icon={"comment"}>
@@ -177,7 +178,7 @@ class Comments extends React.Component {
             </>
           );
         }}
-      </UsersConsumer>
+      </PageConsumer>
     );
   }
 }

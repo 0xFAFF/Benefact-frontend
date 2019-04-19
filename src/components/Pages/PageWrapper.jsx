@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { fetching, notifyToast, camelCase, parseQuery, middleWare } from "../../utils";
 import { URLS } from "../../constants";
+import { PageProvider } from "components/Pages/PageContext";
 
 const PageWrapper = Component => {
   return class extends React.Component {
@@ -67,13 +68,15 @@ const PageWrapper = Component => {
 
     render = () => {
       return (
-        <Component
-          data={this.state.data}
-          dataSource={this.dataSource}
-          isLoading={this.state.isLoading}
-          {...this.extraProps}
-          {...this.props}
-        />
+        <PageProvider value={{compFetch: this.compFetch, data: this.state.data, token: this.props.token}}>
+          <Component
+            data={this.state.data}
+            dataSource={this.dataSource}
+            isLoading={this.state.isLoading}
+            {...this.extraProps}
+            {...this.props}
+          />
+        </PageProvider>
       );
     };
   };

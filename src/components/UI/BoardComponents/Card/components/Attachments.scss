@@ -1,0 +1,24 @@
+.row-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+.attach-thumbnail {
+  height: 70px;
+  width: 70px;
+  border-radius: 10px;
+  background-color: #888;
+  img {
+    max-height: 100%;
+    max-width: 100%;
+  }
+  padding: 15px;
+}
+
+.row-entry {
+  height: 100px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+  background-color: #F3F3F3;
+}

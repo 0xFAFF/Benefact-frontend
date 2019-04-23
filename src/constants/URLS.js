@@ -6,7 +6,7 @@ const baseURL =
 const urlKeyMap = {
   cards: {
     GET: {
-      url: "board/{boardId}/cards"
+      url: "board/{boardId}/"
     },
     UPDATE: {
       url: "board/{boardId}/cards/update",

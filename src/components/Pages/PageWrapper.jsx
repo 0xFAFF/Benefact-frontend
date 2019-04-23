@@ -45,7 +45,7 @@ const PageWrapper = Component => {
       let handle = error => {
         let handle = middleWare(error, this.handleError);
         if (this.child.handleError) handle = middleWare(error, this.child.handleError, handle);
-        if (errorHandler) handle = middleWare(error, this.child.handleError, handle);
+        if (errorHandler) handle = middleWare(error, errorHandler, handle);
         handle();
       };
       return await fetching(

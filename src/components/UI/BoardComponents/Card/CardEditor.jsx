@@ -126,7 +126,11 @@ class CardEditor extends React.Component {
     let queryParams = new FormData();
     queryParams.append("CardId", this.props.content.id);
     queryParams.append("File", file);
-    await this.props.handleUpdate("files", "ADD", queryParams);
+    await this.props.handleUpdate("files", "ADD", queryParams, (e, next) => {
+      if(e.status == 413)
+        e.message = "The file is too large";
+      next();
+    });
   };
 
   render() {

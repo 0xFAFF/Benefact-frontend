@@ -215,8 +215,8 @@ class Board extends React.Component {
     });
   };
 
-  handleUpdate = async (type, action, queryParams) => {
-    await this.props.compFetch(type, action, queryParams).then(async _ => {
+  handleUpdate = async (type, action, queryParams, errorHandler) => {
+    await this.props.compFetch(type, action, queryParams, errorHandler).then(async _ => {
       if (this.state.filters.active) {
         this.selectFilters();
       } else {

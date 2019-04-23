@@ -11,3 +11,16 @@ body {
 #app-container {
   height: 100%;
 }
+
+.drag-overlay {
+  background-color: rgba($color: #aaa, $alpha: 0.8);
+  border: dashed grey 4px;
+  margin: -14px;
+  padding: 14px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}

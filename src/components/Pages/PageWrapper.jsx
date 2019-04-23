@@ -42,33 +42,38 @@ const PageWrapper = Component => {
 
     compFetch = async (type, action, queryParams, errorHandler) => {
       const { boardId, token } = this.props;
+      let handle = error => {
+        let handle = middleWare(error, this.handleError);
+        if (this.child.handleError) handle = middleWare(error, this.child.handleError, handle);
+        if (errorHandler) handle = middleWare(error, this.child.handleError, handle);
+        handle();
+      };
       return await fetching(
         URLS(type, action, {
           ...(boardId && { boardId })
         }),
         queryParams,
         token
-      ).then(async res => {
-        let result = null;
-        try {
-          result = camelCase(await res.json());
-        } catch (err) {
-          result = { message: err.message };
-        }
-        if (res.status === 200) return result;
-        else {
-          const error = { status: res.status, ...result };
-          let handle = middleWare(error, this.handleError);
-          if (this.child.handleError) handle = middleWare(error, this.child.handleError, handle);
-          if (errorHandler) handle = middleWare(error, this.child.handleError, handle);
-          handle();
-        }
-      });
+      )
+        .then(async res => {
+          let result = null;
+          try {
+            result = camelCase(await res.json());
+          } catch (err) {
+            result = { message: err.message };
+          }
+          if (res.status === 200) return result;
+          else {
+            const error = { status: res.status, ...result };
+            handle(error);
+          }
+        })
+        .catch(e => handle({ message: e.message }));
     };
 
     render = () => {
       return (
-        <PageProvider value={{compFetch: this.compFetch, data: this.state.data, token: this.props.token}}>
+        <PageProvider value={{ compFetch: this.compFetch, data: this.state.data, token: this.props.token }}>
           <Component
             data={this.state.data}
             dataSource={this.dataSource}

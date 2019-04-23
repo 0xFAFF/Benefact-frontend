@@ -7,9 +7,10 @@ import { Voting, Comments, DeleteModal, Attachments } from "components/UI/BoardC
 import { Tags } from "components/UI/BoardComponents";
 import { AcceptCancelButtons } from "components/UI/Popup";
 import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
+import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
+import FileDrop from "components/UI/FileDrop";
 
 import "./CardEditor.scss";
-import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
 
 class CardEditor extends React.Component {
   static propTypes = {
@@ -121,94 +122,108 @@ class CardEditor extends React.Component {
     await this.props.handleUpdate("votes", "UPDATE", queryParams);
   };
 
+  onFileUpload = async file => {
+    let queryParams = new FormData();
+    queryParams.append("CardId", this.props.content.id);
+    queryParams.append("File", file);
+    await this.props.handleUpdate("files", "ADD", queryParams);
+  };
+
   render() {
     const { updateBoardContent, onAcceptHandler, disableComponents = false } = this.props;
     const { id = 0, title = "", description = "", tagIds = [], columnId, votes = [] } = this.state.newContent;
     return (
       <div id="editor-mode">
-        <EditorActivity icon="outdent">
-          <TextArea
-            id="editor-title"
-            spellCheck={false}
-            minRows={1}
-            value={title}
-            onChange={e => this.onChangeHandler(e, "title")}
-          />
-          {this.props.showDeleteModal && (
-            <div className="editor-delete-card">
-              <FontAwesomeIcon
-                icon="trash"
-                size="lg"
-                className="editor-delete-card-icon"
-                onClick={() => this.setState({ openDeleteModal: true })}
-              />
+        <FileDrop onDrop={this.onFileUpload}>
+          <EditorActivity icon="outdent">
+            <TextArea
+              id="editor-title"
+              spellCheck={false}
+              minRows={1}
+              value={title}
+              onChange={e => this.onChangeHandler(e, "title")}
+            />
+            {this.props.showDeleteModal && (
+              <div className="editor-delete-card">
+                <FontAwesomeIcon
+                  icon="trash"
+                  size="lg"
+                  className="editor-delete-card-icon"
+                  onClick={() => this.setState({ openDeleteModal: true })}
+                />
+              </div>
+            )}
+          </EditorActivity>
+          {disableComponents ? null : (
+            <div className="editor-header flex-row row-margin">
+              <div id="editor-id" className="flex-row">
+                <FontAwesomeIcon className="container-icon container-icon-padding" icon={"id-card"} size="lg" />
+                <div>{id}</div>
+              </div>
+              <div className="editor-vote">
+                <Voting defaultDisplay={true} size="lg" votes={votes} onUpdateVote={this.onUpdateVote} />
+              </div>
             </div>
           )}
-        </EditorActivity>
-        {disableComponents ? null : (
-          <div className="editor-header flex-row row-margin">
-            <div id="editor-id" className="flex-row">
-              <FontAwesomeIcon className="container-icon container-icon-padding" icon={"id-card"} size="lg" />
-              <div>{id}</div>
-            </div>
-            <div className="editor-vote">
-              <Voting defaultDisplay={true} size="lg" votes={votes} onUpdateVote={this.onUpdateVote} />
+          <div id="editor-column" className="flex-row row-margin">
+            <FontAwesomeIcon className="container-icon container-icon-padding" icon={"columns"} size="lg" />
+            <div className="styled-select background-color semi-square">
+              <select onChange={e => this.onChangeHandler(e, "columnId")} value={columnId}>
+                {this.props.columns.map(option => {
+                  return (
+                    <option key={option.id} value={option.id}>
+                      {option.title}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
           </div>
-        )}
-        <div id="editor-column" className="flex-row row-margin">
-          <FontAwesomeIcon className="container-icon container-icon-padding" icon={"columns"} size="lg" />
-          <div className="styled-select background-color semi-square">
-            <select onChange={e => this.onChangeHandler(e, "columnId")} value={columnId}>
-              {this.props.columns.map(option => {
-                return (
-                  <option key={option.id} value={option.id}>
-                    {option.title}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-        </div>
-        <EditorActivity icon="tag">
-          <Tags
-            tagIds={tagIds}
-            displayAddTag={true}
-            onChangeHandler={this.onChangeHandler}
-            addComponent={this.props.addComponent}
-            updateBoardContent={updateBoardContent}
+          <EditorActivity icon="tag">
+            <Tags
+              tagIds={tagIds}
+              displayAddTag={true}
+              onChangeHandler={this.onChangeHandler}
+              addComponent={this.props.addComponent}
+              updateBoardContent={updateBoardContent}
+            />
+          </EditorActivity>
+          <EditorActivity icon="newspaper">
+            <MarkdownEditor
+              className="editor-description"
+              onChange={e => this.onChangeHandler(e, "description")}
+              onPaste={e => {
+                e.preventDefault();
+                console.log(e.clipboardData.types);
+              }}
+              value={description}
+            />
+          </EditorActivity>
+          {disableComponents ? null : (
+            <Attachments handleUpdate={this.props.handleUpdate} attachments={this.props.content.attachments} />
+          )}
+          {disableComponents ? null : <Comments {...this.props} comments={this.props.content.comments} />}
+          <AcceptCancelButtons
+            onAcceptHandler={() => {
+              updateBoardContent(this.state.newContent, "cards");
+              onAcceptHandler();
+            }}
+            onCancelHandler={() => {
+              this.setState({ addComment: "" });
+              this.resetContent();
+            }}
+            acceptTitle={"Save"}
+            cancelTitle={"Reset"}
           />
-        </EditorActivity>
-        <EditorActivity icon="newspaper">
-          <MarkdownEditor
-            className="editor-description"
-            onChange={e => this.onChangeHandler(e, "description")}
-            value={description}
+          <DeleteModal
+            handleCloseModal={() => this.setState({ openDeleteModal: false })}
+            isOpen={this.state.openDeleteModal}
+            deleteComponent={this.props.deleteComponent}
+            cardId={id}
           />
-        </EditorActivity>
-        {disableComponents ? null : <Attachments attachments={this.props.content.attachments} />}
-        {disableComponents ? null : <Comments {...this.props} comments={this.props.content.comments} />}
-        <AcceptCancelButtons
-          onAcceptHandler={() => {
-            updateBoardContent(this.state.newContent, "cards");
-            onAcceptHandler();
-          }}
-          onCancelHandler={() => {
-            this.setState({ addComment: "" });
-            this.resetContent();
-          }}
-          acceptTitle={"Save"}
-          cancelTitle={"Reset"}
-        />
-        <DeleteModal
-          handleCloseModal={() => this.setState({ openDeleteModal: false })}
-          isOpen={this.state.openDeleteModal}
-          deleteComponent={this.props.deleteComponent}
-          cardId={id}
-        />
+        </FileDrop>
       </div>
     );
   }
 }
-
 export default CardEditor;

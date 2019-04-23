@@ -20,5 +20,18 @@
   margin-bottom: 15px;
   display: flex;
   flex-direction: row;
-  background-color: #F3F3F3;
+  background-color: #f3f3f3;
+  .delete-button {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.row-entry:hover {
+  .delete-button {
+    visibility: visible;
+    transition: opacity 0.8s linear;
+    opacity: 1;
+    cursor: pointer;
+  }
 }

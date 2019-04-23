@@ -2,11 +2,7 @@ import PropTypes from "prop-types";
 import { titleCase } from "../utils";
 
 const fetching = async (url, queryParams, token) => {
-  const {
-    name: urlName,
-    whiteList: urlWhiteList = null,
-    method = "POST"
-  } = url;
+  const { name: urlName, whiteList: urlWhiteList = null, method = "POST" } = url;
   let options = {
     method,
     headers: {
@@ -14,24 +10,26 @@ const fetching = async (url, queryParams, token) => {
     }
   };
   if (queryParams) {
-    let whiteListedParams = {};
-    if (!urlWhiteList) {
-      whiteListedParams = { ...queryParams };
-    } else {
-      urlWhiteList.forEach(field => {
-        if (field in queryParams) {
-          whiteListedParams = {
-            ...whiteListedParams,
-            [field]: queryParams[field]
-          };
-        }
-      });
+    if (queryParams.__proto__ !== FormData.prototype) {
+      let whiteListedParams = {};
+      if (!urlWhiteList) {
+        whiteListedParams = { ...queryParams };
+      } else {
+        urlWhiteList.forEach(field => {
+          if (field in queryParams) {
+            whiteListedParams = {
+              ...whiteListedParams,
+              [field]: queryParams[field]
+            };
+          }
+        });
+      }
+      queryParams = JSON.stringify(titleCase(whiteListedParams));
     }
-
-    options = {
-      ...options,
-      body: JSON.stringify(titleCase(whiteListedParams))
-    };
+    else{
+      delete options.headers["Content-Type"];
+    }
+    options.body = queryParams;
   }
 
   if (token) {

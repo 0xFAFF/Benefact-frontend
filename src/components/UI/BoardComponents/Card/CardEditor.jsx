@@ -3,7 +3,12 @@ import PropTypes from "prop-types";
 import { isEqual, sortBy, get } from "lodash";
 import TextArea from "react-textarea-autosize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Voting, Comments, DeleteModal, Attachments } from "components/UI/BoardComponents/Card/components";
+import {
+  Voting,
+  Comments,
+  DeleteModal,
+  Attachments
+} from "components/UI/BoardComponents/Card/components";
 import { Tags } from "components/UI/BoardComponents";
 import { AcceptCancelButtons } from "components/UI/Popup";
 import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
@@ -66,7 +71,12 @@ class CardEditor extends React.Component {
     const resetVals = { ...this.state.newContent };
     Object.entries(this.state.newContent).forEach(([key, value]) => {
       if (updateKeys.find(field => field === key)) {
-        resetVals[key] = typeof value === "object" && Array.isArray(value) ? [] : typeof value === "object" ? {} : "";
+        resetVals[key] =
+          typeof value === "object" && Array.isArray(value)
+            ? []
+            : typeof value === "object"
+            ? {}
+            : "";
       }
     });
     this.setState({ newContent: resetVals });
@@ -127,19 +137,25 @@ class CardEditor extends React.Component {
     queryParams.append("CardId", this.props.content.id);
     queryParams.append("File", file);
     await this.props.handleUpdate("files", "ADD", queryParams, (e, next) => {
-      if(e.status == 413)
-        e.message = "The file is too large";
+      if (e.status == 413) e.message = "The file is too large";
       next();
     });
   };
 
   render() {
     const { updateBoardContent, onAcceptHandler, disableComponents = false } = this.props;
-    const { id = 0, title = "", description = "", tagIds = [], columnId, votes = [] } = this.state.newContent;
+    const {
+      id = 0,
+      title = "",
+      description = "",
+      tagIds = [],
+      columnId,
+      votes = []
+    } = this.state.newContent;
     return (
       <div id="editor-mode">
         <FileDrop onDrop={this.onFileUpload}>
-          <EditorActivity icon="outdent">
+          <EditorActivity icon="outdent" style={{ paddingTop: "10px" }}>
             <TextArea
               id="editor-title"
               spellCheck={false}
@@ -161,16 +177,29 @@ class CardEditor extends React.Component {
           {disableComponents ? null : (
             <div className="editor-header flex-row row-margin">
               <div id="editor-id" className="flex-row">
-                <FontAwesomeIcon className="container-icon container-icon-padding" icon={"id-card"} size="lg" />
+                <FontAwesomeIcon
+                  className="container-icon container-icon-padding"
+                  icon={"id-card"}
+                  size="lg"
+                />
                 <div>{id}</div>
               </div>
               <div className="editor-vote">
-                <Voting defaultDisplay={true} size="lg" votes={votes} onUpdateVote={this.onUpdateVote} />
+                <Voting
+                  defaultDisplay={true}
+                  size="lg"
+                  votes={votes}
+                  onUpdateVote={this.onUpdateVote}
+                />
               </div>
             </div>
           )}
           <div id="editor-column" className="flex-row row-margin">
-            <FontAwesomeIcon className="container-icon container-icon-padding" icon={"columns"} size="lg" />
+            <FontAwesomeIcon
+              className="container-icon container-icon-padding"
+              icon={"columns"}
+              size="lg"
+            />
             <div className="styled-select background-color semi-square">
               <select onChange={e => this.onChangeHandler(e, "columnId")} value={columnId}>
                 {this.props.columns.map(option => {
@@ -204,9 +233,14 @@ class CardEditor extends React.Component {
             />
           </EditorActivity>
           {disableComponents ? null : (
-            <Attachments handleUpdate={this.props.handleUpdate} attachments={this.props.content.attachments} />
+            <Attachments
+              handleUpdate={this.props.handleUpdate}
+              attachments={this.props.content.attachments}
+            />
           )}
-          {disableComponents ? null : <Comments {...this.props} comments={this.props.content.comments} />}
+          {disableComponents ? null : (
+            <Comments {...this.props} comments={this.props.content.comments} />
+          )}
           <AcceptCancelButtons
             onAcceptHandler={() => {
               updateBoardContent(this.state.newContent, "cards");

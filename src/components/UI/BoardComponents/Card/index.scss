@@ -1,21 +1,19 @@
 #card-draggable {
-  border: 1px solid lightgrey;
+  ::before{
+    box-shadow: 0 0px 3px rgba(0, 0, 0, 0.16);
+  }
+  border-bottom: 1px solid lightgrey;
   padding: 5px;
   display: flex;
   align-items: flex-start;
   background-color: white;
   flex-direction: column;
-  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.23);
 
   &:hover {
     background-color: #e5eae9;
-    transition: background-color 0.8s ease;
-    .edit-icon {
-      visibility: visible;
-      opacity: 1;
-      transition: opacity 0.8s linear;
-    }
-    box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.26), 2px 3px 6px rgba(0, 0, 0, 0.33);
+    transition: background-color, box-shadow 0.35s ease;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.26);
+    z-index: 10;
   }
 
   .card-draggable-container {

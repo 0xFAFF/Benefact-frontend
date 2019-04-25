@@ -3,9 +3,9 @@
   height: 100%;
 
   #editor-title {
-    font-weight: 600;
+    font-weight: 500;
     flex-grow: 1;
-    font-size: 1.8em;
+    font-size: 1.6em;
   }
 
   textarea {
@@ -88,7 +88,7 @@
         cursor: pointer;
         background: transparent;
         border: none;
-        // font-size: 14px;
+        font-size: 1.2em;
         padding: 5px;
         width: 200px;
       }

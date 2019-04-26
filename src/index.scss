@@ -9,7 +9,7 @@ body {
   select,
   textarea {
     font-family: "Lato", serif;
-    color: var(--text-color)
+    color: var(--text-color);
   }
 
   svg:not([color]) {
@@ -28,7 +28,7 @@ body {
   --text-color: black;
   --text-bg-color: #f0f0f0;
   --icon-color: black;
-  --modal-icon-color: #888;
+  --modal-icon-color: rgb(26, 25, 25);
 }
 
 #root,

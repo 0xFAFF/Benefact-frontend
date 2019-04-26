@@ -1,15 +1,17 @@
+#navbar {
+  box-shadow: 0px 0px 13px 0px rgba(98, 98, 102, 0.16);
+  z-index: 1;
+}
+
 .navbar-list {
   align-items: center;
   background-color: #eef1f5;
-  border-bottom: 1px solid #d4d6d6;
-  box-shadow: 0px 5px 2px 0px rgba(168, 168, 168, 0.5);
-  margin-bottom: 2px;
   ul.menu {
     margin: 0 auto;
     align-items: center;
-    padding: 5px;
+    padding: 0px;
     list-style: none;
-    font-family: "Playfair Display", serif;
+    font-family: "Playfair Display", sans-serif;
     display: flex;
     .brand {
       font-size: 2.8em;

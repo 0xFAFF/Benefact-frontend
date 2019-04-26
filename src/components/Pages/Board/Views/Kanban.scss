@@ -7,7 +7,6 @@
 #kanban-board {
   display: flex;
   flex-grow: 1;
-  background-color: #eef1f5;
   max-width: 100%;
 }
 
@@ -18,7 +17,8 @@
 
 .add-column-container {
   margin: 8px;
-  border: 1px solid lightgrey;
+  border-left: 1px solid lightgrey;
+  border-right: 1px solid lightgrey;
   background-color: rgb(236, 240, 245);
   width: 200px;
   display: flex;

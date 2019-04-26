@@ -7,9 +7,7 @@ import "./index.scss";
 
 const InnerList = props => {
   const { colCards, ...rest } = props;
-  return colCards.map((card, index) => (
-    <Card key={card.id} index={index} card={card} {...rest} />
-  ));
+  return colCards.map((card, index) => <Card key={card.id} index={index} card={card} {...rest} />);
 };
 
 InnerList.propTypes = {
@@ -44,8 +42,7 @@ class Column extends React.Component {
   handleOpenModal = () => {
     this.setState({ showModal: true, isDragDisabled: true });
   };
-  handleCloseModal = () =>
-    this.setState({ showModal: false, isDragDisabled: false });
+  handleCloseModal = () => this.setState({ showModal: false, isDragDisabled: false });
 
   shouldComponentUpdate(nextProps, nextState) {
     if (nextState.showModal !== this.state.showModal) {
@@ -72,11 +69,7 @@ class Column extends React.Component {
 
     const draggingStyle = { backgroundColor: "#f3f3f3" };
     return (
-      <Draggable
-        draggableId={column.id}
-        index={index}
-        isDragDisabled={this.state.isDragDisabled}
-      >
+      <Draggable draggableId={column.id} index={index} isDragDisabled={this.state.isDragDisabled}>
         {(provided, snapshot) => (
           <div
             id="column-draggable"
@@ -85,39 +78,41 @@ class Column extends React.Component {
             {...provided.draggableProps}
             style={{ ...provided.draggableProps.style }}
           >
-            <Header
-              dragHandleProps={provided.dragHandleProps}
-              showModal={this.state.showModal}
-              handleOpenModal={this.handleOpenModal}
-              handleCloseModal={this.handleCloseModal}
-              title={column.title}
-              columnId={column.id}
-              addComponent={addComponent}
-              updateBoardContent={updateBoardContent}
-              cards={cards}
-              columns={columns}
-            />
-            <Droppable droppableId={`col-${column.id}`} type="card">
-              {(provided, snapshot) => (
-                <div
-                  id="column-droppable"
-                  ref={provided.innerRef}
-                  style={snapshot.isDraggingOver ? draggingStyle : {}}
-                  {...provided.droppableProps}
-                >
-                  <InnerList
-                    colCards={colCards}
-                    columns={columns}
-                    updateBoardContent={updateBoardContent}
-                    addComponent={addComponent}
-                    deleteComponent={deleteComponent}
-                    handleResetBoard={handleResetBoard}
-                    handleUpdate={handleUpdate}
-                  />
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+            <div className="column-container">
+              <Header
+                dragHandleProps={provided.dragHandleProps}
+                showModal={this.state.showModal}
+                handleOpenModal={this.handleOpenModal}
+                handleCloseModal={this.handleCloseModal}
+                title={column.title}
+                columnId={column.id}
+                addComponent={addComponent}
+                updateBoardContent={updateBoardContent}
+                cards={cards}
+                columns={columns}
+              />
+              <Droppable droppableId={`col-${column.id}`} type="card">
+                {(provided, snapshot) => (
+                  <div
+                    id="column-droppable"
+                    ref={provided.innerRef}
+                    style={snapshot.isDraggingOver ? draggingStyle : {}}
+                    {...provided.droppableProps}
+                  >
+                    <InnerList
+                      colCards={colCards}
+                      columns={columns}
+                      updateBoardContent={updateBoardContent}
+                      addComponent={addComponent}
+                      deleteComponent={deleteComponent}
+                      handleResetBoard={handleResetBoard}
+                      handleUpdate={handleUpdate}
+                    />
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </div>
           </div>
         )}
       </Draggable>

@@ -7,7 +7,7 @@
   flex-direction: column;
   position: relative;
 
-  &:before{
+  &:before {
     content: "";
     position: absolute;
     top: 0;
@@ -28,6 +28,7 @@
   }
 
   .card-draggable-container {
+    z-index: 20;
     display: flex;
     width: 100%;
     .card-row {

@@ -28,7 +28,7 @@ class AddTag extends React.Component {
       addComponent,
       updateBoardContent
     } = this.props;
-    const modalContainer = document.getElementById("markdown-editor");
+    const modalContainer = document.getElementById("editor-mode");
     const left = modalContainer
       ? modalContainer.getBoundingClientRect().right
       : null;

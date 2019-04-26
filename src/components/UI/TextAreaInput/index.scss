@@ -6,7 +6,7 @@
   width: 150px;
   outline: none;
   min-height: 23px;
-  padding: 0;
+  padding: 1px;
   box-shadow: none;
   border: none;
   display: block;
@@ -35,4 +35,5 @@
 .textarea:hover,
 .textarea:focus {
   border: 1px solid rgb(167, 167, 167);
+  padding: 0;
 }

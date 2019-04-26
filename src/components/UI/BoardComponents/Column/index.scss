@@ -11,7 +11,7 @@
   }
   .column-container {
     background-color: var(--bg-primary);
-    box-shadow: 0 0px 7px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--bg-shadow);
     border: 1px solid var(--card-border);
     border-radius: 5px 5px 0 0;
   }
@@ -43,8 +43,9 @@
   }
 
   #column-droppable {
+    margin: -1px;
+    border: 1px solid var(--card-border);
     transition: background-color 0.2s ease;
-    border-radius: 0 0 5px 5px;
   }
 }
 

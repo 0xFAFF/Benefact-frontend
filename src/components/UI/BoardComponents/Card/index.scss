@@ -1,7 +1,6 @@
 #card-draggable {
-  border-top: 1px solid var(--card-border);
-  border-bottom: 1px solid var(--card-border);
-  margin-bottom: -1px;
+  margin: -1px;
+  border: 1px solid var(--card-border);
   padding: 5px;
   display: flex;
   align-items: flex-start;

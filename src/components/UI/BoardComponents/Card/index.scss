@@ -3,11 +3,11 @@
   padding: 5px;
   display: flex;
   align-items: flex-start;
-  background-color: white;
+  background-color: var(--card-primary);
   flex-direction: column;
   position: relative;
 
-  &:before{
+  &:before {
     content: "";
     position: absolute;
     top: 0;

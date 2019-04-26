@@ -1,17 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Cookies from "js-cookie";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import "./fontawesome";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { User, Login, Board } from "./components/Pages";
 import { Version } from "./components/Version";
+import { setTheme } from "./utils";
+import { THEMES } from "./constants";
 import "./index.scss";
 
 toast.configure({
@@ -34,6 +31,11 @@ class App extends React.Component {
     Cookies.remove("token");
   };
 
+  componentDidMount() {
+    const { themes, currentTheme } = THEMES();
+    setTheme(themes[currentTheme]);
+  }
+
   render() {
     const { token = "" } = this.state;
 
@@ -46,14 +48,13 @@ class App extends React.Component {
             <Route
               exact
               path="/"
-              render={props =>
-                token ? <Redirect to="/board/1" /> : <RedirectLogin />
-              }
+              render={props => (token ? <Redirect to="/board/1" /> : <RedirectLogin />)}
             />
             <Route
               path="/login"
-              render={props => <Login token={token} {...props} onLoginHandler={this.onLoginHandler} />
-              }
+              render={props => (
+                <Login token={token} {...props} onLoginHandler={this.onLoginHandler} />
+              )}
             />
             <Route
               path="/board/:boardId"
@@ -72,9 +73,7 @@ class App extends React.Component {
             />
             <Route
               path="/user"
-              render={props =>
-                token ? <User {...props} token={token} /> : <RedirectLogin />
-              }
+              render={props => (token ? <User {...props} token={token} /> : <RedirectLogin />)}
             />
             <Route path="/version" render={props => <Version />} />
           </Switch>

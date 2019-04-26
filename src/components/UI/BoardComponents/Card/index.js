@@ -63,10 +63,7 @@ class Card extends React.Component {
         >
           {(provided, snapshot) => {
             return (
-              <UnnaturalDND
-                style={{ ...provided.draggableProps.style }}
-                snapshot={snapshot}
-              >
+              <UnnaturalDND style={{ ...provided.draggableProps.style }} snapshot={snapshot}>
                 {style => (
                   <div
                     id="card-draggable"
@@ -80,14 +77,9 @@ class Card extends React.Component {
                     <div className="card-draggable-container">
                       <div className="card-row">
                         <div className="card-title">
-                          <div className="left-side">
-                            {this.props.card.title}
-                          </div>
+                          <div className="left-side">{this.props.card.title}</div>
                           <div className="right-side">
-                            <Voting
-                              votes={votes}
-                              onUpdateVote={this.onUpdateVote}
-                            />
+                            <Voting votes={votes} onUpdateVote={this.onUpdateVote} />
                             <IconRow {...card} />
                           </div>
                         </div>

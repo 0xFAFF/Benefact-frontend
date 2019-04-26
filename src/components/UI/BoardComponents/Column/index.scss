@@ -16,6 +16,7 @@
     border-radius: 5px 5px 0 0;
   }
   .column-header {
+    border-bottom: 1px solid var(--card-border);
     padding: 8px;
     margin: 0 0 0 0;
     display: flex;

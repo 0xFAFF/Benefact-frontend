@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 class Attachments extends React.Component {
   componentDidMount;
   attachmentEntry = attach => {
-    const url = URLS("files", "GET", { boardId: 1, fileId: attach.id }).name;
+    const url = URLS("files", "GET", { boardId: this.props.page.data.urlName, fileId: attach.id }).name;
     return (
       <div key={attach.id} className="row-entry">
         <div className="attach-thumbnail">{attach.contentType.includes("image") ? <img src={url} /> : "File"}</div>

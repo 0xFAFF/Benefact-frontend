@@ -21,18 +21,14 @@
     }
   }
   .editable,
-  textarea:focus {
-    background-color: rgb(255, 255, 255);
-  }
-  .editable,
   textarea {
-    background-color: rgb(243, 243, 243);
+    background-color: var(--text-bg-color);
   }
   .editor-container {
     display: flex;
     margin-bottom: 10px;
     padding-bottom: 10px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--card-border);
     min-height: 2em;
   }
 
@@ -79,14 +75,15 @@
 
   #editor-column {
     .styled-select {
-      border: 1px solid rgb(219, 217, 217);
+      border: 1px solid var(--card-border);
       overflow: hidden;
       width: 180px;
     }
     .styled-select {
       select {
+        outline: none;
         cursor: pointer;
-        background: transparent;
+        background: var(--text-bg-color);
         border: none;
         font-size: 1.2em;
         padding: 5px;

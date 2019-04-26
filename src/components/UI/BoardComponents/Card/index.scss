@@ -1,5 +1,7 @@
 #card-draggable {
-  border-bottom: 1px solid lightgrey;
+  border-top: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+  margin-bottom: -1px;
   padding: 5px;
   display: flex;
   align-items: flex-start;
@@ -19,7 +21,7 @@
 
   &:hover {
     transition: background-color 0.35s ease-out;
-    background-color: #e5eae9;
+    background-color: var(--card-hover);
   }
 
   &:hover:before {
@@ -68,7 +70,7 @@
 }
 
 .card-is-dragging {
-  background-color: rgb(245, 250, 248) !important;
+  background-color: var(--card-hover) !important;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.16), 4px 4px 4px rgba(0, 0, 0, 0.23) !important;
 }
 

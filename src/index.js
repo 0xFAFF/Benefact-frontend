@@ -48,7 +48,7 @@ class App extends React.Component {
             <Route
               exact
               path="/"
-              render={props => (token ? <Redirect to="/board/1" /> : <RedirectLogin />)}
+              render={props => (token ? <Redirect to="/board/benefact" /> : <RedirectLogin />)}
             />
             <Route
               path="/login"

@@ -8,8 +8,8 @@
     .vote-tracker {
       height: 20px;
       padding: 3px 5px;
-      border: 1px solid lightgray;
-      background-color: #f6faf9;
+      border: 1px solid var(--card-border);
+      background-color: var(--bg-primary);
       border-radius: 3px;
       display: flex;
       justify-content: center;

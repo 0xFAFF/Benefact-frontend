@@ -5,15 +5,16 @@
   right: 0;
   bottom: 0;
   overflow-y: auto;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 9999;
 }
 
 .Modal {
+  outline: none;
   position: absolute;
   top: 7%;
   left: 50%;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .outer-container {
@@ -28,10 +29,13 @@
 }
 
 .inner-container {
-  background: #fff;
+  background: var(--modal-bg-color);
   width: 500px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   border-radius: 10px;
+  svg:not([color]) {
+    color: var(--modal-icon-color);
+  }
 }
 
 .inner-content {

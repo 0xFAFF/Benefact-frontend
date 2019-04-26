@@ -464,6 +464,7 @@ class Board extends React.Component {
         <TagsProvider value={this.state.tags}>
           <div id="base-container">
             <Navbar
+              title={(this.props.data || {title: ""}).title}
               {...baseState}
               {...navBarFunctions}
               filtersActive={this.state.filters.active}

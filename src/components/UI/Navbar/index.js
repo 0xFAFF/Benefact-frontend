@@ -125,8 +125,8 @@ class Navbar extends React.Component {
           },
           {
             id: "brand",
-            title: "Benefact",
-            image: "/fafficon.ico",
+            title: this.props.title,
+            image: this.props.title && "/fafficon.ico",
             liClassName: `brand${filtersActive ? " active-filter" : ""}`
           },
           {
@@ -142,7 +142,6 @@ class Navbar extends React.Component {
           {
             id: "user",
             // title: "User",
-            liClassName: "user",
             icon: "user-circle",
             modal: false,
             url: "/user"

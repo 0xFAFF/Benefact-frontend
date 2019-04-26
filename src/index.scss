@@ -4,21 +4,38 @@ html {
 body {
   height: 100%;
   margin: 0;
-  font-family: "Lora", serif;
+  font-family: "Lato", sans-serif;
   input,
   select,
   textarea {
-    font-family: "Lora", serif;
+    font-family: "Lato", serif;
+    color: var(--text-color)
+  }
+
+  svg:not([color]) {
+    color: var(--icon-color);
   }
 
   --bg-primary: #eef1f5;
+  --bg-navbar: var(--bg-primary);
+  --navbar-text-color: var(--text-color);
+  --modal-bg-color: white;
+  --bg-shadow: 0px 0px 13px 0px rgba(98, 98, 102, 0.16);
+  --card-border: lightgrey;
   --card-primary: #ffffff;
+  --card-hover: #e5eae9;
+  --column-hover: #f3f3f3;
+  --text-color: black;
+  --text-bg-color: #f0f0f0;
+  --icon-color: black;
+  --modal-icon-color: #888;
 }
 
 #root,
 #app-container {
   height: 100%;
   background-color: var(--bg-primary);
+  color: var(--text-color);
 }
 
 // --bg-secondary:

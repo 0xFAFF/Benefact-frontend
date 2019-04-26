@@ -24,7 +24,6 @@ const NavbarList = props => {
                           <FontAwesomeIcon
                             icon={icon}
                             style={{ fontSize: "1.5em" }}
-                            color="black"
                           />
                         )}
                       </div>

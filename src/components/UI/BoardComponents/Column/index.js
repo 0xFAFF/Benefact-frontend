@@ -67,7 +67,7 @@ class Column extends React.Component {
       handleUpdate
     } = this.props;
 
-    const draggingStyle = { backgroundColor: "#f3f3f3" };
+    const draggingStyle = { backgroundColor: "var(--column-hover)" };
     return (
       <Draggable draggableId={column.id} index={index} isDragDisabled={this.state.isDragDisabled}>
         {(provided, snapshot) => (
@@ -76,7 +76,6 @@ class Column extends React.Component {
             className={snapshot.isDragging ? "col-is-dragging" : ""}
             ref={provided.innerRef}
             {...provided.draggableProps}
-            style={{ ...provided.draggableProps.style }}
           >
             <div className="column-container">
               <Header
@@ -95,6 +94,7 @@ class Column extends React.Component {
                 {(provided, snapshot) => (
                   <div
                     id="column-droppable"
+                    className={colCards.length ? null : "column-empty"}
                     ref={provided.innerRef}
                     style={snapshot.isDraggingOver ? draggingStyle : {}}
                     {...provided.droppableProps}

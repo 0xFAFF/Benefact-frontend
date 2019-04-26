@@ -41,7 +41,7 @@ class Login extends React.Component {
   render() {
     const { view, verifyDone } = this.state;
     const { onLoginHandler, compFetch, token } = this.props;
-    if (verifyDone && token) return <Redirect to="/board/1" />;
+    if (verifyDone && token) return <Redirect to="/board/benefact" />;
     return (
       <div id="login">
         <div className="login-container">

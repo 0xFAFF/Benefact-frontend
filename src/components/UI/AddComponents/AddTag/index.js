@@ -61,7 +61,7 @@ class AddTag extends React.Component {
               backgroundColor: "rgba(0, 0, 0, 0.3)"
             }
           }}
-          innerCnterClassName="add-tag-modal-inner-container"
+          innerCnterClassName="add-tag-modal-inner-container inner-container"
           outerCnterClassName="add-tag-modal-outer-container"
         >
           <TagPopup

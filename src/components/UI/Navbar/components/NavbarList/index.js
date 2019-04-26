@@ -18,21 +18,15 @@ const NavbarList = props => {
               if (url)
                 return (
                   <Link to={url} key={id}>
-                    <li
-                      key={id}
-                      className={`${liClassName}${
-                        currItem === id ? "active-li" : ""
-                      }`}
-                    >
+                    <li key={id} className={`${liClassName}${currItem === id ? "active-li" : ""}`}>
                       <div className="icon-title">
                         {icon && (
                           <FontAwesomeIcon
                             icon={icon}
-                            size="lg"
+                            style={{ fontSize: "1.5em" }}
                             color="black"
                           />
                         )}
-                        {title ? <span>{title}</span> : null}
                       </div>
                     </li>
                   </Link>
@@ -40,21 +34,16 @@ const NavbarList = props => {
               return (
                 <li
                   key={id}
-                  className={`${liClassName}${
-                    currItem === id ? "active-li" : ""
-                  }`}
+                  className={`${liClassName}${currItem === id ? "active-li" : ""}`}
                   onClick={e => {
-                    if (liClassName !== "brand" && !url)
-                      onItemClick(id, ulItem.id);
+                    if (liClassName !== "brand" && !url) onItemClick(id, ulItem.id);
                   }}
                 >
                   <div className="icon-title">
-                    {icon && <FontAwesomeIcon icon={icon} size="lg" />}
+                    {icon && <FontAwesomeIcon icon={icon} style={{ fontSize: "1.5em" }} />}
                     {title ? <span>{title}</span> : null}
                   </div>
-                  {image && (
-                    <img src={image} alt={image} width="55" height="55" />
-                  )}
+                  {image && <img src={image} alt={image} width="55" height="55" />}
                 </li>
               );
             })}

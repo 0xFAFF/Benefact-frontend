@@ -13,7 +13,7 @@ import { Tags } from "components/UI/BoardComponents";
 import { AcceptCancelButtons } from "components/UI/Popup";
 import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
-import FileDrop from "components/UI/FileDrop";
+import { FileDrop } from "components/UI";
 
 import "./CardEditor.scss";
 

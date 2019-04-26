@@ -2,15 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Modal, FilterView } from "../../UI";
 import { get } from "lodash";
-import {
-  NavbarPopup,
-  NavbarList,
-  Create,
-  Delete,
-  View,
-  Filter,
-  Logout
-} from "./components";
+import { NavbarPopup, NavbarList, Create, Delete, View, Filter, Logout } from "./components";
 import "./index.scss";
 
 class Navbar extends React.Component {
@@ -69,7 +61,7 @@ class Navbar extends React.Component {
         options: [
           {
             id: "create",
-            title: "Create",
+            // title: "Create",
             icon: "plus-circle",
             component: Create,
             modal: true,
@@ -83,7 +75,7 @@ class Navbar extends React.Component {
           },
           {
             id: "delete",
-            title: "Delete",
+            // title: "Delete",
             icon: "minus-circle",
             component: Delete,
             modal: true,
@@ -99,11 +91,7 @@ class Navbar extends React.Component {
           },
           {
             id: "filter",
-            title: filtersActive ? (
-              <FilterView resetFilters={resetFilters} />
-            ) : (
-              "Filter"
-            ),
+            title: filtersActive ? <FilterView resetFilters={resetFilters} /> : null,
             icon: "filter",
             component: Filter,
             modal: true,
@@ -123,7 +111,7 @@ class Navbar extends React.Component {
           },
           {
             id: "view",
-            title: "View",
+            // title: "View",
             icon: "list-ul",
             component: View,
             modal: true,
@@ -143,17 +131,17 @@ class Navbar extends React.Component {
           },
           {
             id: "home",
-            title: "Home",
+            // title: "Home",
             icon: "home"
           },
           {
             id: "menu",
-            title: "Menu",
+            // title: "Menu",
             icon: "bars"
           },
           {
             id: "user",
-            title: "User",
+            // title: "User",
             liClassName: "user",
             icon: "user-circle",
             modal: false,
@@ -161,7 +149,7 @@ class Navbar extends React.Component {
           },
           {
             id: "logout",
-            title: "Logout",
+            // title: "Logout",
             icon: "sign-out-alt",
             component: Logout,
             modal: true,
@@ -173,11 +161,8 @@ class Navbar extends React.Component {
       }
     ];
 
-    const configRowIndex = configs.findIndex(
-      row => row.id === this.state.currRow
-    );
-    const configRowOptions =
-      configRowIndex > -1 ? get(configs, `[${configRowIndex}].options`) : [];
+    const configRowIndex = configs.findIndex(row => row.id === this.state.currRow);
+    const configRowOptions = configRowIndex > -1 ? get(configs, `[${configRowIndex}].options`) : [];
     const item =
       configRowOptions.length > 1
         ? configRowOptions.find(item => item.id === this.state.currItem)
@@ -195,18 +180,12 @@ class Navbar extends React.Component {
         />
         {modal && (
           <Modal
-            isOpen={
-              this.state.currItem && this.state.currRow && modal ? true : false
-            }
+            isOpen={this.state.currItem && this.state.currRow && modal ? true : false}
             onClose={this.cleanCurrentItem}
             innerCnterClassName="nav-inner-container"
           >
             <div className="outer-container">
-              <NavbarPopup
-                onClose={this.cleanCurrentItem}
-                component={component}
-                params={params}
-              />
+              <NavbarPopup onClose={this.cleanCurrentItem} component={component} params={params} />
             </div>
           </Modal>
         )}

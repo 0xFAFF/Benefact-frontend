@@ -10,7 +10,7 @@ const FilterView = ({ resetFilters }) => {
   };
   return (
     <div id="filter-view">
-      <span className="message">Filter Active</span>
+      <span className="message">Active</span>
       <span className="reset-filters">
         <FontAwesomeIcon icon="times" size="lg" onClick={onClick} />
       </span>

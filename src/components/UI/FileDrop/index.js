@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./index.scss";
 
 class FileDrop extends Component {
   dropRef = React.createRef();
@@ -27,9 +28,8 @@ class FileDrop extends Component {
     e.preventDefault();
     e.stopPropagation();
     this.dragCounter = 0;
-    this.setState({isDragging: false});
-    if(this.props.onDrop)
-      this.props.onDrop(e.dataTransfer.files[0]);
+    this.setState({ isDragging: false });
+    if (this.props.onDrop) this.props.onDrop(e.dataTransfer.files[0]);
   };
   componentDidMount() {
     let div = this.dropRef.current;

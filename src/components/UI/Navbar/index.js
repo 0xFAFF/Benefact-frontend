@@ -29,11 +29,15 @@ class Navbar extends React.Component {
   };
 
   onItemClick = (id, navbarRowId) => {
-    this.setState({ currItem: id, currRow: navbarRowId });
+    const configRowIndex = this.configs.findIndex(row => row.id === navbarRowId);
+    const configRowOptions = configRowIndex > -1 ? get(this.configs, `[${configRowIndex}].options`) : [];
+    const item = configRowOptions.length > 1 ? configRowOptions.find(item => item.id === id) : null;
+    if (item.onClick) item.onClick();
+    else this.setState({ currItem: item });
   };
 
   cleanCurrentItem = () => {
-    this.setState({ currItem: null, currRow: null });
+    this.setState({ currItem: null });
   };
 
   render() {
@@ -54,7 +58,7 @@ class Navbar extends React.Component {
       onLogoutHandler,
       filtersActive
     } = this.props;
-    const configs = [
+    this.configs = [
       {
         id: "menu",
         ulClassName: "menu",
@@ -112,9 +116,9 @@ class Navbar extends React.Component {
           {
             id: "view",
             // title: "View",
-            icon: "list-ul",
+            icon: view === "kanban" ? "list-ul" : "columns",
             component: View,
-            modal: true,
+            onClick: () => handleBoardView(view === "kanban" ? "list" : "kanban"),
             params: {
               popupStyle: {
                 width: "200px"
@@ -159,13 +163,7 @@ class Navbar extends React.Component {
         ]
       }
     ];
-
-    const configRowIndex = configs.findIndex(row => row.id === this.state.currRow);
-    const configRowOptions = configRowIndex > -1 ? get(configs, `[${configRowIndex}].options`) : [];
-    const item =
-      configRowOptions.length > 1
-        ? configRowOptions.find(item => item.id === this.state.currItem)
-        : null;
+    const item = this.state.currItem;
     const component = item ? item["component"] : null;
     const params = item ? item["params"] : null;
     const modal = item ? item["modal"] : null;
@@ -173,13 +171,13 @@ class Navbar extends React.Component {
     return (
       <div id="navbar">
         <NavbarList
-          configs={configs}
+          configs={this.configs}
           onItemClick={this.onItemClick}
-          currItem={this.state.currItem}
+          currItem={this.state.currItem && this.state.currItem.id}
         />
         {modal && (
           <Modal
-            isOpen={this.state.currItem && this.state.currRow && modal ? true : false}
+            isOpen={Boolean(this.state.currItem && modal)}
             onClose={this.cleanCurrentItem}
             innerCnterClassName="nav-inner-container"
           >

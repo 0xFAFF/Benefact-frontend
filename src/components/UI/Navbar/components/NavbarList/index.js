@@ -12,41 +12,42 @@ const NavbarList = props => {
       {configs.map(ulItem => {
         const { ulClassName, options = [] } = ulItem;
         return (
-          <ul key={ulItem.id} className={ulClassName}>
-            {options.map(item => {
-              const { id, icon, image, title, liClassName = "", url } = item;
-              if (url)
+          <div key={ulItem.id} className="navbar-list-container">
+            <div className="navbar-top-right" />
+            <ul className={ulClassName}>
+              {options.map(item => {
+                const { id, icon, image, title, liClassName = "", url } = item;
+                if (url)
+                  return (
+                    <Link to={url} key={id}>
+                      <li
+                        key={id}
+                        className={`${liClassName}${currItem === id ? "active-li" : ""}`}
+                      >
+                        <div className="icon-title">
+                          {icon && <FontAwesomeIcon icon={icon} style={{ fontSize: "1.5em" }} />}
+                        </div>
+                      </li>
+                    </Link>
+                  );
                 return (
-                  <Link to={url} key={id}>
-                    <li key={id} className={`${liClassName}${currItem === id ? "active-li" : ""}`}>
-                      <div className="icon-title">
-                        {icon && (
-                          <FontAwesomeIcon
-                            icon={icon}
-                            style={{ fontSize: "1.5em" }}
-                          />
-                        )}
-                      </div>
-                    </li>
-                  </Link>
+                  <li
+                    key={id}
+                    className={`${liClassName}${currItem === id ? "active-li" : ""}`}
+                    onClick={e => {
+                      if (liClassName !== "brand" && !url) onItemClick(id, ulItem.id);
+                    }}
+                  >
+                    <div className="icon-title">
+                      {icon && <FontAwesomeIcon icon={icon} style={{ fontSize: "1.5em" }} />}
+                      {title ? <span>{title}</span> : null}
+                    </div>
+                    {image && <img src={image} alt={image} width="55" height="55" />}
+                  </li>
                 );
-              return (
-                <li
-                  key={id}
-                  className={`${liClassName}${currItem === id ? "active-li" : ""}`}
-                  onClick={e => {
-                    if (liClassName !== "brand" && !url) onItemClick(id, ulItem.id);
-                  }}
-                >
-                  <div className="icon-title">
-                    {icon && <FontAwesomeIcon icon={icon} style={{ fontSize: "1.5em" }} />}
-                    {title ? <span>{title}</span> : null}
-                  </div>
-                  {image && <img src={image} alt={image} width="55" height="55" />}
-                </li>
-              );
-            })}
-          </ul>
+              })}
+            </ul>
+          </div>
         );
       })}
     </div>
@@ -56,7 +57,7 @@ const NavbarList = props => {
 NavbarList.propTypes = {
   configs: PropTypes.array,
   onItemClick: PropTypes.func,
-  currItem: PropTypes.string
+  currItem: PropTypes.string,
 };
 
 export default NavbarList;

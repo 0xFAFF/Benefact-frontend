@@ -4,19 +4,27 @@
 }
 
 .navbar-list {
+  // display: flex;
   align-items: center;
   background-color: var(--bg-navbar);
   color: var(--navbar-text-color);
   svg:not([color]) {
     color: var(--navbar-text-color);
   }
+  .navbar-list-container {
+    display: flex;
+  }
+  div.navbar-top-right {
+    width: 65px;
+  }
   ul.menu {
     height: 5em;
-    margin: 0 auto;
+    margin: 0;
     align-items: center;
     padding: 0px;
     list-style: none;
     display: flex;
+    flex-grow: 1;
     .brand {
       font-size: 2.8em;
       font-family: "Lora";

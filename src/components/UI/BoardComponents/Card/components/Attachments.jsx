@@ -11,7 +11,7 @@ class Attachments extends React.Component {
     const url = URLS("files", "GET", { boardId: this.props.page.data.urlName, fileId: attach.id }).name;
     return (
       <div key={attach.id} className="row-entry">
-        <div className="attach-thumbnail">{attach.contentType.includes("image") ? <img src={url} /> : "File"}</div>
+        <div className="attach-thumbnail">{attach.contentType.includes("image") ? <img src={url} alt={attach.name} /> : "File"}</div>
         <div>{attach.name}</div>
         <FontAwesomeIcon
           icon={"trash"}

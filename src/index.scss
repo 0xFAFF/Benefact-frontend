@@ -31,6 +31,11 @@ body {
   --icon-color: black;
   --icon-hover: var(--card-hover);
   --modal-icon-color: rgb(26, 25, 25);
+  --login-primary: var(--card-primary);
+  --login-icon-bg-color: #09bc09;
+  --login-icon-color: #027a02;
+  --login-button-bg-color: var(--login-icon-bg-color);
+  --login-button-color: #ffffff;
 }
 
 #root,

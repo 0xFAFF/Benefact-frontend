@@ -36,7 +36,7 @@ class SignIn extends React.Component {
         <div className="signin-inner">
           <div className="input-container">
             <div className="input-icon">
-              <FontAwesomeIcon icon={"user"} size="sm" />
+              <FontAwesomeIcon icon="user" size="sm" />
             </div>
             <input
               className="input-field"

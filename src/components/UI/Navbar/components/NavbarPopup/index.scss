@@ -1,8 +1,7 @@
 #navbar-portal {
   #navbar-popup {
-    border: 1px solid lightgray;
     border-radius: 5px;
-    background: #fff;
+    background: var(--modal-bg-color);
     padding: 10px 0;
     width: 200px;
   }

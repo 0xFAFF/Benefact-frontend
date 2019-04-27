@@ -1,6 +1,6 @@
 const THEMES = () => {
   return {
-    currentTheme: "dark",
+    currentTheme: "default",
     themes: {
       light: {
         "bg-primary": "#eef1f5",
@@ -20,14 +20,30 @@ const THEMES = () => {
       dark: {
         "bg-primary": "#333",
         "card-primary": "#444",
-        "card-hover": "#666",
-        "column-hover": "#3c3c3c",
-        "navbar-text-color": "#111",
+        "card-hover": "#4f4f4f",
+        "column-hover": "var(--card-hover)",
+        "navbar-text-color": "#b7b7b7",
         "bg-shadow": "0px 0px 13px 0px rgba(0, 0, 0, 0.31)",
         "card-border": "#272727",
-        "text-color": "#ddd",
+        "text-color": "#b7b7b7",
         "text-bg-color": "#333",
-        "icon-color": "#ddd",
+        "icon-color": "#b7b7b7",
+        "icon-hover": "var(--card-hover)",
+        "modal-bg-color": "var(--card-primary)",
+        "modal-icon-color": "#888"
+      },
+      "high-contrast": {
+        "bg-primary": "#333",
+        "card-primary": "#444",
+        "card-hover": "#4f4f4f",
+        "column-hover": "var(--card-hover)",
+        "navbar-text-color": "#e5f963",
+        "bg-shadow": "0px 0px 13px 0px rgba(0, 0, 0, 0.31)",
+        "card-border": "#272727",
+        "text-color": "#e5f963",
+        "text-bg-color": "#333",
+        "icon-color": "#e5f963",
+        "icon-hover": "var(--card-hover)",
         "modal-bg-color": "var(--card-primary)",
         "modal-icon-color": "#888"
       }

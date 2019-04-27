@@ -33,7 +33,7 @@ const Header = props => {
           handleOpenModal();
         }}
       >
-        <FontAwesomeIcon icon="plus" size="sm" />
+        <FontAwesomeIcon icon="plus-circle" size="lg" />
       </div>
       <Modal isOpen={showModal} onClose={() => handleCloseModal()}>
         <CardEditor

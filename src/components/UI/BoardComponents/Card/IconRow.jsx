@@ -6,7 +6,7 @@ const IconRow = card => {
   const { description } = card;
   return description ? (
     <div className="card-icon-row">
-      <FontAwesomeIcon icon="stream" size="sm" color="#000" />
+      <FontAwesomeIcon icon="newspaper" size="lg" />
     </div>
   ) : null;
 };

@@ -4,7 +4,6 @@
 }
 
 .navbar-list {
-  // display: flex;
   align-items: center;
   background-color: var(--bg-navbar);
   color: var(--navbar-text-color);
@@ -73,9 +72,10 @@
     li:not(.brand):hover {
       background-color: var(--icon-hover);
       transition: box-shadow 0.2s ease;
-      transition: background-color 0.2s ease;
+      transition: background-color 0.35s ease;
       box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.23), 2px 3px 6px rgba(0, 0, 0, 0.03);
     }
+
     .active-filter {
       padding-right: 76px;
     }

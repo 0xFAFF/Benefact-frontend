@@ -35,10 +35,13 @@
 
     &:hover {
       .add-card {
+        display: flex;
         visibility: visible;
         transition: opacity 0.8s linear;
         opacity: 1;
       }
+      transition: background-color 0.35s ease-out;
+      background-color: var(--card-hover);
     }
   }
 
@@ -53,4 +56,11 @@
   cursor: pointer;
   visibility: hidden;
   opacity: 0;
+}
+
+.col-is-dragging {
+  .column-header {
+    background-color: var(--card-hover);
+  }
+  background-color: var(--card-hover);
 }

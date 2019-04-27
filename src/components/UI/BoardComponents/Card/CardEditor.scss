@@ -106,12 +106,12 @@
     padding: 8px 16px;
     margin-left: 15px;
     border-radius: 10px;
-    background-color: rgba(19, 180, 5, 0.7);
+    background-color: var(--button-color);
     color: white;
     cursor: pointer;
   }
   .editor-comments-save:hover:enabled {
-    background-color: rgba(19, 180, 5, 0.9) !important;
+    background-color: var(--button-hover);
   }
   .editor-comments-save:disabled,
   .editor-comments-save:hover:disabled {

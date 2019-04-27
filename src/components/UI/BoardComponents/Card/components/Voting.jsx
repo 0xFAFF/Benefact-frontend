@@ -7,7 +7,7 @@ import "./Voting.scss";
 const Voting = props => {
   const {
     votes = [],
-    size = "sm",
+    size = "lg",
     defaultDisplay = false,
     onUpdateVote
   } = props;
@@ -43,7 +43,6 @@ const Voting = props => {
                 <FontAwesomeIcon
                   icon="arrow-circle-up"
                   size={size}
-                  color={"#13b405"}
                 />
               </div>
               {(totalVotes !== 0 || defaultDisplay) && (
@@ -59,7 +58,6 @@ const Voting = props => {
                   <FontAwesomeIcon
                     icon="arrow-circle-down"
                     size={size}
-                    color={"#fd0a0a"}
                   />
                 </div>
               )}
@@ -68,7 +66,7 @@ const Voting = props => {
                   <span>{totalVotes}</span>
                   {currUserVotes !== 0 && (
                     <span style={{ paddingLeft: "3px" }}>
-                      ({currUserVotes})
+                      : {currUserVotes}
                     </span>
                   )}
                 </div>

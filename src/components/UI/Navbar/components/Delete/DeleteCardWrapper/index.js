@@ -16,13 +16,6 @@ class DeleteCardWrapper extends React.Component {
     card: null
   };
 
-  componentDidMount() {
-    this.props.setPopupStyle({ width: "400px" });
-  }
-  componentWillUnmount() {
-    this.props.setPopupStyle({ width: "300px" });
-  }
-
   onAcceptHandler = () => {
     this.props.deleteComponent("cards", { id: this.state.card.id });
     this.props.onClose();

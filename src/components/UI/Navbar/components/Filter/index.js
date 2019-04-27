@@ -17,13 +17,6 @@ class Filter extends React.Component {
     onClose: PropTypes.func
   };
 
-  componentDidMount() {
-    this.props.setPopupStyle({ width: "400px" });
-  }
-  componentWillUnmount() {
-    this.props.setPopupStyle({ width: "300px" });
-  }
-
   onAcceptHandler = () => {
     this.props.selectFilters();
     this.props.onClose();

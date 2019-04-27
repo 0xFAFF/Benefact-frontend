@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Modal, FilterView } from "../../UI";
 import { get } from "lodash";
-import { NavbarPopup, NavbarList, Create, Delete, View, Filter, Logout } from "./components";
+import { NavbarPopup, NavbarList, Delete, View, Filter, Logout } from "./components";
 import "./index.scss";
+import { AddCard } from "components/UI/AddComponents";
 
 class Navbar extends React.Component {
   static propTypes = {
@@ -67,14 +68,12 @@ class Navbar extends React.Component {
             id: "create",
             // title: "Create",
             icon: "plus-circle",
-            component: Create,
+            component: AddCard,
             modal: true,
             params: {
-              popupStyle: {
-                width: "300px"
-              },
               addComponent: addComponent,
-              columns: columns
+              columns: columns,
+              disableComponents: true,
             }
           },
           {
@@ -84,9 +83,6 @@ class Navbar extends React.Component {
             component: Delete,
             modal: true,
             params: {
-              popupStyle: {
-                width: "300px"
-              },
               deleteComponent: deleteComponent,
               cards: allCards,
               columns: columns,
@@ -100,9 +96,6 @@ class Navbar extends React.Component {
             component: Filter,
             modal: true,
             params: {
-              popupStyle: {
-                width: "300px"
-              },
               updateFilterGroupIndex: updateFilterGroupIndex,
               createFilterGroup: createFilterGroup,
               resetFilters: resetFilters,

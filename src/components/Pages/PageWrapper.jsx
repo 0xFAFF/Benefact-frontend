@@ -3,12 +3,17 @@ import PropTypes from "prop-types";
 import { fetching, notifyToast, camelCase, parseQuery, middleWare } from "../../utils";
 import { URLS } from "../../constants";
 import { PageProvider } from "components/Pages/PageContext";
+import { Modal } from "components/UI";
 
 const PageWrapper = Component => {
   return class extends React.Component {
     static propTypes = {
       boardId: PropTypes.string,
       token: PropTypes.string
+    };
+    state = {
+      modal: null,
+      onModalClose: null
     };
     constructor(props) {
       super(props);
@@ -38,6 +43,15 @@ const PageWrapper = Component => {
           .catch(e => null);
       }
       this.setState({ data, isLoading: false });
+    };
+
+    showModal = (child, onModalClose) => {
+      this.setState({ modal: child, onModalClose });
+    };
+
+    closeModal = () => {
+      if (this.state.onModalClose) this.state.onModalClose();
+      this.setState({ modal: null, onModalClose: null });
     };
 
     compFetch = async (type, action, queryParams, errorHandler) => {
@@ -73,7 +87,15 @@ const PageWrapper = Component => {
 
     render = () => {
       return (
-        <PageProvider value={{ compFetch: this.compFetch, data: this.state.data, token: this.props.token }}>
+        <PageProvider
+          value={{
+            compFetch: this.compFetch,
+            showModal: this.showModal,
+            closeModal: this.closeModal,
+            data: this.state.data,
+            token: this.props.token
+          }}
+        >
           <Component
             data={this.state.data}
             dataSource={this.dataSource}
@@ -81,6 +103,11 @@ const PageWrapper = Component => {
             {...this.extraProps}
             {...this.props}
           />
+          {this.state.modal ? (
+            <Modal isOpen onClose={this.closeModal}>
+              {this.state.modal}
+            </Modal>
+          ) : null}
         </PageProvider>
       );
     };

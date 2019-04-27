@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Modal, TextAreaInput } from "components/UI";
+import { TextAreaInput } from "components/UI";
 import { getCards } from "utils";
 import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
+import { PageConsumer } from "components/Pages/PageContext";
+import { AddCard } from "components/UI/AddComponents";
 
 const Header = props => {
   const { dragHandleProps, title, updateBoardContent, ...rest } = props;
-  const { cards, columnId, handleOpenModal, handleCloseModal, showModal, addComponent } = rest;
+  const { cards, columnId, addComponent } = rest;
   const cardNumber = getCards(cards, columnId).length;
   return (
     <div className="column-header" {...dragHandleProps}>
@@ -27,30 +29,21 @@ const Header = props => {
           }
         />
       </span>
-      <div
-        className="add-card"
-        onClick={() => {
-          handleOpenModal();
+      <PageConsumer>
+        {page => {
+          const { showModal, closeModal } = page;
+          return (
+            <div
+              className="add-card"
+              onClick={() => {
+                showModal(<AddCard onClose={closeModal} {...rest} />);
+              }}
+            >
+              <FontAwesomeIcon icon="plus" size="sm" />
+            </div>
+          );
         }}
-      >
-        <FontAwesomeIcon icon="plus-circle" size="lg" />
-      </div>
-      <Modal isOpen={showModal} onClose={() => handleCloseModal()}>
-        <CardEditor
-          disableComponents
-          onAcceptHandler={() => handleCloseModal()}
-          onClose={() => handleCloseModal()}
-          updateBoardContent={({ title, description, tagIds, columnId }) =>
-            addComponent("cards", {
-              title: title || "",
-              description: description || "",
-              tagIds: tagIds || [],
-              columnId: columnId
-            })
-          }
-          {...rest}
-        />
-      </Modal>
+      </PageConsumer>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { getTags } from "../../../../utils";
 import { AddTag } from "../../AddComponents";
 import DisplayTag from "./DisplayTag";
 import "./index.scss";
+import { PageConsumer } from "components/Pages/PageContext";
 
 const Tags = props => {
   const {
@@ -15,9 +16,9 @@ const Tags = props => {
     updateBoardContent
   } = props;
   return (
-    <TagsConsumer>
-      {context => {
-        const tags = getTags(context, tagIds);
+    <PageConsumer>
+      {page => {
+        const tags = getTags(page.data.tags, tagIds);
         return (
           <div id="card-tags">
             <ul className="tags-ul">
@@ -38,7 +39,7 @@ const Tags = props => {
           </div>
         );
       }}
-    </TagsConsumer>
+    </PageConsumer>
   );
 };
 

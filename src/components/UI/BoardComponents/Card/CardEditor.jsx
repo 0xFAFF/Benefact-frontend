@@ -133,7 +133,7 @@ class CardEditor extends React.Component {
   };
 
   render() {
-    const { updateBoardContent, onAcceptHandler, disableComponents = false } = this.props;
+    const { updateBoardContent, onAcceptHandler, disableComponents = false, onClose } = this.props;
     const { id = 0, title = "", description = "", tagIds = [], columnId, votes = [] } = this.state.newContent;
     return (
       <div id="editor-mode">
@@ -209,7 +209,8 @@ class CardEditor extends React.Component {
           <AcceptCancelButtons
             onAcceptHandler={() => {
               updateBoardContent(this.state.newContent, "cards");
-              onAcceptHandler();
+              if(onAcceptHandler) onAcceptHandler();
+              onClose();
             }}
             onCancelHandler={() => {
               this.setState({ addComment: "" });

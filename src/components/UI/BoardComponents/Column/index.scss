@@ -6,12 +6,13 @@
   display: flex;
   flex-direction: column;
   padding: 5px 5px 5px 5px;
+  padding-top: 20px;
   .column-empty {
     min-height: 86px;
   }
   .column-container {
     background-color: var(--column-primary);
-    box-shadow: var(--bg-shadow);
+    box-shadow: var(--column-shadow);
     border: 1px solid var(--card-border);
     border-radius: 5px 5px 0 0;
   }

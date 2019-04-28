@@ -1,7 +1,7 @@
 const THEMES = () => {
   return {
     // NOTE: use "" for default theme
-    currentTheme: "dark",
+    currentTheme: "",
     themes: {
       // NOTE: out of date with default
       light: {
@@ -29,8 +29,8 @@ const THEMES = () => {
         "text-bg-color": "#333",
         "icon-color": "#b7b7b7",
         "modal-icon-color": "#888",
-        "login-icon-bg-color": "#09bc09",
-        "login-icon-color": "#027a02",
+        "login-icon-bg-color": "var(--text-bg-color)",
+        "login-icon-color": "#ffffff",
         "login-button-bg-color": "var(--login-icon-bg-color)",
         "login-button-color": "#ffffff",
       },

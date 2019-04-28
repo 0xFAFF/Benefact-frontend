@@ -16,14 +16,12 @@ const NavbarList = props => {
             <div className="navbar-top-right" />
             <ul className={ulClassName}>
               {options.map(item => {
-                const { id, icon, image, title, liClassName = "", url } = item;
+                const { id, icon, image, title, liClassName = "", url, hide } = item;
+                if (hide) return null;
                 if (url)
                   return (
                     <Link to={url} key={id}>
-                      <li
-                        key={id}
-                        className={`${liClassName}${currItem === id ? "active-li" : ""}`}
-                      >
+                      <li key={id} className={`${liClassName}${currItem === id ? "active-li" : ""}`}>
                         <div className="icon-title">
                           {icon && <FontAwesomeIcon icon={icon} style={{ fontSize: "1.5em" }} />}
                         </div>
@@ -57,7 +55,7 @@ const NavbarList = props => {
 NavbarList.propTypes = {
   configs: PropTypes.array,
   onItemClick: PropTypes.func,
-  currItem: PropTypes.string,
+  currItem: PropTypes.string
 };
 
 export default NavbarList;

@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Modal, FilterView } from "../../UI";
+import { FilterView } from "../../UI";
 import { get } from "lodash";
-import { NavbarPopup, NavbarList, Delete, View, Filter, Logout } from "./components";
+import { NavbarList, Delete, Filter, Logout } from "./components";
 import "./index.scss";
 import { AddCard } from "components/UI/AddComponents";
 import { PageProp } from "components/Pages/PageContext";
@@ -57,7 +57,8 @@ class Navbar extends React.Component {
       createFilterGroup,
       updateFilterGroupIndex,
       onLogoutHandler,
-      filtersActive
+      filtersActive,
+      page: { hasPrivilege, isLoading }
     } = this.props;
     this.configs = [
       {
@@ -66,10 +67,9 @@ class Navbar extends React.Component {
         options: [
           {
             id: "create",
-            // title: "Create",
+            hide: !hasPrivilege("contribute|developer"),
             icon: "plus-circle",
             component: AddCard,
-            modal: true,
             params: {
               addComponent: addComponent,
               columns: columns,
@@ -78,10 +78,8 @@ class Navbar extends React.Component {
           },
           {
             id: "delete",
-            // title: "Delete",
             icon: "minus-circle",
             component: Delete,
-            modal: true,
             params: {
               deleteComponent: deleteComponent,
               cards: allCards,
@@ -94,7 +92,6 @@ class Navbar extends React.Component {
             title: filtersActive ? <FilterView resetFilters={resetFilters} /> : null,
             icon: "filter",
             component: Filter,
-            modal: true,
             params: {
               updateFilterGroupIndex: updateFilterGroupIndex,
               createFilterGroup: createFilterGroup,
@@ -108,47 +105,32 @@ class Navbar extends React.Component {
           },
           {
             id: "view",
-            // title: "View",
             icon: view === "kanban" ? "list-ul" : "columns",
-            component: View,
             onClick: () => handleBoardView(view === "kanban" ? "list" : "kanban"),
-            params: {
-              popupStyle: {
-                width: "200px"
-              },
-              handleBoardView: handleBoardView,
-              view: view
-            }
           },
           {
             id: "brand",
             title: this.props.title,
-            image: this.props.title && "/fafficon.ico",
+            image: "/fafficon.ico",
             liClassName: `brand${filtersActive ? " active-filter" : ""}`
           },
           {
             id: "home",
-            // title: "Home",
             icon: "home"
           },
           {
             id: "menu",
-            // title: "Menu",
             icon: "bars"
           },
           {
             id: "user",
-            // title: "User",
             icon: "user-circle",
-            modal: false,
             url: "/user"
           },
           {
             id: "logout",
-            // title: "Logout",
             icon: "sign-out-alt",
             component: Logout,
-            modal: true,
             params: {
               onLogoutHandler: onLogoutHandler
             }
@@ -159,7 +141,7 @@ class Navbar extends React.Component {
 
     return (
       <div id="navbar">
-        <NavbarList configs={this.configs} onItemClick={this.onItemClick} />
+        <NavbarList configs={isLoading ? [] : this.configs} onItemClick={this.onItemClick} />
       </div>
     );
   }

@@ -1,8 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AuthConsumer } from "components/Auth/AuthContext";
 import { parseToken } from "utils";
 import "./Voting.scss";
+import { PageConsumer } from "components/Pages/PageContext";
 
 const Voting = props => {
   const {
@@ -16,9 +16,9 @@ const Voting = props => {
     return arr + count;
   }, 0);
   return (
-    <AuthConsumer>
-      {token => {
-        const { id } = parseToken(token);
+    <PageConsumer>
+      {page => {
+        const { id } = parseToken(page.token);
         const currUserVotes = votes.reduce((arr, curr) => {
           const { count = 0, userId } = curr;
           if (userId === id) return arr + count;
@@ -75,7 +75,7 @@ const Voting = props => {
           </div>
         );
       }}
-    </AuthConsumer>
+    </PageConsumer>
   );
 };
 

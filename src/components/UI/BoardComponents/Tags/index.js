@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TagsConsumer } from "./TagsContext";
 import { getTags } from "../../../../utils";
 import { AddTag } from "../../AddComponents";
 import DisplayTag from "./DisplayTag";

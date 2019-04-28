@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { TagsConsumer } from "../../BoardComponents/Tags/TagsContext";
 import { SelectTag, CreateTag } from "./components";
 import { Back } from "../../Popup";
 import { PageConsumer } from "components/Pages/PageContext";

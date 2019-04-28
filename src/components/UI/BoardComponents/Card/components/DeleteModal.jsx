@@ -5,12 +5,14 @@ import { Modal } from "components/UI";
 import { Confirm } from "components/UI/Popup";
 
 const DeleteModal = props => {
-  const { isOpen, handleCloseModal, deleteComponent, cardId } = props;
+  const { isOpen, handleCloseModal, deleteComponent, cardId, onDelete } = props;
 
   const onAcceptHandler = () => {
     if (cardId) {
-      deleteComponent("cards", { id: cardId })
-      .then(() => handleCloseModal());
+      deleteComponent("cards", { id: cardId }).then(() => {
+        onDelete && onDelete();
+        handleCloseModal();
+      });
     }
   };
 

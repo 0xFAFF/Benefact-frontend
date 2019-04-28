@@ -223,8 +223,8 @@ class CardEditor extends React.Component {
           <DeleteModal
             handleCloseModal={() => {
               this.setState({ openDeleteModal: false });
-              onClose && onClose();
             }}
+            onDelete={() => onClose && onClose()}
             isOpen={this.state.openDeleteModal}
             deleteComponent={this.props.deleteComponent}
             cardId={id}

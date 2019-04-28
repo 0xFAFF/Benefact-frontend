@@ -34,20 +34,8 @@ class Column extends React.Component {
     handleUpdate: PropTypes.func
   };
 
-  state = {
-    showModal: false,
-    isDragDisabled: false
-  };
-
-  handleOpenModal = () => {
-    this.setState({ showModal: true, isDragDisabled: true });
-  };
-  handleCloseModal = () => this.setState({ showModal: false, isDragDisabled: false });
-
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.showModal !== this.state.showModal) {
-      return true;
-    } else if (nextProps.cards === this.props.cards) {
+    if (nextProps.cards !== this.props.cards) {
       return false;
     }
     return true;
@@ -69,7 +57,7 @@ class Column extends React.Component {
 
     const draggingStyle = { backgroundColor: "var(--column-hover)" };
     return (
-      <Draggable draggableId={column.id} index={index} isDragDisabled={this.state.isDragDisabled}>
+      <Draggable draggableId={column.id} index={index} isDragDisabled={false}>
         {(provided, snapshot) => (
           <div
             id="column-draggable"
@@ -80,9 +68,6 @@ class Column extends React.Component {
             <div className="column-container">
               <Header
                 dragHandleProps={provided.dragHandleProps}
-                showModal={this.state.showModal}
-                handleOpenModal={this.handleOpenModal}
-                handleCloseModal={this.handleCloseModal}
                 title={column.title}
                 columnId={column.id}
                 addComponent={addComponent}

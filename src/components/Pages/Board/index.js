@@ -4,8 +4,6 @@ import { isEmpty } from "lodash";
 import { getCards } from "../../../utils";
 import Views from "./Views";
 import { Navbar } from "../../UI";
-import { TagsProvider } from "../../UI/BoardComponents/Tags/TagsContext";
-import { AuthProvider } from "../../Auth/AuthContext";
 import { PageWrapper } from "../../Pages";
 import { PacmanLoader } from "../../UI/Loader";
 
@@ -460,29 +458,25 @@ class Board extends React.Component {
     };
 
     return (
-      <AuthProvider value={this.props.token}>
-        <TagsProvider value={this.state.tags}>
-          <div id="base-container">
-            <Navbar
-              title={(this.props.data || {title: ""}).title}
-              {...baseState}
-              {...navBarFunctions}
-              filtersActive={this.state.filters.active}
-              resetFilters={this.resetFilters}
-            />
-            {this.props.isLoading ? (
-              <PacmanLoader />
-            ) : (
-              <Views
-                {...baseState}
-                kanbanFunctions={kanbanFunctions}
-                listFunctions={listFunctions}
-                filtersActive={this.state.filters.active}
-              />
-            )}
-          </div>
-        </TagsProvider>
-      </AuthProvider>
+      <div id="base-container">
+        <Navbar
+          title={(this.props.data || { title: "" }).title}
+          {...baseState}
+          {...navBarFunctions}
+          filtersActive={this.state.filters.active}
+          resetFilters={this.resetFilters}
+        />
+        {this.props.isLoading ? (
+          <PacmanLoader />
+        ) : (
+          <Views
+            {...baseState}
+            kanbanFunctions={kanbanFunctions}
+            listFunctions={listFunctions}
+            filtersActive={this.state.filters.active}
+          />
+        )}
+      </div>
     );
   }
 }

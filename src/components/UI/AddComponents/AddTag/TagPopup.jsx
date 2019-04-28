@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { TagsConsumer } from "../../BoardComponents/Tags/TagsContext";
 import { SelectTag, CreateTag } from "./components";
 import { Back } from "../../Popup";
+import { PageConsumer } from "components/Pages/PageContext";
 
 class TagPopup extends React.Component {
   static propTypes = {
@@ -31,15 +31,15 @@ class TagPopup extends React.Component {
     } = this.props;
     return (
       <div className="tag-popup">
-        <TagsConsumer>
-          {tagsList => {
+        <PageConsumer>
+          {page => {
             return (
               <>
                 {this.state.option === "select" && (
                   <>
                     <p>Select A Tag</p>
                     <SelectTag
-                      tagsList={tagsList}
+                      tagsList={page.data.tags}
                       onChangeHandler={onChangeHandler}
                       cardTags={cardTags}
                       handleOptionSelect={this.handleOptionSelect}
@@ -68,7 +68,7 @@ class TagPopup extends React.Component {
               </>
             );
           }}
-        </TagsConsumer>
+        </PageConsumer>
       </div>
     );
   }

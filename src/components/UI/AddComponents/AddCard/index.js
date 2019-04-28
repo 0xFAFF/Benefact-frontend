@@ -5,18 +5,21 @@ import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 const AddCard = props => {
   const { addComponent, ...rest } = props;
   return (
-    <CardEditor
-      disableComponents
-      updateBoardContent={({ title, description, tagIds, columnId }) =>
-        addComponent("cards", {
-          title: title || "",
-          description: description || "",
-          tagIds: tagIds || [],
-          columnId: columnId
-        })
-      }
-      {...rest}
-    />
+    <>
+    <h1>Add Card</h1>
+      <CardEditor
+        disableComponents
+        updateBoardContent={({ title, description, tagIds, columnId }) =>
+          addComponent("cards", {
+            title: title || "",
+            description: description || "",
+            tagIds: tagIds || [],
+            columnId: columnId
+          })
+        }
+        {...rest}
+      />
+    </>
   );
 };
 

@@ -1,12 +1,12 @@
 #filters-basic {
   .filters-group-buttons {
-    margin: 10px;
+    margin-left: 10px;
     display: flex;
     flex-wrap: wrap;
     .filters-group-button {
       border: 1px solid lightgray;
       padding: 3px;
-      margin: 3px;
+      margin-right: 6px;
       cursor: pointer;
     }
     .filters-group-button-add {

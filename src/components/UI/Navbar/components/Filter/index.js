@@ -24,10 +24,12 @@ class Filter extends React.Component {
 
   render() {
     return (
-      <div id="filter-container">
-        <div className="title">Filter Cards</div>
-        <Basic {...this.props} onAcceptHandler={this.onAcceptHandler} />
-      </div>
+      <>
+        <h1>Filter Cards</h1>
+        <div id="filter-container">
+          <Basic {...this.props} onAcceptHandler={this.onAcceptHandler} />
+        </div>
+      </>
     );
   }
 }

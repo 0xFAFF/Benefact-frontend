@@ -209,8 +209,8 @@ class CardEditor extends React.Component {
           <AcceptCancelButtons
             onAcceptHandler={() => {
               updateBoardContent(this.state.newContent, "cards");
-              if(onAcceptHandler) onAcceptHandler();
-              onClose();
+              onAcceptHandler && onAcceptHandler();
+              onClose && onClose();
             }}
             onCancelHandler={() => {
               this.setState({ addComment: "" });

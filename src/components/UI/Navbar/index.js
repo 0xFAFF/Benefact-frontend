@@ -5,6 +5,7 @@ import { get } from "lodash";
 import { NavbarPopup, NavbarList, Delete, View, Filter, Logout } from "./components";
 import "./index.scss";
 import { AddCard } from "components/UI/AddComponents";
+import { PageProp } from "components/Pages/PageContext";
 
 class Navbar extends React.Component {
   static propTypes = {
@@ -30,15 +31,14 @@ class Navbar extends React.Component {
   };
 
   onItemClick = (id, navbarRowId) => {
+    const { showModal, closeModal } = this.props.page;
     const configRowIndex = this.configs.findIndex(row => row.id === navbarRowId);
     const configRowOptions = configRowIndex > -1 ? get(this.configs, `[${configRowIndex}].options`) : [];
     const item = configRowOptions.length > 1 ? configRowOptions.find(item => item.id === id) : null;
     if (item.onClick) item.onClick();
-    else this.setState({ currItem: item });
-  };
-
-  cleanCurrentItem = () => {
-    this.setState({ currItem: null });
+    else {
+      showModal(<item.component onClose={closeModal} {...item.params} />);
+    }
   };
 
   render() {
@@ -73,7 +73,7 @@ class Navbar extends React.Component {
             params: {
               addComponent: addComponent,
               columns: columns,
-              disableComponents: true,
+              disableComponents: true
             }
           },
           {
@@ -156,32 +156,13 @@ class Navbar extends React.Component {
         ]
       }
     ];
-    const item = this.state.currItem;
-    const component = item ? item["component"] : null;
-    const params = item ? item["params"] : null;
-    const modal = item ? item["modal"] : null;
 
     return (
       <div id="navbar">
-        <NavbarList
-          configs={this.configs}
-          onItemClick={this.onItemClick}
-          currItem={this.state.currItem && this.state.currItem.id}
-        />
-        {modal && (
-          <Modal
-            isOpen={Boolean(this.state.currItem && modal)}
-            onClose={this.cleanCurrentItem}
-            innerCnterClassName="nav-inner-container"
-          >
-            <div className="outer-container">
-              <NavbarPopup onClose={this.cleanCurrentItem} component={component} params={params} />
-            </div>
-          </Modal>
-        )}
+        <NavbarList configs={this.configs} onItemClick={this.onItemClick} />
       </div>
     );
   }
 }
 
-export default Navbar;
+export default PageProp(Navbar);

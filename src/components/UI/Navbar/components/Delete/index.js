@@ -57,7 +57,7 @@ class Delete extends React.Component {
       <div id="delete-popup">
         {!this.state.component && (
           <div className="component-less">
-            <div className="title">Delete a Component</div>
+            <h1>Delete</h1>
             <div className="delete-button-group">
               {buttonConfigs.map(btn => (
                 <button

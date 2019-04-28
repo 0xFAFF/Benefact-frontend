@@ -208,9 +208,10 @@ class CardEditor extends React.Component {
           {disableComponents ? null : <Comments {...this.props} comments={this.props.content.comments} />}
           <AcceptCancelButtons
             onAcceptHandler={() => {
-              updateBoardContent(this.state.newContent, "cards");
-              onAcceptHandler && onAcceptHandler();
-              onClose && onClose();
+              updateBoardContent(this.state.newContent, "cards").then(e => {
+                onAcceptHandler && onAcceptHandler();
+                onClose && onClose();
+              });
             }}
             onCancelHandler={() => {
               this.setState({ addComment: "" });
@@ -220,7 +221,10 @@ class CardEditor extends React.Component {
             cancelTitle={"Reset"}
           />
           <DeleteModal
-            handleCloseModal={() => this.setState({ openDeleteModal: false })}
+            handleCloseModal={() => {
+              this.setState({ openDeleteModal: false });
+              onClose && onClose();
+            }}
             isOpen={this.state.openDeleteModal}
             deleteComponent={this.props.deleteComponent}
             cardId={id}

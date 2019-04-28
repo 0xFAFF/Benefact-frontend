@@ -8,6 +8,7 @@ import IconRow from "./IconRow";
 import CardEditor from "./CardEditor";
 import "./index.scss";
 import UnnaturalDND from "components/UnnaturalDND";
+import { PageProp } from "components/Pages/PageContext";
 
 class Card extends React.Component {
   static propTypes = {
@@ -20,18 +21,6 @@ class Card extends React.Component {
     deleteComponent: PropTypes.func,
     handleResetBoard: PropTypes.func,
     handleUpdate: PropTypes.func
-  };
-
-  state = {
-    showModal: false,
-    isDragDisabled: false
-  };
-
-  handleOpenModal = () => {
-    this.setState({ showModal: true, isDragDisabled: true });
-  };
-  handleCloseModal = () => {
-    this.setState({ showModal: false, isDragDisabled: false });
   };
 
   onUpdateVote = async voteType => {
@@ -52,15 +41,17 @@ class Card extends React.Component {
   };
 
   render() {
-    const { card, index, showDeleteModal = true, ...rest } = this.props;
+    const {
+      card,
+      index,
+      showDeleteModal = true,
+      page: { showModal, closeModal },
+      ...rest
+    } = this.props;
     const { votes } = card;
     return (
       <div>
-        <Draggable
-          draggableId={`card-${card.id}`}
-          index={index}
-          isDragDisabled={this.state.isDragDisabled}
-        >
+        <Draggable draggableId={`card-${card.id}`} index={index}>
           {(provided, snapshot) => {
             return (
               <UnnaturalDND style={{ ...provided.draggableProps.style }} snapshot={snapshot}>
@@ -72,7 +63,16 @@ class Card extends React.Component {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     style={style}
-                    onClick={this.handleOpenModal}
+                    onClick={() =>
+                      showModal(
+                        <CardEditor
+                          content={card}
+                          showDeleteModal={showDeleteModal}
+                          onClose={closeModal}
+                          {...rest}
+                        />
+                      )
+                    }
                   >
                     <div className="card-draggable-container">
                       <div className="card-row">
@@ -92,18 +92,9 @@ class Card extends React.Component {
             );
           }}
         </Draggable>
-        <Modal onClose={this.handleCloseModal} isOpen={this.state.showModal}>
-          <CardEditor
-            content={card}
-            showDeleteModal={showDeleteModal}
-            onAcceptHandler={this.handleCloseModal}
-            onClose={this.handleCloseModal}
-            {...rest}
-          />
-        </Modal>
       </div>
     );
   }
 }
 
-export default Card;
+export default PageProp(Card);

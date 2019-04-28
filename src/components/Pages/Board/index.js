@@ -298,8 +298,7 @@ class Board extends React.Component {
         columnOrder: newColumnOrder
       };
       this.setState(newState);
-      this.handleUpdate("columns", "UPDATE", draggedColumn);
-      return;
+      return this.handleUpdate("columns", "UPDATE", draggedColumn);
     }
 
     // source column of droppable
@@ -329,8 +328,7 @@ class Board extends React.Component {
         }
       };
       this.setState(newState);
-      this.handleUpdate("cards", "UPDATE", draggedCard);
-      return;
+      return this.handleUpdate("cards", "UPDATE", draggedCard);
     }
 
     // Moving card from one column to another
@@ -370,7 +368,7 @@ class Board extends React.Component {
       }
     };
     this.setState(newState);
-    this.handleUpdate("cards", "UPDATE", draggedCard);
+    return this.handleUpdate("cards", "UPDATE", draggedCard);
   };
 
   listOnDragEnd = (result, groupName) => {
@@ -396,17 +394,16 @@ class Board extends React.Component {
       }
     };
     this.setState(newState);
-    this.handleUpdate("cards", "UPDATE", draggedCard);
-    return;
+    return this.handleUpdate("cards", "UPDATE", draggedCard);
   };
 
   addComponent = (componentType, content) => {
     const updatedComponent = { ...content };
-    this.handleUpdate(componentType, "ADD", updatedComponent);
+    return this.handleUpdate(componentType, "ADD", updatedComponent);
   };
 
   deleteComponent = (componentType, content) => {
-    this.handleUpdate(componentType, "DELETE", content);
+    return this.handleUpdate(componentType, "DELETE", content);
   };
 
   handleBoardView = view => {

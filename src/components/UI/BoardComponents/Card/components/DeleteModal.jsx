@@ -9,8 +9,8 @@ const DeleteModal = props => {
 
   const onAcceptHandler = () => {
     if (cardId) {
-      deleteComponent("cards", { id: cardId });
-      handleCloseModal();
+      deleteComponent("cards", { id: cardId })
+      .then(() => handleCloseModal());
     }
   };
 

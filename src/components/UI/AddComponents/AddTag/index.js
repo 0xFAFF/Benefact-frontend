@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Modal } from "../../../UI";
+import { Modal } from "components/UI";
 import TagPopup from "./TagPopup";
 import "./index.scss";
 
@@ -22,16 +22,9 @@ class AddTag extends React.Component {
   };
 
   render() {
-    const {
-      cardTags,
-      onChangeHandler,
-      addComponent,
-      updateBoardContent
-    } = this.props;
+    const { cardTags, onChangeHandler, addComponent, updateBoardContent } = this.props;
     const modalContainer = document.getElementById("editor-mode");
-    const left = modalContainer
-      ? modalContainer.getBoundingClientRect().right
-      : null;
+    const left = modalContainer ? modalContainer.getBoundingClientRect().right : null;
     return (
       <>
         <div
@@ -39,6 +32,8 @@ class AddTag extends React.Component {
           onClick={e => {
             this.setState({ showModal: true });
           }}
+          data-tip="Add tag to card"
+          data-for="card-editor"
         >
           <FontAwesomeIcon icon="plus-circle" size="lg" />
         </div>

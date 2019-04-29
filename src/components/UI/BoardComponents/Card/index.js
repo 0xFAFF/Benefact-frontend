@@ -7,6 +7,7 @@ import IconRow from "./IconRow";
 import CardEditor from "./CardEditor";
 import UnnaturalDND from "components/UnnaturalDND";
 import { PageProp } from "components/Pages/PageContext";
+import { Tooltip } from "components/UI";
 import "./index.scss";
 
 class Card extends React.Component {
@@ -50,6 +51,7 @@ class Card extends React.Component {
     const { votes } = card;
     return (
       <div>
+        <Tooltip id="card" />
         <Draggable draggableId={`card-${card.id}`} index={index}>
           {(provided, snapshot) => {
             return (

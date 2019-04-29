@@ -3,12 +3,17 @@ import PropTypes from "prop-types";
 import { isEqual, sortBy, get } from "lodash";
 import TextArea from "react-textarea-autosize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Voting, Comments, DeleteModal, Attachments } from "components/UI/BoardComponents/Card/components";
+import {
+  Voting,
+  Comments,
+  DeleteModal,
+  Attachments
+} from "components/UI/BoardComponents/Card/components";
 import { Tags } from "components/UI/BoardComponents";
 import { AcceptCancelButtons } from "components/UI/Popup";
 import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
-import { FileDrop } from "components/UI";
+import { FileDrop, Tooltip } from "components/UI";
 
 import "./CardEditor.scss";
 
@@ -66,7 +71,12 @@ class CardEditor extends React.Component {
     const resetVals = { ...this.state.newContent };
     Object.entries(this.state.newContent).forEach(([key, value]) => {
       if (updateKeys.find(field => field === key)) {
-        resetVals[key] = typeof value === "object" && Array.isArray(value) ? [] : typeof value === "object" ? {} : "";
+        resetVals[key] =
+          typeof value === "object" && Array.isArray(value)
+            ? []
+            : typeof value === "object"
+            ? {}
+            : "";
       }
     });
     this.setState({ newContent: resetVals });
@@ -134,11 +144,19 @@ class CardEditor extends React.Component {
 
   render() {
     const { updateBoardContent, onAcceptHandler, disableComponents = false, onClose } = this.props;
-    const { id = 0, title = "", description = "", tagIds = [], columnId, votes = [] } = this.state.newContent;
+    const {
+      id = 0,
+      title = "",
+      description = "",
+      tagIds = [],
+      columnId,
+      votes = []
+    } = this.state.newContent;
     return (
       <div id="editor-mode">
+        <Tooltip id="card-editor" />
         <FileDrop onDrop={this.onFileUpload}>
-          <EditorActivity icon="outdent" style={{ paddingTop: "10px" }}>
+          <EditorActivity icon="outdent" style={{ paddingTop: "10px" }} dataTip="Card Title">
             <TextArea
               id="editor-title"
               spellCheck={false}
@@ -149,6 +167,8 @@ class CardEditor extends React.Component {
             {this.props.showDeleteModal && (
               <div className="editor-delete-card">
                 <FontAwesomeIcon
+                  data-tip="Delete this card"
+                  data-for="card-editor"
                   icon="trash"
                   size="lg"
                   className="editor-delete-card-icon"
@@ -160,16 +180,33 @@ class CardEditor extends React.Component {
           {disableComponents ? null : (
             <div className="editor-header flex-row row-margin">
               <div id="editor-id" className="flex-row">
-                <FontAwesomeIcon className="container-icon container-icon-padding" icon={"id-card"} size="lg" />
+                <FontAwesomeIcon
+                  data-tip="Card ID"
+                  data-for="card-editor"
+                  className="container-icon container-icon-padding"
+                  icon={"id-card"}
+                  size="lg"
+                />
                 <div>{id}</div>
               </div>
               <div className="editor-vote">
-                <Voting defaultDisplay={true} size="lg" votes={votes} onUpdateVote={this.onUpdateVote} />
+                <Voting
+                  defaultDisplay={true}
+                  size="lg"
+                  votes={votes}
+                  onUpdateVote={this.onUpdateVote}
+                />
               </div>
             </div>
           )}
           <div id="editor-column" className="flex-row row-margin">
-            <FontAwesomeIcon className="container-icon container-icon-padding" icon={"columns"} size="lg" />
+            <FontAwesomeIcon
+              data-tip="Card Column"
+              data-for="card-editor"
+              className="container-icon container-icon-padding"
+              icon={"columns"}
+              size="lg"
+            />
             <div className="styled-select background-color semi-square">
               <select onChange={e => this.onChangeHandler(e, "columnId")} value={columnId}>
                 {this.props.columns.map(option => {
@@ -182,7 +219,7 @@ class CardEditor extends React.Component {
               </select>
             </div>
           </div>
-          <EditorActivity icon="tag">
+          <EditorActivity icon="tag" dataTip="Card Tags">
             <Tags
               tagIds={tagIds}
               displayAddTag={true}
@@ -191,7 +228,7 @@ class CardEditor extends React.Component {
               updateBoardContent={updateBoardContent}
             />
           </EditorActivity>
-          <EditorActivity icon="newspaper">
+          <EditorActivity icon="newspaper" dataTip="Card Description">
             <MarkdownEditor
               className="editor-description"
               onChange={e => this.onChangeHandler(e, "description")}
@@ -203,9 +240,14 @@ class CardEditor extends React.Component {
             />
           </EditorActivity>
           {disableComponents || !this.props.content.attachments.length ? null : (
-            <Attachments handleUpdate={this.props.handleUpdate} attachments={this.props.content.attachments} />
+            <Attachments
+              handleUpdate={this.props.handleUpdate}
+              attachments={this.props.content.attachments}
+            />
           )}
-          {disableComponents ? null : <Comments {...this.props} comments={this.props.content.comments} />}
+          {disableComponents ? null : (
+            <Comments {...this.props} comments={this.props.content.comments} />
+          )}
           <AcceptCancelButtons
             onAcceptHandler={() => {
               updateBoardContent(this.state.newContent, "cards").then(e => {

@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { FilterView } from "../../UI";
 import { get } from "lodash";
 import { NavbarList, Delete, Filter, Logout } from "./components";
-import "./index.scss";
 import { AddCard } from "components/UI/AddComponents";
 import { PageProp } from "components/Pages/PageContext";
+import "./index.scss";
 
 class Navbar extends React.Component {
   static propTypes = {
@@ -26,14 +26,11 @@ class Navbar extends React.Component {
     filtersActive: PropTypes.bool
   };
 
-  state = {
-    currItem: null
-  };
-
   onItemClick = (id, navbarRowId) => {
     const { showModal, closeModal } = this.props.page;
     const configRowIndex = this.configs.findIndex(row => row.id === navbarRowId);
-    const configRowOptions = configRowIndex > -1 ? get(this.configs, `[${configRowIndex}].options`) : [];
+    const configRowOptions =
+      configRowIndex > -1 ? get(this.configs, `[${configRowIndex}].options`) : [];
     const item = configRowOptions.length > 1 ? configRowOptions.find(item => item.id === id) : null;
     if (item.onClick) item.onClick();
     else {
@@ -67,6 +64,7 @@ class Navbar extends React.Component {
         options: [
           {
             id: "create",
+            tooltip: "Create",
             hide: !hasPrivilege("contribute|developer"),
             icon: "plus-circle",
             component: AddCard,
@@ -78,6 +76,7 @@ class Navbar extends React.Component {
           },
           {
             id: "delete",
+            tooltip: "Delete",
             icon: "minus-circle",
             component: Delete,
             params: {
@@ -89,6 +88,7 @@ class Navbar extends React.Component {
           },
           {
             id: "filter",
+            tooltip: "Filter",
             title: filtersActive ? <FilterView resetFilters={resetFilters} /> : null,
             icon: "filter",
             component: Filter,
@@ -105,8 +105,9 @@ class Navbar extends React.Component {
           },
           {
             id: "view",
+            tooltip: "View",
             icon: view === "kanban" ? "list-ul" : "columns",
-            onClick: () => handleBoardView(view === "kanban" ? "list" : "kanban"),
+            onClick: () => handleBoardView(view === "kanban" ? "list" : "kanban")
           },
           {
             id: "brand",
@@ -116,19 +117,23 @@ class Navbar extends React.Component {
           },
           {
             id: "home",
+            tooltip: "Home",
             icon: "home"
           },
           {
             id: "menu",
+            tooltip: "Menu",
             icon: "bars"
           },
           {
             id: "user",
+            tooltip: "User",
             icon: "user-circle",
             url: "/user"
           },
           {
             id: "logout",
+            tooltip: "Logout",
             icon: "sign-out-alt",
             component: Logout,
             params: {

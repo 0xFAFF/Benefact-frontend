@@ -1,14 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
-import { Modal } from "../../../UI";
 import { Tags } from "../../BoardComponents";
 import { Voting } from "./components";
 import IconRow from "./IconRow";
 import CardEditor from "./CardEditor";
-import "./index.scss";
 import UnnaturalDND from "components/UnnaturalDND";
 import { PageProp } from "components/Pages/PageContext";
+import "./index.scss";
 
 class Card extends React.Component {
   static propTypes = {

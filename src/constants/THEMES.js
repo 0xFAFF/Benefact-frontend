@@ -15,7 +15,7 @@ const THEMES = () => {
         "text-color": "black",
         "text-bg-color": "#f0f0f0",
         "icon-color": "black",
-        "modal-icon-color": "rgb(26, 25, 25)",
+        "modal-icon-color": "rgb(26, 25, 25)"
       },
       dark: {
         "bg-primary": "#333",
@@ -33,6 +33,8 @@ const THEMES = () => {
         "login-icon-color": "#ffffff",
         "login-button-bg-color": "var(--login-icon-bg-color)",
         "login-button-color": "#ffffff",
+        "tooltip-text-color": "#ffffff",
+        "tooltip-bg-color": "black"
       },
       "high-contrast": {
         "bg-primary": "#333",
@@ -46,9 +48,9 @@ const THEMES = () => {
         "text-color": "#e5f963",
         "text-bg-color": "#333",
         "icon-color": "#e5f963",
-        "modal-icon-color": "#888",
-      },
-    },
+        "modal-icon-color": "#888"
+      }
+    }
   };
 };
 

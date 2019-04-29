@@ -1,16 +1,12 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { parseToken } from "utils";
-import "./Voting.scss";
+import { Tooltip } from "components/UI";
 import { PageConsumer } from "components/Pages/PageContext";
+import "./Voting.scss";
 
 const Voting = props => {
-  const {
-    votes = [],
-    size = "lg",
-    defaultDisplay = false,
-    onUpdateVote
-  } = props;
+  const { votes = [], size = "lg", defaultDisplay = false, onUpdateVote } = props;
   const totalVotes = votes.reduce((arr, curr) => {
     const { count = 0 } = curr;
     return arr + count;
@@ -26,21 +22,18 @@ const Voting = props => {
         }, 0);
         return (
           <div id="vote-container" className="flex-row">
-            <div
-              className={`flex-row vote-thumbs-container ${
-                totalVotes ? "has-votes" : ""
-              }`}
-            >
+            <Tooltip id="voting" />
+            <div className={`flex-row vote-thumbs-container ${totalVotes ? "has-votes" : ""}`}>
               <div
                 onClick={e => {
                   e.stopPropagation();
                   onUpdateVote("add");
                 }}
-                className={`vote-counter  ${
-                  totalVotes || defaultDisplay ? "has-votes" : ""
-                }`}
+                className={`vote-counter  ${totalVotes || defaultDisplay ? "has-votes" : ""}`}
               >
                 <FontAwesomeIcon
+                  data-tip="Upvote this card"
+                  data-for="voting"
                   icon="arrow-circle-up"
                   size={size}
                 />
@@ -51,23 +44,27 @@ const Voting = props => {
                     e.stopPropagation();
                     onUpdateVote("subtract");
                   }}
-                  className={`vote-counter  ${
-                    totalVotes || defaultDisplay ? "has-votes" : ""
-                  }`}
+                  className={`vote-counter  ${totalVotes || defaultDisplay ? "has-votes" : ""}`}
                 >
                   <FontAwesomeIcon
+                    data-tip="Downvote this card"
+                    data-for="voting"
                     icon="arrow-circle-down"
                     size={size}
                   />
                 </div>
               )}
               {(defaultDisplay || (totalVotes !== 0 && !defaultDisplay)) && (
-                <div className="vote-tracker">
+                <div
+                  className="vote-tracker"
+                  data-tip={`This card has ${totalVotes} total vote${
+                    totalVotes === 1 ? "" : "s"
+                  } : You've contributed ${currUserVotes} vote${totalVotes === 1 ? "" : "s"}`}
+                  data-for="voting"
+                >
                   <span>{totalVotes}</span>
                   {currUserVotes !== 0 && (
-                    <span style={{ paddingLeft: "3px" }}>
-                      : {currUserVotes}
-                    </span>
+                    <span style={{ paddingLeft: "3px" }}>: {currUserVotes}</span>
                   )}
                 </div>
               )}

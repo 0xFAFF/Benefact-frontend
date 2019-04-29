@@ -4,6 +4,7 @@ export { default as TextAreaInput } from "./TextAreaInput";
 export { default as Navbar } from "./Navbar";
 export { default as FilterView } from "./FilterView";
 export { default as FileDrop } from "./FileDrop";
+export { default as Tooltip } from "./Tooltip";
 export * from "./BoardComponents";
 export * from "./AddComponents";
 export * from "./";

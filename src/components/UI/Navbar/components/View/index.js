@@ -21,18 +21,18 @@ const View = props => {
     <div id="view-popup">
       <div className="title">Select View</div>
       <div className="view-button-group">
-        {buttonConfigs.map(btn => (
+        {buttonConfigs.map(({title, className, view: btnView}) => (
           <button
-            key={btn.title}
-            className={`${btn.className} ${
-              view === btn.view ? "button-active" : ""
+            key={title}
+            className={`${className} ${
+              view === btnView ? "button-active" : ""
             }`}
             onClick={() => {
-              handleBoardView(btn.view);
+              handleBoardView(btnView);
               onClose();
             }}
           >
-            {btn.title}
+            {title}
           </button>
         ))}
       </div>

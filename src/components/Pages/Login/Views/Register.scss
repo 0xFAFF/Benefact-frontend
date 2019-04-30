@@ -1,6 +1,6 @@
 #register-container {
   border: none;
-  background-color: #f6faf9;
+  background-color: var(--login-primary);
   width: 600px;
   position: absolute;
   top: 40%;
@@ -16,10 +16,11 @@
     }
     .register-button {
       text-align: center;
-      background: dodgerblue;
-      color: white;
+      background-color: var(--login-button-bg-color);
+      color: var(--login-button-color);
       width: 100%;
       border: none;
+      font-weight: bold;
       padding: 10px;
       font-size: 1.2em;
       opacity: 0.9;
@@ -38,14 +39,16 @@
         font-size: 1.1em;
       }
       .input-field:focus {
-        border: 2px solid dodgerblue;
+        border: 2px solid  var(--login-input-focus);
       }
       .input-icon {
         text-align: center;
         font-size: 1.1em;
         padding: 12px;
-        background: dodgerblue;
-        color: white;
+        background: var(--login-icon-bg-color);
+        svg {
+          color: var(--login-icon-color);
+        }
       }
     }
   }
@@ -59,19 +62,7 @@
       font-size: 5px;
       margin: 0 5px;
     }
-    .register,
-    .login {
-      cursor: pointer;
-    }
-    .login {
-      text-align: center;
-      background: dodgerblue;
-      color: white;
-      width: 100%;
-      border: none;
-      padding: 10px;
-      font-size: 1.2em;
-      opacity: 0.9;
+    .register {
       cursor: pointer;
     }
   }

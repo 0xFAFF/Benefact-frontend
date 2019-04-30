@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ReactTooltip from "react-tooltip";
 import "./index.scss";
 
-const Tooltip = ({ id, place = "bottom", delayShow = 400 }) => {
+const Tooltip = ({ id, place = "bottom", delayShow = 300 }) => {
   return (
     <ReactTooltip id={id} place={place} delayShow={delayShow} effect="solid" className="tooltip" />
   );

@@ -13,22 +13,27 @@
     max-width: 100%;
   }
   padding: 15px;
+  margin: -10px 0px -10px -10px;
 }
 
 .row-entry {
-  height: 100px;
+  padding: 10px;
   margin-bottom: 15px;
   display: flex;
   flex-direction: row;
   background-color: #f3f3f3;
-  .delete-button {
+  .hover-show {
     visibility: hidden;
     opacity: 0;
+  }
+  a {
+    margin-left: 10px;
+    height: fit-content;
   }
 }
 
 .row-entry:hover {
-  .delete-button {
+  .hover-show {
     visibility: visible;
     transition: opacity 0.8s linear;
     opacity: 1;

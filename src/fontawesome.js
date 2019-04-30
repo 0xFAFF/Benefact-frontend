@@ -41,7 +41,8 @@ import {
   faNewspaper,
   faComment,
   faComments,
-  faSignOutAlt
+  faSignOutAlt,
+  faDownload
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -83,5 +84,6 @@ library.add(
   faNewspaper,
   faComment,
   faComments,
-  faSignOutAlt
+  faSignOutAlt,
+  faDownload
 );

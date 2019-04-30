@@ -1,26 +1,39 @@
 import React from "react";
 import { EditorActivity } from "components/UI/BoardComponents/Card/components";
 import URLS from "constants/URLS";
-import { PageConsumer } from "components/Pages/PageContext";
 import "./Attachments.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { PageProp } from "components/Pages/PageContext";
+import Modal from "components/UI/Modal";
 
 class Attachments extends React.Component {
+  state = {
+    preview: null
+  };
   componentDidMount;
   attachmentEntry = attach => {
-    const url = URLS("files", "GET", { boardId: this.props.page.data.urlName, fileId: attach.id })
-      .name;
+    const { data } = this.props.page;
+    const url =
+      attach.url || `${URLS("files", "GET", { boardId: data.urlName, fileId: attach.id }).name}/${attach.name}`;
+    const preview = attach.preview || (attach.contentType && attach.contentType.includes("image") ? url : null);
     return (
       <div key={attach.id} className="row-entry">
-        <div className="attach-thumbnail">
-          {attach.contentType.includes("image") ? <img src={url} alt={attach.name} /> : "File"}
-        </div>
-        <div>{attach.name}</div>
+        {preview ? (
+          <div className="attach-thumbnail">
+            <img src={preview} alt={attach.name} />
+          </div>
+        ) : null}
+        <a href={url} target="_blank" download={attach.name}>
+          {attach.name}
+        </a>
+        <a href={url} download={attach.name} className="hover-show">
+          <FontAwesomeIcon data-tip="Download" icon="download" size="md" />
+        </a>
         <FontAwesomeIcon
           data-tip="Delete this attachment"
-          icon={"trash"}
+          icon="trash"
           size="sm"
-          className="delete-button"
+          className="hover-show pull-right"
           onClick={() => this.props.handleUpdate("files", "DELETE", { id: attach.id })}
         />
       </div>
@@ -30,11 +43,12 @@ class Attachments extends React.Component {
     return (
       <EditorActivity icon="file" dataTip="Card Attachments">
         <div className="row-container">{this.props.attachments.map(this.attachmentEntry)}</div>
+        <Modal isOpen={this.state.preview != null} onClose={() => this.setState({ preview: null })}>
+          {this.state.preview}
+        </Modal>
       </EditorActivity>
     );
   }
 }
 
-export default props => (
-  <PageConsumer>{page => <Attachments {...props} page={page} />}</PageConsumer>
-);
+export default PageProp(Attachments);

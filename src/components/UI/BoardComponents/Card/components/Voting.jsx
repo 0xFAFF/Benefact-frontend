@@ -21,9 +21,9 @@ const Voting = props => {
           return arr;
         }, 0);
         return (
-          <div id="vote-container" className="flex-row">
+          <div id="vote-container" className="row">
             <Tooltip id="voting" />
-            <div className={`flex-row vote-thumbs-container ${totalVotes ? "has-votes" : ""}`}>
+            <div className={`row vote-thumbs-container ${totalVotes ? "has-votes" : ""}`}>
               <div
                 onClick={e => {
                   e.stopPropagation();

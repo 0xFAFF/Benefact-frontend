@@ -55,7 +55,7 @@ class Navbar extends React.Component {
       updateFilterGroupIndex,
       onLogoutHandler,
       filtersActive,
-      page: { hasPrivilege, isLoading }
+      page: { hasPrivilege, isLoading, data }
     } = this.props;
     this.configs = [
       {
@@ -111,7 +111,7 @@ class Navbar extends React.Component {
           },
           {
             id: "brand",
-            title: this.props.title,
+            title: data && data.title,
             image: "/fafficon.ico",
             liClassName: `brand${filtersActive ? " active-filter" : ""}`
           },

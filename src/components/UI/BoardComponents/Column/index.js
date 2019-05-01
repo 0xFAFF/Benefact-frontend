@@ -34,13 +34,6 @@ class Column extends React.Component {
     handleUpdate: PropTypes.func
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.cards !== this.props.cards) {
-      return false;
-    }
-    return true;
-  }
-
   render() {
     const {
       column,

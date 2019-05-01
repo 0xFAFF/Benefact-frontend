@@ -218,10 +218,7 @@ class Board extends React.Component {
       if (this.state.filters.active) {
         this.selectFilters();
       } else {
-        await this.dataSource().then(result => {
-          this.handleResetBoard(result);
-          this.getAllCards(result);
-        });
+        await this.dataSource();
       }
     });
   };
@@ -423,7 +420,6 @@ class Board extends React.Component {
   render() {
     const { onLogoutHandler } = this.props;
     const { isLoading, ...baseState } = this.state;
-
     const generalFunctions = {
       updateBoardContent: this.updateBoardContent,
       addComponent: this.addComponent,

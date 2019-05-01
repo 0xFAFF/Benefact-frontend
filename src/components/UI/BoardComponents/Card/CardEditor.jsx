@@ -234,7 +234,6 @@ class CardEditor extends React.Component {
               onChange={e => this.onChangeHandler(e, "description")}
               onPaste={e => {
                 e.preventDefault();
-                console.log(e.clipboardData.types);
               }}
               value={description}
             />

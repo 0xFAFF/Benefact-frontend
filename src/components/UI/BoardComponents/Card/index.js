@@ -7,7 +7,7 @@ import IconRow from "./IconRow";
 import CardEditor from "./CardEditor";
 import UnnaturalDND from "components/UnnaturalDND";
 import { PageProp } from "components/Pages/PageContext";
-import { Tooltip } from "components/UI";
+import { Tooltip, ModalWrapper } from "components/UI";
 import "./index.scss";
 
 class Card extends React.Component {
@@ -15,13 +15,17 @@ class Card extends React.Component {
     card: PropTypes.object,
     index: PropTypes.number,
     columns: PropTypes.array,
-    showDeleteModal: PropTypes.bool,
     updateBoardContent: PropTypes.func,
     addComponent: PropTypes.func,
     deleteComponent: PropTypes.func,
     handleResetBoard: PropTypes.func,
     handleUpdate: PropTypes.func
   };
+
+  constructor(props) {
+    super(props);
+    this.EditorModal = ModalWrapper(this, "editorOpen");
+  }
 
   onUpdateVote = async voteType => {
     let queryParams = {};
@@ -41,13 +45,7 @@ class Card extends React.Component {
   };
 
   render() {
-    const {
-      card,
-      index,
-      showDeleteModal = true,
-      page: { showModal, closeModal },
-      ...rest
-    } = this.props;
+    const { card, index, showModal, closeModal, ...rest } = this.props;
     const { votes } = card;
     return (
       <div>
@@ -64,16 +62,7 @@ class Card extends React.Component {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     style={style}
-                    onClick={() =>
-                      showModal(
-                        <CardEditor
-                          content={card}
-                          showDeleteModal={showDeleteModal}
-                          onClose={closeModal}
-                          {...rest}
-                        />
-                      )
-                    }
+                    onClick={this.EditorModal.open}
                   >
                     <div className="card-draggable-container">
                       <div className="card-row">
@@ -93,6 +82,9 @@ class Card extends React.Component {
             );
           }}
         </Draggable>
+        <this.EditorModal>
+          <CardEditor content={card} showDeleteModal onClose={this.EditorModal.close} {...rest} />
+        </this.EditorModal>
       </div>
     );
   }

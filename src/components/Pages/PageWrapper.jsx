@@ -1,13 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  fetching,
-  notifyToast,
-  camelCase,
-  parseQuery,
-  middleWare,
-  hasPrivilege
-} from "../../utils";
+import { fetching, notifyToast, camelCase, parseQuery, middleWare, hasPrivilege } from "../../utils";
 import { URLS } from "../../constants";
 import { PageProvider } from "components/Pages/PageContext";
 import { Modal } from "components/UI";
@@ -25,7 +18,7 @@ const PageWrapper = Component => {
     constructor(props) {
       super(props);
       this.state = {
-        isLoading: false,
+        isLoading: true,
         data: null
       };
       this.handleError = e => notifyToast("error", e.message, "top-center");
@@ -39,17 +32,21 @@ const PageWrapper = Component => {
     }
 
     componentDidMount = async () => {
-      this.setState({ isLoading: true });
-      let data = null;
-      if (this.child.dataSource) {
-        data = await this.child
-          .dataSource({
-            ...this.props,
-            ...this.extraProps
-          })
-          .catch(e => null);
-      }
-      this.setState({ data, isLoading: false });
+      await this.refreshData();
+      this.setState({ isLoading: false });
+    };
+
+    refreshData = async () => {
+      const data = this.child.dataSource
+        ? await this.child
+            .dataSource({
+              ...this.props,
+              ...this.extraProps
+            })
+            .catch(() => null)
+        : null;
+      this.setState({ data });
+      return data;
     };
 
     showModal = (child, onModalClose) => {
@@ -93,26 +90,19 @@ const PageWrapper = Component => {
     };
 
     render = () => {
+      const page = {
+        compFetch: this.compFetch,
+        showModal: this.showModal,
+        closeModal: this.closeModal,
+        refreshData: this.refreshData,
+        data: this.state.data,
+        isLoading: this.state.isLoading,
+        hasPrivilege: priv => (this.state.data ? hasPrivilege(priv, this.state.data.userRole) : false),
+        token: this.props.token
+      };
       return (
-        <PageProvider
-          value={{
-            compFetch: this.compFetch,
-            showModal: this.showModal,
-            closeModal: this.closeModal,
-            data: this.state.data,
-            isLoading: this.state.isLoading,
-            hasPrivilege: priv =>
-              this.state.data ? hasPrivilege(priv, this.state.data.userRole) : false,
-            token: this.props.token
-          }}
-        >
-          <Component
-            data={this.state.data}
-            dataSource={this.dataSource}
-            isLoading={this.state.isLoading}
-            {...this.extraProps}
-            {...this.props}
-          />
+        <PageProvider value={page}>
+          <Component isLoading={this.state.isLoading} page={page} {...this.extraProps} {...this.props} />
           {this.state.modal ? (
             <Modal isOpen onClose={this.closeModal}>
               {this.state.modal}

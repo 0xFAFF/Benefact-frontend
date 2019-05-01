@@ -115,8 +115,8 @@ class Comments extends React.Component {
                 <button
                   className="editor-comments-save"
                   disabled={!this.state.addComment}
-                  onMouseDown={() => {
-                    if (this.state.addComment) this.onUpdateComment("add", id);
+                  onMouseDown={async () => {
+                    if (this.state.addComment) await this.onUpdateComment("add", id);
                   }}
                 >
                   Add

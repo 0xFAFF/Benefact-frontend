@@ -4,7 +4,7 @@ import URLS from "constants/URLS";
 import "./Attachments.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PageProp } from "components/Pages/PageContext";
-import Modal from "components/UI/Modal";
+import { Modal } from "components/UI";
 
 class Attachments extends React.Component {
   state = {
@@ -23,7 +23,7 @@ class Attachments extends React.Component {
             <img src={preview} alt={attach.name} />
           </div>
         ) : null}
-        <a href={url} target="_blank" download={attach.name}>
+        <a href={url} target="_blank" rel="noopener noreferrer">
           {attach.name}
         </a>
         <a href={url} download={attach.name} className="hover-show">

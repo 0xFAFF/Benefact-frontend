@@ -65,15 +65,15 @@ class Card extends React.Component {
                     onClick={this.EditorModal.open}
                   >
                     <div className="card-draggable-container">
-                      <div className="card-row">
-                        <div className="card-title">
-                          <div className="left-side">{this.props.card.title}</div>
-                          <div className="right-side">
-                            <Voting votes={votes} onUpdateVote={this.onUpdateVote} />
-                            <IconRow {...card} />
-                          </div>
+                      <div className="col">
+                        <div className="card-title row">{this.props.card.title}</div>
+                        <div className="row">
+                          <Tags tagIds={card.tagIds} />
                         </div>
-                        <Tags tagIds={card.tagIds} />
+                      </div>
+                      <div className="pull-right col">
+                        <Voting votes={votes} onUpdateVote={this.onUpdateVote} />
+                        <IconRow {...card} />
                       </div>
                     </div>
                   </div>

@@ -14,7 +14,6 @@ const THEMES = () => {
         "column-hover": "#f3f3f3",
         "text-color": "black",
         "text-bg-color": "#f0f0f0",
-        "icon-color": "black",
         "modal-icon-color": "rgb(26, 25, 25)"
       },
       dark: {

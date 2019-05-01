@@ -7,12 +7,14 @@
     flex-wrap: wrap;
     align-content: center;
     li {
+      border-radius: 1em;
       margin: 5px 5px 5px 0;
       display: flex;
       align-items: center;
       div {
         display: flex;
-        align-items: center;
+        overflow: hidden;
+        text-align: center;
         justify-content: center;
         min-width: 50px;
         max-width: 100px;

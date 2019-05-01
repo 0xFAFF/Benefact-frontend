@@ -62,10 +62,7 @@ const Voting = props => {
                   } : You've contributed ${currUserVotes} vote${totalVotes === 1 ? "" : "s"}`}
                   data-for="voting"
                 >
-                  <span>{totalVotes}</span>
-                  {currUserVotes !== 0 && (
-                    <span style={{ paddingLeft: "3px" }}>: {currUserVotes}</span>
-                  )}
+                  <span>{`${totalVotes}${currUserVotes !== 0 ? ` : ${currUserVotes}` : ''}`}</span>
                 </div>
               )}
             </div>

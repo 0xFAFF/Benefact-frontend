@@ -38,17 +38,6 @@
         display: flex;
         justify-content: space-between;
         width: 100%;
-        div {
-          display: flex;
-          align-items: center;
-          p {
-            margin: 0 5px 0 0;
-          }
-        }
-        .left-side {
-          width: 60%;
-          word-break: break-all;
-        }
         .right-side {
           display: flex;
           flex-direction: column;

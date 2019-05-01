@@ -1,4 +1,5 @@
 const parseQuery = queryString => {
+  if(queryString === undefined) queryString = document.location.search;
   let query = {};
   let pairs = (queryString[0] === "?" ? queryString.substr(1) : queryString).split("&");
   pairs.forEach(pair => {

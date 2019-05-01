@@ -4,7 +4,7 @@ import { SignIn, Register } from "./Views";
 import PageWrapper from "../../Pages/PageWrapper";
 import { Redirect } from "react-router-dom";
 import "./index.scss";
-import { notifyToast } from "../../../utils";
+import { notifyToast, parseQuery } from "../../../utils";
 
 class Login extends React.Component {
   static propTypes = {
@@ -41,7 +41,8 @@ class Login extends React.Component {
   render() {
     const { view, verifyDone } = this.state;
     const { onLoginHandler, compFetch, token } = this.props;
-    if (verifyDone && token) return <Redirect to="/board/benefact" />;
+    const query = parseQuery();
+    if (verifyDone && token) return <Redirect to={query.redirect || "/board/benefact"} />;
     return (
       <div id="login">
         <div className="login-container">

@@ -39,42 +39,26 @@ class App extends React.Component {
   render() {
     const { token = "" } = this.state;
 
-    const RedirectLogin = () => <Redirect to="/login" />;
-
+    const RedirectLogin = (props) => <Redirect to={`/login${props.match ? `?redirect=${encodeURI(props.match.url)}` : ""}`} />;
+    const boardRender = props => {
+      return token ? (
+        <Board boardId={props.match.params.boardId} {...props} token={token} onLogoutHandler={this.onLogoutHandler} />
+      ) : (
+        <RedirectLogin {...props}/>
+      );
+    };
     return (
       <div id="app-container">
         <Router>
           <Switch>
-            <Route
-              exact
-              path="/"
-              render={props => (token ? <Redirect to="/board/benefact" /> : <RedirectLogin />)}
-            />
+            <Route exact path="/" render={props => (token ? <Redirect to="/board/benefact" /> : <RedirectLogin />)} />
             <Route
               path="/login"
-              render={props => (
-                <Login token={token} {...props} onLoginHandler={this.onLoginHandler} />
-              )}
+              render={props => <Login token={token} {...props} onLoginHandler={this.onLoginHandler} />}
             />
-            <Route
-              path="/board/:boardId"
-              render={props =>
-                token ? (
-                  <Board
-                    boardId={props.match.params.boardId}
-                    {...props}
-                    token={token}
-                    onLogoutHandler={this.onLogoutHandler}
-                  />
-                ) : (
-                  <RedirectLogin />
-                )
-              }
-            />
-            <Route
-              path="/user"
-              render={props => (token ? <User {...props} token={token} /> : <RedirectLogin />)}
-            />
+            <Route path="/board/:boardId/card/:cardId" render={boardRender} />
+            <Route path="/board/:boardId" render={boardRender} />
+            <Route path="/user" render={props => (token ? <User {...props} token={token} /> : <RedirectLogin {...props}/>)} />
             <Route path="/version" render={props => <Version />} />
           </Switch>
         </Router>

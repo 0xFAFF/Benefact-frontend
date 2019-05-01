@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  max-height: 100%;
   .views-group-name {
     background-color: var(--bg-navbar);
     box-shadow: var(--bg-shadow);
@@ -25,4 +26,5 @@
 #views-base-container {
   display: flex;
   flex-grow: 1;
+  max-height: inherit;
 }

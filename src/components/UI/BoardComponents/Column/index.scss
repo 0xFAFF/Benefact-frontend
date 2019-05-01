@@ -1,12 +1,11 @@
 #column-draggable {
-  margin: 5px 2px;
+  margin: 20px 5px 10px 5px;
   border-radius: 10px;
   min-width: 400px;
   max-width: 400px;
   display: flex;
   flex-direction: column;
-  padding: 5px 5px 5px 5px;
-  padding-top: 20px;
+  overflow-y: auto;
   .column-empty {
     min-height: 86px;
   }

@@ -13,18 +13,15 @@ const Views = props => {
     columnOrder,
     kanbanFunctions,
     listFunctions,
-    filtersActive
+    filtersActive,
+    openCard
   } = props;
 
-  const kanbanState = {
-    cards,
+  const innerProps = {
     columns,
-    columnOrder
-  };
-  const listState = {
-    cards,
-    columns,
-    tags
+    columnOrder,
+    tags,
+    openCard
   };
 
   return (
@@ -34,7 +31,7 @@ const Views = props => {
           <div id="views-base-container" key={index}>
             {view === "kanban" && (
               <Kanban
-                {...kanbanState}
+                {...innerProps}
                 {...kanbanFunctions}
                 cards={groupCards}
                 groupName={groupName}
@@ -44,7 +41,7 @@ const Views = props => {
             )}
             {view === "list" && (
               <List
-                {...listState}
+                {...innerProps}
                 {...listFunctions}
                 cards={groupCards}
                 groupName={groupName}

@@ -1,5 +1,4 @@
 export { default as Modal } from "./Modal/Modal";
-export { default as ModalWrapper } from "./Modal/ModalWrapper";
 export { default as MarkdownEditor } from "./MarkdownEditor";
 export { default as TextAreaInput } from "./TextAreaInput";
 export { default as Navbar } from "./Navbar";

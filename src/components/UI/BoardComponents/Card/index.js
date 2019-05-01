@@ -4,10 +4,9 @@ import { Draggable } from "react-beautiful-dnd";
 import { Tags } from "../../BoardComponents";
 import { Voting } from "./components";
 import IconRow from "./IconRow";
-import CardEditor from "./CardEditor";
 import UnnaturalDND from "components/UnnaturalDND";
 import { PageProp } from "components/Pages/PageContext";
-import { Tooltip, ModalWrapper } from "components/UI";
+import { Tooltip } from "components/UI";
 import "./index.scss";
 
 class Card extends React.Component {
@@ -21,11 +20,6 @@ class Card extends React.Component {
     handleResetBoard: PropTypes.func,
     handleUpdate: PropTypes.func
   };
-
-  constructor(props) {
-    super(props);
-    this.EditorModal = ModalWrapper(this, "editorOpen");
-  }
 
   onUpdateVote = async voteType => {
     let queryParams = {};
@@ -45,7 +39,7 @@ class Card extends React.Component {
   };
 
   render() {
-    const { card, index, showModal, closeModal, ...rest } = this.props;
+    const { card, index, openCard } = this.props;
     const { votes } = card;
     return (
       <div>
@@ -62,7 +56,7 @@ class Card extends React.Component {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     style={style}
-                    onClick={this.EditorModal.open}
+                    onClick={() => openCard(card.id)}
                   >
                     <div className="card-draggable-container">
                       <div className="col">
@@ -82,9 +76,6 @@ class Card extends React.Component {
             );
           }}
         </Draggable>
-        <this.EditorModal>
-          <CardEditor content={card} showDeleteModal onClose={this.EditorModal.close} {...rest} />
-        </this.EditorModal>
       </div>
     );
   }

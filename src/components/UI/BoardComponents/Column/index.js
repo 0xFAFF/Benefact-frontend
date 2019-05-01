@@ -45,7 +45,8 @@ class Column extends React.Component {
       deleteComponent,
       updateBoardContent,
       handleResetBoard,
-      handleUpdate
+      handleUpdate,
+      openCard
     } = this.props;
 
     const draggingStyle = { backgroundColor: "var(--column-hover)" };
@@ -85,6 +86,7 @@ class Column extends React.Component {
                       deleteComponent={deleteComponent}
                       handleResetBoard={handleResetBoard}
                       handleUpdate={handleUpdate}
+                      openCard={openCard}
                     />
                     {provided.placeholder}
                   </div>

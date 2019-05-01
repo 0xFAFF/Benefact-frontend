@@ -12,7 +12,7 @@ import { THEMES } from "./constants";
 import "./index.scss";
 
 toast.configure({
-  autoClose: 5000,
+  autoClose: 3500,
   draggable: false
 });
 
@@ -39,12 +39,15 @@ class App extends React.Component {
   render() {
     const { token = "" } = this.state;
 
-    const RedirectLogin = (props) => <Redirect to={`/login${props.match ? `?redirect=${encodeURI(props.match.url)}` : ""}`} />;
+    const RedirectLogin = props => (
+      <Redirect to={`/login${props.match ? `?redirect=${encodeURI(props.match.url)}` : ""}`} />
+    );
     const boardRender = props => {
+      const { boardId, cardId } = props.match.params;
       return token ? (
-        <Board boardId={props.match.params.boardId} {...props} token={token} onLogoutHandler={this.onLogoutHandler} />
+        <Board boardId={boardId} cardId={cardId} {...props} token={token} onLogoutHandler={this.onLogoutHandler} />
       ) : (
-        <RedirectLogin {...props}/>
+        <RedirectLogin {...props} />
       );
     };
     return (
@@ -58,7 +61,10 @@ class App extends React.Component {
             />
             <Route path="/board/:boardId/card/:cardId" render={boardRender} />
             <Route path="/board/:boardId" render={boardRender} />
-            <Route path="/user" render={props => (token ? <User {...props} token={token} /> : <RedirectLogin {...props}/>)} />
+            <Route
+              path="/user"
+              render={props => (token ? <User {...props} token={token} /> : <RedirectLogin {...props} />)}
+            />
             <Route path="/version" render={props => <Version />} />
           </Switch>
         </Router>

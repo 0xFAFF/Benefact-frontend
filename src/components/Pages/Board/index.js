@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 import { getCards } from "../../../utils";
 import Views from "./Views";
-import { Navbar } from "../../UI";
+import { Navbar, Modal } from "../../UI";
 import { PageWrapper } from "../../Pages";
 import { PacmanLoader } from "../../UI/Loader";
+import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 
 class Board extends React.Component {
   static propTypes = {
@@ -417,9 +418,21 @@ class Board extends React.Component {
     }
   };
 
+  closeCard = () => {
+    console.log(this.props.history);
+    this.props.history.push(`/board/${this.props.boardId}`);
+  }
+
   render() {
-    const { onLogoutHandler } = this.props;
+    const { onLogoutHandler, cardId, boardId } = this.props;
     const { isLoading, ...baseState } = this.state;
+    const cardsById =
+      baseState.cards.all &&
+      baseState.cards.all.reduce((all, card) => {
+        all[card.id] = card;
+        return all;
+      }, {});
+
     const generalFunctions = {
       updateBoardContent: this.updateBoardContent,
       addComponent: this.addComponent,
@@ -462,12 +475,28 @@ class Board extends React.Component {
         {this.props.isLoading ? (
           <PacmanLoader />
         ) : (
-          <Views
-            {...baseState}
-            kanbanFunctions={kanbanFunctions}
-            listFunctions={listFunctions}
-            filtersActive={this.state.filters.active}
-          />
+          <>
+            <Views
+              {...baseState}
+              kanbanFunctions={kanbanFunctions}
+              listFunctions={listFunctions}
+              filtersActive={this.state.filters.active}
+              openCard={id => this.props.history.push(`/board/${boardId}/card/${id}`)}
+            />
+
+            {cardId ? (
+              <Modal isOpen onClose={this.closeCard}>
+                <CardEditor
+                  onClose={this.closeCard}
+                  updateBoardContent={this.updateBoardContent}
+                  deleteComponent={this.deleteComponent}
+                  content={cardsById[cardId]}
+                  {...baseState}
+                  showDeleteModal
+                />
+              </Modal>
+            ) : null}
+          </>
         )}
       </div>
     );

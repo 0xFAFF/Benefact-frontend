@@ -302,14 +302,18 @@ class Board extends React.Component {
     // source column of droppable
     const start = this.state.columns.find(column => `col-${column.id}` === source.droppableId);
     // destination column of droppable
-    const finish = this.state.columns.find(column => `col-${column.id}` === destination.droppableId);
+    const finish = this.state.columns.find(
+      column => `col-${column.id}` === destination.droppableId
+    );
 
     // Moving within one column
     if (start === finish) {
       // new cards nonmutated array
       let cardsSrcCol = getCards(this.state.cards[groupName], source.droppableId, "col-");
       let cardsNotSrcDestCols = this.state.cards[groupName].filter(
-        card => `col-${card.columnId}` !== source.droppableId && `col-${card.columnId}` !== destination.droppableId
+        card =>
+          `col-${card.columnId}` !== source.droppableId &&
+          `col-${card.columnId}` !== destination.droppableId
       );
       const draggedCard = cardsSrcCol.find(card => `card-${card.id}` === draggableId);
 
@@ -333,7 +337,9 @@ class Board extends React.Component {
     let cardsSrcCol = getCards(this.state.cards[groupName], source.droppableId, "col-");
     let cardsDestCol = getCards(this.state.cards[groupName], destination.droppableId, "col-");
     let cardsNotSrcDestCols = this.state.cards[groupName].filter(
-      card => `col-${card.columnId}` !== source.droppableId && `col-${card.columnId}` !== destination.droppableId
+      card =>
+        `col-${card.columnId}` !== source.droppableId &&
+        `col-${card.columnId}` !== destination.droppableId
     );
     const draggedCard = cardsSrcCol.find(card => `card-${card.id}` === draggableId);
 
@@ -421,7 +427,7 @@ class Board extends React.Component {
   closeCard = () => {
     console.log(this.props.history);
     this.props.history.push(`/board/${this.props.boardId}`);
-  }
+  };
 
   render() {
     const { onLogoutHandler, cardId, boardId } = this.props;
@@ -464,7 +470,7 @@ class Board extends React.Component {
     };
 
     return (
-      <div id="base-container">
+      <div id="base-container" className="col">
         <Navbar
           title={(this.props.data || { title: "" }).title}
           {...baseState}

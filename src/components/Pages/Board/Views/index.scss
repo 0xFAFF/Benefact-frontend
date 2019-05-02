@@ -1,5 +1,9 @@
-#views-base {
+#base-container {
   max-height: 100%;
+}
+
+#views-base {
+  max-height: inherit;
   .views-group-name {
     background-color: var(--bg-navbar);
     box-shadow: var(--bg-shadow);

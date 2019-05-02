@@ -2,30 +2,30 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TextAreaInput } from "components/UI";
-import { getCards } from "utils";
 import { PageConsumer } from "components/Pages/PageContext";
 import { AddCard } from "components/UI/AddComponents";
 
 const Header = props => {
   const { dragHandleProps, title, updateBoardContent, ...rest } = props;
-  const { cards, columnId } = rest;
-  const cardNumber = getCards(cards, columnId).length;
+  const { cardCount, columnId } = rest;
   return (
     <div className="column-header" {...dragHandleProps}>
       <span className="title">
-        <div className="card-number">({cardNumber})</div>
+        <div className="card-number">({cardCount})</div>
         <TextAreaInput
           name="Title"
           defaultValue={title}
-          onBlur={e =>
-            updateBoardContent(
-              {
-                id: columnId,
-                title: e.target.value
-              },
-              "columns"
-            )
-          }
+          onBlur={e => {
+            if (e.target.value !== title) {
+              updateBoardContent(
+                {
+                  id: columnId,
+                  title: e.target.value
+                },
+                "columns"
+              );
+            }
+          }}
         />
       </span>
       <PageConsumer>

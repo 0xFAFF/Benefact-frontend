@@ -39,10 +39,10 @@ class MarkdownEditor extends React.Component {
   };
 
   render = () => {
-    const { allowEdit = true } = this.props;
+    const { allowEdit = true, ...rest } = this.props;
     return this.state.editing ? (
       <TextArea
-        {...this.props}
+        {...rest}
         className={`markdown-area markdown-edit`}
         autoFocus
         minRows={1}

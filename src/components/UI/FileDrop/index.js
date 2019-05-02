@@ -15,7 +15,7 @@ class FileDrop extends Component {
     e.preventDefault();
     e.stopPropagation();
     this.dragCounter++;
-    this.setState({ isDragging: true });
+    if (e.dataTransfer.files[0]) this.setState({ isDragging: true });
   };
   handleDragOut = e => {
     e.preventDefault();
@@ -29,7 +29,11 @@ class FileDrop extends Component {
     e.stopPropagation();
     this.dragCounter = 0;
     this.setState({ isDragging: false });
-    if (this.props.onDrop) this.props.onDrop(e.dataTransfer.files[0]);
+    if (this.props.onDrop && e.dataTransfer.files[0]) this.props.onDrop(e.dataTransfer.files[0]);
+  };
+  handlePaste = e => {
+    console.log(e.clipboardData.files[0]);
+    if (this.props.onDrop && e.clipboardData.files[0]) this.props.onDrop(e.clipboardData.files[0]);
   };
   componentDidMount() {
     let div = this.dropRef.current;
@@ -37,6 +41,7 @@ class FileDrop extends Component {
     div.addEventListener("dragleave", this.handleDragOut);
     div.addEventListener("dragover", this.handleDrag);
     div.addEventListener("drop", this.handleDrop);
+    div.addEventListener("paste", this.handlePaste);
   }
   componentWillUnmount() {
     let div = this.dropRef.current;
@@ -44,6 +49,7 @@ class FileDrop extends Component {
     div.removeEventListener("dragleave", this.handleDragOut);
     div.removeEventListener("dragover", this.handleDrag);
     div.removeEventListener("drop", this.handleDrop);
+    div.removeEventListener("paste", this.handlePaste);
   }
   render() {
     return (

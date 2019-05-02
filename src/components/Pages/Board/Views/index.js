@@ -25,7 +25,7 @@ const Views = props => {
   };
 
   return (
-    <div id="views-base" className="flex grow">
+    <>
       {Object.entries(cards).map(([groupName, groupCards], index) => {
         return (
           <div id="views-base-container" className="flex grow" key={index}>
@@ -45,7 +45,7 @@ const Views = props => {
           </div>
         );
       })}
-    </div>
+    </>
   );
 };
 

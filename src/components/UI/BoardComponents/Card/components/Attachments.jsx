@@ -27,7 +27,7 @@ class Attachments extends React.Component {
           {attach.name}
         </a>
         <a href={url} download={attach.name} className="hover-show">
-          <FontAwesomeIcon data-tip="Download" icon="download" size="md" />
+          <FontAwesomeIcon data-tip="Download" icon="download" size="sm" />
         </a>
         <FontAwesomeIcon
           data-tip="Delete this attachment"

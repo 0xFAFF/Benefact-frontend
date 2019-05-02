@@ -57,7 +57,7 @@ class App extends React.Component {
       );
     };
     return (
-      <div id="app-container" className=" flex col">
+      <div id="app-container" className="flex col">
         <Router>
           <Switch>
             <Route

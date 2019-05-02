@@ -429,7 +429,8 @@ class Board extends React.Component {
   };
 
   render() {
-    const { onLogoutHandler, cardId, boardId } = this.props;
+    const { onLogoutHandler, cardId, boardId, page } = this.props;
+    const { hasPrivilege } = page;
     const { isLoading, ...baseState } = this.state;
     const cardsById =
       baseState.cards.all &&
@@ -467,9 +468,9 @@ class Board extends React.Component {
       updateFilterGroupIndex: this.updateFilterGroupIndex,
       onLogoutHandler: onLogoutHandler
     };
-
+    const editingCard = cardId && cardsById && cardsById[cardId];
     return (
-      <div id="base-container" className="col">
+      <>
         <Navbar
           title={(this.props.data || { title: "" }).title}
           {...baseState}
@@ -489,22 +490,23 @@ class Board extends React.Component {
               openCard={id => this.props.history.push(`/board/${boardId}/card/${id}`)}
             />
 
-            {cardId ? (
+            {editingCard && (
               <Modal isOpen onClose={this.closeCard}>
                 <CardEditor
+                  allowEdit={hasPrivilege("developer", editingCard.authorId)}
                   onClose={this.closeCard}
                   handleUpdate={this.handleUpdate}
                   updateBoardContent={this.updateBoardContent}
                   deleteComponent={this.deleteComponent}
-                  content={cardsById[cardId]}
+                  content={editingCard}
                   {...baseState}
                   showDeleteModal
                 />
               </Modal>
-            ) : null}
+            )}
           </>
         )}
-      </div>
+      </>
     );
   }
 }

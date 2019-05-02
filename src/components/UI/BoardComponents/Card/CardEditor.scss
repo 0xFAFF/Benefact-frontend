@@ -76,9 +76,8 @@
       width: 180px;
     }
     .styled-select {
-      select {
+      select, div {
         outline: none;
-        cursor: pointer;
         background: var(--text-bg-color);
         border: none;
         font-size: 1.2em;

@@ -38,7 +38,6 @@ class Column extends React.Component {
     const {
       column,
       columns,
-      cards,
       colCards,
       index,
       addComponent,
@@ -66,7 +65,7 @@ class Column extends React.Component {
                 columnId={column.id}
                 addComponent={addComponent}
                 updateBoardContent={updateBoardContent}
-                cards={cards}
+                cardCount={colCards.length}
                 columns={columns}
               />
               <Droppable droppableId={`col-${column.id}`} type="card">

@@ -18,7 +18,8 @@ class Card extends React.Component {
     addComponent: PropTypes.func,
     deleteComponent: PropTypes.func,
     handleResetBoard: PropTypes.func,
-    handleUpdate: PropTypes.func
+    handleUpdate: PropTypes.func,
+    openCard: PropTypes.func
   };
 
   onUpdateVote = async voteType => {
@@ -38,26 +39,25 @@ class Card extends React.Component {
     await this.props.handleUpdate("votes", "UPDATE", queryParams);
   };
 
-  cardDiv = (card, props) => (
-    <div id="card-draggable" {...props} onClick={() => props.openCard(card.id)}>
-      <div className="card-draggable-container">
-        <div className="col">
-          <div className="card-title row">{card.title}</div>
-          <div className="row">
-            <Tags tagIds={card.tagIds} />
+  render() {
+    const { page, card, index, openCard } = this.props;
+    const { hasPrivilege } = page;
+    const cardDiv = props => (
+      <div id="card-draggable" {...props} onClick={() => openCard(card.id)}>
+        <div className="card-draggable-container">
+          <div className="col">
+            <div className="card-title row">{card.title}</div>
+            <div className="row">
+              <Tags tagIds={card.tagIds} />
+            </div>
+          </div>
+          <div className="pull-right col">
+            <Voting votes={card.votes} onUpdateVote={this.onUpdateVote} />
+            <IconRow {...card} />
           </div>
         </div>
-        <div className="pull-right col">
-          <Voting votes={card.votes} onUpdateVote={this.onUpdateVote} />
-          <IconRow {...card} />
-        </div>
       </div>
-    </div>
-  );
-
-  render() {
-    const { card, index, openCard } = this.props;
-    const { hasPrivilege } = this.props.page;
+    );
     return (
       <div>
         <Tooltip id="card" />
@@ -67,13 +67,12 @@ class Card extends React.Component {
               return (
                 <UnnaturalDND style={{ ...provided.draggableProps.style }} snapshot={snapshot}>
                   {style =>
-                    this.cardDiv(card, {
+                    cardDiv({
                       className: snapshot.isDragging ? "card-is-dragging" : "",
                       ref: provided.innerRef,
                       ...provided.draggableProps,
                       ...provided.dragHandleProps,
-                      style: style,
-                      openCard
+                      style: style
                     })
                   }
                 </UnnaturalDND>
@@ -81,7 +80,7 @@ class Card extends React.Component {
             }}
           </Draggable>
         ) : (
-          this.cardDiv(card, { className: "editable", openCard })
+          cardDiv({ className: "editable" })
         )}
       </div>
     );

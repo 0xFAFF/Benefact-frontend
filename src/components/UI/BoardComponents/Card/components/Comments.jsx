@@ -1,7 +1,6 @@
 import React from "react";
 import moment from "moment";
 import { isEqual, sortBy, get } from "lodash";
-import { PageConsumer } from "components/Pages/PageContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Comments.scss";
 import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
@@ -89,7 +88,7 @@ class Comments extends React.Component {
 
   render() {
     const {
-      content: { id },
+      content: { id, authorId },
       comments = [],
       page: {
         hasPrivilege,
@@ -103,7 +102,7 @@ class Comments extends React.Component {
       });
     return (
       <>
-        {hasPrivilege("comment") && (
+        {hasPrivilege("comment", authorId) && (
           <EditorActivity icon={"comment"} dataTip="Card Comment">
             <div id="comment-entry-container">
               <MarkdownEditor
@@ -152,17 +151,20 @@ class Comments extends React.Component {
                           )}
                         </div>
                       </div>
-                      <div className="comment-entry-header-right">
-                        <FontAwesomeIcon
-                          icon={"trash"}
-                          size="sm"
-                          className="delete"
-                          onClick={() => this.onUpdateComment("delete", id)}
-                        />
-                      </div>
+                      {hasPrivilege("developer", userId) && (
+                        <div className="comment-entry-header-right">
+                          <FontAwesomeIcon
+                            icon={"trash"}
+                            size="sm"
+                            className="delete"
+                            onClick={() => this.onUpdateComment("delete", id)}
+                          />
+                        </div>
+                      )}
                     </div>
                     <div className="comment-entry-text-container">
                       <MarkdownEditor
+                        allowEdit={hasPrivilege("developer", userId)}
                         value={editComment.id === id ? editComment.message : text}
                         onFocus={() => onFocusEditComment(id, text)}
                         onChange={e => this.onChangeComment(e, "edit", id)}

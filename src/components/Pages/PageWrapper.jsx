@@ -89,7 +89,14 @@ const PageWrapper = Component => {
         .catch(e => handle({ message: e.message }));
     };
 
+    hasPrivilege = (priv, ownerId) => {
+      if (ownerId && this.user && this.user.id === ownerId) return true;
+      if (this.state.data && hasPrivilege(priv, this.state.data.userRole)) return true;
+      return false;
+    };
+
     render = () => {
+      this.user = this.props.token && parseToken(this.props.token);
       const page = {
         compFetch: this.compFetch,
         showModal: this.showModal,
@@ -97,9 +104,9 @@ const PageWrapper = Component => {
         refreshData: this.refreshData,
         data: this.state.data,
         isLoading: this.state.isLoading,
-        hasPrivilege: priv => (this.state.data ? hasPrivilege(priv, this.state.data.userRole) : false),
+        hasPrivilege: this.hasPrivilege,
         token: this.props.token,
-        user: this.props.token && parseToken(this.props.token)
+        user: this.user
       };
       return (
         <PageProvider value={page}>

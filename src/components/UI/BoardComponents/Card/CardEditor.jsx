@@ -134,23 +134,26 @@ class CardEditor extends React.Component {
   };
 
   render() {
-    const { page, updateBoardContent, onAcceptHandler, disableComponents = false, onClose } = this.props;
-    const { hasPrivilege } = page;
+    const { allowEdit, updateBoardContent, onAcceptHandler, disableComponents = false, onClose } = this.props;
     const { id = 0, title = "", description = "", tagIds = [], columnId, votes = [] } = this.state.newContent;
     return (
       <div id="editor-mode">
         <Tooltip id="card-editor" />
         <FileDrop onDrop={this.onFileUpload}>
           <EditorActivity icon="outdent" style={{ paddingTop: "10px" }} dataTip="Card Title">
-            <TextArea
-              id="editor-title"
-              className="editable"
-              spellCheck={false}
-              minRows={1}
-              value={title}
-              onChange={e => this.onChangeHandler(e, "title")}
-            />
-            {this.props.showDeleteModal && (
+            {allowEdit || false ? (
+              <TextArea
+                id="editor-title"
+                className="editable"
+                spellCheck={false}
+                minRows={1}
+                value={title}
+                onChange={e => this.onChangeHandler(e, "title")}
+              />
+            ) : (
+              <div id="editor-title">{title}</div>
+            )}
+            {allowEdit && this.props.showDeleteModal && (
               <div className="editor-delete-card">
                 <FontAwesomeIcon
                   data-tip="Delete this card"
@@ -188,22 +191,26 @@ class CardEditor extends React.Component {
               icon={"columns"}
               size="lg"
             />
-            <div className="styled-select background-color semi-square">
-              <select onChange={e => this.onChangeHandler(e, "columnId")} value={columnId}>
-                {this.props.columns.map(option => {
-                  return (
-                    <option key={option.id} value={option.id}>
-                      {option.title}
-                    </option>
-                  );
-                })}
-              </select>
+            <div className={`styled-select background-color semi-square ${allowEdit && "editable"}`}>
+              {allowEdit || false ? (
+                <select onChange={e => this.onChangeHandler(e, "columnId")} value={columnId}>
+                  {this.props.columns.map(option => {
+                    return (
+                      <option key={option.id} value={option.id}>
+                        {option.title}
+                      </option>
+                    );
+                  })}
+                </select>
+              ) : (
+                <div>Derp</div>
+              )}
             </div>
           </div>
           <EditorActivity icon="tag" dataTip="Card Tags">
             <Tags
               tagIds={tagIds}
-              displayAddTag={true}
+              displayAddTag={allowEdit}
               onChangeHandler={this.onChangeHandler}
               addComponent={this.props.addComponent}
               updateBoardContent={updateBoardContent}
@@ -212,7 +219,7 @@ class CardEditor extends React.Component {
           <EditorActivity icon="newspaper" dataTip="Card Description">
             <MarkdownEditor
               className="editor-description"
-              allowEdit={hasPrivilege("developer")}
+              allowEdit={allowEdit}
               onChange={e => this.onChangeHandler(e, "description")}
               onPaste={e => {
                 e.preventDefault();

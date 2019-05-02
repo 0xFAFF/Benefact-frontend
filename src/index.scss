@@ -42,7 +42,16 @@ body {
   }
 
   .col {
+    display: flex;
     flex-direction: column;
+  }
+
+  .grow {
+    flex-grow: 1;
+  }
+
+  .flex {
+    display: flex;
   }
 
   --bg-primary: #eef1f5;

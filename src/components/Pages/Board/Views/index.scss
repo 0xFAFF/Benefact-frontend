@@ -1,12 +1,4 @@
-#base-container {
-  height: inherit;
-  display: flex;
-  flex-direction: column;
-}
 #views-base {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
   max-height: 100%;
   .views-group-name {
     background-color: var(--bg-navbar);
@@ -24,7 +16,6 @@
 }
 
 #views-base-container {
-  display: flex;
-  flex-grow: 1;
+  overflow-x: auto;
   max-height: inherit;
 }

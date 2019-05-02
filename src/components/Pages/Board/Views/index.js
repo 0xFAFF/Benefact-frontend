@@ -25,10 +25,10 @@ const Views = props => {
   };
 
   return (
-    <div id="views-base">
+    <div id="views-base" className="flex grow">
       {Object.entries(cards).map(([groupName, groupCards], index) => {
         return (
-          <div id="views-base-container" key={index}>
+          <div id="views-base-container" className="flex grow" key={index}>
             {view === "kanban" && (
               <Kanban
                 {...innerProps}
@@ -40,12 +40,7 @@ const Views = props => {
               />
             )}
             {view === "list" && (
-              <List
-                {...innerProps}
-                {...listFunctions}
-                cards={groupCards}
-                groupName={groupName}
-              />
+              <List {...innerProps} {...listFunctions} cards={groupCards} groupName={groupName} />
             )}
           </div>
         );

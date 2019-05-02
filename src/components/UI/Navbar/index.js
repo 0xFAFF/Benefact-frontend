@@ -77,6 +77,7 @@ class Navbar extends React.Component {
           {
             id: "delete",
             tooltip: "Delete",
+            hide: !hasPrivilege("admin"),
             icon: "minus-circle",
             component: Delete,
             params: {

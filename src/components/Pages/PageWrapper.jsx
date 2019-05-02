@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { fetching, notifyToast, camelCase, parseQuery, middleWare, hasPrivilege } from "../../utils";
+import { fetching, notifyToast, camelCase, parseQuery, middleWare, hasPrivilege, parseToken } from "../../utils";
 import { URLS } from "../../constants";
 import { PageProvider } from "components/Pages/PageContext";
 import { Modal } from "components/UI";
@@ -98,7 +98,8 @@ const PageWrapper = Component => {
         data: this.state.data,
         isLoading: this.state.isLoading,
         hasPrivilege: priv => (this.state.data ? hasPrivilege(priv, this.state.data.userRole) : false),
-        token: this.props.token
+        token: this.props.token,
+        user: this.props.token && parseToken(this.props.token)
       };
       return (
         <PageProvider value={page}>

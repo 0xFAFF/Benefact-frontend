@@ -425,7 +425,6 @@ class Board extends React.Component {
   };
 
   closeCard = () => {
-    console.log(this.props.history);
     this.props.history.push(`/board/${this.props.boardId}`);
   };
 
@@ -494,6 +493,7 @@ class Board extends React.Component {
               <Modal isOpen onClose={this.closeCard}>
                 <CardEditor
                   onClose={this.closeCard}
+                  handleUpdate={this.handleUpdate}
                   updateBoardContent={this.updateBoardContent}
                   deleteComponent={this.deleteComponent}
                   content={cardsById[cardId]}

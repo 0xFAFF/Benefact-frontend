@@ -3,12 +3,7 @@ import PropTypes from "prop-types";
 import { isEqual, sortBy, get } from "lodash";
 import TextArea from "react-textarea-autosize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Voting,
-  Comments,
-  DeleteModal,
-  Attachments
-} from "components/UI/BoardComponents/Card/components";
+import { Voting, Comments, DeleteModal, Attachments } from "components/UI/BoardComponents/Card/components";
 import { Tags } from "components/UI/BoardComponents";
 import { AcceptCancelButtons } from "components/UI/Popup";
 import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
@@ -16,6 +11,7 @@ import EditorActivity from "components/UI/BoardComponents/Card/components/Editor
 import { FileDrop, Tooltip } from "components/UI";
 
 import "./CardEditor.scss";
+import { PageProp } from "components/Pages/PageContext";
 
 class CardEditor extends React.Component {
   static propTypes = {
@@ -71,12 +67,7 @@ class CardEditor extends React.Component {
     const resetVals = { ...this.state.newContent };
     Object.entries(this.state.newContent).forEach(([key, value]) => {
       if (updateKeys.find(field => field === key)) {
-        resetVals[key] =
-          typeof value === "object" && Array.isArray(value)
-            ? []
-            : typeof value === "object"
-            ? {}
-            : "";
+        resetVals[key] = typeof value === "object" && Array.isArray(value) ? [] : typeof value === "object" ? {} : "";
       }
     });
     this.setState({ newContent: resetVals });
@@ -143,15 +134,9 @@ class CardEditor extends React.Component {
   };
 
   render() {
-    const { updateBoardContent, onAcceptHandler, disableComponents = false, onClose } = this.props;
-    const {
-      id = 0,
-      title = "",
-      description = "",
-      tagIds = [],
-      columnId,
-      votes = []
-    } = this.state.newContent;
+    const { page, updateBoardContent, onAcceptHandler, disableComponents = false, onClose } = this.props;
+    const { hasPrivilege } = page;
+    const { id = 0, title = "", description = "", tagIds = [], columnId, votes = [] } = this.state.newContent;
     return (
       <div id="editor-mode">
         <Tooltip id="card-editor" />
@@ -159,6 +144,7 @@ class CardEditor extends React.Component {
           <EditorActivity icon="outdent" style={{ paddingTop: "10px" }} dataTip="Card Title">
             <TextArea
               id="editor-title"
+              className="editable"
               spellCheck={false}
               minRows={1}
               value={title}
@@ -190,12 +176,7 @@ class CardEditor extends React.Component {
                 <div>{id}</div>
               </div>
               <div className="editor-vote">
-                <Voting
-                  defaultDisplay={true}
-                  size="lg"
-                  votes={votes}
-                  onUpdateVote={this.onUpdateVote}
-                />
+                <Voting defaultDisplay={true} size="lg" votes={votes} onUpdateVote={this.onUpdateVote} />
               </div>
             </div>
           )}
@@ -231,6 +212,7 @@ class CardEditor extends React.Component {
           <EditorActivity icon="newspaper" dataTip="Card Description">
             <MarkdownEditor
               className="editor-description"
+              allowEdit={hasPrivilege("developer")}
               onChange={e => this.onChangeHandler(e, "description")}
               onPaste={e => {
                 e.preventDefault();
@@ -239,14 +221,9 @@ class CardEditor extends React.Component {
             />
           </EditorActivity>
           {disableComponents || !this.props.content.attachments.length ? null : (
-            <Attachments
-              handleUpdate={this.props.handleUpdate}
-              attachments={this.props.content.attachments}
-            />
+            <Attachments handleUpdate={this.props.handleUpdate} attachments={this.props.content.attachments} />
           )}
-          {disableComponents ? null : (
-            <Comments {...this.props} comments={this.props.content.comments} />
-          )}
+          {disableComponents ? null : <Comments {...this.props} comments={this.props.content.comments} />}
           <AcceptCancelButtons
             onAcceptHandler={() => {
               updateBoardContent(this.state.newContent, "cards").then(e => {
@@ -256,10 +233,10 @@ class CardEditor extends React.Component {
             }}
             onCancelHandler={() => {
               this.setState({ addComment: "" });
-              this.resetContent();
+              onClose && onClose();
             }}
             acceptTitle={"Save"}
-            cancelTitle={"Reset"}
+            cancelTitle={"Close"}
           />
           <DeleteModal
             handleCloseModal={() => {
@@ -275,4 +252,4 @@ class CardEditor extends React.Component {
     );
   }
 }
-export default CardEditor;
+export default PageProp(CardEditor);

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Comments.scss";
 import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
+import { PageProp } from "components/Pages/PageContext";
 
 class Comments extends React.Component {
   state = {
@@ -89,7 +90,11 @@ class Comments extends React.Component {
   render() {
     const {
       content: { id },
-      comments = []
+      comments = [],
+      page: {
+        hasPrivilege,
+        data: { users }
+      }
     } = this.props;
     const editComment = this.state.editComment || {};
     const onFocusEditComment = (id, text) =>
@@ -97,99 +102,91 @@ class Comments extends React.Component {
         editComment: { id, message: text }
       });
     return (
-      <PageConsumer>
-        {page => {
-          const {
-            data: { users }
-          } = page;
-          return (
-            <>
-              <EditorActivity icon={"comment"} dataTip="Card Comment">
-                <div id="comment-entry-container">
-                  <MarkdownEditor
-                    minRows={1}
-                    value={this.state.addComment}
-                    onChange={e => this.setState({ addComment: e.target.value })}
-                  />
-                </div>
-                <button
-                  className="editor-comments-save"
-                  disabled={!this.state.addComment}
-                  onMouseDown={async () => {
-                    if (this.state.addComment) await this.onUpdateComment("add", id);
-                  }}
-                >
-                  Add
-                </button>
-              </EditorActivity>
-              {!comments.length ? null : (
-                <EditorActivity icon={"comments"} dataTip="Card Comments">
-                  <div id="comment-entry-container">
-                    {comments.map(({ id, text, userId, createdTime, editedTime }) => {
-                      const userData = users.find(user => user.id === userId) || {
-                        name: "",
-                        email: ""
-                      };
-                      const userName = userData["name"];
-                      const userEmail = userData["email"];
-                      return (
-                        <div key={id} className="comment-entry">
-                          <div className="comment-entry-header">
-                            <div className="comment-entry-header-left">
-                              <div className="comment-entry-name">
-                                {userName ? <div>{userName}</div> : <div>{userEmail}</div>}
-                              </div>
-                              <div className="comment-entry-time">
-                                {editedTime ? (
-                                  <div>
-                                    <span>
-                                      {moment.unix(editedTime).format("MMM D [at] h:mm A z")}
-                                    </span>
-                                    <span>(Edited)</span>
-                                  </div>
-                                ) : (
-                                  moment.unix(createdTime).format("MMM D [at] h:mm A z")
-                                )}
-                              </div>
-                            </div>
-                            <div className="comment-entry-header-right">
-                              <FontAwesomeIcon
-                                icon={"trash"}
-                                size="sm"
-                                className="delete"
-                                onClick={() => this.onUpdateComment("delete", id)}
-                              />
-                            </div>
-                          </div>
-                          <div className="comment-entry-text-container">
-                            <MarkdownEditor
-                              value={editComment.id === id ? editComment.message : text}
-                              onFocus={() => onFocusEditComment(id, text)}
-                              onChange={e => this.onChangeComment(e, "edit", id)}
-                            />
-                            {editComment.id === id && (
-                              <button
-                                className="editor-comments-save edit-comment-save"
-                                onMouseDown={() => {
-                                  this.onUpdateComment("edit", id);
-                                }}
-                              >
-                                Save
-                              </button>
-                            )}
-                          </div>
+      <>
+        {hasPrivilege("comment") && (
+          <EditorActivity icon={"comment"} dataTip="Card Comment">
+            <div id="comment-entry-container">
+              <MarkdownEditor
+                minRows={1}
+                value={this.state.addComment}
+                onChange={e => this.setState({ addComment: e.target.value })}
+              />
+            </div>
+            {this.state.addComment && (
+              <button
+                className="editor-comments-save"
+                onMouseDown={async () => {
+                  if (this.state.addComment) await this.onUpdateComment("add", id);
+                }}
+              >
+                Comment
+              </button>
+            )}
+          </EditorActivity>
+        )}
+        {!comments.length ? null : (
+          <EditorActivity icon={"comments"} dataTip="Card Comments">
+            <div id="comment-entry-container">
+              {comments.map(({ id, text, userId, createdTime, editedTime }) => {
+                const userData = users.find(user => user.id === userId) || {
+                  name: "",
+                  email: ""
+                };
+                const userName = userData["name"];
+                const userEmail = userData["email"];
+                return (
+                  <div key={id} className="comment-entry">
+                    <div className="comment-entry-header">
+                      <div className="comment-entry-header-left">
+                        <div className="comment-entry-name">
+                          {userName ? <div>{userName}</div> : <div>{userEmail}</div>}
                         </div>
-                      );
-                    })}
+                        <div className="comment-entry-time">
+                          {editedTime ? (
+                            <div>
+                              <span>{moment.unix(editedTime).format("MMM D [at] h:mm A z")}</span>
+                              <span>(Edited)</span>
+                            </div>
+                          ) : (
+                            moment.unix(createdTime).format("MMM D [at] h:mm A z")
+                          )}
+                        </div>
+                      </div>
+                      <div className="comment-entry-header-right">
+                        <FontAwesomeIcon
+                          icon={"trash"}
+                          size="sm"
+                          className="delete"
+                          onClick={() => this.onUpdateComment("delete", id)}
+                        />
+                      </div>
+                    </div>
+                    <div className="comment-entry-text-container">
+                      <MarkdownEditor
+                        value={editComment.id === id ? editComment.message : text}
+                        onFocus={() => onFocusEditComment(id, text)}
+                        onChange={e => this.onChangeComment(e, "edit", id)}
+                      />
+                      {editComment.id === id && (
+                        <button
+                          className="editor-comments-save edit-comment-save"
+                          onMouseDown={() => {
+                            this.onUpdateComment("edit", id);
+                          }}
+                        >
+                          Save
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </EditorActivity>
-              )}
-            </>
-          );
-        }}
-      </PageConsumer>
+                );
+              })}
+            </div>
+          </EditorActivity>
+        )}
+      </>
     );
   }
 }
 
-export default Comments;
+export default PageProp(Comments);

@@ -15,6 +15,7 @@ const Voting = props => {
     <PageConsumer>
       {page => {
         const { id } = parseToken(page.token);
+        const canVote = page.hasPrivilege("vote");
         const currUserVotes = votes.reduce((arr, curr) => {
           const { count = 0, userId } = curr;
           if (userId === id) return arr + count;
@@ -24,7 +25,7 @@ const Voting = props => {
           <div id="vote-container" className="row">
             <Tooltip id="voting" />
             <div className={`row vote-thumbs-container ${totalVotes ? "has-votes" : ""}`}>
-              <div
+              {canVote && (<div
                 onClick={e => {
                   e.stopPropagation();
                   onUpdateVote("add");
@@ -37,8 +38,8 @@ const Voting = props => {
                   icon="arrow-circle-up"
                   size={size}
                 />
-              </div>
-              {(totalVotes !== 0 || defaultDisplay) && (
+              </div>)}
+              {(canVote && (totalVotes !== 0 || defaultDisplay)) && (
                 <div
                   onClick={e => {
                     e.stopPropagation();
@@ -62,7 +63,7 @@ const Voting = props => {
                   } : You've contributed ${currUserVotes} vote${totalVotes === 1 ? "" : "s"}`}
                   data-for="voting"
                 >
-                  <span>{`${totalVotes}${currUserVotes !== 0 ? ` : ${currUserVotes}` : ''}`}</span>
+                  <span>{`+${totalVotes}${currUserVotes !== 0 ? `(${currUserVotes})` : ''}`}</span>
                 </div>
               )}
             </div>

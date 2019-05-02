@@ -54,6 +54,13 @@ body {
     display: flex;
   }
 
+  .editable {
+    cursor: pointer;
+    &:focus {
+      cursor: initial;
+    }
+  }
+
   --bg-primary: #eef1f5;
   --bg-navbar: var(--bg-primary);
   --navbar-text-color: var(--text-color);

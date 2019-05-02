@@ -39,10 +39,11 @@ class MarkdownEditor extends React.Component {
   };
 
   render = () => {
+    const { allowEdit = true } = this.props;
     return this.state.editing ? (
       <TextArea
         {...this.props}
-        className={`${this.props.className || ""} markdown-area markdown-edit`}
+        className={`markdown-area markdown-edit`}
         autoFocus
         minRows={1}
         value={this.props.value}
@@ -50,9 +51,9 @@ class MarkdownEditor extends React.Component {
       />
     ) : (
       <div
-        className={`${this.props.className || ""} markdown-area markdown-preview editable`}
+        className={`${allowEdit && "editable"} markdown-area markdown-preview`}
         id="preview-mode"
-        onClick={() => this.setState({ editing: true })}
+        onClick={allowEdit ? () => this.setState({ editing: true }) : null}
         dangerouslySetInnerHTML={this.rawMarkup()}
       />
     );
@@ -61,7 +62,8 @@ class MarkdownEditor extends React.Component {
 
 MarkdownEditor.propTypes = {
   content: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  allowEdit: PropTypes.bool
 };
 
 export default MarkdownEditor;

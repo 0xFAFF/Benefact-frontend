@@ -1,25 +1,37 @@
 import React from "react";
-import { NavbarList } from "../../UI/Navbar/components";
-import { Profile } from "./components";
+import { Navbar } from "../../UI";
+import Profile from "./Profile";
 import "./index.scss";
 
 class User extends React.Component {
   render() {
-    const configs = [
-      {
-        id: "menu",
-        ulClassName: "menu",
-        options: [
+    const configs = {
+      id: "menu",
+      ulClassName: "menu",
+      options: [
+        [
           {
-            id: "placeholder",
-            liClassName: "placeholder"
+            id: "placeholder"
           },
+          {
+            id: "placeholder"
+          },
+          {
+            id: "placeholder"
+          },
+          {
+            id: "placeholder"
+          }
+        ],
+        [
           {
             id: "brand",
             title: "Benefact",
             image: "/fafficon.ico",
             liClassName: "brand"
-          },
+          }
+        ],
+        [
           {
             id: "home",
             // title: "Home",
@@ -49,11 +61,11 @@ class User extends React.Component {
             // }
           }
         ]
-      }
-    ];
+      ]
+    };
     return (
       <div id="user">
-        <NavbarList configs={configs} />
+        <Navbar configs={configs} />
         <div id="user-container">
           <Profile />
         </div>

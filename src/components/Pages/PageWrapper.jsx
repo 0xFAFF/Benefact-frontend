@@ -1,6 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { fetching, notifyToast, camelCase, parseQuery, middleWare, hasPrivilege, parseToken } from "../../utils";
+import {
+  fetching,
+  notifyToast,
+  camelCase,
+  parseQuery,
+  middleWare,
+  hasPrivilege,
+  parseToken
+} from "../../utils";
 import { URLS } from "../../constants";
 import { PageProvider } from "components/Pages/PageContext";
 import { Modal } from "components/UI";
@@ -11,15 +19,14 @@ const PageWrapper = Component => {
       boardId: PropTypes.string,
       token: PropTypes.string
     };
-    state = {
-      modal: null,
-      onModalClose: null
-    };
     constructor(props) {
       super(props);
       this.state = {
         isLoading: true,
-        data: null
+        data: null,
+        modal: null,
+        onModalClose: null,
+        navbarConfigs: []
       };
       this.handleError = e => notifyToast("error", e.message, "top-center");
       this.child = {};
@@ -29,6 +36,10 @@ const PageWrapper = Component => {
         compFetch: this.compFetch,
         setChild: c => (this.child = c)
       };
+    }
+
+    static getDerivedStateFromProps(props, state) {
+      console.log(props, state);
     }
 
     componentDidMount = async () => {
@@ -96,7 +107,7 @@ const PageWrapper = Component => {
     };
 
     render = () => {
-      this.user = this.props.token && parseToken(this.props.token);
+      const user = this.props.token && parseToken(this.props.token);
       const page = {
         compFetch: this.compFetch,
         showModal: this.showModal,
@@ -106,11 +117,17 @@ const PageWrapper = Component => {
         isLoading: this.state.isLoading,
         hasPrivilege: this.hasPrivilege,
         token: this.props.token,
-        user: this.user
+        user: user
       };
       return (
         <PageProvider value={page}>
-          <Component isLoading={this.state.isLoading} page={page} {...this.extraProps} {...this.props} />
+          {/* <Navbar /> */}
+          <Component
+            isLoading={this.state.isLoading}
+            page={page}
+            {...this.extraProps}
+            {...this.props}
+          />
           {this.state.modal ? (
             <Modal isOpen onClose={this.closeModal}>
               {this.state.modal}

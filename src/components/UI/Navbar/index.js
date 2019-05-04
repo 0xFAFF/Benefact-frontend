@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import { FilterView } from "../../UI";
 import { get } from "lodash";
 import { NavbarList, Delete, Filter, Logout } from "./components";
@@ -27,130 +28,48 @@ class Navbar extends React.Component {
   };
 
   onItemClick = (id, navbarRowId) => {
-    const { showModal, closeModal } = this.props.page;
-    const configRowIndex = this.configs.findIndex(row => row.id === navbarRowId);
-    const configRowOptions =
-      configRowIndex > -1 ? get(this.configs, `[${configRowIndex}].options`) : [];
-    const item = configRowOptions.length > 1 ? configRowOptions.find(item => item.id === id) : null;
-    if (item.onClick) item.onClick();
+    const {
+      configs,
+      page: { showModal, closeModal }
+    } = this.props;
+    const configOptions = get(configs, `options.[${navbarRowId}]`, []);
+    const item = configOptions.length > 0 ? configOptions.find(item => item.id === id) : null;
+    if (item && item.onClick) item.onClick();
     else {
       showModal(<item.component onClose={closeModal} {...item.params} />);
     }
   };
 
   render() {
-    const {
-      addComponent,
-      deleteComponent,
-      allCards,
-      columns,
-      tags,
-      handleBoardView,
-      view,
-      filters,
-      resetFilters,
-      onChangeFilterHandler,
-      selectFilters,
-      createFilterGroup,
-      updateFilterGroupIndex,
-      onLogoutHandler,
-      filtersActive,
-      page: { hasPrivilege, isLoading, data }
-    } = this.props;
-    this.configs = [
-      {
-        id: "menu",
-        ulClassName: "menu",
-        options: [
-          {
-            id: "create",
-            tooltip: "Create",
-            hide: !hasPrivilege("contribute|developer"),
-            icon: "plus-circle",
-            component: AddCard,
-            params: {
-              addComponent: addComponent,
-              columns: columns,
-              disableComponents: true
-            }
-          },
-          {
-            id: "delete",
-            tooltip: "Delete",
-            hide: !hasPrivilege("admin"),
-            icon: "minus-circle",
-            component: Delete,
-            params: {
-              deleteComponent: deleteComponent,
-              cards: allCards,
-              columns: columns,
-              tags: tags
-            }
-          },
-          {
-            id: "filter",
-            tooltip: "Filter",
-            title: filtersActive ? <FilterView resetFilters={resetFilters} /> : null,
-            icon: "filter",
-            component: Filter,
-            params: {
-              updateFilterGroupIndex: updateFilterGroupIndex,
-              createFilterGroup: createFilterGroup,
-              resetFilters: resetFilters,
-              onChangeFilterHandler: onChangeFilterHandler,
-              selectFilters: selectFilters,
-              columns: columns,
-              tags: tags,
-              filters: filters
-            }
-          },
-          {
-            id: "view",
-            tooltip: "View",
-            icon: view === "kanban" ? "list-ul" : "columns",
-            onClick: () => handleBoardView(view === "kanban" ? "list" : "kanban")
-          },
-          {
-            id: "brand",
-            title: data && data.title,
-            image: "/fafficon.ico",
-            liClassName: `brand${filtersActive ? " active-filter" : ""}`
-          },
-          {
-            id: "home",
-            tooltip: "Home",
-            icon: "home"
-          },
-          {
-            id: "menu",
-            tooltip: "Menu",
-            icon: "bars"
-          },
-          {
-            id: "user",
-            tooltip: "User",
-            icon: "user-circle",
-            url: "/user"
-          },
-          {
-            id: "logout",
-            tooltip: "Logout",
-            icon: "sign-out-alt",
-            component: Logout,
-            params: {
-              onLogoutHandler: onLogoutHandler
-            }
-          }
-        ]
-      }
-    ];
+    console.log(this.props);
+    // const {
+    //   addComponent,
+    //   deleteComponent,
+    //   allCards,
+    //   columns,
+    //   tags,
+    //   handleBoardView,
+    //   view,
+    //   filters,
+    //   resetFilters,
+    //   onChangeFilterHandler,
+    //   selectFilters,
+    //   createFilterGroup,
+    //   updateFilterGroupIndex,
+    //   onLogoutHandler,
+    //   filtersActive,
+    //   page: { hasPrivilege, isLoading, data }
+    // } = this.props;
 
     return (
       <div id="navbar">
-        <NavbarList configs={isLoading ? [] : this.configs} onItemClick={this.onItemClick} />
+        <NavbarList
+          configs={this.props.page.isLoading ? {} : this.props.configs}
+          onItemClick={this.onItemClick}
+        />
       </div>
     );
   }
 }
 
-export default PageProp(Navbar);
+export default withRouter(PageProp(Navbar));

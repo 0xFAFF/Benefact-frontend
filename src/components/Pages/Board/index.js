@@ -428,6 +428,99 @@ class Board extends React.Component {
     this.props.history.push(`/board/${this.props.boardId}`);
   };
 
+  navbarConfigs = () => ({
+    id: "menu",
+    ulClassName: "menu",
+    options: [
+      [
+        {
+          id: "create",
+          tooltip: "Create",
+          hide: !this.props.page.hasPrivilege("contribute|developer"),
+          icon: "plus-circle"
+          // component: AddCard,
+          // params: {
+          //   addComponent: addComponent,
+          //   columns: columns,
+          //   disableComponents: true
+          // }
+        },
+        {
+          id: "delete",
+          tooltip: "Delete",
+          // hide: !hasPrivilege("admin"),
+          icon: "minus-circle"
+          // component: Delete,
+          // params: {
+          //   deleteComponent: deleteComponent,
+          //   cards: allCards,
+          //   columns: columns,
+          //   tags: tags
+          // }
+        },
+        {
+          id: "filter",
+          tooltip: "Filter",
+          // title: filtersActive ? <FilterView resetFilters={resetFilters} /> : null,
+          icon: "filter"
+          // component: Filter,
+          // params: {
+          //   updateFilterGroupIndex: updateFilterGroupIndex,
+          //   createFilterGroup: createFilterGroup,
+          //   resetFilters: resetFilters,
+          //   onChangeFilterHandler: onChangeFilterHandler,
+          //   selectFilters: selectFilters,
+          //   columns: columns,
+          //   tags: tags,
+          //   filters: filters
+          // }
+        },
+        {
+          id: "view",
+          tooltip: "View",
+          icon: this.state.view === "kanban" ? "list-ul" : "columns"
+          // onClick: () => handleBoardView(view === "kanban" ? "list" : "kanban")
+        }
+      ],
+      [
+        {
+          id: "brand",
+          title: this.props.page.data && this.props.page.data.title,
+          image: "/fafficon.ico",
+          // liClassName: `brand${filtersActive ? " active-filter" : ""}`
+          liClassName: `brand`
+        }
+      ],
+      [
+        {
+          id: "home",
+          tooltip: "Home",
+          icon: "home"
+        },
+        {
+          id: "menu",
+          tooltip: "Menu",
+          icon: "bars"
+        },
+        {
+          id: "user",
+          tooltip: "User",
+          icon: "user-circle",
+          onClick: () => this.props.history.push("/user")
+        },
+        {
+          id: "logout",
+          tooltip: "Logout",
+          icon: "sign-out-alt"
+          // component: Logout,
+          // params: {
+          //   onLogoutHandler: onLogoutHandler
+          // }
+        }
+      ]
+    ]
+  });
+
   render() {
     const { onLogoutHandler, cardId, boardId, page } = this.props;
     const { hasPrivilege } = page;
@@ -469,14 +562,16 @@ class Board extends React.Component {
       onLogoutHandler: onLogoutHandler
     };
     const editingCard = cardId && cardsById && cardsById[cardId];
+    console.log(this.props);
     return (
       <>
         <Navbar
-          title={(this.props.data || { title: "" }).title}
-          {...baseState}
-          {...navBarFunctions}
-          filtersActive={this.state.filters.active}
-          resetFilters={this.resetFilters}
+          // title={(this.props.data || { title: "" }).title}
+          // {...baseState}
+          // {...navBarFunctions}
+          // filtersActive={this.state.filters.active}
+          // resetFilters={this.resetFilters}
+          configs={this.navbarConfigs()}
         />
         {this.props.isLoading ? (
           <PacmanLoader />

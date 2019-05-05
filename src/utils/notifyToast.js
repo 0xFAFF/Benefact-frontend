@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 
-export const notifyToast = (type, message, position = "top-right") => {
+export const notifyToast = (type, message, position = "top-center") => {
   const toasts = {
     success: () => toast.success(message, { position }),
     error: () => toast.error(message, { position }),

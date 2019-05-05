@@ -11,6 +11,7 @@ import {
 } from "../../utils";
 import { URLS } from "../../constants";
 import { PageProvider } from "components/Pages/PageContext";
+import { Modal } from "components/UI";
 
 const PageWrapper = Component => {
   return class extends React.Component {
@@ -24,7 +25,7 @@ const PageWrapper = Component => {
         isLoading: true,
         data: null
       };
-      this.handleError = e => notifyToast("error", e.message, "top-center");
+      this.handleError = e => notifyToast("error", e.message);
       this.child = {};
       this.urlParams = this.props.match.params;
       this.extraProps = {
@@ -50,6 +51,15 @@ const PageWrapper = Component => {
         : null;
       this.setState({ data });
       return data;
+    };
+
+    showModal = (child, onModalClose) => {
+      this.setState({ modal: child, onModalClose });
+    };
+
+    closeModal = () => {
+      if (this.state.onModalClose) this.state.onModalClose();
+      this.setState({ modal: null, onModalClose: null });
     };
 
     compFetch = async (type, action, queryParams, errorHandler) => {
@@ -92,6 +102,8 @@ const PageWrapper = Component => {
     render = () => {
       this.user = this.props.token && parseToken(this.props.token);
       const page = {
+        showModal: this.showModal,
+        closeModal: this.closeModal,
         compFetch: this.compFetch,
         history: this.props.history,
         refreshData: this.refreshData,
@@ -109,6 +121,11 @@ const PageWrapper = Component => {
             {...this.extraProps}
             {...this.props}
           />
+          {this.state.modal ? (
+            <Modal isOpen onClose={this.closeModal}>
+              {this.state.modal}
+            </Modal>
+          ) : null}
         </PageProvider>
       );
     };

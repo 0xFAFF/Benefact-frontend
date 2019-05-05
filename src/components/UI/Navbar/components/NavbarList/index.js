@@ -13,7 +13,9 @@ const NavbarList = props => {
         const { ulClassName, options = [] } = ulItem;
         return (
           <div key={ulItem.id} className="navbar-list-container">
-            <div className="navbar-top-right" />
+            <div className="navbar-top-left">
+              <img src="/fafficon.png" alt="FAFF Games LLC"/>
+            </div>
             <Tooltip id="navbar-tooltip" />
             <ul className={ulClassName}>
               {options.map(item => {

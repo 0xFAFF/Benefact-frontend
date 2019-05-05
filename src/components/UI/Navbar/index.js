@@ -112,7 +112,6 @@ class Navbar extends React.Component {
           {
             id: "brand",
             title: data && data.title,
-            image: "/fafficon.ico",
             liClassName: `brand${filtersActive ? " active-filter" : ""}`
           },
           {

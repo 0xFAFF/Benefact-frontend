@@ -45,7 +45,6 @@ class Navbar extends React.Component {
       allCards,
       columns,
       tags,
-      handleBoardView,
       view,
       filters,
       resetFilters,
@@ -55,7 +54,7 @@ class Navbar extends React.Component {
       updateFilterGroupIndex,
       onLogoutHandler,
       filtersActive,
-      page: { hasPrivilege, isLoading, data }
+      page: { hasPrivilege, isLoading, data, history }
     } = this.props;
     this.configs = [
       {
@@ -108,7 +107,7 @@ class Navbar extends React.Component {
             id: "view",
             tooltip: "View",
             icon: view === "kanban" ? "list-ul" : "columns",
-            onClick: () => handleBoardView(view === "kanban" ? "list" : "kanban")
+            onClick: () => history.push(`/board/${data.urlName}/${view === "kanban" ? "list" : ""}`)
           },
           {
             id: "brand",

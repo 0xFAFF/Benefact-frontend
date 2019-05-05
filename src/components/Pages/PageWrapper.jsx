@@ -1,19 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { fetching, notifyToast, camelCase, parseQuery, middleWare, hasPrivilege, parseToken } from "../../utils";
+import {
+  fetching,
+  notifyToast,
+  camelCase,
+  parseQuery,
+  middleWare,
+  hasPrivilege,
+  parseToken
+} from "../../utils";
 import { URLS } from "../../constants";
 import { PageProvider } from "components/Pages/PageContext";
-import { Modal } from "components/UI";
 
 const PageWrapper = Component => {
   return class extends React.Component {
     static propTypes = {
       boardId: PropTypes.string,
       token: PropTypes.string
-    };
-    state = {
-      modal: null,
-      onModalClose: null
     };
     constructor(props) {
       super(props);
@@ -47,15 +50,6 @@ const PageWrapper = Component => {
         : null;
       this.setState({ data });
       return data;
-    };
-
-    showModal = (child, onModalClose) => {
-      this.setState({ modal: child, onModalClose });
-    };
-
-    closeModal = () => {
-      if (this.state.onModalClose) this.state.onModalClose();
-      this.setState({ modal: null, onModalClose: null });
     };
 
     compFetch = async (type, action, queryParams, errorHandler) => {
@@ -99,8 +93,7 @@ const PageWrapper = Component => {
       this.user = this.props.token && parseToken(this.props.token);
       const page = {
         compFetch: this.compFetch,
-        showModal: this.showModal,
-        closeModal: this.closeModal,
+        history: this.props.history,
         refreshData: this.refreshData,
         data: this.state.data,
         isLoading: this.state.isLoading,
@@ -110,12 +103,12 @@ const PageWrapper = Component => {
       };
       return (
         <PageProvider value={page}>
-          <Component isLoading={this.state.isLoading} page={page} {...this.extraProps} {...this.props} />
-          {this.state.modal ? (
-            <Modal isOpen onClose={this.closeModal}>
-              {this.state.modal}
-            </Modal>
-          ) : null}
+          <Component
+            isLoading={this.state.isLoading}
+            page={page}
+            {...this.extraProps}
+            {...this.props}
+          />
         </PageProvider>
       );
     };

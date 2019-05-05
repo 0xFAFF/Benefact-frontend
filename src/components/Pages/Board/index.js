@@ -21,7 +21,6 @@ class Board extends React.Component {
 
   state = {
     data: null,
-    view: "kanban",
     cards: {},
     columns: [],
     tags: [],
@@ -410,10 +409,6 @@ class Board extends React.Component {
     return this.handleUpdate(componentType, "DELETE", content);
   };
 
-  handleBoardView = view => {
-    this.setState({ view });
-  };
-
   getAllCards = data => {
     const { cards = {} } = data;
     const cardGroups = Object.values(cards);
@@ -425,11 +420,13 @@ class Board extends React.Component {
   };
 
   closeCard = () => {
-    this.props.history.push(`/board/${this.props.boardId}`);
+    this.props.history.push(
+      `/board/${this.props.boardId}${this.props.view === "kanban" ? "" : "/list"}`
+    );
   };
 
   render() {
-    const { onLogoutHandler, cardId, boardId, page } = this.props;
+    const { onLogoutHandler, cardId, boardId, page, view } = this.props;
     const { hasPrivilege } = page;
     const { isLoading, ...baseState } = this.state;
     const cardsById =
@@ -458,7 +455,6 @@ class Board extends React.Component {
     };
 
     const navBarFunctions = {
-      handleBoardView: this.handleBoardView,
       addComponent: this.addComponent,
       deleteComponent: this.deleteComponent,
       resetFilters: this.resetFilters,
@@ -473,6 +469,7 @@ class Board extends React.Component {
       <>
         <Navbar
           title={(this.props.data || { title: "" }).title}
+          view={view}
           {...baseState}
           {...navBarFunctions}
           filtersActive={this.state.filters.active}
@@ -483,11 +480,16 @@ class Board extends React.Component {
         ) : (
           <>
             <Views
+              view={view}
               {...baseState}
               kanbanFunctions={kanbanFunctions}
               listFunctions={listFunctions}
               filtersActive={this.state.filters.active}
-              openCard={id => this.props.history.push(`/board/${boardId}/card/${id}`)}
+              openCard={id =>
+                this.props.history.push(
+                  `/board/${boardId}${view === "kanban" ? "" : "/list"}/card/${id}`
+                )
+              }
             />
 
             {editingCard && (

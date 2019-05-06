@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { isEmpty } from "lodash";
 import {
   fetching,
   notifyToast,
@@ -11,7 +12,7 @@ import {
 } from "../../utils";
 import { URLS } from "../../constants";
 import { PageProvider } from "components/Pages/PageContext";
-import { Modal } from "components/UI";
+import { Modal, Navbar } from "components/UI";
 
 const PageWrapper = Component => {
   return class extends React.Component {
@@ -23,31 +24,28 @@ const PageWrapper = Component => {
       super(props);
       this.state = {
         isLoading: true,
-        data: null,
+        data: {},
         modal: null,
-        onModalClose: null,
-        navbarConfigs: []
+        onModalClose: null
       };
       this.handleError = e => notifyToast("error", e.message, "top-center");
       this.child = {};
       this.urlParams = this.props.match.params;
+      this.navbarConfigs = () => () => null;
       this.extraProps = {
         query: parseQuery(this.props.location.search),
         compFetch: this.compFetch,
-        setChild: c => (this.child = c)
+        setChild: c => (this.child = c),
+        setNavbarConfigs: c => (this.navbarConfigs = c)
       };
     }
 
-    static getDerivedStateFromProps(props, state) {
-      console.log(props, state);
-    }
-
     componentDidMount = async () => {
-      await this.refreshData();
+      await this.getInitialData();
       this.setState({ isLoading: false });
     };
 
-    refreshData = async () => {
+    getInitialData = async () => {
       const data = this.child.dataSource
         ? await this.child
             .dataSource({
@@ -56,8 +54,11 @@ const PageWrapper = Component => {
             })
             .catch(() => null)
         : null;
+      this.updateData(data);
+    };
+
+    updateData = data => {
       this.setState({ data });
-      return data;
     };
 
     showModal = (child, onModalClose) => {
@@ -102,7 +103,7 @@ const PageWrapper = Component => {
 
     hasPrivilege = (priv, ownerId) => {
       if (ownerId && this.user && this.user.id === ownerId) return true;
-      if (this.state.data && hasPrivilege(priv, this.state.data.userRole)) return true;
+      if (!isEmpty(this.state.data) && hasPrivilege(priv, this.state.data.userRole)) return true;
       return false;
     };
 
@@ -112,16 +113,20 @@ const PageWrapper = Component => {
         compFetch: this.compFetch,
         showModal: this.showModal,
         closeModal: this.closeModal,
-        refreshData: this.refreshData,
+        getInitialData: this.getInitialData,
         data: this.state.data,
         isLoading: this.state.isLoading,
         hasPrivilege: this.hasPrivilege,
         token: this.props.token,
-        user: user
+        user: user,
+        updateData: this.updateData
       };
+
       return (
         <PageProvider value={page}>
-          {/* <Navbar /> */}
+          {this.navbarConfigs(this.child)({ ...page, ...this.props }) && (
+            <Navbar configs={this.navbarConfigs(this.child)({ ...page, ...this.props })} />
+          )}
           <Component
             isLoading={this.state.isLoading}
             page={page}

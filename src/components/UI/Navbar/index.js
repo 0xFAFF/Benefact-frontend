@@ -1,10 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
-import { FilterView } from "../../UI";
 import { get } from "lodash";
-import { NavbarList, Delete, Filter, Logout } from "./components";
-import { AddCard } from "components/UI/AddComponents";
+import { NavbarList } from "./components";
 import { PageProp } from "components/Pages/PageContext";
 import "./index.scss";
 
@@ -41,26 +38,6 @@ class Navbar extends React.Component {
   };
 
   render() {
-    console.log(this.props);
-    // const {
-    //   addComponent,
-    //   deleteComponent,
-    //   allCards,
-    //   columns,
-    //   tags,
-    //   handleBoardView,
-    //   view,
-    //   filters,
-    //   resetFilters,
-    //   onChangeFilterHandler,
-    //   selectFilters,
-    //   createFilterGroup,
-    //   updateFilterGroupIndex,
-    //   onLogoutHandler,
-    //   filtersActive,
-    //   page: { hasPrivilege, isLoading, data }
-    // } = this.props;
-
     return (
       <div id="navbar">
         <NavbarList
@@ -72,4 +49,4 @@ class Navbar extends React.Component {
   }
 }
 
-export default withRouter(PageProp(Navbar));
+export default PageProp(Navbar);

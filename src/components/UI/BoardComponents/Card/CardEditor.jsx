@@ -145,11 +145,12 @@ class CardEditor extends React.Component {
 
   render() {
     const {
-      allowEdit,
+      allowEdit = true,
       updateBoardContent,
       onAcceptHandler,
       disableComponents = false,
-      onClose
+      onClose,
+      columns
     } = this.props;
     const {
       id = 0,
@@ -164,7 +165,7 @@ class CardEditor extends React.Component {
         <Tooltip id="card-editor" />
         <FileDrop onDrop={this.onFileUpload}>
           <EditorActivity icon="outdent" style={{ paddingTop: "10px" }} dataTip="Card Title">
-            {allowEdit || false ? (
+            {allowEdit ? (
               <TextArea
                 id="editor-title"
                 className="editable"
@@ -222,9 +223,9 @@ class CardEditor extends React.Component {
             <div
               className={`styled-select background-color semi-square ${allowEdit && "editable"}`}
             >
-              {allowEdit || false ? (
+              {allowEdit ? (
                 <select onChange={e => this.onChangeHandler(e, "columnId")} value={columnId}>
-                  {this.props.columns.map(option => {
+                  {columns.map(option => {
                     return (
                       <option key={option.id} value={option.id}>
                         {option.title}
@@ -233,7 +234,7 @@ class CardEditor extends React.Component {
                   })}
                 </select>
               ) : (
-                <div>Derp</div>
+                <div>{(columns.find(c => c.id === columnId) || {title: ""}).title}</div>
               )}
             </div>
           </div>

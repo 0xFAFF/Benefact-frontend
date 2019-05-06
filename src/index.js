@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { User, Login, Board } from "./components/Pages";
 import { Version } from "./components/Version";
-import { setTheme } from "./utils";
+import { setTheme, parseToken } from "./utils";
 import { THEMES } from "./constants";
 import "./index.scss";
 
@@ -17,13 +17,21 @@ toast.configure({
 });
 
 class App extends React.Component {
-  state = {
-    token: Cookies.get("token")
-  };
+  constructor(props) {
+    super(props);
+    let token = Cookies.get("token");
+    if (!token || !parseToken(token)) {
+      Cookies.remove("token");
+      token = "";
+    }
+    this.state = { token };
+  }
 
   onLoginHandler = token => {
-    this.setState({ token });
-    Cookies.set("token", token);
+    if (token && parseToken(token)) {
+      this.setState({ token });
+      Cookies.set("token", token);
+    }
   };
 
   onLogoutHandler = () => {
@@ -72,7 +80,11 @@ class App extends React.Component {
                 <Login token={token} {...props} onLoginHandler={this.onLoginHandler} />
               )}
             />
-            <Route exact path="/board/:boardId/:view(list|kanban)?/card/:cardId" render={boardRender} />
+            <Route
+              exact
+              path="/board/:boardId/:view(list|kanban)?/card/:cardId"
+              render={boardRender}
+            />
             <Route exact path="/board/:boardId/:view(list|kanban)?" render={boardRender} />
             <Route
               path="/user"

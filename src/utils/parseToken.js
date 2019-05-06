@@ -1,8 +1,7 @@
 const parseToken = (token = "") => {
-  const base64urlArray = token.split(".");
-  const base64Url = Array.isArray(base64urlArray) ? base64urlArray[1] : "";
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  if (base64) return JSON.parse(window.atob(base64));
+  const base64parts = token.split(".");
+  if (Array.isArray(base64parts) && base64parts.length === 3)
+    return JSON.parse(window.atob(base64parts[1].replace(/-/g, "+").replace(/_/g, "/")));
   return "";
 };
 

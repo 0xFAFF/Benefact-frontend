@@ -108,7 +108,9 @@ const PageWrapper = Component => {
     };
 
     render = () => {
+      let token = this.props.token;
       const user = this.props.token && parseToken(this.props.token);
+      if(!user) token = null;
       const page = {
         showModal: this.showModal,
         closeModal: this.closeModal,
@@ -118,7 +120,7 @@ const PageWrapper = Component => {
         data: this.state.data,
         isLoading: this.state.isLoading,
         hasPrivilege: this.hasPrivilege,
-        token: this.props.token,
+        token: token,
         user: user,
         updateData: this.updateData
       };

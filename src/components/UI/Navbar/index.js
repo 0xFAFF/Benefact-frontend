@@ -1,29 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { get } from "lodash";
 import { NavbarList } from "./components";
 import { PageProp } from "components/Pages/PageContext";
 import "./index.scss";
 
 class Navbar extends React.Component {
-  static propTypes = {
-    addComponent: PropTypes.func,
-    deleteComponent: PropTypes.func,
-    allCards: PropTypes.array,
-    columns: PropTypes.array,
-    tags: PropTypes.array,
-    handleBoardView: PropTypes.func,
-    view: PropTypes.string,
-    filters: PropTypes.object,
-    resetFilters: PropTypes.func,
-    onChangeFilterHandler: PropTypes.func,
-    selectFilters: PropTypes.func,
-    createFilterGroup: PropTypes.func,
-    updateFilterGroupIndex: PropTypes.func,
-    onLogoutHandler: PropTypes.func,
-    filtersActive: PropTypes.bool
-  };
-
   onItemClick = (id, navbarRowId) => {
     const {
       configs,

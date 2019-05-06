@@ -42,10 +42,12 @@ import {
   faComment,
   faComments,
   faSignOutAlt,
-  faDownload
+  faDownload,
+  faPaperclip
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
+  faPaperclip,
   faEdit,
   faTimes,
   faPlus,

@@ -31,7 +31,6 @@ class Board extends React.Component {
       };
       updatedResult = {
         ...updatedResult,
-        view: "kanban",
         filters: {
           active: false,
           currGroupIndex: 0,
@@ -410,15 +409,6 @@ class Board extends React.Component {
     return this.handleUpdate(componentType, "DELETE", content);
   };
 
-  handleBoardView = view => {
-    let newData = { ...this.props.page.data };
-    newData = {
-      ...newData,
-      view
-    };
-    this.props.page.updateData(newData);
-  };
-
   getAllCards = data => {
     const { cards = {} } = data;
     const cardGroups = Object.values(cards);
@@ -427,7 +417,9 @@ class Board extends React.Component {
   };
 
   closeCard = () => {
-    this.props.history.push(`/board/${this.props.boardId}`);
+    this.props.history.push(
+      `/board/${this.props.boardId}${this.props.view === "kanban" ? "" : "/list"}`
+    );
   };
 
   render() {
@@ -435,6 +427,7 @@ class Board extends React.Component {
       cardId,
       boardId,
       page: { hasPrivilege, data },
+      view,
       isLoading
     } = this.props;
     const cardsById =
@@ -471,11 +464,16 @@ class Board extends React.Component {
         ) : (
           <>
             <Views
+              view={view}
               {...data}
               kanbanFunctions={kanbanFunctions}
               listFunctions={listFunctions}
               filtersActive={this.props.page.data.filters.active}
-              openCard={id => this.props.history.push(`/board/${boardId}/card/${id}`)}
+              openCard={id =>
+                this.props.history.push(
+                  `/board/${boardId}${view === "kanban" ? "" : "/list"}/card/${id}`
+                )
+              }
             />
             {editingCard && (
               <Modal isOpen onClose={this.closeCard}>

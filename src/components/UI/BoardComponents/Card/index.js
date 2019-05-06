@@ -44,16 +44,16 @@ class Card extends React.Component {
     const { hasPrivilege } = page;
     const cardDiv = props => (
       <div id="card-draggable" {...props} onClick={() => openCard(card.id)}>
-        <div className="card-draggable-container">
-          <div className="col">
-            <div className="card-title row">{card.title}</div>
-            <div className="row">
-              <Tags tagIds={card.tagIds} />
+        <div className="card-draggable-container col">
+          <div className="row">
+            <div className="col">{card.title}</div>
+            <div className="col pull-right">
+              <Voting votes={card.votes} onUpdateVote={this.onUpdateVote} />
             </div>
           </div>
-          <div className="pull-right col">
-            <Voting votes={card.votes} onUpdateVote={this.onUpdateVote} />
-            <IconRow {...card} />
+          <div className="row">
+            <Tags tagIds={card.tagIds} />
+            <IconRow className="pull-right row card-icon-row" {...card} />
           </div>
         </div>
       </div>

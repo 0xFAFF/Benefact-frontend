@@ -17,7 +17,15 @@ InnerList.propTypes = {
 };
 
 const List = props => {
-  const { cards, columns, updateBoardContent, deleteComponent, listOnDragEnd, groupName } = props;
+  const {
+    cards,
+    columns,
+    updateBoardContent,
+    deleteComponent,
+    listOnDragEnd,
+    groupName,
+    openCard
+  } = props;
   return (
     <div id="list-board">
       <DragDropContext
@@ -39,6 +47,7 @@ const List = props => {
               {...provided.droppableProps}
             >
               <InnerList
+                openCard={openCard}
                 cards={cards}
                 columns={columns}
                 updateBoardContent={updateBoardContent}

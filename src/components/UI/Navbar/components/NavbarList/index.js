@@ -12,7 +12,9 @@ const NavbarList = props => {
   return (
     <div className="navbar-list">
       <div key={configId} className="navbar-list-container">
-        <div className="navbar-top-right" />
+        <div className="navbar-top-left">
+          <img src="/fafficon.png" alt="FAFF Games LLC" />
+        </div>
         <Tooltip id="navbar-tooltip" />
         <ul className={`${ulClassName} flex grow`}>
           {options.map((section, index) => {

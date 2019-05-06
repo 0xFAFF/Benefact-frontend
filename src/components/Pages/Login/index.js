@@ -19,7 +19,7 @@ class Login extends React.Component {
   componentDidMount = async () => {
     this.props.setChild(this);
     if (!this.props.token && this.props.query.nonce)
-      notifyToast("info", "Please login to verify your email address", "top-center");
+      notifyToast("info", "Please login to verify your email address");
   };
 
   componentDidUpdate = async _ => {
@@ -29,7 +29,7 @@ class Login extends React.Component {
         nonce: this.props.query.nonce
       });
       if (verified === undefined) return;
-      if (verified) notifyToast("info", "Email succesfully verified", "top-center");
+      if (verified) notifyToast("info", "Email succesfully verified");
     }
     if (!this.state.verifyDone) this.setState({ verifyDone: true });
   };
@@ -48,7 +48,7 @@ class Login extends React.Component {
         <div className="login-container">
           <div className="header">
             <div className="app-title">Benefact</div>
-            <img src={"/fafficon.ico"} alt={"fafficon.ico"} width="70" height="70" />
+            <img src={"/fafficon.png"} alt={""} width="70" height="70" />
           </div>
           {view === "signin" && (
             <SignIn

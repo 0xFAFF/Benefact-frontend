@@ -43,9 +43,10 @@ class App extends React.Component {
       <Redirect to={`/login${props.match ? `?redirect=${encodeURI(props.match.url)}` : ""}`} />
     );
     const boardRender = props => {
-      const { boardId, cardId } = props.match.params;
+      const { boardId, cardId, view = "kanban" } = props.match.params;
       return token ? (
         <Board
+          view={view}
           boardId={boardId}
           cardId={cardId}
           {...props}
@@ -71,8 +72,8 @@ class App extends React.Component {
                 <Login token={token} {...props} onLoginHandler={this.onLoginHandler} />
               )}
             />
-            <Route path="/board/:boardId/card/:cardId" render={boardRender} />
-            <Route path="/board/:boardId" render={boardRender} />
+            <Route exact path="/board/:boardId/:view(list|kanban)?/card/:cardId" render={boardRender} />
+            <Route exact path="/board/:boardId/:view(list|kanban)?" render={boardRender} />
             <Route
               path="/user"
               render={props =>

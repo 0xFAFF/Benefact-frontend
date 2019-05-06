@@ -28,7 +28,7 @@ const PageWrapper = Component => {
         modal: null,
         onModalClose: null
       };
-      this.handleError = e => notifyToast("error", e.message, "top-center");
+      this.handleError = e => notifyToast("error", e.message);
       this.child = {};
       this.urlParams = this.props.match.params;
       this.navbarConfigs = () => () => null;
@@ -110,10 +110,11 @@ const PageWrapper = Component => {
     render = () => {
       const user = this.props.token && parseToken(this.props.token);
       const page = {
-        compFetch: this.compFetch,
         showModal: this.showModal,
         closeModal: this.closeModal,
         getInitialData: this.getInitialData,
+        compFetch: this.compFetch,
+        history: this.props.history,
         data: this.state.data,
         isLoading: this.state.isLoading,
         hasPrivilege: this.hasPrivilege,

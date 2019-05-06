@@ -68,7 +68,6 @@ export const navbarConfigs = child => props => ({
       {
         id: "brand",
         title: props.data && props.data.title,
-        image: "/fafficon.ico",
         liClassName: `brand${
           props.data.filters && props.data.filters.active ? " active-filter" : ""
         }`

@@ -21,7 +21,7 @@ const NavbarList = props => {
             return (
               <div key={configId + index} className="flex row">
                 {section.map(item => {
-                  const { id, icon, image, title, liClassName = "", url, hide, tooltip } = item;
+                  const { id, icon, title, liClassName = "", url, hide, tooltip } = item;
                   if (hide) return null;
                   return (
                     <Fragment key={id}>
@@ -37,7 +37,6 @@ const NavbarList = props => {
                           {icon && <FontAwesomeIcon icon={icon} style={{ fontSize: "1.5em" }} />}
                           {title ? <span>{title}</span> : null}
                         </div>
-                        {image && <img src={image} alt={image} width="55" height="55" />}
                       </li>
                     </Fragment>
                   );

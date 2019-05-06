@@ -13,9 +13,11 @@ import {
 import { URLS } from "../../constants";
 import { PageProvider } from "components/Pages/PageContext";
 import { Modal, Navbar } from "components/UI";
+import { Logout } from "components/UI/Navbar/components";
 
 const PageWrapper = Component => {
   return class extends React.Component {
+    mounted = true;
     static propTypes = {
       boardId: PropTypes.string,
       token: PropTypes.string
@@ -31,19 +33,19 @@ const PageWrapper = Component => {
       this.handleError = e => notifyToast("error", e.message);
       this.child = {};
       this.urlParams = this.props.match.params;
-      this.navbarConfigs = () => () => null;
       this.extraProps = {
         query: parseQuery(this.props.location.search),
         compFetch: this.compFetch,
-        setChild: c => (this.child = c),
-        setNavbarConfigs: c => (this.navbarConfigs = c)
+        setChild: c => (this.child = c)
       };
     }
 
     componentDidMount = async () => {
       await this.getInitialData();
-      this.setState({ isLoading: false });
+      if (this.mounted) this.setState({ isLoading: false });
     };
+
+    componentWillUnmount = () => (this.mounted = false);
 
     getInitialData = async () => {
       const data = this.child.dataSource
@@ -54,7 +56,7 @@ const PageWrapper = Component => {
             })
             .catch(() => null)
         : null;
-      this.updateData(data);
+      if (data) this.updateData(data);
     };
 
     updateData = data => {
@@ -107,10 +109,39 @@ const PageWrapper = Component => {
       return false;
     };
 
+    navbarConfigs = page => {
+      const { buttons = [], title = this.state.isLoading ? "" : "Benefact" } = this.child.navbar
+        ? this.child.navbar(page)
+        : {};
+      return [
+        buttons,
+        [{ id: "brand", className: "brand", title: title }],
+        [
+          { id: "home", tooltip: "Home", icon: "home" },
+          { id: "menu", tooltip: "Menu", icon: "bars" },
+          {
+            id: "user",
+            tooltip: "User",
+            icon: "user-circle",
+            onClick: () => this.props.history.push("/user")
+          },
+          {
+            id: "logout",
+            tooltip: "Logout",
+            icon: "sign-out-alt",
+            component: Logout,
+            params: {
+              onLogoutHandler: this.props.onLogoutHandler
+            }
+          }
+        ]
+      ];
+    };
+
     render = () => {
       let token = this.props.token;
       const user = this.props.token && parseToken(this.props.token);
-      if(!user) token = null;
+      if (!user) token = null;
       const page = {
         showModal: this.showModal,
         closeModal: this.closeModal,
@@ -124,12 +155,9 @@ const PageWrapper = Component => {
         user: user,
         updateData: this.updateData
       };
-
       return (
         <PageProvider value={page}>
-          {this.navbarConfigs(this.child)({ ...page, ...this.props }) && (
-            <Navbar configs={this.navbarConfigs(this.child)({ ...page, ...this.props })} />
-          )}
+          <Navbar configs={this.navbarConfigs({ ...this.props, page })} />
           <Component
             isLoading={this.state.isLoading}
             page={page}

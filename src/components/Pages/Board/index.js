@@ -20,6 +20,12 @@ class Board extends React.Component {
     onLogoutHandler: PropTypes.func
   };
 
+  handleError = (e, next) => {
+    // Redirect to landing page if you can't view a board
+    if (e.status === 403) this.props.page.history.replace("/user");
+    next();
+  };
+
   dataSource = () => {
     return this.props.compFetch("cards", "GET").then(result => {
       let updatedResult = { ...result };
@@ -52,7 +58,10 @@ class Board extends React.Component {
 
   componentDidMount = () => {
     this.props.setChild(this);
-    this.props.setNavbarConfigs(navbarConfigs);
+  };
+
+  navbar = props => {
+    return navbarConfigs(this, props);
   };
 
   createFilterGroup = () => {

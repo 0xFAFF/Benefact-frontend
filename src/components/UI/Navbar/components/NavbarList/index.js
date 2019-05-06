@@ -5,32 +5,32 @@ import { Tooltip } from "components/UI";
 import "./index.scss";
 
 const NavbarList = props => {
-  const {
-    configs: { id: configId, ulClassName, options = [] },
-    onItemClick
-  } = props;
+  const { configs, onItemClick } = props;
   return (
     <div className="navbar-list">
-      <div key={configId} className="navbar-list-container">
+      <div key="menu" className="navbar-list-container">
         <div className="navbar-top-left">
           <img src="/fafficon.png" alt="FAFF Games LLC" />
         </div>
         <Tooltip id="navbar-tooltip" />
-        <ul className={`${ulClassName} flex grow`}>
-          {options.map((section, index) => {
+        <ul className="menu flex grow">
+          {configs.map((section, index) => {
             return (
-              <div key={configId + index} className="flex row">
+              <div
+                key={`menu ${index}`}
+                className={`grow row ${index === configs.length - 1 && "pull-right"}`}
+              >
                 {section.map(item => {
-                  const { id, icon, title, liClassName = "", url, hide, tooltip } = item;
+                  const { id, icon, title, className = null, url, hide, tooltip } = item;
                   if (hide) return null;
                   return (
                     <Fragment key={id}>
                       <li
                         data-tip={tooltip}
                         data-for="navbar-tooltip"
-                        className={liClassName}
-                        onClick={e => {
-                          if (liClassName !== "brand" && !url) onItemClick(id, index);
+                        className={className}
+                        onClick={() => {
+                          if (className !== "brand" && !url) onItemClick(id, index);
                         }}
                       >
                         <div className="icon-title">
@@ -51,7 +51,7 @@ const NavbarList = props => {
 };
 
 NavbarList.propTypes = {
-  configs: PropTypes.object,
+  configs: PropTypes.array,
   onItemClick: PropTypes.func
 };
 

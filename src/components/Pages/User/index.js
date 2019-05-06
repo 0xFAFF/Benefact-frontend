@@ -1,77 +1,25 @@
 import React from "react";
-import { Navbar } from "../../UI";
 import Profile from "./Profile";
 import "./index.scss";
+import PageWrapper from "components/Pages/PageWrapper";
 
 class User extends React.Component {
+  componentDidMount = () => {
+    this.props.setChild(this);
+  }
+  navbar = (props) => {
+    return {
+      title: "User",
+      buttons: []
+    }
+  }
   render() {
-    const configs = {
-      id: "menu",
-      ulClassName: "menu",
-      options: [
-        [
-          {
-            id: "placeholder"
-          },
-          {
-            id: "placeholder"
-          },
-          {
-            id: "placeholder"
-          },
-          {
-            id: "placeholder"
-          }
-        ],
-        [
-          {
-            id: "brand",
-            title: "Benefact",
-            image: "/fafficon.png",
-            liClassName: "brand"
-          }
-        ],
-        [
-          {
-            id: "home",
-            // title: "Home",
-            icon: "home"
-          },
-          {
-            id: "menu",
-            // title: "Menu",
-            icon: "bars"
-          },
-          {
-            id: "user",
-            // title: "User",
-            icon: "user-circle",
-            modal: false,
-            liClassName: "user",
-            url: "/user"
-          },
-          {
-            id: "logout",
-            // title: "Logout",
-            icon: "sign-out-alt",
-            // component: Logout,
-            modal: true
-            // params: {
-            //   onLogoutHandler: onLogoutHandler
-            // }
-          }
-        ]
-      ]
-    };
     return (
-      <div id="user">
-        <Navbar configs={configs} />
-        <div id="user-container">
-          <Profile />
-        </div>
+      <div id="user-container">
+        <Profile />
       </div>
     );
   }
 }
 
-export default User;
+export default PageWrapper(User);

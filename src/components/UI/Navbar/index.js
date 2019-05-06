@@ -1,5 +1,4 @@
 import React from "react";
-import { get } from "lodash";
 import { NavbarList } from "./components";
 import { PageProp } from "components/Pages/PageContext";
 import "./index.scss";
@@ -10,7 +9,7 @@ class Navbar extends React.Component {
       configs,
       page: { showModal, closeModal }
     } = this.props;
-    const configOptions = get(configs, `options.[${navbarRowId}]`, []);
+    const configOptions = configs[navbarRowId];
     const item = configOptions.length > 0 ? configOptions.find(item => item.id === id) : null;
     if (item && item.onClick) item.onClick();
     else {
@@ -22,7 +21,7 @@ class Navbar extends React.Component {
     return (
       <div id="navbar">
         <NavbarList
-          configs={this.props.page.isLoading ? {} : this.props.configs}
+          configs={this.props.configs || []}
           onItemClick={this.onItemClick}
         />
       </div>

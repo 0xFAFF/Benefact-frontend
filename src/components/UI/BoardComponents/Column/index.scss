@@ -6,7 +6,7 @@
   flex-direction: column;
   overflow-y: auto;
   .column-empty {
-    min-height: 86px;
+    min-height: 50px;
   }
   .column-container {
     background-color: var(--column-primary);

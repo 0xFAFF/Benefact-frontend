@@ -4,32 +4,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const IconRow = card => {
   const { description, attachments, comments, className } = card;
+  const iconProps = {
+    size: "lg",
+    "data-for": "card",
+    "data-tip": "This card has a description",
+    className: "secondary"
+  };
   return (
     <div className={className}>
-      {description && (
-        <FontAwesomeIcon
-          icon="newspaper"
-          size="lg"
-          data-for="card"
-          data-tip="This card has a description"
-        />
-      )}
-      {Boolean(attachments.length) && (
-        <FontAwesomeIcon
-          icon="paperclip"
-          size="lg"
-          data-for="card"
-          data-tip="This card has a description"
-        />
-      )}
-      {Boolean(comments.length) && (
-        <FontAwesomeIcon
-          icon="comments"
-          size="lg"
-          data-for="card"
-          data-tip="This card has a description"
-        />
-      )}
+      {description && <FontAwesomeIcon icon="newspaper" {...iconProps} />}
+      {Boolean(attachments.length) && <FontAwesomeIcon icon="paperclip" {...iconProps} />}
+      {Boolean(comments.length) && <FontAwesomeIcon icon="comments" {...iconProps} />}
     </div>
   );
 };

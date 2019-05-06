@@ -14,8 +14,10 @@ class Attachments extends React.Component {
   attachmentEntry = attach => {
     const { data } = this.props.page;
     const url =
-      attach.url || `${URLS("files", "GET", { boardId: data.urlName, fileId: attach.id }).name}/${attach.name}`;
-    const preview = attach.preview || (attach.contentType && attach.contentType.includes("image") ? url : null);
+      attach.url ||
+      `${URLS("files", "GET", { boardId: data.urlName, fileId: attach.id }).name}/${attach.name}`;
+    const preview =
+      attach.preview || (attach.contentType && attach.contentType.includes("image") ? url : null);
     return (
       <div key={attach.id} className="row-entry">
         {preview ? (

@@ -8,7 +8,7 @@ const EditorActivity = props => {
       <FontAwesomeIcon
         data-tip={props.dataTip || ""}
         data-for="card-editor"
-        className="container-icon"
+        className="container-icon secondary"
         style={props.style || { paddingTop: "5px" }}
         icon={props.icon}
         size="lg"

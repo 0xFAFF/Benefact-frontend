@@ -32,8 +32,12 @@
   background: var(--modal-bg-color);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   border-radius: 10px;
-  svg:not([color]) {
-    color: var(--modal-icon-color);
+  svg:not(.secondary) {
+    color: var(--icon-primary-color);
+  }
+
+  svg:not([color] .secondary) {
+    color: var(--icon-secondary-color);
   }
 }
 

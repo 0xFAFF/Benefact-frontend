@@ -26,8 +26,12 @@ body {
     color: var(--text-color);
   }
 
-  svg:not([color]) {
-    color: var(--icon-color);
+  svg:not(.secondary) {
+    color: var(--icon-primary-color);
+  }
+
+  svg:not([color] .secondary) {
+    color: var(--icon-secondary-color);
   }
 
   .pull-right {
@@ -72,11 +76,11 @@ body {
   --column-shadow: 0px 0px 6px 0px rgba(98, 98, 102, 0.16);
   --text-color: black;
   --text-bg-color: #f0f0f0;
-  --icon-color: #72767b;
+  --icon-primary-color: black;
+  --icon-secondary-color: #72767b;
   --icon-hover: var(--card-hover);
   --button-color: var(--text-bg-color);
   --button-hover: var(--card-hover);
-  --modal-icon-color: var(--icon-color);
   --login-primary: var(--card-primary);
   --login-icon-bg-color: #dddddd;
   --login-icon-color: black;

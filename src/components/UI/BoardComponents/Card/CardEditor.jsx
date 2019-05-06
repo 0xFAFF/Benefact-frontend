@@ -3,7 +3,12 @@ import PropTypes from "prop-types";
 import { isEqual, sortBy, get } from "lodash";
 import TextArea from "react-textarea-autosize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Voting, Comments, DeleteModal, Attachments } from "components/UI/BoardComponents/Card/components";
+import {
+  Voting,
+  Comments,
+  DeleteModal,
+  Attachments
+} from "components/UI/BoardComponents/Card/components";
 import { Tags } from "components/UI/BoardComponents";
 import { AcceptCancelButtons } from "components/UI/Popup";
 import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
@@ -67,7 +72,12 @@ class CardEditor extends React.Component {
     const resetVals = { ...this.state.newContent };
     Object.entries(this.state.newContent).forEach(([key, value]) => {
       if (updateKeys.find(field => field === key)) {
-        resetVals[key] = typeof value === "object" && Array.isArray(value) ? [] : typeof value === "object" ? {} : "";
+        resetVals[key] =
+          typeof value === "object" && Array.isArray(value)
+            ? []
+            : typeof value === "object"
+            ? {}
+            : "";
       }
     });
     this.setState({ newContent: resetVals });
@@ -134,8 +144,21 @@ class CardEditor extends React.Component {
   };
 
   render() {
-    const { allowEdit, updateBoardContent, onAcceptHandler, disableComponents = false, onClose } = this.props;
-    const { id = 0, title = "", description = "", tagIds = [], columnId, votes = [] } = this.state.newContent;
+    const {
+      allowEdit,
+      updateBoardContent,
+      onAcceptHandler,
+      disableComponents = false,
+      onClose
+    } = this.props;
+    const {
+      id = 0,
+      title = "",
+      description = "",
+      tagIds = [],
+      columnId,
+      votes = []
+    } = this.state.newContent;
     return (
       <div id="editor-mode">
         <Tooltip id="card-editor" />
@@ -172,14 +195,19 @@ class CardEditor extends React.Component {
                 <FontAwesomeIcon
                   data-tip="Card ID"
                   data-for="card-editor"
-                  className="container-icon container-icon-padding"
+                  className="container-icon container-icon-padding secondary"
                   icon={"id-card"}
                   size="lg"
                 />
                 <div>{id}</div>
               </div>
               <div className="editor-vote">
-                <Voting defaultDisplay={true} size="lg" votes={votes} onUpdateVote={this.onUpdateVote} />
+                <Voting
+                  defaultDisplay={true}
+                  size="lg"
+                  votes={votes}
+                  onUpdateVote={this.onUpdateVote}
+                />
               </div>
             </div>
           )}
@@ -187,11 +215,13 @@ class CardEditor extends React.Component {
             <FontAwesomeIcon
               data-tip="Card Column"
               data-for="card-editor"
-              className="container-icon container-icon-padding"
+              className="container-icon container-icon-padding secondary"
               icon={"columns"}
               size="lg"
             />
-            <div className={`styled-select background-color semi-square ${allowEdit && "editable"}`}>
+            <div
+              className={`styled-select background-color semi-square ${allowEdit && "editable"}`}
+            >
               {allowEdit || false ? (
                 <select onChange={e => this.onChangeHandler(e, "columnId")} value={columnId}>
                   {this.props.columns.map(option => {
@@ -228,9 +258,14 @@ class CardEditor extends React.Component {
             />
           </EditorActivity>
           {disableComponents || !this.props.content.attachments.length ? null : (
-            <Attachments handleUpdate={this.props.handleUpdate} attachments={this.props.content.attachments} />
+            <Attachments
+              handleUpdate={this.props.handleUpdate}
+              attachments={this.props.content.attachments}
+            />
           )}
-          {disableComponents ? null : <Comments {...this.props} comments={this.props.content.comments} />}
+          {disableComponents ? null : (
+            <Comments {...this.props} comments={this.props.content.comments} />
+          )}
           <AcceptCancelButtons
             onAcceptHandler={() => {
               updateBoardContent(this.state.newContent, "cards").then(e => {

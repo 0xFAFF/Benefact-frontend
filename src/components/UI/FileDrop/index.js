@@ -15,7 +15,7 @@ class FileDrop extends Component {
     e.preventDefault();
     e.stopPropagation();
     this.dragCounter++;
-    if (e.dataTransfer.files[0]) this.setState({ isDragging: true });
+    if (e.dataTransfer.items[0] && e.dataTransfer.items[0].kind === "file") this.setState({ isDragging: true });
   };
   handleDragOut = e => {
     e.preventDefault();
@@ -32,7 +32,6 @@ class FileDrop extends Component {
     if (this.props.onDrop && e.dataTransfer.files[0]) this.props.onDrop(e.dataTransfer.files[0]);
   };
   handlePaste = e => {
-    console.log(e.clipboardData.files[0]);
     if (this.props.onDrop && e.clipboardData.files[0]) this.props.onDrop(e.clipboardData.files[0]);
   };
   componentDidMount() {

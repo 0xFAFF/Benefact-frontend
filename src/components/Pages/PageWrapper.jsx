@@ -20,7 +20,8 @@ const PageWrapper = Component => {
     mounted = true;
     static propTypes = {
       boardId: PropTypes.string,
-      token: PropTypes.string
+      token: PropTypes.string,
+      onLogoutHandler: PropTypes.func
     };
     constructor(props) {
       super(props);
@@ -30,7 +31,6 @@ const PageWrapper = Component => {
         modal: null,
         onModalClose: null
       };
-      this.handleError = e => notifyToast("error", e.message);
       this.child = {};
       this.urlParams = this.props.match.params;
       this.extraProps = {
@@ -39,6 +39,14 @@ const PageWrapper = Component => {
         setChild: c => (this.child = c)
       };
     }
+
+    handleError = e => {
+      if (e.status === 401) {
+        this.props.onLogoutHandler();
+        this.props.history.replace("/login");
+      }
+      notifyToast("error", e.message);
+    };
 
     componentDidMount = async () => {
       await this.getInitialData();

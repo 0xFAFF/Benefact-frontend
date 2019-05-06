@@ -46,21 +46,18 @@ class App extends React.Component {
 
   render() {
     const { token = "" } = this.state;
-
+    const childProps = {
+      token,
+      onLoginHandler: this.onLoginHandler,
+      onLogoutHandler: this.onLogoutHandler
+    };
     const RedirectLogin = props => (
       <Redirect to={`/login${props.match ? `?redirect=${encodeURI(props.match.url)}` : ""}`} />
     );
     const boardRender = props => {
       const { boardId, cardId, view = "kanban" } = props.match.params;
       return token ? (
-        <Board
-          view={view}
-          boardId={boardId}
-          cardId={cardId}
-          {...props}
-          token={token}
-          onLogoutHandler={this.onLogoutHandler}
-        />
+        <Board view={view} boardId={boardId} cardId={cardId} {...props} {...childProps} />
       ) : (
         <RedirectLogin {...props} />
       );
@@ -74,12 +71,7 @@ class App extends React.Component {
               path="/"
               render={props => (token ? <Redirect to="/board/benefact" /> : <RedirectLogin />)}
             />
-            <Route
-              path="/login"
-              render={props => (
-                <Login token={token} {...props} onLoginHandler={this.onLoginHandler} />
-              )}
-            />
+            <Route path="/login" render={props => <Login {...childProps} {...props} />} />
             <Route
               exact
               path="/board/:boardId/:view(list|kanban)?/card/:cardId"
@@ -89,11 +81,7 @@ class App extends React.Component {
             <Route
               path="/user"
               render={props =>
-                token ? (
-                  <User {...props} token={token} onLogoutHandler={this.onLogoutHandler} />
-                ) : (
-                  <RedirectLogin {...props} />
-                )
+                token ? <User {...props} {...childProps} /> : <RedirectLogin {...props} />
               }
             />
             <Route path="/version" render={props => <Version />} />

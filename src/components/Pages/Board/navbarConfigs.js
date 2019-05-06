@@ -58,7 +58,6 @@ export const navbarConfigs = child => props => ({
         tooltip: "View",
         icon: props.view === "kanban" ? "list-ul" : "columns",
         onClick: () => {
-          console.log(props);
           props.history.push(
             `/board/${props.data.urlName}/${props.view === "kanban" ? "list" : ""}`
           );

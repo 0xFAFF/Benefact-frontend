@@ -1,70 +1,57 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import { Tooltip } from "components/UI";
 import "./index.scss";
 
 const NavbarList = props => {
-  const { configs, onItemClick } = props;
+  const {
+    configs: { id: configId, ulClassName, options = [] },
+    onItemClick
+  } = props;
   return (
     <div className="navbar-list">
-      {configs.map(ulItem => {
-        const { ulClassName, options = [] } = ulItem;
-        return (
-          <div key={ulItem.id} className="navbar-list-container">
-            <div className="navbar-top-left">
-              <img src="/fafficon.png" alt="FAFF Games LLC"/>
-            </div>
-            <Tooltip id="navbar-tooltip" />
-            <ul className={ulClassName}>
-              {options.map(item => {
-                const { id, icon, image, title, liClassName = "", url, hide, tooltip } = item;
-                if (hide) return null;
-                if (url)
+      <div key={configId} className="navbar-list-container">
+        <div className="navbar-top-left">
+          <img src="/fafficon.png" alt="FAFF Games LLC" />
+        </div>
+        <Tooltip id="navbar-tooltip" />
+        <ul className={`${ulClassName} flex grow`}>
+          {options.map((section, index) => {
+            return (
+              <div key={configId + index} className="flex row">
+                {section.map(item => {
+                  const { id, icon, title, liClassName = "", url, hide, tooltip } = item;
+                  if (hide) return null;
                   return (
-                    <Link to={url} key={id}>
+                    <Fragment key={id}>
                       <li
                         data-tip={tooltip}
                         data-for="navbar-tooltip"
-                        key={id}
                         className={liClassName}
+                        onClick={e => {
+                          if (liClassName !== "brand" && !url) onItemClick(id, index);
+                        }}
                       >
                         <div className="icon-title">
                           {icon && <FontAwesomeIcon icon={icon} style={{ fontSize: "1.5em" }} />}
+                          {title ? <span>{title}</span> : null}
                         </div>
                       </li>
-                    </Link>
+                    </Fragment>
                   );
-                return (
-                  <Fragment key={id}>
-                    <li
-                      data-tip={tooltip}
-                      data-for="navbar-tooltip"
-                      className={liClassName}
-                      onClick={e => {
-                        if (liClassName !== "brand" && !url) onItemClick(id, ulItem.id);
-                      }}
-                    >
-                      <div className="icon-title">
-                        {icon && <FontAwesomeIcon icon={icon} style={{ fontSize: "1.5em" }} />}
-                        {title ? <span>{title}</span> : null}
-                      </div>
-                      {image && <img src={image} alt={image} width="55" height="55" />}
-                    </li>
-                  </Fragment>
-                );
-              })}
-            </ul>
-          </div>
-        );
-      })}
+                })}
+              </div>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 };
 
 NavbarList.propTypes = {
-  configs: PropTypes.array,
+  configs: PropTypes.object,
   onItemClick: PropTypes.func
 };
 

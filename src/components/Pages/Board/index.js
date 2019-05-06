@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 import { getCards } from "../../../utils";
 import Views from "./Views";
-import { Navbar, Modal } from "../../UI";
+import { Modal } from "../../UI";
 import { PageWrapper } from "../../Pages";
 import { PacmanLoader } from "../../UI/Loader";
 import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
+import { navbarConfigs } from "./navbarConfigs";
 
 class Board extends React.Component {
   static propTypes = {
@@ -19,119 +20,107 @@ class Board extends React.Component {
     onLogoutHandler: PropTypes.func
   };
 
-  state = {
-    data: null,
-    cards: {},
-    columns: [],
-    tags: [],
-    users: [],
-    columnOrder: [],
-    filters: {
-      active: false,
-      currGroupIndex: 0,
-      groups: [
-        {
-          filterBy: {
-            tags: [],
-            columnId: "",
-            title: ""
-          },
-          matchBy: "all"
-        }
-      ]
-    }
-  };
-
   dataSource = () => {
     return this.props.compFetch("cards", "GET").then(result => {
-      this.handleResetBoard(result);
-      this.getAllCards(result);
-      return result;
+      let updatedResult = { ...result };
+      const { columns = [] } = updatedResult;
+      updatedResult = {
+        ...updatedResult,
+        columnOrder: columns.map(column => column.id),
+        ...this.getAllCards(result)
+      };
+      updatedResult = {
+        ...updatedResult,
+        filters: {
+          active: false,
+          currGroupIndex: 0,
+          groups: [
+            {
+              filterBy: {
+                tags: [],
+                columnId: "",
+                title: ""
+              },
+              matchBy: "all"
+            }
+          ]
+        }
+      };
+      return updatedResult;
     });
   };
 
   componentDidMount = () => {
     this.props.setChild(this);
+    this.props.setNavbarConfigs(navbarConfigs);
   };
 
   createFilterGroup = () => {
-    this.setState(prevState => {
-      let newState = { ...prevState };
-      newState.filters.groups.push({
-        filterBy: {
-          tags: [],
-          columnId: "",
-          title: ""
-        },
-        matchBy: "all"
-      });
-      return newState;
+    let newData = { ...this.props.page.data };
+    newData.filters.groups.push({
+      filterBy: {
+        tags: [],
+        columnId: "",
+        title: ""
+      },
+      matchBy: "all"
     });
+    this.props.page.updateData(newData);
   };
 
   updateFilterGroupIndex = index => {
-    this.setState(prevState => {
-      let newState = { ...prevState };
-      newState.filters.currGroupIndex = index;
-      return newState;
-    });
+    let newData = { ...this.props.page.data };
+    newData.filters.currGroupIndex = index;
+    this.props.page.updateData(newData);
   };
 
   onChangeFilterHandler = (e, key, groupIndex = 0) => {
     if (key === "matchBy") {
-      this.setState(prevState => {
-        let newState = { ...prevState };
-        newState.filters.groups[groupIndex] = {
-          ...prevState.filters.groups[groupIndex],
-          matchBy: e
-        };
-        return newState;
-      });
+      let newData = { ...this.props.page.data };
+      newData.filters.groups[groupIndex] = {
+        ...newData.filters.groups[groupIndex],
+        matchBy: e
+      };
+      this.props.page.updateData(newData);
     } else if (key === "tags") {
-      let selectedTags = [...this.state.filters.groups[groupIndex].filterBy.tags];
+      let selectedTags = [...this.props.page.data.filters.groups[groupIndex].filterBy.tags];
       const selectedTagIndex = selectedTags.findIndex(tag => tag.id === e.id);
       if (selectedTagIndex > -1) {
         selectedTags.splice(selectedTagIndex, 1);
       } else {
         selectedTags.push(e);
       }
-      this.setState(prevState => {
-        let newState = { ...prevState };
-        newState.filters.groups[groupIndex] = {
-          ...prevState.filters.groups[groupIndex],
-          filterBy: {
-            ...prevState.filters.groups[groupIndex].filterBy,
-            tags: selectedTags
-          }
-        };
-        return newState;
-      });
+      let newData = { ...this.props.page.data };
+      newData.filters.groups[groupIndex] = {
+        ...newData.filters.groups[groupIndex],
+        filterBy: {
+          ...newData.filters.groups[groupIndex].filterBy,
+          tags: selectedTags
+        }
+      };
+      this.props.page.updateData(newData);
     } else if (key === "columnId") {
       e.persist();
-      this.setState(prevState => {
-        let newState = { ...prevState };
-        newState.filters.groups[groupIndex] = {
-          ...prevState.filters.groups[groupIndex],
-          filterBy: {
-            ...prevState.filters.groups[groupIndex].filterBy,
-            columnId: e.target.value === "" ? null : parseInt(e.target.value)
-          }
-        };
-        return newState;
-      });
+      let newData = { ...this.props.page.data };
+      newData.filters.groups[groupIndex] = {
+        ...newData.filters.groups[groupIndex],
+        filterBy: {
+          ...newData.filters.groups[groupIndex].filterBy,
+          columnId: e.target.value === "" ? null : parseInt(e.target.value)
+        }
+      };
+      this.props.page.updateData(newData);
     } else if (key === "title") {
       e.persist();
-      this.setState(prevState => {
-        let newState = { ...prevState };
-        newState.filters.groups[groupIndex] = {
-          ...prevState.filters.groups[groupIndex],
-          filterBy: {
-            ...prevState.filters.groups[groupIndex].filterBy,
-            title: e.target.value
-          }
-        };
-        return newState;
-      });
+      let newData = { ...this.props.page.data };
+      newData.filters.groups[groupIndex] = {
+        ...newData.filters.groups[groupIndex],
+        filterBy: {
+          ...newData.filters.groups[groupIndex].filterBy,
+          title: e.target.value
+        }
+      };
+      this.props.page.updateData(newData);
     }
   };
 
@@ -139,7 +128,7 @@ class Board extends React.Component {
     let queryParams = {};
     const {
       filters: { groups = [] }
-    } = this.state;
+    } = this.props.page.data;
     groups.forEach((group, index) => {
       const { matchBy, filterBy } = group;
       const { tags, columnId, title } = filterBy;
@@ -182,40 +171,43 @@ class Board extends React.Component {
   };
 
   resetFilters = () => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        currGroupIndex: 0,
-        groups: [
-          {
-            filterBy: {
-              tags: [],
-              columnId: "",
-              title: ""
-            },
-            matchBy: "all"
-          }
-        ]
-      }
-    });
+    let newData = { ...this.props.page.data };
+    newData.filters = {
+      ...newData.filters,
+      currGroupIndex: 0,
+      groups: [
+        {
+          filterBy: {
+            tags: [],
+            columnId: "",
+            title: ""
+          },
+          matchBy: "all"
+        }
+      ]
+    };
+    this.props.page.updateData(newData);
     this.updateFilters();
   };
 
   handleResetBoard = data => {
     const { columns = [], cards = {}, tags = [], users = [] } = data;
     let columnOrder = columns.map(column => column.id);
-    this.setState({
-      cards: cards,
-      columns: columns,
-      tags: tags,
-      columnOrder: columnOrder,
-      users: users
-    });
+    let newData = { ...this.props.page.data };
+    newData = {
+      ...newData,
+      cards,
+      columns,
+      tags,
+      columnOrder,
+      users
+    };
+    this.props.page.updateData(newData);
   };
 
   handleUpdate = async (type, action, queryParams, errorHandler) => {
     await this.props.compFetch(type, action, queryParams, errorHandler).then(async _ => {
-      if (this.state.filters.active) {
+      if (this.props.page.data.filters.active) {
         this.selectFilters();
       } else {
         await this.dataSource();
@@ -226,29 +218,27 @@ class Board extends React.Component {
   updateFilters = async queryParams => {
     await this.props.compFetch("cards", "GET", queryParams).then(result => {
       this.handleResetBoard(result);
+      let newData = { ...this.props.page.data };
       if (queryParams) {
-        this.setState({
-          filters: {
-            ...this.state.filters,
-            active: true
-          }
-        });
+        newData.filters = {
+          ...newData.filters,
+          active: true
+        };
       } else {
-        this.setState({
-          filters: {
-            ...this.state.filters,
-            active: false
-          }
-        });
+        newData.filters = {
+          ...newData.filters,
+          active: false
+        };
       }
+      this.props.page.updateData(newData);
     });
   };
 
   updateBoardContent = async (newContent, type) => {
     let boardType;
-    let newState;
+    let newData = { ...this.props.page.data };
     if (type === "cards") {
-      let cardGroups = { ...this.state[type] };
+      let cardGroups = { ...this.props.page.data[type] };
       const cards = Object.entries(cardGroups).map(([cardGroupKey, cardGroupValue]) => {
         const cardIndex = cardGroupValue.findIndex(type => type.id === newContent.id);
         if (cardIndex > -1) {
@@ -256,24 +246,24 @@ class Board extends React.Component {
         }
         return { [cardGroupKey]: [...cardGroupValue] };
       });
-      newState = {
-        ...this.state,
+      newData = {
+        ...newData,
         cards: Object.assign(...cards)
       };
     } else {
-      boardType = [...this.state[type]];
+      boardType = [...this.props.page.data[type]];
       boardType[boardType.findIndex(type => type.id === newContent.id)] = newContent;
-      newState = {
-        ...this.state,
+      newData = {
+        ...newData,
         [type]: boardType
       };
     }
     await this.props.compFetch(type, "UPDATE", newContent).then(_ => {
-      this.setState(newState);
+      this.props.page.updateData(newData);
     });
   };
 
-  kanbanOnDragEnd = (result, groupName) => {
+  kanbanOnDragEnd = async (result, groupName) => {
     const { destination, source, draggableId, type } = result;
     // check if there is a destination
     if (!destination) return;
@@ -285,31 +275,35 @@ class Board extends React.Component {
 
     // Move columns around
     if (type === "column") {
-      const newColumnOrder = [...this.state.columnOrder];
+      let newData = { ...this.props.page.data };
+      const newColumnOrder = [...this.props.page.data.columnOrder];
       newColumnOrder.splice(source.index, 1);
       newColumnOrder.splice(destination.index, 0, draggableId);
-      let draggedColumn = [...this.state.columns].find(column => column.index === source.index);
+      let draggedColumn = [...this.props.page.data.columns].find(
+        column => column.index === source.index
+      );
       draggedColumn.index = destination.index;
-      const newState = {
-        ...this.state,
+      newData = {
+        ...newData,
         columnOrder: newColumnOrder
       };
-      this.setState(newState);
+      await this.props.page.updateData(newData);
       return this.handleUpdate("columns", "UPDATE", draggedColumn);
     }
-
     // source column of droppable
-    const start = this.state.columns.find(column => `col-${column.id}` === source.droppableId);
+    const start = this.props.page.data.columns.find(
+      column => `col-${column.id}` === source.droppableId
+    );
     // destination column of droppable
-    const finish = this.state.columns.find(
+    const finish = this.props.page.data.columns.find(
       column => `col-${column.id}` === destination.droppableId
     );
 
     // Moving within one column
     if (start === finish) {
       // new cards nonmutated array
-      let cardsSrcCol = getCards(this.state.cards[groupName], source.droppableId, "col-");
-      let cardsNotSrcDestCols = this.state.cards[groupName].filter(
+      let cardsSrcCol = getCards(this.props.page.data.cards[groupName], source.droppableId, "col-");
+      let cardsNotSrcDestCols = this.props.page.data.cards[groupName].filter(
         card =>
           `col-${card.columnId}` !== source.droppableId &&
           `col-${card.columnId}` !== destination.droppableId
@@ -321,21 +315,26 @@ class Board extends React.Component {
       // Orders array for inserting droppable in new spot
       cardsSrcCol.splice(source.index, 1);
       cardsSrcCol.splice(destination.index, 0, draggedCard);
-      const newState = {
-        ...this.state,
+      let newData = { ...this.props.page.data };
+      newData = {
+        ...newData,
         cards: {
-          ...this.state.cards,
+          ...newData.cards,
           [groupName]: [...cardsSrcCol, ...cardsNotSrcDestCols]
         }
       };
-      this.setState(newState);
+      this.props.page.updateData(newData);
       return this.handleUpdate("cards", "UPDATE", draggedCard);
     }
 
     // Moving card from one column to another
-    let cardsSrcCol = getCards(this.state.cards[groupName], source.droppableId, "col-");
-    let cardsDestCol = getCards(this.state.cards[groupName], destination.droppableId, "col-");
-    let cardsNotSrcDestCols = this.state.cards[groupName].filter(
+    let cardsSrcCol = getCards(this.props.page.data.cards[groupName], source.droppableId, "col-");
+    let cardsDestCol = getCards(
+      this.props.page.data.cards[groupName],
+      destination.droppableId,
+      "col-"
+    );
+    let cardsNotSrcDestCols = this.props.page.data.cards[groupName].filter(
       card =>
         `col-${card.columnId}` !== source.droppableId &&
         `col-${card.columnId}` !== destination.droppableId
@@ -363,14 +362,15 @@ class Board extends React.Component {
     cardsSrcCol.splice(source.index, 1);
     cardsDestCol.splice(destination.index, 0, draggedCard);
 
-    const newState = {
-      ...this.state,
+    let newData = { ...this.props.page.data };
+    newData = {
+      ...newData,
       cards: {
-        ...this.state.cards,
+        ...newData.cards,
         [groupName]: [...cardsSrcCol, ...cardsDestCol, ...cardsNotSrcDestCols]
       }
     };
-    this.setState(newState);
+    this.props.page.updateData(newData);
     return this.handleUpdate("cards", "UPDATE", draggedCard);
   };
 
@@ -382,21 +382,21 @@ class Board extends React.Component {
     if (destination.droppableId === source.droppableId && destination.index === source.index) {
       return;
     }
-
-    let cards = [...this.state.cards[groupName]];
+    let cards = [...this.props.page.data.cards[groupName]];
     const draggedCard = cards.find(card => `card-${card.id}` === draggableId);
     draggedCard.index = destination.index;
     // Orders array for inserting droppable in new spot
     cards.splice(source.index, 1);
     cards.splice(destination.index, 0, draggedCard);
-    const newState = {
-      ...this.state,
+    let newData = { ...this.props.page.data };
+    newData = {
+      ...newData,
       cards: {
-        ...this.state.cards,
+        ...newData.cards,
         [groupName]: [...cards]
       }
     };
-    this.setState(newState);
+    this.props.page.updateData(newData);
     return this.handleUpdate("cards", "UPDATE", draggedCard);
   };
 
@@ -412,11 +412,8 @@ class Board extends React.Component {
   getAllCards = data => {
     const { cards = {} } = data;
     const cardGroups = Object.values(cards);
-    if (cardGroups.length > 0) {
-      this.setState({
-        allCards: cardGroups[0]
-      });
-    }
+    if (cardGroups.length > 0) return { allCards: cardGroups[0] };
+    return [];
   };
 
   closeCard = () => {
@@ -426,12 +423,17 @@ class Board extends React.Component {
   };
 
   render() {
-    const { onLogoutHandler, cardId, boardId, page, view } = this.props;
-    const { hasPrivilege } = page;
-    const { isLoading, ...baseState } = this.state;
+    const {
+      cardId,
+      boardId,
+      page: { hasPrivilege, data },
+      view,
+      isLoading
+    } = this.props;
     const cardsById =
-      baseState.cards.all &&
-      baseState.cards.all.reduce((all, card) => {
+      data.cards &&
+      data.cards.all &&
+      data.cards.all.reduce((all, card) => {
         all[card.id] = card;
         return all;
       }, {});
@@ -454,44 +456,25 @@ class Board extends React.Component {
       ...generalFunctions
     };
 
-    const navBarFunctions = {
-      addComponent: this.addComponent,
-      deleteComponent: this.deleteComponent,
-      resetFilters: this.resetFilters,
-      onChangeFilterHandler: this.onChangeFilterHandler,
-      selectFilters: this.selectFilters,
-      createFilterGroup: this.createFilterGroup,
-      updateFilterGroupIndex: this.updateFilterGroupIndex,
-      onLogoutHandler: onLogoutHandler
-    };
     const editingCard = cardId && cardsById && cardsById[cardId];
     return (
       <>
-        <Navbar
-          title={(this.props.data || { title: "" }).title}
-          view={view}
-          {...baseState}
-          {...navBarFunctions}
-          filtersActive={this.state.filters.active}
-          resetFilters={this.resetFilters}
-        />
-        {this.props.isLoading ? (
+        {isLoading ? (
           <PacmanLoader />
         ) : (
           <>
             <Views
               view={view}
-              {...baseState}
+              {...data}
               kanbanFunctions={kanbanFunctions}
               listFunctions={listFunctions}
-              filtersActive={this.state.filters.active}
+              filtersActive={this.props.page.data.filters.active}
               openCard={id =>
                 this.props.history.push(
                   `/board/${boardId}${view === "kanban" ? "" : "/list"}/card/${id}`
                 )
               }
             />
-
             {editingCard && (
               <Modal isOpen onClose={this.closeCard}>
                 <CardEditor
@@ -501,7 +484,7 @@ class Board extends React.Component {
                   updateBoardContent={this.updateBoardContent}
                   deleteComponent={this.deleteComponent}
                   content={editingCard}
-                  {...baseState}
+                  {...data}
                   showDeleteModal
                 />
               </Modal>

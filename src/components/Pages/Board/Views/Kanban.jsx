@@ -29,14 +29,7 @@ class InnerList extends React.PureComponent {
 }
 
 const Kanban = props => {
-  const {
-    columns,
-    columnOrder,
-    kanbanOnDragEnd,
-    groupName,
-    filterIndex,
-    filtersActive
-  } = props;
+  const { columns, columnOrder, kanbanOnDragEnd, groupName, filterIndex, filtersActive } = props;
   return (
     <div id="kanban-board">
       <DragDropContext
@@ -44,17 +37,9 @@ const Kanban = props => {
         // onDragStart={this.onDragStart}
         // onDragUpdate={this.onDragUpdate}
       >
-        <Droppable
-          droppableId="all-columns"
-          direction="horizontal"
-          type="column"
-        >
+        <Droppable droppableId="all-columns" direction="horizontal" type="column">
           {provided => (
-            <div
-              id="board-droppable"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
+            <div id="board-droppable" {...provided.droppableProps} ref={provided.innerRef}>
               <div className="views-group-name">
                 <span
                   className="views-group-name-title"
@@ -65,14 +50,7 @@ const Kanban = props => {
               </div>
               {columnOrder.map((columnId, index) => {
                 const column = columns.find(column => column.id === columnId);
-                return (
-                  <InnerList
-                    index={index}
-                    key={column.id}
-                    column={column}
-                    {...props}
-                  />
-                );
+                return <InnerList index={index} key={column.id} column={column} {...props} />;
               })}
               {provided.placeholder}
             </div>

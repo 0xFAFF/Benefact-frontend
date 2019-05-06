@@ -30,8 +30,7 @@
     align-items: center;
     padding: 0px;
     list-style: none;
-    display: flex;
-    flex-grow: 1;
+    justify-content: space-between;
     .brand {
       font-size: 2.8em;
       font-family: "Lora";

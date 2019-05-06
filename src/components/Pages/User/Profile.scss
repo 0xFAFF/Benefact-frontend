@@ -1,0 +1,57 @@
+#user-profile {
+  flex-grow: 1;
+  display: grid;
+  grid-template-rows: 33% 67%;
+  padding: 40px;
+
+  #user-demographics {
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 50% 50%;
+    padding: var(--sub-container-padding);
+    background-color: var(--login-primary);
+    .user-avatar-container {
+      background-color: var(--bg-navbar);
+      display: grid;
+      grid-template-rows: 100%;
+      grid-template-columns: 60% 40%;
+      .user-avatar {
+        font-size: 1200%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .user-details {
+      background-color: var(--bg-navbar);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .user-details-input {
+        // font-size: 1.5em;
+        margin: 20px;
+      }
+      .user-name {
+        font-size: 2em;
+      }
+      .user-email {
+        font-size: 1.5em;
+      }
+    }
+  }
+  #user-content {
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 33% 67%;
+    padding: var(--sub-container-padding);
+    background-color: var(--login-primary);
+    .user-content-selectables {
+      padding: var(--sub-container-padding);
+      background-color: var(--bg-navbar);
+    }
+    .user-content-display {
+      background-color: var(--bg-navbar);
+    }
+  }
+  --sub-container-padding: 20px;
+}

@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import "./fontawesome";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { User, Login, Board } from "./components/Pages";
+import { User, Login, Board, Landing } from "./components/Pages";
 import { Version } from "./components/Version";
 import { setTheme, parseToken } from "./utils";
 import { THEMES } from "./constants";
@@ -69,7 +69,10 @@ class App extends React.Component {
             <Route
               exact
               path="/"
-              render={props => (token ? <Redirect to="/board/benefact" /> : <RedirectLogin />)}
+              render={props =>
+                token ? <Landing {...props} {...childProps} /> : <RedirectLogin {...props} />
+              }
+              // render={props => (token ? <Redirect to="/board/benefact" /> : <RedirectLogin />)}
             />
             <Route path="/login" render={props => <Login {...childProps} {...props} />} />
             <Route

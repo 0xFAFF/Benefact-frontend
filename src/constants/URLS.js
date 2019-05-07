@@ -55,6 +55,9 @@ const urlKeyMap = {
     },
     VERIFY: {
       url: "users/verify"
+    },
+    CURRENT: {
+      url: "users/current"
     }
   },
   comments: {

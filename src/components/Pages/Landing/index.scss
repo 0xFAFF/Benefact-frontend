@@ -1,0 +1,28 @@
+#landing-container {
+  justify-content: space-between;
+  #tabs {
+    box-shadow: var(--bg-shadow);
+    margin: 2em;
+    width: 25%;
+    .tab {
+      border: 1px solid var(--card-border);
+      font-size: 1.5em;
+      font-weight: 700;
+      text-align: left;
+      margin: 2em;
+      padding: 1.5em 1em;
+      box-shadow: var(--bg-shadow);
+      cursor: pointer;
+      &:hover {
+        background-color: var(--icon-hover);
+        box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.23), 2px 3px 6px rgba(0, 0, 0, 0.03);
+      }
+    }
+  }
+  #content {
+    box-shadow: var(--bg-shadow);
+    margin: 2em;
+    margin-left: 0;
+    width: 75%;
+  }
+}

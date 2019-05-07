@@ -3,7 +3,9 @@
   #tabs {
     box-shadow: var(--bg-shadow);
     margin: 2em;
-    width: 25%;
+    flex-grow: 1;
+    flex-basis: 0;
+    max-width: 400px;
     .tab {
       border: 1px solid var(--card-border);
       font-size: 1.5em;
@@ -23,6 +25,6 @@
     box-shadow: var(--bg-shadow);
     margin: 2em;
     margin-left: 0;
-    width: 75%;
+    flex-grow: 1;
   }
 }

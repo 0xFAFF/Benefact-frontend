@@ -1,11 +1,56 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { Tooltip } from "components/UI";
+import { PacmanLoader } from "components/UI/Loader";
+import "./Boards.scss";
 
-const Board = props => {
+const Boards = ({
+  page: {
+    isLoading,
+    data: { roles = [] }
+  },
+  history
+}) => {
+  const goToBoard = boardUrlName => {
+    history.push(`/board/${boardUrlName}`);
+  };
+
   return (
-    <div id="board-content">
-      <div>Hello</div>
+    <div id="boards-content">
+      {isLoading ? (
+        <PacmanLoader />
+      ) : (
+        roles.map(({ board: { id, title, urlName }, userId, privilege }) => {
+          return (
+            <React.Fragment key={id}>
+              <Tooltip id="board" effect="float" />
+              <div
+                className="board flex"
+                data-tip={`Go to board: ${title}`}
+                data-for="board"
+                onClick={() => goToBoard(urlName)}
+              >
+                <div className="board-icon">Board Icon</div>
+                <div className="board-info grow">
+                  <div className="board-title">Board: {title}</div>
+                  <div className="board-user-role">Role: {privilege}</div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        })
+      )}
     </div>
   );
 };
 
-export default Board;
+Boards.propTypes = {
+  page: PropTypes.shape({
+    data: PropTypes.shape({
+      roles: PropTypes.array,
+      user: PropTypes.object
+    })
+  })
+};
+
+export default Boards;

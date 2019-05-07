@@ -72,7 +72,6 @@ class App extends React.Component {
               render={props =>
                 token ? <Landing {...props} {...childProps} /> : <RedirectLogin {...props} />
               }
-              // render={props => (token ? <Redirect to="/board/benefact" /> : <RedirectLogin />)}
             />
             <Route path="/login" render={props => <Login {...childProps} {...props} />} />
             <Route

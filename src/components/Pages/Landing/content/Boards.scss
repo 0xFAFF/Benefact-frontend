@@ -1,0 +1,38 @@
+#boards-content {
+  .board {
+    border: 1px solid var(--card-border);
+    font-size: 1.5em;
+    font-weight: 700;
+    margin: 2em;
+    padding: 1em;
+    box-shadow: var(--bg-shadow);
+    cursor: pointer;
+    &:hover {
+      background-color: var(--icon-hover);
+      box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.23), 2px 3px 6px rgba(0, 0, 0, 0.03);
+    }
+    .board-icon,
+    .board-info {
+      padding: 1em;
+    }
+    .board-icon {
+      border: 1px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 130px;
+      box-shadow: var(--bg-shadow);
+      border: 1px solid var(--card-border);
+    }
+    .board-info {
+      .board-title,
+      .board-user-role {
+        margin: 1rem;
+        text-align: left;
+      }
+      .board-title {
+        font-size: 1.5em;
+      }
+    }
+  }
+}

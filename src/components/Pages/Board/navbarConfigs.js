@@ -8,8 +8,9 @@ export const navbarConfigs = (child, props) => {
     view,
     page: { data, hasPrivilege, history }
   } = props;
+  if (!data) return {};
   return {
-    title: data.Title,
+    title: data.title,
     buttons: [
       {
         id: "view",

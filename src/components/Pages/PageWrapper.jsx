@@ -14,6 +14,7 @@ import { URLS } from "../../constants";
 import { PageProvider } from "components/Pages/PageContext";
 import { Modal, Navbar } from "components/UI";
 import { Logout } from "components/UI/Navbar/components";
+import { PacmanLoader } from "components/UI/Loader";
 
 const PageWrapper = Component => {
   return class extends React.Component {
@@ -27,7 +28,7 @@ const PageWrapper = Component => {
       super(props);
       this.state = {
         isLoading: true,
-        data: {},
+        data: undefined,
         modal: null,
         onModalClose: null
       };
@@ -49,22 +50,25 @@ const PageWrapper = Component => {
     };
 
     componentDidMount = async () => {
-      await this.getInitialData();
+      await this.refreshData();
       if (this.mounted) this.setState({ isLoading: false });
     };
 
     componentWillUnmount = () => (this.mounted = false);
 
-    getInitialData = async () => {
-      const data = this.child.dataSource
-        ? await this.child
-            .dataSource({
-              ...this.props,
-              ...this.extraProps
-            })
-            .catch(() => null)
-        : null;
-      if (data) this.updateData(data);
+    refreshData = async (promise, showLoader = true) => {
+      if (showLoader) this.setState({ isLoading: true });
+      if (promise) await promise;
+      if (this.child.dataSource) {
+        const data = await this.child
+          .dataSource({
+            ...this.props,
+            ...this.extraProps
+          })
+          .catch(() => null);
+        if (data) this.updateData(data);
+      }
+      this.setState({ isLoading: false });
     };
 
     updateData = data => {
@@ -118,9 +122,9 @@ const PageWrapper = Component => {
     };
 
     navbarConfigs = page => {
-      const { buttons = [], title = this.state.isLoading ? "" : "Benefact" } = this.child.navbar
+      const { buttons = [], title } = this.child.navbar
         ? this.child.navbar(page)
-        : {};
+        : { buttons: [], title: "Benefact" };
       return [
         buttons,
         [{ id: "brand", className: "brand", title: title }],
@@ -158,7 +162,7 @@ const PageWrapper = Component => {
       const page = {
         showModal: this.showModal,
         closeModal: this.closeModal,
-        getInitialData: this.getInitialData,
+        refreshData: this.refreshData,
         compFetch: this.compFetch,
         history: this.props.history,
         data: this.state.data,
@@ -170,6 +174,7 @@ const PageWrapper = Component => {
       };
       return (
         <PageProvider value={page}>
+          {this.state.isLoading && <PacmanLoader />}
           <Navbar configs={this.navbarConfigs({ ...this.props, page })} />
           <Component
             isLoading={this.state.isLoading}

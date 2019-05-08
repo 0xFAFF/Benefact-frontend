@@ -4,7 +4,15 @@
   justify-content: center;
   align-items: center;
   align-content: space-between;
-  height: 500px;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  background-color: rgba($color: #000, $alpha: 0.4);
+
   .loading-text {
     margin-bottom: 20px;
     font-size: 1.5em;

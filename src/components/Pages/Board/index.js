@@ -5,7 +5,6 @@ import { getCards } from "../../../utils";
 import Views from "./Views";
 import { Modal } from "../../UI";
 import { PageWrapper } from "../../Pages";
-import { PacmanLoader } from "../../UI/Loader";
 import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 import { navbarConfigs } from "./navbarConfigs";
 
@@ -215,13 +214,7 @@ class Board extends React.Component {
   };
 
   handleUpdate = async (type, action, queryParams, errorHandler) => {
-    await this.props.compFetch(type, action, queryParams, errorHandler).then(async _ => {
-      if (this.props.page.data.filters.active) {
-        this.selectFilters();
-      } else {
-        await this.dataSource();
-      }
-    });
+    this.props.page.refreshData(this.props.compFetch(type, action, queryParams, errorHandler));
   };
 
   updateFilters = async queryParams => {
@@ -437,9 +430,9 @@ class Board extends React.Component {
       boardId,
       page: { hasPrivilege, data },
       view,
-      isLoading
     } = this.props;
     const cardsById =
+      data &&
       data.cards &&
       data.cards.all &&
       data.cards.all.reduce((all, card) => {
@@ -468,16 +461,14 @@ class Board extends React.Component {
     const editingCard = cardId && cardsById && cardsById[cardId];
     return (
       <>
-        {isLoading ? (
-          <PacmanLoader />
-        ) : (
+        {data && (
           <>
             <Views
               view={view}
               {...data}
               kanbanFunctions={kanbanFunctions}
               listFunctions={listFunctions}
-              filtersActive={this.props.page.data.filters.active}
+              filtersActive={data.filters.active}
               openCard={id =>
                 this.props.history.push(
                   `/board/${boardId}${view === "kanban" ? "" : "/list"}/card/${id}`

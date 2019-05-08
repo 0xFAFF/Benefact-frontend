@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Tooltip } from "components/UI";
 import { PacmanLoader } from "components/UI/Loader";
 import "./Boards.scss";
 
@@ -20,25 +19,25 @@ const Boards = ({
       {isLoading ? (
         <PacmanLoader />
       ) : (
-        roles.map(({ board: { id, title, urlName }, userId, privilege }) => {
+        <>
+        <button>Create Board</button>
+        {roles.map(({ board: { id, title, urlName }, userId, privilege }) => {
           return (
-            <React.Fragment key={id}>
-              <Tooltip id="board" effect="float" />
               <div
+              key={id}
                 className="board flex"
                 data-tip={`Go to board: ${title}`}
                 data-for="board"
-                onClick={() => goToBoard(urlName)}
               >
                 <div className="board-icon">Board Icon</div>
                 <div className="board-info grow">
                   <div className="board-title">Board: {title}</div>
                   <div className="board-user-role">Role: {privilege}</div>
+                  <div className="board-link" onClick={() => goToBoard(urlName)}>View Board</div>
                 </div>
               </div>
-            </React.Fragment>
           );
-        })
+        })}</>
       )}
     </div>
   );

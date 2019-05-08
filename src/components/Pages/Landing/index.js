@@ -56,7 +56,7 @@ class Landing extends React.Component {
                   <Tooltip id="tabs" effect="float" />
                   <div
                     key={id}
-                    className="tab"
+                    className={`tab ${id === this.state.activeContent ?  "active" : ""}`}
                     data-tip={`Click to see: ${title}`}
                     data-for="tabs"
                     id={title}

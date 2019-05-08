@@ -7,7 +7,7 @@
     flex-basis: 0;
     max-width: 400px;
     .tab {
-      border: 1px solid var(--card-border);
+      border: 1px solid var(--landing-border);
       font-size: 1.5em;
       font-weight: 700;
       text-align: left;
@@ -15,10 +15,14 @@
       padding: 1.5em 1em;
       box-shadow: var(--bg-shadow);
       cursor: pointer;
-      &:hover {
-        background-color: var(--icon-hover);
+      &:hover:not(.active) {
+        background-color: var(--landing-hover);
         box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.23), 2px 3px 6px rgba(0, 0, 0, 0.03);
       }
+    }
+    .active {
+      background-color: var(--landing-hover);
+      box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.23), 2px 3px 6px rgba(0, 0, 0, 0.03);
     }
   }
   #content {
@@ -26,5 +30,6 @@
     margin: 2em;
     margin-left: 0;
     flex-grow: 1;
+    flex-basis: 0;
   }
 }

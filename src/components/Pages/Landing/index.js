@@ -20,7 +20,7 @@ class Landing extends React.Component {
   };
   navbar = props => {
     return {
-      title: "",
+      title: "Benefact",
       buttons: []
     };
   };

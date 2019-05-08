@@ -125,7 +125,12 @@ const PageWrapper = Component => {
         buttons,
         [{ id: "brand", className: "brand", title: title }],
         [
-          { id: "home", tooltip: "Home", icon: "home" },
+          {
+            id: "home",
+            tooltip: "Home",
+            icon: "home",
+            onClick: () => this.props.history.push("/")
+          },
           { id: "menu", tooltip: "Menu", icon: "bars" },
           {
             id: "user",

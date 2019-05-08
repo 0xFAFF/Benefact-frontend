@@ -53,7 +53,7 @@ class CardEditor extends React.Component {
   }
 
   componentDidMount() {
-    const { columns = [], content = {} } = this.props;
+    const { columns = [], content = {}, columnId } = this.props;
     const { index, ...rest } = content;
     const defaultColumnId = columns[0].id;
     this.setState({
@@ -61,7 +61,7 @@ class CardEditor extends React.Component {
         title: "",
         description: "",
         tagIds: [],
-        columnId: defaultColumnId,
+        columnId: columnId || defaultColumnId,
         ...rest
       }
     });

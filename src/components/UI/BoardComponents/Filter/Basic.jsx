@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import TagWrapper from "../TagWrapper";
-import ColumnWrapper from "../ColumnWrapper";
-import TitleWrapper from "../TitleWrapper";
-import MatchWrapper from "../MatchWrapper";
-import { AcceptCancelButtons } from "../../../../Popup";
-import "./index.scss";
+import TagWrapper from "./TagWrapper";
+import ColumnWrapper from "./ColumnWrapper";
+import TitleWrapper from "./TitleWrapper";
+import MatchWrapper from "./MatchWrapper";
+import { AcceptCancelButtons } from "components/UI/Popup";
+import "./Basic.scss";
 
 class Basic extends React.Component {
   render() {

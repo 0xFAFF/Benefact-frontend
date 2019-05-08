@@ -1,7 +1,7 @@
 import React from "react";
-import { FilterView } from "components/UI";
-import { Delete, Filter } from "components/UI/Navbar/components";
+import { Delete, FilterView } from "components/UI/Navbar/components";
 import { AddCard } from "components/UI/AddComponents";
+import { Filter } from "components/UI/BoardComponents/Filter";
 
 export const navbarConfigs = (child, props) => {
   const {

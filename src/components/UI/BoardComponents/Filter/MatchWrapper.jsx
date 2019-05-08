@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./index.scss";
+import "./MatchWrapper.scss";
 
 const MatchWrapper = props => {
   const { selectedMatch, onChangeFilterHandler } = props;

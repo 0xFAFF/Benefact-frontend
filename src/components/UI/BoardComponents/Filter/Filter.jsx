@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Basic from "./Basic";
-import "./index.scss";
+import "./Filter.scss";
 
 class Filter extends React.Component {
   static propTypes = {

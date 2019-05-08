@@ -1,7 +1,6 @@
 import React from "react";
-import TagWrapper from "../TagWrapper";
-import DisplayTag from "../../../../BoardComponents/Tags/DisplayTag";
-import "./index.scss";
+import DisplayTag from "components/UI/BoardComponents/Tags/DisplayTag";
+import "./SelectedFilters.scss";
 
 const SelectedFilters = props => {
   const { tags, columnId } = props;

@@ -22,7 +22,7 @@ class Board extends React.Component {
 
   handleError = (e, next) => {
     // Redirect to landing page if you can't view a board
-    if (e.status === 403) this.props.page.history.replace("/user");
+    if (e.status === 403) this.props.page.history.replace("/");
     next();
   };
 

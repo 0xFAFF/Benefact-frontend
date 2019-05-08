@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./index.scss";
+import "./TitleWrapper.scss";
 
 const TitleWrapper = props => {
   const { selectedTitle, onChangeFilterHandler } = props;

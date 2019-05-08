@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./index.scss";
+import "./ColumnWrapper.scss";
 
 const ColumnWrapper = props => {
   const { columns = [], onChangeFilterHandler, selectedColumnId = "" } = props;

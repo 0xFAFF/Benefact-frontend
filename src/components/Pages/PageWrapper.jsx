@@ -125,6 +125,9 @@ const PageWrapper = Component => {
       const { buttons = [], title } = this.child.navbar
         ? this.child.navbar(page)
         : { buttons: [], title: "Benefact" };
+
+      if (!buttons) return [[], [{ id: "brand", className: "brand", title: title }], []];
+
       return [
         buttons,
         [{ id: "brand", className: "brand", title: title }],

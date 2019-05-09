@@ -6,41 +6,41 @@ const baseURL =
 const urlKeyMap = {
   cards: {
     GET: {
-      url: "board/{boardId}/"
+      url: "boards/{boardId}/"
     },
     UPDATE: {
-      url: "board/{boardId}/cards/update",
+      url: "boards/{boardId}/cards/update",
       whiteList: ["id", "title", "index", "columnId", "tagIds", "description"]
     },
     ADD: {
-      url: "board/{boardId}/cards/add"
+      url: "boards/{boardId}/cards/add"
     },
     DELETE: {
-      url: "board/{boardId}/cards/delete"
+      url: "boards/{boardId}/cards/delete"
     }
   },
   columns: {
     UPDATE: {
-      url: "board/{boardId}/columns/update",
+      url: "boards/{boardId}/columns/update",
       whiteList: ["id", "index", "title"]
     },
     ADD: {
-      url: "board/{boardId}/columns/add"
+      url: "boards/{boardId}/columns/add"
     },
     DELETE: {
-      url: "board/{boardId}/columns/delete"
+      url: "boards/{boardId}/columns/delete"
     }
   },
   tags: {
     UPDATE: {
-      url: "board/{boardId}/tags/update",
+      url: "boards/{boardId}/tags/update",
       whiteList: ["id", "name", "color", "character"]
     },
     ADD: {
-      url: "board/{boardId}/tags/add"
+      url: "boards/{boardId}/tags/add"
     },
     DELETE: {
-      url: "board/{boardId}/tags/delete"
+      url: "boards/{boardId}/tags/delete"
     }
   },
   users: {
@@ -62,30 +62,38 @@ const urlKeyMap = {
   },
   comments: {
     ADD: {
-      url: "board/{boardId}/comments/add"
+      url: "boards/{boardId}/comments/add"
     },
     DELETE: {
-      url: "board/{boardId}/comments/delete"
+      url: "boards/{boardId}/comments/delete"
     },
     UPDATE: {
-      url: "board/{boardId}/comments/update",
+      url: "boards/{boardId}/comments/update",
       whiteList: ["id", "text"]
     }
   },
   votes: {
     UPDATE: {
-      url: "board/{boardId}/cards/vote"
+      url: "boards/{boardId}/cards/vote"
     }
   },
   files: {
     GET: {
-      url: "board/{boardId}/files/{fileId}"
+      url: "boards/{boardId}/files/{fileId}"
     },
     ADD: {
-      url: "board/{boardId}/files/add"
+      url: "boards/{boardId}/files/add"
     },
     DELETE: {
-      url: "board/{boardId}/files/delete"
+      url: "boards/{boardId}/files/delete"
+    }
+  },
+  boards: {
+    ADD: {
+      url: "board/create"
+    },
+    TRELLO_IMPORT: {
+      url: "board/trello_import"
     }
   }
 };

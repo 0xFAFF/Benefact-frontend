@@ -11,9 +11,8 @@ import {
 } from "components/UI/BoardComponents/Card/components";
 import { Tags } from "components/UI/BoardComponents";
 import { AcceptCancelButtons } from "components/UI/Popup";
-import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
-import { FileDrop, Tooltip } from "components/UI";
+import { FileDrop, Tooltip, MarkdownEditor } from "components/UI";
 
 import "./CardEditor.scss";
 import { PageProp } from "components/Pages/PageContext";
@@ -143,11 +142,23 @@ class CardEditor extends React.Component {
     });
   };
 
+  handleOnAccept = () => {
+    const { updateBoardContent, onAcceptHandler, onClose } = this.props;
+    updateBoardContent(this.state.newContent, "cards").then(e => {
+      onAcceptHandler && onAcceptHandler();
+      onClose && onClose();
+    });
+  };
+
+  handleOnCancel = () => {
+    this.setState({ addComment: "" });
+    this.props.onClose && this.props.onClose();
+  };
+
   render() {
     const {
       allowEdit = true,
       updateBoardContent,
-      onAcceptHandler,
       disableComponents = false,
       onClose,
       columns
@@ -234,7 +245,7 @@ class CardEditor extends React.Component {
                   })}
                 </select>
               ) : (
-                <div>{(columns.find(c => c.id === columnId) || {title: ""}).title}</div>
+                <div>{(columns.find(c => c.id === columnId) || { title: "" }).title}</div>
               )}
             </div>
           </div>
@@ -268,16 +279,8 @@ class CardEditor extends React.Component {
             <Comments {...this.props} comments={this.props.content.comments} />
           )}
           <AcceptCancelButtons
-            onAcceptHandler={() => {
-              updateBoardContent(this.state.newContent, "cards").then(e => {
-                onAcceptHandler && onAcceptHandler();
-                onClose && onClose();
-              });
-            }}
-            onCancelHandler={() => {
-              this.setState({ addComment: "" });
-              onClose && onClose();
-            }}
+            onAcceptHandler={this.handleOnAccept}
+            onCancelHandler={this.handleOnCancel}
             acceptTitle={"Save"}
             cancelTitle={"Close"}
           />

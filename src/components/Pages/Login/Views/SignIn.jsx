@@ -29,11 +29,17 @@ class SignIn extends React.Component {
     });
   };
 
+  handlePressEnter = e => {
+    if (e.key === "Enter") {
+      this.onAuthCheck();
+    }
+  };
+
   render() {
     const { onViewChangeHandler } = this.props;
     return (
       <div id="signin-container">
-        <div className="signin-inner">
+        <div className="signin-inner" onKeyPress={this.handlePressEnter}>
           <div className="input-container">
             <div className="input-icon">
               <FontAwesomeIcon icon="user" size="sm" />
@@ -66,10 +72,7 @@ class SignIn extends React.Component {
           </button>
         </div>
         <div className="signin-bottom-container">
-          <div
-            className="register"
-            onClick={() => onViewChangeHandler("register")}
-          >
+          <div className="register" onClick={() => onViewChangeHandler("register")}>
             Register
           </div>
           <div className="signin-bottom-circle">

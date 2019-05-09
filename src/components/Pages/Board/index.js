@@ -26,7 +26,6 @@ class Board extends React.Component {
   };
 
   dataSource = (page) => {
-    console.log(page.filters);
     const filters = this.props.page.filters || {
       active: false,
       currGroupIndex: 0,

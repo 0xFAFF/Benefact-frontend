@@ -7,6 +7,7 @@ import { Modal } from "../../UI";
 import { PageWrapper } from "../../Pages";
 import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 import { navbarConfigs } from "./navbarConfigs";
+import { Default as FilterDefault } from "components/UI/BoardComponents/Filter/Filter";
 
 class Board extends React.Component {
   static propTypes = {
@@ -25,22 +26,8 @@ class Board extends React.Component {
     next();
   };
 
-  dataSource = (page) => {
-    const filters = this.props.page.filters || {
-      active: false,
-      currGroupIndex: 0,
-      groups: [
-        {
-          filterBy: {
-            tags: [],
-            columnId: "",
-            title: ""
-          },
-          matchBy: "all"
-        }
-      ]
-    };
-    return this.props.compFetch("cards", "GET", this.filterQueryParams(filters)).then(result => {
+  dataSource = page => {
+    return page.compFetch("cards", "GET", this.filterQueryParams(page.filters)).then(result => {
       let data = { ...result, ...this.getAllCards(result) };
       const { columns = [] } = data;
       data = {
@@ -48,8 +35,7 @@ class Board extends React.Component {
         columnOrder: columns.map(column => column.id)
       };
       return {
-        data,
-        filters
+        data
       };
     });
   };
@@ -62,66 +48,33 @@ class Board extends React.Component {
     return navbarConfigs(this, props);
   };
 
-  filterQueryParams = (filters) => {
-    let queryParams = {};
-    const { groups = [], active = false } = filters;
-    if(!active) return null;
+  filterQueryParams = filters => {
+    let queryParams = { Groups: {} };
+    if (!filters) return null;
+    const { groups = [] } = filters;
     groups.forEach((group, index) => {
-      const { matchBy, filterBy } = group;
-      const { tags, columnId, title } = filterBy;
-      let params;
-      if (matchBy === "all") {
-        params = {};
-        Object.entries(filterBy).forEach(([filterKey, filterValue]) => {
-          if (filterKey === "tags" && filterValue.length > 0) {
-            params[filterKey] = filterValue.map(tag => tag.id);
-          } else if ((filterKey === "columnId" || filterKey === "title") && filterValue !== "") {
-            params[filterKey] = filterValue;
-          }
-        });
-      } else {
-        params = [];
-        if (tags.length > 0) {
-          params = tags.map(tag => ({
-            tags: [tag.id]
-          }));
-        }
-        if (columnId !== "") {
-          params.push({ columnId: columnId });
-        }
-        if (title !== "") {
-          params.push({ title: title });
-        }
+      const { filterBy } = group;
+      const { tags, columns, title } = filterBy;
+      let baseTerm = {};
+      let terms = [];
+      if (tags.length > 0) {
+        baseTerm.tags = tags.map(tag => tag.id);
       }
-      if (!isEmpty(params)) {
+      if (title !== "") {
+        baseTerm.title = title;
+      }
+      if(columns.length > 0) {
+        terms = columns.map(col => {
+          return {columnId: col.id, ...baseTerm};
+        })
+      }
+      else terms = [baseTerm]
+      if (!isEmpty(terms)) {
         const keyName = `Group-${index}`;
-        queryParams = {
-          Groups: {
-            ...queryParams["Groups"],
-            [keyName]: Array.isArray(params) ? params : [params]
-          }
-        };
+        queryParams.Groups[keyName] = terms;
       }
     });
-    return !isEmpty(queryParams) ? queryParams : null;
-  };
-
-  resetFilters = () => {
-    this.props.page.updatePage({
-      filters: {
-        currGroupIndex: 0,
-        groups: [
-          {
-            filterBy: {
-              tags: [],
-              columnId: "",
-              title: ""
-            },
-            matchBy: "all"
-          }
-        ]
-      }
-    }, this.props.page.refreshData);
+    return !isEmpty(queryParams.Groups) ? queryParams : null;
   };
 
   handleResetBoard = data => {
@@ -375,7 +328,7 @@ class Board extends React.Component {
               {...data}
               kanbanFunctions={kanbanFunctions}
               listFunctions={listFunctions}
-              filtersActive={filters.active}
+              filtersActive={Boolean(filters)}
               openCard={id =>
                 this.props.history.push(
                   `/board/${boardId}${view === "kanban" ? "" : "/list"}/card/${id}`

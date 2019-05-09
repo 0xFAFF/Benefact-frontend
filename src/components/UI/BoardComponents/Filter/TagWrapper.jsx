@@ -1,23 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./TagWrapper.scss";
 
 const TagWrapper = props => {
   const { tags, onChangeFilterHandler, selectedTags = [] } = props;
   return (
     <div id="tag-wrapper-container">
-      <ul className="tags-ul">
+      <ul className="selection-ul">
         {tags.map((tag, index) => (
           <li key={index}>
             <div
               style={{
-                backgroundColor: tag.color ? tag.color : "#DDDDDD"
+                backgroundColor: tag.color ? tag.color : "#DDDDDD",
+                color: tag.color ? "#FFF" : undefined,
+                border: tag.color ? "none" : undefined
               }}
-              className="tags-li-container"
+              className="option-container"
               onClick={() => onChangeFilterHandler(tag, "tags")}
             >
-              <div className="tags-label">
+              <div className="option-label">
                 {tag.character ? (
                   <FontAwesomeIcon
                     icon={tag.character}

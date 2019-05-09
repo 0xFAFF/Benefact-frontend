@@ -60,8 +60,8 @@ const PageWrapper = Component => {
       if (showLoader) this.setState({ isLoading: true });
       if (promise) await promise;
       if (this.child.dataSource) {
-        const page = await this.child.dataSource({ ...this.state.page }).catch(() => null);
-        if (page) this.updatePage(page);
+        const newPage = await this.child.dataSource(this.getPage()).catch(() => null);
+        if (newPage) this.updatePage(newPage);
       }
       this.setState({ isLoading: false });
     };
@@ -155,11 +155,11 @@ const PageWrapper = Component => {
       ];
     };
 
-    render = () => {
+    getPage = () => {
       let token = this.props.token;
       const user = this.props.token && parseToken(this.props.token);
       if (!user) token = null;
-      const page = {
+      return {
         showModal: this.showModal,
         closeModal: this.closeModal,
         refreshData: this.refreshData,
@@ -172,6 +172,10 @@ const PageWrapper = Component => {
         updatePage: this.updatePage,
         ...this.state.page
       };
+    }
+
+    render = () => {
+      const page = this.getPage();
       return (
         <PageProvider value={page}>
           {this.state.isLoading && <PacmanLoader />}

@@ -1,6 +1,7 @@
 #column-draggable {
   margin: 20px 10px 10px 5px;
   min-width: 300px;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;

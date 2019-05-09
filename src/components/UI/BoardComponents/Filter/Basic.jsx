@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TagWrapper from "./TagWrapper";
 import ColumnWrapper from "./ColumnWrapper";
 import TitleWrapper from "./TitleWrapper";
-import MatchWrapper from "./MatchWrapper";
 import { AcceptCancelButtons } from "components/UI/Popup";
 import "./Basic.scss";
 
@@ -21,39 +20,11 @@ class Basic extends React.Component {
       updateFilterGroupIndex
     } = this.props;
     const { groups, currGroupIndex } = filters;
-    const { filterBy, matchBy } = [...groups][currGroupIndex];
+    const { filterBy } = [...groups][currGroupIndex];
 
     const onChangeFilterHandlerWrapper = (e, key) => {
       onChangeFilterHandler(e, key, currGroupIndex);
     };
-    const currGroupsFilters = (
-      <>
-        <div className="filter-filters-inputs">
-          <label>Tags</label>
-          <TagWrapper
-            tags={tags}
-            onChangeFilterHandler={onChangeFilterHandlerWrapper}
-            selectedTags={filterBy.tags}
-          />
-          <label>Column</label>
-          <ColumnWrapper
-            columns={columns}
-            onChangeFilterHandler={onChangeFilterHandlerWrapper}
-            selectedColumnId={filterBy.columnId}
-          />
-          <label>Title</label>
-          <TitleWrapper
-            selectedTitle={filterBy.title}
-            onChangeFilterHandler={onChangeFilterHandlerWrapper}
-          />
-          <label>Match By</label>
-          <MatchWrapper
-            selectedMatch={matchBy}
-            onChangeFilterHandler={onChangeFilterHandlerWrapper}
-          />
-        </div>
-      </>
-    );
     return (
       <div id="filters-basic">
         <div className="filters-group-buttons">
@@ -62,9 +33,7 @@ class Basic extends React.Component {
               <div
                 key={index}
                 className={`filters-group-button ${
-                  currGroupIndex === index
-                    ? "filters-group-button-active"
-                    : null
+                  currGroupIndex === index ? "filters-group-button-active" : null
                 }`}
                 onClick={() => updateFilterGroupIndex(index)}
               >
@@ -79,15 +48,31 @@ class Basic extends React.Component {
             <FontAwesomeIcon icon="plus-circle" size="lg" />
           </div>
         </div>
-        <div>{currGroupsFilters}</div>
-        <div>
-          <AcceptCancelButtons
-            onAcceptHandler={onAcceptHandler}
-            onCancelHandler={resetFilters}
-            acceptTitle={"Select"}
-            cancelTitle={"Reset"}
+        <div className="filter-filters-inputs">
+          <label>Title</label>
+          <TitleWrapper
+            selectedTitle={filterBy.title}
+            onChangeFilterHandler={onChangeFilterHandlerWrapper}
+          />
+          <label>Tags</label>
+          <TagWrapper
+            tags={tags}
+            onChangeFilterHandler={onChangeFilterHandlerWrapper}
+            selectedTags={filterBy.tags}
+          />
+          <label>Column</label>
+          <ColumnWrapper
+            columns={columns}
+            onChangeFilterHandler={onChangeFilterHandlerWrapper}
+            selectedColumns={filterBy.columns}
           />
         </div>
+        <AcceptCancelButtons
+          onAcceptHandler={onAcceptHandler}
+          onCancelHandler={resetFilters}
+          acceptTitle={"Select"}
+          cancelTitle={"Reset"}
+        />
       </div>
     );
   }

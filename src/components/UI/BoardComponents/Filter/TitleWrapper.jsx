@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./TitleWrapper.scss";
+import "./Filter.scss";
 
 const TitleWrapper = props => {
   const { selectedTitle, onChangeFilterHandler } = props;
@@ -10,7 +10,10 @@ const TitleWrapper = props => {
         name="Title"
         type="text"
         value={selectedTitle}
-        onChange={e => onChangeFilterHandler(e, "title")}
+        onChange={e => {
+          e.persist();
+          onChangeFilterHandler(e.target.value, "title");
+        }}
       />
     </div>
   );

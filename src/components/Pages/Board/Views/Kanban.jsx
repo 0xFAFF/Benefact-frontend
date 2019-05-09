@@ -5,29 +5,6 @@ import { Column } from "../../../UI/BoardComponents";
 import { getCards } from "../../../../utils";
 import "./Kanban.scss";
 
-class InnerList extends React.PureComponent {
-  static propTypes = {
-    cards: PropTypes.array,
-    column: PropTypes.object,
-    columns: PropTypes.array,
-    columnOrder: PropTypes.array,
-    kanbanOnDragEnd: PropTypes.func,
-    updateBoardContent: PropTypes.func,
-    addComponent: PropTypes.func,
-    deleteComponent: PropTypes.func,
-    handleResetBoard: PropTypes.func,
-    handleUpdate: PropTypes.func
-  };
-  render() {
-    const {
-      column: { id },
-      cards
-    } = this.props;
-    const colCards = getCards(cards, id);
-    return <Column {...this.props} colCards={colCards} />;
-  }
-}
-
 const Kanban = props => {
   const { columns, columnOrder, kanbanOnDragEnd, groupName, filterIndex, filtersActive } = props;
   return (
@@ -50,7 +27,9 @@ const Kanban = props => {
               </div>
               {columnOrder.map((columnId, index) => {
                 const column = columns.find(column => column.id === columnId);
-                return <InnerList index={index} key={column.id} column={column} {...props} />;
+                const colCards = getCards(props.cards, column.id);
+                if(filtersActive && colCards.length === 0) return null;
+                return <Column colCards={colCards} index={index} key={column.id} column={column} {...props} />;
               })}
               {provided.placeholder}
             </div>

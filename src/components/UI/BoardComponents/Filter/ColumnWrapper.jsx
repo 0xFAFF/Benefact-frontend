@@ -1,26 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./ColumnWrapper.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ColumnWrapper = props => {
-  const { columns = [], onChangeFilterHandler, selectedColumnId = "" } = props;
+  const { columns = [], onChangeFilterHandler, selectedColumns = [] } = props;
   return (
     <div id="column-wrapper-container">
-      <div className="styled-select background-color semi-square">
-        <select
-          onChange={e => onChangeFilterHandler(e, "columnId")}
-          value={selectedColumnId === null ? "" : selectedColumnId}
-        >
-          <option value={""}>No Column (default)</option>
-          {columns.map(option => {
-            return (
-              <option key={option.id} value={option.id}>
-                {option.title}
-              </option>
-            );
-          })}
-        </select>
-      </div>
+      <ul className="selection-ul">
+        {columns.map((column, index) => (
+          <li key={index}>
+            <div
+              className="option-container"
+              onClick={() => onChangeFilterHandler(column, "columns")}
+            >
+              <div className="option-label">
+                {column.title}
+              </div>
+              {selectedColumns.find(selectedCol => selectedCol.id === column.id) && (
+                <FontAwesomeIcon icon="check" size="sm" />
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
@@ -28,7 +30,7 @@ const ColumnWrapper = props => {
 ColumnWrapper.propTypes = {
   columns: PropTypes.array,
   onChangeFilterHandler: PropTypes.func,
-  selectedColumnId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+  selectedColumn: PropTypes.array
 };
 
 export default ColumnWrapper;

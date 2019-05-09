@@ -26,7 +26,6 @@ class Basic extends React.Component {
     const onChangeFilterHandlerWrapper = (e, key) => {
       onChangeFilterHandler(e, key, currGroupIndex);
     };
-
     const currGroupsFilters = (
       <>
         <div className="filter-filters-inputs">

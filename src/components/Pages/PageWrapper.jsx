@@ -28,7 +28,7 @@ const PageWrapper = Component => {
       super(props);
       this.state = {
         isLoading: true,
-        data: undefined,
+        page: {},
         modal: null,
         onModalClose: null
       };
@@ -60,19 +60,15 @@ const PageWrapper = Component => {
       if (showLoader) this.setState({ isLoading: true });
       if (promise) await promise;
       if (this.child.dataSource) {
-        const data = await this.child
-          .dataSource({
-            ...this.props,
-            ...this.extraProps
-          })
-          .catch(() => null);
-        if (data) this.updateData(data);
+        const page = await this.child.dataSource({ ...this.state.page }).catch(() => null);
+        if (page) this.updatePage(page);
       }
       this.setState({ isLoading: false });
     };
 
-    updateData = data => {
-      this.setState({ data });
+    updatePage = (page, callback) => {
+      page = { ...this.state.page, ...page };
+      this.setState({ page }, callback);
     };
 
     showModal = (child, onModalClose) => {
@@ -117,7 +113,8 @@ const PageWrapper = Component => {
 
     hasPrivilege = (priv, ownerId) => {
       if (ownerId && this.user && this.user.id === ownerId) return true;
-      if (!isEmpty(this.state.data) && hasPrivilege(priv, this.state.data.userRole)) return true;
+      if (!isEmpty(this.state.page.data) && hasPrivilege(priv, this.state.page.data.userRole))
+        return true;
       return false;
     };
 
@@ -168,12 +165,12 @@ const PageWrapper = Component => {
         refreshData: this.refreshData,
         compFetch: this.compFetch,
         history: this.props.history,
-        data: this.state.data,
         isLoading: this.state.isLoading,
         hasPrivilege: this.hasPrivilege,
         token: token,
         user: user,
-        updateData: this.updateData
+        updatePage: this.updatePage,
+        ...this.state.page
       };
       return (
         <PageProvider value={page}>

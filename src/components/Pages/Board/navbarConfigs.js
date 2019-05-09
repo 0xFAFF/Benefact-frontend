@@ -6,7 +6,7 @@ import { Filter } from "components/UI/BoardComponents/Filter";
 export const navbarConfigs = (child, props) => {
   const {
     view,
-    page: { data, hasPrivilege, history }
+    page: { data, hasPrivilege, history, filters = {} }
   } = props;
   if (!data) return {};
   return {
@@ -24,7 +24,7 @@ export const navbarConfigs = (child, props) => {
         id: "filter",
         tooltip: "Filter",
         title:
-          data.filters && data.filters.active ? (
+          filters && filters.active ? (
             <FilterView resetFilters={child.resetFilters} />
           ) : null,
         icon: "filter",
@@ -34,10 +34,9 @@ export const navbarConfigs = (child, props) => {
           createFilterGroup: child.createFilterGroup,
           resetFilters: child.resetFilters,
           onChangeFilterHandler: child.onChangeFilterHandler,
-          selectFilters: child.selectFilters,
           columns: data.columns,
           tags: data.tags,
-          filters: data.filters
+          filters: filters
         }
       },
       {

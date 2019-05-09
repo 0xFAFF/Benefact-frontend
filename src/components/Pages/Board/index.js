@@ -25,33 +25,33 @@ class Board extends React.Component {
     next();
   };
 
-  dataSource = () => {
-    return this.props.compFetch("cards", "GET").then(result => {
-      let updatedResult = { ...result };
-      const { columns = [] } = updatedResult;
-      updatedResult = {
-        ...updatedResult,
-        columnOrder: columns.map(column => column.id),
-        ...this.getAllCards(result)
-      };
-      updatedResult = {
-        ...updatedResult,
-        filters: {
-          active: false,
-          currGroupIndex: 0,
-          groups: [
-            {
-              filterBy: {
-                tags: [],
-                columnId: "",
-                title: ""
-              },
-              matchBy: "all"
-            }
-          ]
+  dataSource = (page) => {
+    console.log(page.filters);
+    const filters = this.props.page.filters || {
+      active: false,
+      currGroupIndex: 0,
+      groups: [
+        {
+          filterBy: {
+            tags: [],
+            columnId: "",
+            title: ""
+          },
+          matchBy: "all"
         }
+      ]
+    };
+    return this.props.compFetch("cards", "GET", this.filterQueryParams(filters)).then(result => {
+      let data = { ...result, ...this.getAllCards(result) };
+      const { columns = [] } = data;
+      data = {
+        ...data,
+        columnOrder: columns.map(column => column.id)
       };
-      return updatedResult;
+      return {
+        data,
+        filters
+      };
     });
   };
 
@@ -63,80 +63,10 @@ class Board extends React.Component {
     return navbarConfigs(this, props);
   };
 
-  createFilterGroup = () => {
-    let newData = { ...this.props.page.data };
-    newData.filters.groups.push({
-      filterBy: {
-        tags: [],
-        columnId: "",
-        title: ""
-      },
-      matchBy: "all"
-    });
-    this.props.page.updateData(newData);
-  };
-
-  updateFilterGroupIndex = index => {
-    let newData = { ...this.props.page.data };
-    newData.filters.currGroupIndex = index;
-    this.props.page.updateData(newData);
-  };
-
-  onChangeFilterHandler = (e, key, groupIndex = 0) => {
-    if (key === "matchBy") {
-      let newData = { ...this.props.page.data };
-      newData.filters.groups[groupIndex] = {
-        ...newData.filters.groups[groupIndex],
-        matchBy: e
-      };
-      this.props.page.updateData(newData);
-    } else if (key === "tags") {
-      let selectedTags = [...this.props.page.data.filters.groups[groupIndex].filterBy.tags];
-      const selectedTagIndex = selectedTags.findIndex(tag => tag.id === e.id);
-      if (selectedTagIndex > -1) {
-        selectedTags.splice(selectedTagIndex, 1);
-      } else {
-        selectedTags.push(e);
-      }
-      let newData = { ...this.props.page.data };
-      newData.filters.groups[groupIndex] = {
-        ...newData.filters.groups[groupIndex],
-        filterBy: {
-          ...newData.filters.groups[groupIndex].filterBy,
-          tags: selectedTags
-        }
-      };
-      this.props.page.updateData(newData);
-    } else if (key === "columnId") {
-      e.persist();
-      let newData = { ...this.props.page.data };
-      newData.filters.groups[groupIndex] = {
-        ...newData.filters.groups[groupIndex],
-        filterBy: {
-          ...newData.filters.groups[groupIndex].filterBy,
-          columnId: e.target.value === "" ? null : parseInt(e.target.value)
-        }
-      };
-      this.props.page.updateData(newData);
-    } else if (key === "title") {
-      e.persist();
-      let newData = { ...this.props.page.data };
-      newData.filters.groups[groupIndex] = {
-        ...newData.filters.groups[groupIndex],
-        filterBy: {
-          ...newData.filters.groups[groupIndex].filterBy,
-          title: e.target.value
-        }
-      };
-      this.props.page.updateData(newData);
-    }
-  };
-
-  selectFilters = () => {
+  filterQueryParams = (filters) => {
     let queryParams = {};
-    const {
-      filters: { groups = [] }
-    } = this.props.page.data;
+    const { groups = [], active = false } = filters;
+    if(!active) return null;
     groups.forEach((group, index) => {
       const { matchBy, filterBy } = group;
       const { tags, columnId, title } = filterBy;
@@ -174,28 +104,25 @@ class Board extends React.Component {
         };
       }
     });
-
-    !isEmpty(queryParams) ? this.updateFilters(queryParams) : this.updateFilters();
+    return !isEmpty(queryParams) ? queryParams : null;
   };
 
   resetFilters = () => {
-    let newData = { ...this.props.page.data };
-    newData.filters = {
-      ...newData.filters,
-      currGroupIndex: 0,
-      groups: [
-        {
-          filterBy: {
-            tags: [],
-            columnId: "",
-            title: ""
-          },
-          matchBy: "all"
-        }
-      ]
-    };
-    this.props.page.updateData(newData);
-    this.updateFilters();
+    this.props.page.updatePage({
+      filters: {
+        currGroupIndex: 0,
+        groups: [
+          {
+            filterBy: {
+              tags: [],
+              columnId: "",
+              title: ""
+            },
+            matchBy: "all"
+          }
+        ]
+      }
+    }, this.props.page.refreshData);
   };
 
   handleResetBoard = data => {
@@ -210,30 +137,11 @@ class Board extends React.Component {
       columnOrder,
       users
     };
-    this.props.page.updateData(newData);
+    this.props.page.updatePage(newData);
   };
 
   handleUpdate = async (type, action, queryParams, errorHandler) => {
     this.props.page.refreshData(this.props.compFetch(type, action, queryParams, errorHandler));
-  };
-
-  updateFilters = async queryParams => {
-    await this.props.compFetch("cards", "GET", queryParams).then(result => {
-      this.handleResetBoard(result);
-      let newData = { ...this.props.page.data };
-      if (queryParams) {
-        newData.filters = {
-          ...newData.filters,
-          active: true
-        };
-      } else {
-        newData.filters = {
-          ...newData.filters,
-          active: false
-        };
-      }
-      this.props.page.updateData(newData);
-    });
   };
 
   updateBoardContent = async (newContent, type) => {
@@ -261,7 +169,7 @@ class Board extends React.Component {
       };
     }
     await this.props.compFetch(type, "UPDATE", newContent).then(_ => {
-      this.props.page.updateData(newData);
+      this.props.page.updatePage(newData);
     });
   };
 
@@ -289,7 +197,7 @@ class Board extends React.Component {
         ...newData,
         columnOrder: newColumnOrder
       };
-      await this.props.page.updateData(newData);
+      await this.props.page.updatePage({ data: newData });
       return this.handleUpdate("columns", "UPDATE", draggedColumn);
     }
     // source column of droppable
@@ -325,7 +233,7 @@ class Board extends React.Component {
           [groupName]: [...cardsSrcCol, ...cardsNotSrcDestCols]
         }
       };
-      this.props.page.updateData(newData);
+      this.props.page.updatePage({ data: newData });
       return this.handleUpdate("cards", "UPDATE", draggedCard);
     }
 
@@ -372,7 +280,7 @@ class Board extends React.Component {
         [groupName]: [...cardsSrcCol, ...cardsDestCol, ...cardsNotSrcDestCols]
       }
     };
-    this.props.page.updateData(newData);
+    this.props.page.updatePage({ data: newData });
     return this.handleUpdate("cards", "UPDATE", draggedCard);
   };
 
@@ -398,7 +306,7 @@ class Board extends React.Component {
         [groupName]: [...cards]
       }
     };
-    this.props.page.updateData(newData);
+    this.props.page.updatePage({ data: newData });
     return this.handleUpdate("cards", "UPDATE", draggedCard);
   };
 
@@ -428,8 +336,8 @@ class Board extends React.Component {
     const {
       cardId,
       boardId,
-      page: { hasPrivilege, data },
-      view,
+      page: { hasPrivilege, data, filters },
+      view
     } = this.props;
     const cardsById =
       data &&
@@ -468,7 +376,7 @@ class Board extends React.Component {
               {...data}
               kanbanFunctions={kanbanFunctions}
               listFunctions={listFunctions}
-              filtersActive={data.filters.active}
+              filtersActive={filters.active}
               openCard={id =>
                 this.props.history.push(
                   `/board/${boardId}${view === "kanban" ? "" : "/list"}/card/${id}`

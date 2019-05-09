@@ -8,7 +8,6 @@ class DeleteCardWrapper extends React.Component {
   static propTypes = {
     cards: PropTypes.array,
     deleteComponent: PropTypes.func,
-    setPopupStyle: PropTypes.func,
     onClose: PropTypes.func
   };
 

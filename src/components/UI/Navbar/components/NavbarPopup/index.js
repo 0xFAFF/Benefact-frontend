@@ -10,14 +10,6 @@ class NavbarPopup extends React.Component {
     component: PropTypes.func
   };
 
-  setPopupStyle = (style = null) => {
-    if (style) {
-      this.setState({
-        style: { ...style }
-      });
-    }
-  };
-
   state = { style: { ...get(this.props, "params.popupStyle", {}) } };
   render() {
     const { params = {}, onClose } = this.props;
@@ -27,7 +19,6 @@ class NavbarPopup extends React.Component {
           {this.props.component ? (
             <this.props.component
               onClose={onClose}
-              setPopupStyle={this.setPopupStyle}
               {...params}
             />
           ) : (

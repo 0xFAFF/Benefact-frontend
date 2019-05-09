@@ -25,7 +25,10 @@ class Landing extends React.Component {
     };
   };
 
-  dataSource = () => this.props.compFetch("users", "CURRENT");
+  dataSource = () =>
+    this.props.compFetch("users", "CURRENT").then(data => {
+      return { data };
+    });
 
   state = {
     activeContent: "boards"
@@ -56,7 +59,7 @@ class Landing extends React.Component {
                   <Tooltip id="tabs" effect="float" />
                   <div
                     key={id}
-                    className={`tab ${id === this.state.activeContent ?  "active" : ""}`}
+                    className={`tab ${id === this.state.activeContent ? "active" : ""}`}
                     data-tip={`Click to see: ${title}`}
                     data-for="tabs"
                     id={title}

@@ -63,12 +63,11 @@ class Board extends React.Component {
       if (title !== "") {
         baseTerm.title = title;
       }
-      if(columns.length > 0) {
+      if (columns.length > 0) {
         terms = columns.map(col => {
-          return {columnId: col.id, ...baseTerm};
-        })
-      }
-      else terms = [baseTerm]
+          return { columnId: col.id, ...baseTerm };
+        });
+      } else terms = [baseTerm];
       if (!isEmpty(terms)) {
         const keyName = `Group-${index}`;
         queryParams.Groups[keyName] = terms;
@@ -291,14 +290,15 @@ class Board extends React.Component {
       page: { hasPrivilege, data, filters },
       view
     } = this.props;
-    const cardsById =
-      data &&
-      data.cards &&
-      data.cards.all &&
-      data.cards.all.reduce((all, card) => {
-        all[card.id] = card;
-        return all;
-      }, {});
+    let cardsById = {};
+    if (data && data.cards) {
+      Object.values(data.cards).forEach(group => {
+        group.reduce((all, card) => {
+          all[card.id] = card;
+          return all;
+        }, cardsById);
+      });
+    }
 
     const generalFunctions = {
       updateBoardContent: this.updateBoardContent,

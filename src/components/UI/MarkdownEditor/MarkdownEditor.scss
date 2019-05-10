@@ -1,14 +1,19 @@
 .markdown-preview {
   overflow-y: auto;
-  ul, p { margin-bottom: 0.5em; margin-top: 0; }
+  ul,
+  p {
+    margin-bottom: 0.5em;
+    margin-top: 0;
+  }
   min-height: 1em;
   text-align: initial;
+  word-break: break-word;
 }
 
-.markdown-preview>:last-child {
+.markdown-preview > :last-child {
   margin-bottom: 0;
 }
-.markdown-preview>:first-child {
+.markdown-preview > :first-child {
   margin-top: 0;
 }
 

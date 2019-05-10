@@ -42,6 +42,7 @@
   }
 
   .comment-entry-text-container {
+    word-break: break-word;
     display: flex;
     flex-direction: column;
     .comment-entry-text {

@@ -1,26 +1,14 @@
 #login {
-  height: 100%;
   background-color: var(--bg-primary);
   .login-container {
     border: none;
     background-color: var(--login-primary);
-    width: 500px;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
+    margin-bottom: 150px;
     box-shadow: var(--bg-shadow);
     .header {
-      display: flex;
-      justify-content: center;
       font-size: 2.7em;
       padding: 10px;
       font-family: "Frank Ruhl Libre", serif;
-      .app-title {
-        display: flex;
-        align-items: center;
-      }
     }
   }
 }

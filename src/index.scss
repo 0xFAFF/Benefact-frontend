@@ -60,6 +60,12 @@ body {
     display: flex;
   }
 
+  .center {
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+  }
+
   .editable {
     cursor: pointer;
     &:focus {
@@ -93,7 +99,7 @@ body {
   --login-input-focus: black;
   --tooltip-text-color: #ffffff;
   --tooltip-bg-color: #222;
-  --landing-border:var(--card-border);
+  --landing-border: var(--card-border);
   --landing-hover: var(--card-hover);
 }
 

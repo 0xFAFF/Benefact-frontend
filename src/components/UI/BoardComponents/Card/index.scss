@@ -1,6 +1,7 @@
 #card-draggable {
-  // margin: -1px;
-  // border: 1px solid var(--card-border);
+  margin: 8px 8px 8px 8px;
+  border-radius: 5px;
+  box-shadow: 0 0 3px 0 rgba(0, 1, 0, 0.32);
   padding: 5px;
   display: flex;
   align-items: flex-start;
@@ -9,6 +10,7 @@
   position: relative;
 
   &:before {
+    border-radius: 5px;
     content: "";
     position: absolute;
     top: 0;

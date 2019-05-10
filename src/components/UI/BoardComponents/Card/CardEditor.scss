@@ -2,6 +2,10 @@
   width: 500px;
   height: 100%;
 
+  @media only screen and (max-width: 550px) {
+    width: inherit;
+  }
+
   #editor-title {
     font-weight: 500;
     flex-grow: 1;
@@ -76,7 +80,8 @@
       width: 180px;
     }
     .styled-select {
-      select, div {
+      select,
+      div {
         outline: none;
         background: var(--text-bg-color);
         border: none;

@@ -172,7 +172,7 @@ const PageWrapper = Component => {
         updatePage: this.updatePage,
         ...this.state.page
       };
-    }
+    };
 
     render = () => {
       const page = this.getPage();

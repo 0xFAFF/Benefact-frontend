@@ -3,7 +3,7 @@
   overflow-y: hidden;
   #tabs {
     box-shadow: var(--bg-shadow);
-    margin: 2em;
+    margin: 1.5em;
     flex-grow: 1;
     flex-basis: 0;
     max-width: 400px;
@@ -13,7 +13,7 @@
       font-size: 1.5em;
       font-weight: 700;
       text-align: left;
-      margin: 2em;
+      margin: 1em;
       padding: 1.5em 1em;
       box-shadow: var(--bg-shadow);
       cursor: pointer;
@@ -30,7 +30,7 @@
   #content {
     overflow-y: auto;
     box-shadow: var(--bg-shadow);
-    margin: 2em;
+    margin: 1.5em;
     margin-left: 0;
     flex-grow: 1;
     flex-basis: 0;

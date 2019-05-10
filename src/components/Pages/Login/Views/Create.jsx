@@ -9,9 +9,16 @@ const Create = props => {
     onViewChangeHandler,
     onCreateAccount
   } = props;
+
+  const handlePressEnter = e => {
+    if (e.key === "Enter") {
+      props.onCreateAccount();
+    }
+  };
+
   return (
     <div>
-      <div className="register-inner">
+      <div className="register-inner" onKeyPress={handlePressEnter}>
         <div className="register-header">Create a New Account</div>
         <div className="input-container">
           <div className="input-icon">

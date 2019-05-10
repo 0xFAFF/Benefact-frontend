@@ -2,11 +2,6 @@
   border: none;
   background-color: var(--login-primary);
   width: 600px;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
   .register-inner {
     padding: 20px;
     .register-header {
@@ -39,7 +34,7 @@
         font-size: 1.1em;
       }
       .input-field:focus {
-        border: 2px solid  var(--login-input-focus);
+        border: 1px solid var(--login-input-focus);
       }
       .input-icon {
         text-align: center;

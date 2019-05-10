@@ -3,7 +3,7 @@ import moment from "moment";
 import { isEqual, sortBy, get } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Comments.scss";
-import MarkdownEditor from "components/UI/MarkdownEditor/MarkdownEditor";
+import { MarkdownEditor } from "components/UI";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
 import { PageProp } from "components/Pages/PageContext";
 

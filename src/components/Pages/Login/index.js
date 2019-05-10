@@ -51,18 +51,20 @@ class Login extends React.Component {
     const query = parseQuery();
     if (verifyDone && token) return <Redirect to={query.redirect || "/board/benefact"} />;
     return (
-      <div id="login">
+      <div id="login" className="flex grow center">
         <div className="login-container">
-          <div className="header">
-            <div className="app-title">Benefact</div>
-            <img src={"/fafficon.png"} alt={""} width="70" height="70" />
-          </div>
           {view === "signin" && (
-            <SignIn
-              onViewChangeHandler={this.onViewChangeHandler}
-              onLoginHandler={onLoginHandler}
-              compFetch={compFetch}
-            />
+            <>
+              <div className="header flex center">
+                <div className="app-title flex center">Benefact</div>
+                <img src={"/fafficon.png"} alt={""} width="70" height="70" />
+              </div>
+              <SignIn
+                onViewChangeHandler={this.onViewChangeHandler}
+                onLoginHandler={onLoginHandler}
+                compFetch={compFetch}
+              />
+            </>
           )}
           {view === "register" && (
             <Register

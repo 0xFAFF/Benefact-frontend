@@ -1,11 +1,13 @@
 #landing-container {
   justify-content: space-between;
+  overflow-y: hidden;
   #tabs {
     box-shadow: var(--bg-shadow);
     margin: 2em;
     flex-grow: 1;
     flex-basis: 0;
     max-width: 400px;
+    overflow-y: auto;
     .tab {
       border: 1px solid var(--landing-border);
       font-size: 1.5em;
@@ -26,6 +28,7 @@
     }
   }
   #content {
+    overflow-y: auto;
     box-shadow: var(--bg-shadow);
     margin: 2em;
     margin-left: 0;

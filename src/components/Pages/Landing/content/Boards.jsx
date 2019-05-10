@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CreateBoard from "./CreateBoard";
 import "./Boards.scss";
 
-const Boards = ({ page: { data = {} }, history }) => {
+const Boards = ({ page: { data = {}, compFetch, showModal, closeModal }, history }) => {
   const goToBoard = boardUrlName => {
     history.push(`/board/${boardUrlName}`);
   };
@@ -10,7 +12,11 @@ const Boards = ({ page: { data = {} }, history }) => {
   return (
     <div id="boards-content">
       <>
-        <button>Create Board</button>
+        <div className="new-board flex pull-right">
+          <button onClick={() => showModal(<CreateBoard onClose={closeModal} />)}>
+            Create New Board
+          </button>
+        </div>
         {roles.map(({ board: { id, title, urlName }, userId, privilege }) => {
           return (
             <div
@@ -19,7 +25,9 @@ const Boards = ({ page: { data = {} }, history }) => {
               data-tip={`Go to board: ${title}`}
               data-for="board"
             >
-              <div className="board-icon">Board Icon</div>
+              <div className="board-icon">
+                <FontAwesomeIcon icon="columns" />
+              </div>
               <div className="board-info grow">
                 <div className="board-title">Board: {title}</div>
                 <div className="board-user-role">Role: {privilege}</div>

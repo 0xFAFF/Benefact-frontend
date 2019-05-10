@@ -2,6 +2,11 @@
   border: none;
   background-color: var(--login-primary);
   width: 600px;
+
+  @media only screen and (max-width: 550px) {
+    width: inherit;
+  }
+
   .register-inner {
     padding: 20px;
     .register-header {

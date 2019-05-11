@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Boards } from "../content";
+import { Boards, MyCards } from "../content";
 
 const RenderContent = ({ content, ...rest }) => {
   switch (content) {
     case "boards":
       return <Boards {...rest} />;
+    case "myCards":
+      return <MyCards {...rest} />;
     default:
       return null;
   }

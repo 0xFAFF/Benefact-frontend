@@ -6,8 +6,10 @@ import { Modal } from "components/UI";
 class Navbar extends React.Component {
   state = { modal: null };
   onItemClick = (id, navbarRowId) => {
-    const { configs } = this.props;
-    const configOptions = configs[navbarRowId];
+    const {
+      configs: { listConfig = [] }
+    } = this.props;
+    const configOptions = listConfig[navbarRowId];
     const item = configOptions.length > 0 ? configOptions.find(item => item.id === id) : null;
     if (item && item.onClick) item.onClick();
     else this.setState({ modal: item });

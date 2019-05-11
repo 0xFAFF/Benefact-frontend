@@ -19,7 +19,8 @@ class Login extends React.Component {
   navbar = props => {
     return {
       title: "Benefact",
-      buttons: null
+      buttons: null,
+      className: "login-navbar"
     };
   };
 

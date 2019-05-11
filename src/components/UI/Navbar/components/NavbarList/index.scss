@@ -11,30 +11,34 @@
     color: var(--navbar-text-color);
   }
   .navbar-list-container {
+    height: 60px;
     display: flex;
   }
   div.navbar-top-left {
     width: 54px;
     display: flex;
     align-items: center;
+    position: absolute;
+    top: 14px;
     img {
-      width: 40px;
+      width: 35px;
       margin-left: auto;
       margin-right: auto;
     }
   }
+
   ul.menu {
     margin: 0;
+    margin-left: 50px;
     align-items: center;
     padding: 0px;
     list-style: none;
     justify-content: space-between;
     div {
       flex-basis: 0;
-      flex-wrap: wrap;
     }
     .brand {
-      font-size: 2.8em;
+      font-size: 1.8em;
       font-family: "Lora";
       letter-spacing: 3px;
       margin-left: auto;
@@ -76,69 +80,49 @@
       margin: 0 15px;
     }
 
-    @media only screen and (max-width: 800px) {
-      .brand {
-        font-size: 2.5em;
-      }
+    @media only screen and (min-width: 200px) {
       li {
-        padding: 10px 0px;
+        padding: 10px 5px;
+        margin: 5px 0;
+      }
+      .middle {
+        display: none;
+      }
+      div {
+        justify-content: space-around;
       }
     }
 
-    @media only screen and (max-width: 600px) {
-      .brand {
-        font-size: 2em;
+    @media only screen and (min-width: 500px) {
+      .middle {
+        display: flex;
+      }
+    }
+
+    @media only screen and (min-width: 750px) {
+      div {
+        justify-content: space-evenly;
       }
       li {
         padding: 10px 15px;
       }
     }
 
-    @media only screen and (min-width: 300px) {
-      li {
-        margin: 0px;
-        padding: 10px 15px;
+    @media only screen and (min-width: 1000px) {
+      div {
+        justify-content: space-evenly;
       }
-    }
-
-    @media only screen and (min-width: 520px) {
       li {
         padding: 10px 20px;
       }
     }
-    @media only screen and (min-width: 660px) {
-      li {
-        padding: 10px 25px;
-      }
-    }
-
-    @media only screen and (min-width: 730px) {
-      li {
-        padding: 10px 15px;
-        margin: 0 20px;
-      }
-    }
-
-    @media only screen and (min-width: 900px) {
-      li {
-        padding: 10px 15px;
-        margin: 0 5px;
-      }
-    }
 
     @media only screen and (min-width: 1200px) {
-      li {
-        margin: 0 15px;
+      div {
+        justify-content: flex-start;
       }
-    }
-
-    @media only screen and (max-width: 450px) {
-      .brand {
-        font-size: 1em;
-        padding: 0;
-      }
-      li {
-        padding: 10px 10px;
+      div.pull-right {
+        justify-content: flex-end;
       }
     }
 
@@ -155,5 +139,14 @@
     .active-filter {
       padding-right: 76px;
     }
+  }
+}
+
+.login-navbar {
+  .middle {
+    display: flex !important;
+  }
+  ul.menu {
+    margin-left: 0;
   }
 }

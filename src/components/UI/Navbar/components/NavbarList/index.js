@@ -5,20 +5,24 @@ import { Tooltip } from "components/UI";
 import "./index.scss";
 
 const NavbarList = props => {
-  const { configs, onItemClick } = props;
+  const {
+    configs: { listConfig = [], navbarClassName = "" },
+    onItemClick
+  } = props;
   return (
-    <div className="navbar-list">
+    <div className={`navbar-list ${navbarClassName}`}>
       <div key="menu" className="navbar-list-container">
         <div className="navbar-top-left">
           <img src="/fafficon.png" alt="FAFF Games LLC" />
         </div>
         <Tooltip id="navbar-tooltip" />
-        <ul className="menu flex grow">
-          {configs.map((section, index) => {
+        <ul className={"menu flex grow"}>
+          {listConfig.map((section, index) => {
             return (
               <div
                 key={`menu ${index}`}
-                className={`grow row ${index === configs.length - 1 && "pull-right"}`}
+                className={`grow row ${index === listConfig.length - 1 && "pull-right"} ${index ===
+                  1 && "middle"}`}
               >
                 {section.map(item => {
                   const { id, icon, title, className = null, url, hide, tooltip } = item;
@@ -51,7 +55,10 @@ const NavbarList = props => {
 };
 
 NavbarList.propTypes = {
-  configs: PropTypes.array,
+  configs: PropTypes.shape({
+    listConfig: PropTypes.array,
+    navbarClassName: PropTypes.string
+  }),
   onItemClick: PropTypes.func
 };
 

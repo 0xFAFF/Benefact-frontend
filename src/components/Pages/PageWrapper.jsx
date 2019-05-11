@@ -119,40 +119,46 @@ const PageWrapper = Component => {
     };
 
     navbarConfigs = page => {
-      const { buttons = [], title } = this.child.navbar
+      const { buttons = [], title, className } = this.child.navbar
         ? this.child.navbar(page)
         : { buttons: [], title: "Benefact" };
 
-      if (!buttons) return [[], [{ id: "brand", className: "brand", title: title }], []];
-
-      return [
-        buttons,
-        [{ id: "brand", className: "brand", title: title }],
-        [
-          {
-            id: "home",
-            tooltip: "Home",
-            icon: "home",
-            onClick: () => this.props.history.push("/")
-          },
-          { id: "menu", tooltip: "Menu", icon: "bars" },
-          {
-            id: "user",
-            tooltip: "User",
-            icon: "user-circle",
-            onClick: () => this.props.history.push("/user")
-          },
-          {
-            id: "logout",
-            tooltip: "Logout",
-            icon: "sign-out-alt",
-            component: Logout,
-            params: {
-              onLogoutHandler: this.props.onLogoutHandler
+      if (!buttons)
+        return {
+          listConfig: [[], [{ id: "brand", className: "brand", title: title }], []],
+          navbarClassName: className
+        };
+      return {
+        listConfig: [
+          buttons,
+          [{ id: "brand", className: "brand", title: title }],
+          [
+            {
+              id: "home",
+              tooltip: "Home",
+              icon: "home",
+              onClick: () => this.props.history.push("/")
+            },
+            { id: "menu", tooltip: "Menu", icon: "bars" },
+            {
+              id: "user",
+              tooltip: "User",
+              icon: "user-circle",
+              onClick: () => this.props.history.push("/user")
+            },
+            {
+              id: "logout",
+              tooltip: "Logout",
+              icon: "sign-out-alt",
+              component: Logout,
+              params: {
+                onLogoutHandler: this.props.onLogoutHandler
+              }
             }
-          }
-        ]
-      ];
+          ]
+        ],
+        navbarClassName: className || ""
+      };
     };
 
     getPage = () => {

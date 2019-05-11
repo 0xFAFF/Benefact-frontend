@@ -12,7 +12,7 @@ const Boards = ({ page: { data = {}, compFetch, showModal, closeModal }, history
   return (
     <div id="boards-content">
       <>
-        <div className="new-board flex pull-right">
+        <div className="new-board flex">
           <button onClick={() => showModal(<CreateBoard onClose={closeModal} />)}>
             Create New Board
           </button>

@@ -33,7 +33,7 @@ class CreateBoard extends React.Component {
       title,
       urlName
     };
-    await this.props.page.compFetch("boards", "ADD", queryParams).then(result => {
+    await this.props.page.compFetch("board", "ADD", queryParams).then(result => {
       if (result) {
         this.props.page.closeModal();
         this.props.page.history.push(`/board/${urlName}`);

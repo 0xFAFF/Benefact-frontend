@@ -60,7 +60,7 @@ const PageWrapper = Component => {
       if (showLoader) this.setState({ isLoading: true });
       if (promise) await promise;
       if (this.child.dataSource) {
-        const newPage = await this.child.dataSource(this.getPage()).catch(() => null);
+        const newPage = await this.child.dataSource(this.getPage()).catch(console.error);
         if (newPage) this.updatePage(newPage);
       }
       this.setState({ isLoading: false });

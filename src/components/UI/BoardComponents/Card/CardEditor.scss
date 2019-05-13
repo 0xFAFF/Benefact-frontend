@@ -1,10 +1,5 @@
 #editor-mode {
-  width: 500px;
   height: 100%;
-
-  @media only screen and (max-width: 550px) {
-    width: inherit;
-  }
 
   #editor-title {
     font-weight: 500;

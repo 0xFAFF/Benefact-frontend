@@ -1,7 +1,9 @@
 #accept-cancel-button-group {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
   .button-accept {
+    margin-right: 10px;
     background-color: var(--button-color);
   }
   .button-accept:hover {
@@ -14,15 +16,12 @@
     background-color: var(--button-hover);
   }
   button {
-    width: 45%;
+    flex-grow: 1;
     border: none;
     outline: none;
     padding: 10px 16px;
     border-radius: 10px;
     color: var(--text-color);
     cursor: pointer;
-  }
-  button:first-child {
-    margin-right: 10px;
   }
 }

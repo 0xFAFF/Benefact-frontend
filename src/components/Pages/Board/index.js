@@ -7,7 +7,7 @@ import { Modal } from "../../UI";
 import { PageWrapper } from "../../Pages";
 import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 import { navbarConfigs } from "./navbarConfigs";
-import { Default as FilterDefault } from "components/UI/BoardComponents/Filter/Filter";
+import { AcceptCancelButtons } from "components/UI/Popup";
 
 class Board extends React.Component {
   static propTypes = {
@@ -28,8 +28,10 @@ class Board extends React.Component {
 
   dataSource = page => {
     return page.compFetch("cards", "GET", this.filterQueryParams(page.filters)).then(result => {
+      let { columns, cards } = result;
+      result.columns = columns = columns || [];
+      result.cards = cards = cards || {};
       let data = { ...result, ...this.getAllCards(result) };
-      const { columns = [] } = data;
       data = {
         ...data,
         columnOrder: columns.map(column => column.id)
@@ -271,10 +273,10 @@ class Board extends React.Component {
   };
 
   getAllCards = data => {
-    const { cards = {} } = data;
+    let { cards } = data;
     const cardGroups = Object.values(cards);
     if (cardGroups.length > 0) return { allCards: cardGroups[0] };
-    return [];
+    return { allCards: [] };
   };
 
   closeCard = () => {
@@ -287,7 +289,7 @@ class Board extends React.Component {
     const {
       cardId,
       boardId,
-      page: { hasPrivilege, data, filters },
+      page: { hasPrivilege, data, filters, refreshData, compFetch },
       view
     } = this.props;
     let cardsById = {};
@@ -319,37 +321,60 @@ class Board extends React.Component {
     };
 
     const editingCard = cardId && cardsById && cardsById[cardId];
+    const goHome = () => this.props.history.push("/");
+    if (!data) return <></>;
+    if (!data.userRole) {
+      return (
+        <Modal isOpen shouldCloseOnOverlayClick={false} onClose={goHome}>
+          {!data.defaultPrivilege ? (
+            <>
+              <h1>Private Board</h1>
+              This board is private, please request an invite from an administrator
+              <AcceptCancelButtons cancelTitle="OK" onCancelHandler={goHome} />
+            </>
+          ) : (
+            <>
+              <h1>Join Board</h1>
+              Would you like to join this board?
+              <AcceptCancelButtons
+                acceptTitle="Yes"
+                cancelTitle="No"
+                onAcceptHandler={() => refreshData(compFetch("boards", "JOIN"))}
+                onCancelHandler={goHome}
+              />
+            </>
+          )}
+        </Modal>
+      );
+    }
+
     return (
       <>
-        {data && (
-          <>
-            <Views
-              view={view}
+        <Views
+          view={view}
+          {...data}
+          kanbanFunctions={kanbanFunctions}
+          listFunctions={listFunctions}
+          filtersActive={Boolean(filters)}
+          openCard={id =>
+            this.props.history.push(
+              `/board/${boardId}${view === "kanban" ? "" : "/list"}/card/${id}`
+            )
+          }
+        />
+        {editingCard && (
+          <Modal isOpen onClose={this.closeCard}>
+            <CardEditor
+              allowEdit={hasPrivilege("developer", editingCard.authorId)}
+              onClose={this.closeCard}
+              handleUpdate={this.handleUpdate}
+              updateBoardContent={this.updateBoardContent}
+              deleteComponent={this.deleteComponent}
+              content={editingCard}
               {...data}
-              kanbanFunctions={kanbanFunctions}
-              listFunctions={listFunctions}
-              filtersActive={Boolean(filters)}
-              openCard={id =>
-                this.props.history.push(
-                  `/board/${boardId}${view === "kanban" ? "" : "/list"}/card/${id}`
-                )
-              }
+              showDeleteModal
             />
-            {editingCard && (
-              <Modal isOpen onClose={this.closeCard}>
-                <CardEditor
-                  allowEdit={hasPrivilege("developer", editingCard.authorId)}
-                  onClose={this.closeCard}
-                  handleUpdate={this.handleUpdate}
-                  updateBoardContent={this.updateBoardContent}
-                  deleteComponent={this.deleteComponent}
-                  content={editingCard}
-                  {...data}
-                  showDeleteModal
-                />
-              </Modal>
-            )}
-          </>
+          </Modal>
         )}
       </>
     );

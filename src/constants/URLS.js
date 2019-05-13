@@ -89,6 +89,11 @@ const urlKeyMap = {
     }
   },
   boards: {
+    JOIN: {
+      url: "boards/{boardId}/join"
+    }
+  },
+  board: {
     ADD: {
       url: "board/create"
     },

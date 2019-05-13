@@ -12,15 +12,15 @@ const Logout = props => {
   };
 
   return (
-    <div id="logout-popup">
-      <div className="title">Logout?</div>
+    <>
+      <h1>Logout?</h1>
       <AcceptCancelButtons
         onAcceptHandler={onAcceptHandler}
         onCancelHandler={onClose}
         acceptTitle={"Yes"}
         cancelTitle={"No"}
       />
-    </div>
+    </>
   );
 };
 

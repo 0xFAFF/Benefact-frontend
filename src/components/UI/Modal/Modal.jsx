@@ -21,6 +21,7 @@ const Modal = props => {
     outerCnterStyle = {},
     innerCnterClassName,
     innerCnterStyle = {},
+    shouldCloseOnOverlayClick = true,
     children
   } = props;
   return (
@@ -28,7 +29,7 @@ const Modal = props => {
       parentSelector={getParent}
       isOpen={isOpen}
       onRequestClose={onClose}
-      shouldCloseOnOverlayClick={true}
+      shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
       shouldCloseOnEsc={true}
       shouldFocusAfterRender={false}
       defaultStyles={{}}
@@ -80,7 +81,6 @@ Modal.propTypes = {
   outerCnterStyle: PropTypes.object,
   innerCnterClassName: PropTypes.string,
   innerCnterStyle: PropTypes.object,
-  children: PropTypes.object
 };
 
 export default Modal;

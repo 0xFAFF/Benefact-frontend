@@ -9,7 +9,7 @@ const privilegeMap = {
 };
 
 const hasPrivilege = (privilege, role) => {
-  if(!role.privilege) return false;
+  if(!role || !role.privilege) return false;
   if((role.privilege & privilegeMap.admin) !== 0) return true;
   return privilege.split("|").some(p => (privilegeMap[p] & role.privilege) !== 0);
 }

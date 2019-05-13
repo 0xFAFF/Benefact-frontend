@@ -41,8 +41,10 @@
       transition: opacity 0.8s linear;
       opacity: 1;
     }
-    transition: background-color 0.35s ease-out;
-    background-color: var(--card-hover);
+    &:hover {
+      transition: background-color 0.35s ease-out;
+      background-color: var(--card-hover);
+    }
   }
 
   #column-droppable {

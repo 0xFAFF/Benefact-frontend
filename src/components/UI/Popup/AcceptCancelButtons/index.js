@@ -6,9 +6,11 @@ const AcceptCancelButtons = props => {
   const { onAcceptHandler, onCancelHandler, acceptTitle, cancelTitle } = props;
   return (
     <div id="accept-cancel-button-group">
-      <button className="button-accept" onClick={onAcceptHandler}>
-        {acceptTitle}
-      </button>
+      {acceptTitle && (
+        <button className="button-accept" onClick={onAcceptHandler}>
+          {acceptTitle}
+        </button>
+      )}
       <button className="button-cancel" onClick={onCancelHandler}>
         {cancelTitle}
       </button>
@@ -19,6 +21,7 @@ const AcceptCancelButtons = props => {
 AcceptCancelButtons.propTypes = {
   onAcceptHandler: PropTypes.func,
   onCancelHandler: PropTypes.func,
+  showAccept: PropTypes.bool,
   acceptTitle: PropTypes.string,
   cancelTitle: PropTypes.string
 };

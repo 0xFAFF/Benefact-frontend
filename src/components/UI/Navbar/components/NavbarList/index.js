@@ -21,8 +21,8 @@ const NavbarList = props => {
             return (
               <div
                 key={`menu ${index}`}
-                className={`grow row ${index === listConfig.length - 1 && "pull-right"} ${index ===
-                  1 && "middle"}`}
+                className={`grow row${(index === listConfig.length - 1 && " pull-right") ||
+                  ""}${(index === 1 && " middle") || ""}`}
               >
                 {section.map(item => {
                   const { id, icon, title, className = null, url, hide, tooltip } = item;

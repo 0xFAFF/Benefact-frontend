@@ -25,7 +25,7 @@ const Voting = props => {
           <div id="vote-container" className="row">
             <Tooltip id="voting" />
             <div className={`row vote-thumbs-container ${totalVotes ? "has-votes" : ""}`}>
-              {canVote && (<div
+              {canVote && defaultDisplay && (<div
                 onClick={e => {
                   e.stopPropagation();
                   onUpdateVote("add");
@@ -39,7 +39,7 @@ const Voting = props => {
                   size={size}
                 />
               </div>)}
-              {(canVote && (totalVotes !== 0 || defaultDisplay)) && (
+              {canVote && defaultDisplay && (
                 <div
                   onClick={e => {
                     e.stopPropagation();

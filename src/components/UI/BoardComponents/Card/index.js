@@ -59,8 +59,7 @@ class Card extends React.Component {
       </div>
     );
     return (
-      <div>
-        <Tooltip id="card" />
+      <>
         {hasPrivilege("developer") ? (
           <Draggable draggableId={`card-${card.id}`} index={index}>
             {(provided, snapshot) => {
@@ -82,7 +81,7 @@ class Card extends React.Component {
         ) : (
           cardDiv({ className: "editable" })
         )}
-      </div>
+      </>
     );
   }
 }

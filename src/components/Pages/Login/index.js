@@ -26,15 +26,16 @@ class Login extends React.Component {
 
   componentDidMount = async () => {
     this.props.setChild(this);
-    if (!this.props.token && this.props.query.nonce)
+    if (!this.props.token && this.props.page.query.nonce)
       notifyToast("info", "Please login to verify your email address");
   };
 
   componentDidUpdate = async _ => {
+    const nonce = this.props.page.query.nonce;
     if (!this.props.token) return;
-    if (this.props.query.nonce && !this.state.verifyDone) {
+    if (nonce && !this.state.verifyDone) {
       let verified = await this.props.compFetch("users", "VERIFY", {
-        nonce: this.props.query.nonce
+        nonce: nonce
       });
       if (verified === undefined) return;
       if (verified) notifyToast("info", "Email succesfully verified");

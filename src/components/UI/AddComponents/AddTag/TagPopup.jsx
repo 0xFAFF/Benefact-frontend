@@ -9,7 +9,7 @@ class TagPopup extends React.Component {
   static propTypes = {
     onChangeHandler: PropTypes.func,
     cardTags: PropTypes.array,
-    addComponent: PropTypes.func,
+    handleUpdate: PropTypes.func,
     updateBoardContent: PropTypes.func
   };
 
@@ -26,7 +26,7 @@ class TagPopup extends React.Component {
     const {
       onChangeHandler,
       cardTags,
-      addComponent,
+      handleUpdate,
       updateBoardContent
     } = this.props;
     return (
@@ -59,7 +59,7 @@ class TagPopup extends React.Component {
                     <CreateTag
                       onAcceptHandler={() => this.handleOptionSelect("select")}
                       currSelectedTag={this.state.currSelectedTag}
-                      addComponent={addComponent}
+                      handleUpdate={handleUpdate}
                       updateBoardContent={updateBoardContent}
                       onClose={this.onClose}
                     />

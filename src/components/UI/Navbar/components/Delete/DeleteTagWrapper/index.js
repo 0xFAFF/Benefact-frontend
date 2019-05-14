@@ -7,7 +7,7 @@ import "./index.scss";
 class DeleteTagWrapper extends React.Component {
   static propTypes = {
     tags: PropTypes.array,
-    deleteComponent: PropTypes.func,
+    handleUpdate: PropTypes.func,
     onClose: PropTypes.func
   };
 
@@ -16,7 +16,7 @@ class DeleteTagWrapper extends React.Component {
   };
 
   onAcceptHandler = () => {
-    this.props.deleteComponent("tags", { id: this.state.tag.id });
+    this.props.handleUpdate("tags", "DELETE", { id: this.state.tag.id });
     this.props.onClose();
   };
 

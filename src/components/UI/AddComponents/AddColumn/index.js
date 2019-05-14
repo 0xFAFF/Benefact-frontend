@@ -4,7 +4,7 @@ import { AcceptCancelButtons } from "../../Popup";
 
 class AddColumn extends React.Component {
   static propTypes = {
-    addComponent: PropTypes.func,
+    handleUpdate: PropTypes.func,
     onAcceptHandler: PropTypes.func
   };
 
@@ -21,8 +21,8 @@ class AddColumn extends React.Component {
   };
 
   onAcceptHandler = () => {
-    const { addComponent, onAcceptHandler } = this.props;
-    addComponent("columns", { title: this.state.title });
+    const { handleUpdate, onAcceptHandler } = this.props;
+    handleUpdate("columns", "ADD", { title: this.state.title });
     if (onAcceptHandler) {
       onAcceptHandler();
     }

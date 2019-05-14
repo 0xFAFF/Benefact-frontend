@@ -87,13 +87,8 @@ const PageWrapper = Component => {
         if (errorHandler) handle = middleWare(error, errorHandler, handle);
         handle();
       };
-      return await fetching(
-        URLS(type, action, {
-          ...(boardId && { boardId })
-        }),
-        queryParams,
-        token
-      )
+      const url = URLS(type, action, { ...(boardId && { boardId }) });
+      return await fetching(url, queryParams, token)
         .then(async res => {
           let result = null;
           try {
@@ -103,11 +98,11 @@ const PageWrapper = Component => {
           }
           if (res.status === 200) return result;
           else {
-            const error = { status: res.status, ...result };
+            const error = { url, status: res.status, ...result };
             handle(error);
           }
         })
-        .catch(e => handle({ message: e.message }));
+        .catch(e => handle({ url, message: e.message }));
     };
 
     hasPrivilege = (priv, ownerId) => {
@@ -165,9 +160,6 @@ const PageWrapper = Component => {
     };
 
     getPage = () => {
-      let token = this.props.token;
-      const user = this.props.token && parseToken(this.props.token);
-      if (!user) token = null;
       return {
         query: parseQuery(this.props.location.search),
         showModal: this.showModal,
@@ -178,14 +170,17 @@ const PageWrapper = Component => {
         match: this.props.match,
         isLoading: this.state.isLoading,
         hasPrivilege: this.hasPrivilege,
-        token: token,
-        user: user,
+        token: this.token,
+        user: this.user,
         updatePage: this.updatePage,
         ...this.state.page
       };
     };
 
     render = () => {
+      this.token = this.props.token;
+      this.user = this.props.token && parseToken(this.props.token);
+      if (!this.user) this.token = null;
       const page = this.getPage();
       return (
         <PageProvider value={page}>

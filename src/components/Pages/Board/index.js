@@ -20,14 +20,7 @@ class Board extends React.Component {
     onLogoutHandler: PropTypes.func
   };
 
-  handleError = (e, next) => {
-    // Redirect to landing page if you can't view a board
-    if (e.status === 403) this.props.page.history.replace("/");
-    next();
-  };
-
   dataSource = async page => {
-    console.log(page);
     if (page.query.i) {
       await page
         .compFetch("boards", "JOIN", { Key: page.query.i })
@@ -271,15 +264,6 @@ class Board extends React.Component {
     return this.handleUpdate("cards", "UPDATE", draggedCard);
   };
 
-  addComponent = (componentType, content) => {
-    const updatedComponent = { ...content };
-    return this.handleUpdate(componentType, "ADD", updatedComponent);
-  };
-
-  deleteComponent = (componentType, content) => {
-    return this.handleUpdate(componentType, "DELETE", content);
-  };
-
   getAllCards = data => {
     let { cards } = data;
     const cardGroups = Object.values(cards);
@@ -312,8 +296,6 @@ class Board extends React.Component {
 
     const generalFunctions = {
       updateBoardContent: this.updateBoardContent,
-      addComponent: this.addComponent,
-      deleteComponent: this.deleteComponent,
       handleUpdate: this.handleUpdate
     };
 
@@ -377,7 +359,6 @@ class Board extends React.Component {
               onClose={this.closeCard}
               handleUpdate={this.handleUpdate}
               updateBoardContent={this.updateBoardContent}
-              deleteComponent={this.deleteComponent}
               content={editingCard}
               {...data}
               showDeleteModal

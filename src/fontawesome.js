@@ -44,7 +44,8 @@ import {
   faSignOutAlt,
   faDownload,
   faPaperclip,
-  faLink
+  faLink,
+  faArchive
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -89,5 +90,6 @@ library.add(
   faComments,
   faSignOutAlt,
   faDownload,
-  faLink
+  faLink,
+  faArchive
 );

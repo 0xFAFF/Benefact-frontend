@@ -3,21 +3,21 @@ import PropTypes from "prop-types";
 import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 
 const AddCard = props => {
-  const { addComponent, ...rest } = props;
+  const { handleUpdate, ...rest } = props;
   return (
     <>
-    <h1>Add Card</h1>
+      <h1>Add Card</h1>
       <CardEditor
+        {...rest}
         disableComponents
         updateBoardContent={({ title, description, tagIds, columnId }) =>
-          addComponent("cards", {
+          handleUpdate("cards", "ADD", {
             title: title || "",
             description: description || "",
             tagIds: tagIds || [],
             columnId: columnId
           })
         }
-        {...rest}
       />
     </>
   );
@@ -26,7 +26,7 @@ const AddCard = props => {
 AddCard.propTypes = {
   handleOpenModal: PropTypes.func,
   handleCloseModal: PropTypes.func,
-  addComponent: PropTypes.func,
+  handleUpdate: PropTypes.func,
   columns: PropTypes.array,
   columnId: PropTypes.number,
   onAcceptHandler: PropTypes.func,

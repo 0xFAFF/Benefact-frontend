@@ -9,7 +9,7 @@ class AddTag extends React.Component {
   static propTypes = {
     cardTags: PropTypes.array,
     onChangeHandler: PropTypes.func,
-    addComponent: PropTypes.func,
+    handleUpdate: PropTypes.func,
     updateBoardContent: PropTypes.func
   };
 
@@ -22,7 +22,7 @@ class AddTag extends React.Component {
   };
 
   render() {
-    const { cardTags, onChangeHandler, addComponent, updateBoardContent } = this.props;
+    const { cardTags, onChangeHandler, handleUpdate, updateBoardContent } = this.props;
     const modalContainer = document.getElementById("editor-mode");
     const left = modalContainer ? modalContainer.getBoundingClientRect().right : null;
     return (
@@ -62,7 +62,7 @@ class AddTag extends React.Component {
           <TagPopup
             cardTags={cardTags}
             onChangeHandler={onChangeHandler}
-            addComponent={addComponent}
+            handleUpdate={handleUpdate}
             option={this.state.option}
             currSelectedTag={this.state.currSelectedTag}
             updateBoardContent={updateBoardContent}

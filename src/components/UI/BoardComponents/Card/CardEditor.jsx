@@ -21,11 +21,9 @@ class CardEditor extends React.Component {
   static propTypes = {
     columns: PropTypes.array,
     updateBoardContent: PropTypes.func,
-    addComponent: PropTypes.func,
     onAcceptHandler: PropTypes.func,
     onClose: PropTypes.func,
     type: PropTypes.string,
-    deleteComponent: PropTypes.func,
     handleResetBoard: PropTypes.func,
     handleUpdate: PropTypes.func,
     disableComponents: PropTypes.bool
@@ -191,9 +189,9 @@ class CardEditor extends React.Component {
             {allowEdit && this.props.showDeleteModal && (
               <div className="editor-delete-card">
                 <FontAwesomeIcon
-                  data-tip="Delete this card"
+                  data-tip="Archive this card"
                   data-for="card-editor"
-                  icon="trash"
+                  icon="archive"
                   size="lg"
                   className="editor-delete-card-icon"
                   onClick={() => this.setState({ openDeleteModal: true })}
@@ -254,7 +252,7 @@ class CardEditor extends React.Component {
               tagIds={tagIds}
               displayAddTag={allowEdit}
               onChangeHandler={this.onChangeHandler}
-              addComponent={this.props.addComponent}
+              handleUpdate={this.props.handleUpdate}
               updateBoardContent={updateBoardContent}
             />
           </EditorActivity>
@@ -290,7 +288,7 @@ class CardEditor extends React.Component {
             }}
             onDelete={() => onClose && onClose()}
             isOpen={this.state.openDeleteModal}
-            deleteComponent={this.props.deleteComponent}
+            handleUpdate={this.props.handleUpdate}
             cardId={id}
           />
         </FileDrop>

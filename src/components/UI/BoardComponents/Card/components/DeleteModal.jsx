@@ -5,12 +5,12 @@ import { Modal } from "components/UI";
 import { Confirm } from "components/UI/Popup";
 
 const DeleteModal = props => {
-  const { isOpen, handleCloseModal, deleteComponent, cardId, onDelete } = props;
+  const { isOpen, handleCloseModal, handleUpdate, cardId, onDelete } = props;
 
   const onAcceptHandler = () => {
     if (cardId) {
       onDelete && onDelete();
-      deleteComponent("cards", { id: cardId }).then(() => {
+      handleUpdate("cards", "ARCHIVE", { cardId }).then(() => {
         handleCloseModal();
       });
     }
@@ -28,7 +28,7 @@ const DeleteModal = props => {
         <Confirm
           onAcceptHandler={onAcceptHandler}
           onCancelHandler={handleCloseModal}
-          confirmMessage={"Delete this card?"}
+          confirmMessage={"Are you sure you want to archive this card?"}
         />
       </Modal>
     </div>
@@ -38,7 +38,7 @@ const DeleteModal = props => {
 DeleteModal.propTypes = {
   isOpen: PropTypes.bool,
   handleCloseModal: PropTypes.func,
-  deleteComponent: PropTypes.func,
+  handleUpdate: PropTypes.func,
   cardId: PropTypes.number
 };
 

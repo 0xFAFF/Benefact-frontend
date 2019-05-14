@@ -47,8 +47,6 @@ Kanban.propTypes = {
   groupName: PropTypes.string,
   kanbanOnDragEnd: PropTypes.func,
   updateBoardContent: PropTypes.func,
-  addComponent: PropTypes.func,
-  deleteComponent: PropTypes.func,
   handleResetBoard: PropTypes.func,
   handleUpdate: PropTypes.func,
   filtersActive: PropTypes.bool

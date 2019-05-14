@@ -7,7 +7,7 @@ import "./index.scss";
 
 class CreateTag extends React.Component {
   static propTypes = {
-    addComponent: PropTypes.func,
+    handleUpdate: PropTypes.func,
     onAcceptHandler: PropTypes.func,
     updateBoardContent: PropTypes.func,
     currSelectedTag: PropTypes.object
@@ -43,7 +43,7 @@ class CreateTag extends React.Component {
 
   onAcceptHandler = () => {
     const {
-      addComponent,
+      handleUpdate,
       onAcceptHandler,
       currSelectedTag,
       updateBoardContent
@@ -51,7 +51,7 @@ class CreateTag extends React.Component {
     if (currSelectedTag) {
       updateBoardContent({ ...this.state, id: currSelectedTag.id }, "tags");
     } else {
-      addComponent("tags", {
+      handleUpdate("tags", "ADD", {
         name: this.state.name,
         color: this.state.color === "" ? null : this.state.color,
         character: this.state.character === "" ? null : this.state.character,

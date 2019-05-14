@@ -17,6 +17,9 @@ const urlKeyMap = {
     },
     DELETE: {
       url: "boards/{boardId}/cards/delete"
+    },
+    ARCHIVE: {
+      url: "boards/{boardId}/cards/archive"
     }
   },
   columns: {
@@ -106,7 +109,7 @@ const urlKeyMap = {
 function URLS(type, action, urlParams = {}) {
   let urlEntry = urlKeyMap[type][action];
   let url = `${baseURL}${urlEntry.url}`.replace(/{(.*?)}/g, (_, m) => urlParams[m]);
-  return { name: url, ...urlEntry };
+  return { type, action, name: url, ...urlEntry };
 }
 
 export default URLS;

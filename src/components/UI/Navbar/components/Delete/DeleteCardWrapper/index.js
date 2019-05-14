@@ -7,7 +7,7 @@ import "./index.scss";
 class DeleteCardWrapper extends React.Component {
   static propTypes = {
     cards: PropTypes.array,
-    deleteComponent: PropTypes.func,
+    handleUpdate: PropTypes.func,
     onClose: PropTypes.func
   };
 
@@ -16,7 +16,7 @@ class DeleteCardWrapper extends React.Component {
   };
 
   onAcceptHandler = () => {
-    this.props.deleteComponent("cards", { id: this.state.card.id });
+    this.props.handleUpdate("cards", "DELETE", { id: this.state.card.id });
     this.props.onClose();
   };
 

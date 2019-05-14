@@ -11,7 +11,7 @@ const Tags = props => {
     tagIds,
     displayAddTag,
     onChangeHandler,
-    addComponent,
+    handleUpdate,
     updateBoardContent
   } = props;
   return (
@@ -29,7 +29,7 @@ const Tags = props => {
                   <AddTag
                     cardTags={tags}
                     onChangeHandler={onChangeHandler}
-                    addComponent={addComponent}
+                    handleUpdate={handleUpdate}
                     updateBoardContent={updateBoardContent}
                   />
                 </li>
@@ -46,7 +46,7 @@ Tags.propTypes = {
   tagIds: PropTypes.array,
   displayAddTag: PropTypes.bool,
   onChangeHandler: PropTypes.func,
-  addComponent: PropTypes.func,
+  handleUpdate: PropTypes.func,
   updateBoardContent: PropTypes.func
 };
 

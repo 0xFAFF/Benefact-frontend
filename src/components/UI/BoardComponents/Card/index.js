@@ -6,7 +6,6 @@ import { Voting } from "./components";
 import IconRow from "./IconRow";
 import UnnaturalDND from "components/UnnaturalDND";
 import { PageProp } from "components/Pages/PageContext";
-import { Tooltip } from "components/UI";
 import "./index.scss";
 
 class Card extends React.Component {
@@ -15,8 +14,6 @@ class Card extends React.Component {
     index: PropTypes.number,
     columns: PropTypes.array,
     updateBoardContent: PropTypes.func,
-    addComponent: PropTypes.func,
-    deleteComponent: PropTypes.func,
     handleResetBoard: PropTypes.func,
     handleUpdate: PropTypes.func,
     openCard: PropTypes.func

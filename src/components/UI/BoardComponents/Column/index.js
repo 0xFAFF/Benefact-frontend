@@ -4,6 +4,7 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 import { Card } from "../../BoardComponents";
 import Header from "./Header";
 import "./index.scss";
+import { PageProp } from "components/Pages/PageContext";
 
 const InnerList = props => {
   const { colCards, ...rest } = props;
@@ -14,10 +15,8 @@ InnerList.propTypes = {
   colCards: PropTypes.array,
   columns: PropTypes.array,
   updateBoardContent: PropTypes.func,
-  addComponent: PropTypes.func,
-  deleteComponent: PropTypes.func,
   handleResetBoard: PropTypes.func,
-  handleUpdateS: PropTypes.func
+  handleUpdate: PropTypes.func
 };
 
 class Column extends React.Component {
@@ -27,8 +26,6 @@ class Column extends React.Component {
     cards: PropTypes.array,
     colCards: PropTypes.array,
     index: PropTypes.number,
-    addComponent: PropTypes.func,
-    deleteComponent: PropTypes.func,
     updateBoardContent: PropTypes.func,
     handleResetBoard: PropTypes.func,
     handleUpdate: PropTypes.func
@@ -40,33 +37,36 @@ class Column extends React.Component {
       columns,
       colCards,
       index,
-      addComponent,
-      deleteComponent,
       updateBoardContent,
       handleResetBoard,
       handleUpdate,
-      openCard
+      openCard,
+      page
     } = this.props;
+    const { hasPrivilege } = page;
 
     const draggingStyle = { backgroundColor: "var(--column-hover)" };
+    const dragDisabled = !hasPrivilege("admin");
     return (
-      <Draggable draggableId={column.id} index={index} isDragDisabled={false}>
+      <Draggable draggableId={column.id} index={index} isDragDisabled={dragDisabled}>
         {(provided, snapshot) => (
           <div
             id="column-draggable"
-            className={snapshot.isDragging ? "col-is-dragging" : ""}
+            className={
+              (snapshot.isDragging ? "col-is-dragging" : "") + (dragDisabled ? "" : " draggable")
+            }
             ref={provided.innerRef}
             {...provided.draggableProps}
           >
             <div className="column-container">
               <Header
                 dragHandleProps={provided.dragHandleProps}
-                title={column.title}
-                columnId={column.id}
-                addComponent={addComponent}
+                column={column}
+                handleUpdate={handleUpdate}
                 updateBoardContent={updateBoardContent}
                 cardCount={colCards.length}
                 columns={columns}
+                page={page}
               />
               <Droppable droppableId={`col-${column.id}`} type="card">
                 {(provided, snapshot) => (
@@ -81,8 +81,6 @@ class Column extends React.Component {
                       colCards={colCards}
                       columns={columns}
                       updateBoardContent={updateBoardContent}
-                      addComponent={addComponent}
-                      deleteComponent={deleteComponent}
                       handleResetBoard={handleResetBoard}
                       handleUpdate={handleUpdate}
                       openCard={openCard}
@@ -99,4 +97,4 @@ class Column extends React.Component {
   }
 }
 
-export default Column;
+export default PageProp(Column);

@@ -8,7 +8,7 @@ class DeleteColumnWrapper extends React.Component {
   static propTypes = {
     columns: PropTypes.array,
     cards: PropTypes.array,
-    deleteComponent: PropTypes.func,
+    handleUpdate: PropTypes.func,
     onClose: PropTypes.func
   };
 
@@ -17,7 +17,7 @@ class DeleteColumnWrapper extends React.Component {
   };
 
   onAcceptHandler = () => {
-    this.props.deleteComponent("columns", {
+    this.props.handleUpdate("columns", "DELETE", {
       id: this.state.column.id
     });
     this.props.onClose();

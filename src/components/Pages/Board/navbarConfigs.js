@@ -49,7 +49,7 @@ export const navbarConfigs = (child, props) => {
         icon: "plus-circle",
         component: AddCard,
         params: {
-          addComponent: child.addComponent,
+          handleUpdate: child.handleUpdate,
           columns: data.columns,
           disableComponents: true
         }
@@ -61,7 +61,7 @@ export const navbarConfigs = (child, props) => {
         icon: "minus-circle",
         component: Delete,
         params: {
-          deleteComponent: child.deleteComponent,
+          handleUpdate: child.handleUpdate,
           cards: data.allCards,
           columns: data.columns,
           tags: data.tags

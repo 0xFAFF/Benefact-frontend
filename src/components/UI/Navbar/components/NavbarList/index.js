@@ -13,7 +13,7 @@ const NavbarList = props => {
     <div className={`navbar-list ${navbarClassName}`}>
       <div key="menu" className="navbar-list-container">
         <div className="navbar-top-left">
-          <img src="/fafficon.png" alt="FAFF Games LLC" />
+          <img src="/favicon.png" alt="Benefact" />
         </div>
         <Tooltip id="navbar-tooltip" />
         <ul className={"menu flex grow"}>
@@ -24,6 +24,7 @@ const NavbarList = props => {
                 className={`grow row${(index === listConfig.length - 1 && " pull-right") ||
                   ""}${(index === 1 && " middle") || ""}`}
               >
+                {index === 1 && <img src="/favicon.png" alt="Benefact" />}
                 {section.map(item => {
                   const { id, icon, title, className = null, url, hide, tooltip } = item;
                   if (hide) return null;

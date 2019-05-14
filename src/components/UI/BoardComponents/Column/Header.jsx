@@ -32,17 +32,16 @@ const Header = props => {
           title
         )}
       </span>
-      {hasPrivilege("developer") ||
-        (hasPrivilege("contribute") && allowContribution && (
-          <div
-            className="add-card"
-            onClick={() => {
-              showModal(<AddCard onClose={closeModal} columnId={column.id} {...props} />);
-            }}
-          >
-            <FontAwesomeIcon icon="plus" size="sm" />
-          </div>
-        ))}
+      {(hasPrivilege("developer") || (hasPrivilege("contribute") && allowContribution)) && (
+        <div
+          className="add-card"
+          onClick={() => {
+            showModal(<AddCard onClose={closeModal} columnId={column.id} {...props} />);
+          }}
+        >
+          <FontAwesomeIcon icon="plus" size="sm" />
+        </div>
+      )}
     </div>
   );
 };

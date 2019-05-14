@@ -26,20 +26,28 @@ class Board extends React.Component {
     next();
   };
 
-  dataSource = page => {
-    return page.compFetch("cards", "GET", this.filterQueryParams(page.filters)).then(result => {
-      let { columns, cards } = result;
-      result.columns = columns = columns || [];
-      result.cards = cards = cards || {};
-      let data = { ...result, ...this.getAllCards(result) };
-      data = {
-        ...data,
-        columnOrder: columns.map(column => column.id)
-      };
-      return {
-        data
-      };
-    });
+  dataSource = async page => {
+    console.log(page);
+    if (page.query.i) {
+      await page
+        .compFetch("boards", "JOIN", { Key: page.query.i })
+        .then(r => r && page.history.replace(page.match.url));
+    }
+    return await page
+      .compFetch("cards", "GET", this.filterQueryParams(page.filters))
+      .then(result => {
+        let { columns, cards } = result;
+        result.columns = columns = columns || [];
+        result.cards = cards = cards || {};
+        let data = { ...result, ...this.getAllCards(result) };
+        data = {
+          ...data,
+          columnOrder: columns.map(column => column.id)
+        };
+        return {
+          data
+        };
+      });
   };
 
   componentDidMount = () => {

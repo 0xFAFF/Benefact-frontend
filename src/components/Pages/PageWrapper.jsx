@@ -35,7 +35,6 @@ const PageWrapper = Component => {
       this.child = {};
       this.urlParams = this.props.match.params;
       this.extraProps = {
-        query: parseQuery(this.props.location.search),
         compFetch: this.compFetch,
         setChild: c => (this.child = c)
       };
@@ -170,11 +169,13 @@ const PageWrapper = Component => {
       const user = this.props.token && parseToken(this.props.token);
       if (!user) token = null;
       return {
+        query: parseQuery(this.props.location.search),
         showModal: this.showModal,
         closeModal: this.closeModal,
         refreshData: this.refreshData,
         compFetch: this.compFetch,
         history: this.props.history,
+        match: this.props.match,
         isLoading: this.state.isLoading,
         hasPrivilege: this.hasPrivilege,
         token: token,

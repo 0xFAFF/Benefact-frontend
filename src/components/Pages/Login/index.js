@@ -59,7 +59,6 @@ class Login extends React.Component {
             <>
               <div className="header flex center">
                 <div className="app-title flex center">Benefact</div>
-                <img src={"/fafficon.png"} alt={""} width="70" height="70" />
               </div>
               <SignIn
                 onViewChangeHandler={this.onViewChangeHandler}

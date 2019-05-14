@@ -6,7 +6,6 @@
   max-height: 97%;
   display: flex;
   flex-direction: column;
-  // overflow-y: auto;
   box-shadow: var(--column-shadow);
   border-radius: 5px;
   .column-empty {
@@ -14,10 +13,10 @@
   }
   .column-container {
     background-color: var(--column-secondary);
-    border-radius: 5px 5px 0 0;
   }
 
   .column-header {
+    border-radius: 5px 5px 0 0;
     box-shadow: 0 0 3px 0 rgba(0, 1, 0, 0.32);
     background-color: var(--column-primary);
     padding: 8px;

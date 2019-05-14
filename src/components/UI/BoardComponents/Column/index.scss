@@ -6,7 +6,7 @@
   max-height: 97%;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  // overflow-y: auto;
   box-shadow: var(--column-shadow);
   border-radius: 5px;
   .column-empty {
@@ -50,6 +50,9 @@
 
   #column-droppable {
     transition: background-color 0.2s ease;
+    overflow: hidden auto;
+    flex-grow: 1;
+    max-height: 100%;
   }
 }
 

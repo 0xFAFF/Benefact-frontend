@@ -58,7 +58,7 @@ class Column extends React.Component {
             ref={provided.innerRef}
             {...provided.draggableProps}
           >
-            <div className="column-container">
+            <div className="column-container flex col">
               <Header
                 dragHandleProps={provided.dragHandleProps}
                 column={column}

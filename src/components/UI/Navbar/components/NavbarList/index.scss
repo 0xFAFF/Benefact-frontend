@@ -92,8 +92,17 @@
     div {
       justify-content: space-around;
     }
+    div:first-child {
+      justify-content: flex-start;
+    }
+    div:last-child {
+      justify-content: flex-end;
+    }
 
     @media only screen and (min-width: 500px) {
+      li {
+        padding: 10px 7px;
+      }
       .middle {
         li {
           display: flex;
@@ -109,16 +118,7 @@
         justify-content: space-evenly;
       }
       li {
-        padding: 10px 20px;
-      }
-    }
-
-    @media only screen and (min-width: 1000px) {
-      div {
-        justify-content: flex-start;
-      }
-      div.pull-right {
-        justify-content: flex-end;
+        padding: 10px 10px;
       }
     }
 

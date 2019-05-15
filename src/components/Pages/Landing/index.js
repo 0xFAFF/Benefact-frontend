@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Tooltip } from "components/UI";
 import PageWrapper from "components/Pages/PageWrapper";
 import { RenderContent } from "./content";
 import "./index.scss";
@@ -56,12 +55,9 @@ class Landing extends React.Component {
             {tabs.map(({ id, title }) => {
               return (
                 <React.Fragment key={id}>
-                  <Tooltip id="tabs" effect="float" />
                   <div
                     key={id}
                     className={`tab ${id === this.state.activeContent ? "active" : ""}`}
-                    data-tip={`Click to see: ${title}`}
-                    data-for="tabs"
                     id={title}
                     onClick={() => this.handleActiveContent(id)}
                   >

@@ -120,11 +120,6 @@ class CardEditor extends React.Component {
         cardId: this.props.content.id,
         count: 1
       };
-    } else if (voteType === "subtract") {
-      queryParams = {
-        cardId: this.props.content.id,
-        count: -1
-      };
     }
 
     await this.props.handleUpdate("votes", "UPDATE", queryParams);

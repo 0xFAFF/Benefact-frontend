@@ -25,32 +25,18 @@ const Voting = props => {
           <div id="vote-container" className="row">
             <Tooltip id="voting" />
             <div className={`row vote-thumbs-container ${totalVotes ? "has-votes" : ""}`}>
-              {canVote && defaultDisplay && (<div
-                onClick={e => {
-                  e.stopPropagation();
-                  onUpdateVote("add");
-                }}
-                className={`vote-counter  ${totalVotes || defaultDisplay ? "has-votes" : ""}`}
-              >
-                <FontAwesomeIcon
-                  data-tip="Upvote this card"
-                  data-for="voting"
-                  icon="arrow-circle-up"
-                  size={size}
-                />
-              </div>)}
               {canVote && defaultDisplay && (
                 <div
                   onClick={e => {
                     e.stopPropagation();
-                    onUpdateVote("subtract");
+                    onUpdateVote("add");
                   }}
                   className={`vote-counter  ${totalVotes || defaultDisplay ? "has-votes" : ""}`}
                 >
                   <FontAwesomeIcon
-                    data-tip="Downvote this card"
+                    data-tip="Upvote this card"
                     data-for="voting"
-                    icon="arrow-circle-down"
+                    icon="arrow-circle-up"
                     size={size}
                   />
                 </div>
@@ -63,7 +49,7 @@ const Voting = props => {
                   } : You've contributed ${currUserVotes} vote${totalVotes === 1 ? "" : "s"}`}
                   data-for="voting"
                 >
-                  <span>{`+${totalVotes}${currUserVotes !== 0 ? `(${currUserVotes})` : ''}`}</span>
+                  <span>{`+${totalVotes}${currUserVotes !== 0 ? ` (${currUserVotes})` : ""}`}</span>
                 </div>
               )}
             </div>

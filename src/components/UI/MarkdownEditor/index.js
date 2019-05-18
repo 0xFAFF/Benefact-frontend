@@ -38,14 +38,6 @@ class MarkdownEditor extends React.Component {
     if (this.props.onBlur) this.props.onBlur(e);
   };
 
-  handleKeyPress = e => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.onBlur();
-    }
-  };
-
   render = () => {
     const { allowEdit = true, ...rest } = this.props;
     return this.state.editing ? (
@@ -56,7 +48,6 @@ class MarkdownEditor extends React.Component {
         minRows={1}
         value={this.props.value}
         onBlur={this.onBlur}
-        onKeyPress={this.handleKeyPress}
       />
     ) : (
       <div

@@ -40,7 +40,6 @@ const Modal = props => {
           ? "Modal"
           : ""
       }`}
-      // className={`${modalClassName ? modalClassName : "Modal"}`}
       overlayClassName={`${
         overlayClassName && isEmpty(modalStyle)
           ? overlayClassName
@@ -48,20 +47,15 @@ const Modal = props => {
           ? "Overlay"
           : ""
       }`}
-      // overlayClassName={`${overlayClassName ? overlayClassName : "Overlay"}`}
       style={modalStyle}
     >
       <div
         style={outerCnterStyle}
-        className={`${
-          outerCnterClassName ? outerCnterClassName : "outer-container"
-        }`}
+        className={`${outerCnterClassName ? outerCnterClassName : "outer-container"}`}
       >
         <div
           style={innerCnterStyle}
-          className={`${
-            innerCnterClassName ? innerCnterClassName : "inner-container"
-          }`}
+          className={`${innerCnterClassName ? innerCnterClassName : "inner-container"}`}
         >
           <div id="modal-container">
             <div className="inner-content">{children}</div>
@@ -80,7 +74,7 @@ Modal.propTypes = {
   outerCnterClassName: PropTypes.string,
   outerCnterStyle: PropTypes.object,
   innerCnterClassName: PropTypes.string,
-  innerCnterStyle: PropTypes.object,
+  innerCnterStyle: PropTypes.object
 };
 
 export default Modal;

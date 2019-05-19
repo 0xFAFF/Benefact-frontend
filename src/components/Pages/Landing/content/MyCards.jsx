@@ -7,7 +7,6 @@ const MyCards = props => {
       data: { cards }
     }
   } = props;
-  console.log(cards);
   return (
     <div>
       {/* <List {...innerProps} {...listFunctions} cards={groupCards} groupName={groupName} />*/}

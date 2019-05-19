@@ -1,5 +1,5 @@
 import React from "react";
-import { Delete, FilterView } from "components/UI/Navbar/components";
+import { BoardSettings, FilterView } from "components/UI/Navbar/components";
 import { AddCard } from "components/UI/AddComponents";
 import { Filter } from "components/UI/BoardComponents/Filter";
 
@@ -23,14 +23,13 @@ export const navbarConfigs = (child, props) => {
       {
         id: "filter",
         tooltip: "Filter",
-        title:
-          filters ? (
-            <FilterView
-              resetFilters={() => {
-                props.page.updatePage({ filters: null }, props.page.refreshData);
-              }}
-            />
-          ) : null,
+        title: filters ? (
+          <FilterView
+            resetFilters={() => {
+              props.page.updatePage({ filters: null }, props.page.refreshData);
+            }}
+          />
+        ) : null,
         icon: "filter",
         component: Filter,
         params: {
@@ -55,16 +54,17 @@ export const navbarConfigs = (child, props) => {
         }
       },
       {
-        id: "delete",
-        tooltip: "Delete",
-        hide: !hasPrivilege("admin"),
-        icon: "minus-circle",
-        component: Delete,
+        id: "boardSettings",
+        tooltip: "Board Settings",
+        // hide: !hasPrivilege("admin"),
+        icon: "cog",
+        component: BoardSettings,
+        modalClassName: "board-settings",
         params: {
-          handleUpdate: child.handleUpdate,
-          cards: data.allCards,
-          columns: data.columns,
-          tags: data.tags
+          // handleUpdate: child.handleUpdate,
+          // cards: data.allCards,
+          // columns: data.columns,
+          // tags: data.tags
         }
       }
     ]

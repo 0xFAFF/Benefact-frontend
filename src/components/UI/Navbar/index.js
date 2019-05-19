@@ -4,7 +4,7 @@ import "./index.scss";
 import { Modal } from "components/UI";
 
 class Navbar extends React.Component {
-  state = { modal: null };
+  state = { modal: null, modalClassName: "" };
   onItemClick = (id, navbarRowId) => {
     const {
       configs: { listConfig = [] }
@@ -12,15 +12,15 @@ class Navbar extends React.Component {
     const configOptions = listConfig[navbarRowId];
     const item = configOptions.length > 0 ? configOptions.find(item => item.id === id) : null;
     if (item && item.onClick) item.onClick();
-    else this.setState({ modal: item });
+    else this.setState({ modal: item, modalClassName: item.modalClassName || "" });
   };
-  modalClose = () => this.setState({ modal: null });
+  modalClose = () => this.setState({ modal: null, modalClassName: "" });
   render() {
     return (
       <div id="navbar">
         <NavbarList configs={this.props.configs || []} onItemClick={this.onItemClick} />
         {this.state.modal && (
-          <Modal isOpen onClose={this.modalClose}>
+          <Modal isOpen onClose={this.modalClose} modalClassName={this.state.modalClassName}>
             <this.state.modal.component onClose={this.modalClose} {...this.state.modal.params} />
           </Modal>
         )}

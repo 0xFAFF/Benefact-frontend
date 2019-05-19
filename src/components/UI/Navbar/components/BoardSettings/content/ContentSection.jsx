@@ -1,6 +1,6 @@
 import React from "react";
 
-export const SectionContent = ({ uid, header, content }) => {
+export const ContentSection = ({ uid, header, content }) => {
   return (
     <div id="section-content">
       <label>{header}</label>

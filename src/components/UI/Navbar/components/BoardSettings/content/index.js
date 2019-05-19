@@ -1,4 +1,5 @@
 export { General } from "./General";
 export { Columns } from "./Columns";
 export { Tags } from "./Tags";
-export { SectionContent } from "./SectionContent";
+export { ContentSection } from "./ContentSection";
+export { RenderContent } from "./RenderContent";

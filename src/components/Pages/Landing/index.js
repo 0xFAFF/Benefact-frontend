@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import PageWrapper from "components/Pages/PageWrapper";
 import { RenderContent } from "./content";
+import { TwoSectionMenu } from "components/UI/PageComponents"
 import "./index.scss";
 
 class Landing extends React.Component {
@@ -30,46 +31,30 @@ class Landing extends React.Component {
     });
 
   state = {
-    activeContent: "boards"
+    activeMenu: "boards"
   };
 
-  handleActiveContent = content => {
-    this.setState({ activeContent: content });
+  handleActiveMenu = menu => {
+    this.setState({ activeMenu: menu });
   };
 
   render() {
-    const tabs = [
+    const menuTabs = [
       {
-        id: "boards",
-        title: "Boards"
+        uid: "boards",
+        header: "Boards"
       },
       {
-        id: "myCards",
-        title: "My Cards"
+        uid: "myCards",
+        header: "My Cards"
       }
     ];
     return (
       <>
         <div id="landing-container" className="flex grow">
-          <div id="tabs">
-            {tabs.map(({ id, title }) => {
-              return (
-                <React.Fragment key={id}>
-                  <div
-                    key={id}
-                    className={`tab ${id === this.state.activeContent ? "active" : ""}`}
-                    id={title}
-                    onClick={() => this.handleActiveContent(id)}
-                  >
-                    {title}
-                  </div>
-                </React.Fragment>
-              );
-            })}
-          </div>
-          <div id="content">
-            <RenderContent content={this.state.activeContent} {...this.props} />
-          </div>
+          <TwoSectionMenu menuTabs={menuTabs} activeMenu={this.state.activeMenu} handleActiveMenu={this.handleActiveMenu}>
+            <RenderContent content={this.state.activeMenu} {...this.props} />
+          </TwoSectionMenu>
         </div>
       </>
     );

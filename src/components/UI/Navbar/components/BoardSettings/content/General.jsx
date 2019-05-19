@@ -1,5 +1,5 @@
 import React from "react";
-import { SectionContent } from "../components";
+import { ContentSection } from "../content";
 
 export const General = props => {
   const sectionConfigs = [
@@ -21,7 +21,7 @@ export const General = props => {
   return (
     <>
       {sectionConfigs.map(section => (
-        <SectionContent key={section.uid} {...section} {...props} />
+        <ContentSection key={section.uid} {...section} {...props} />
       ))}
     </>
   );

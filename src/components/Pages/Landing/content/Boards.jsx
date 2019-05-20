@@ -6,7 +6,7 @@ import CreateBoard from "./CreateBoard";
 import "./Boards.scss";
 
 const Boards = ({ page: { data = {}, showModal, closeModal } }) => {
-  const { roles = [] } = data;
+  const { boards = [] } = data;
   return (
     <div id="boards-content">
       <>
@@ -15,10 +15,10 @@ const Boards = ({ page: { data = {}, showModal, closeModal } }) => {
             Create New Board
           </button>
         </div>
-        {roles.map(({ board: { id, title, urlName }, userId, privilege }) => {
+        {boards.map(({ title, urlName, userPrivilege }) => {
           return (
             <div
-              key={id}
+              key={urlName}
               className="board flex"
               data-tip={`Go to board: ${title}`}
               data-for="board"
@@ -28,7 +28,7 @@ const Boards = ({ page: { data = {}, showModal, closeModal } }) => {
               </div>
               <div className="board-info grow">
                 <div className="board-title">Board: {title}</div>
-                <div className="board-user-role">Role: {privilege}</div>
+                <div className="board-user-role">Role: {userPrivilege}</div>
                 <Link className="board-link" to={`/board/${urlName}`}>
                   View Board
                 </Link>

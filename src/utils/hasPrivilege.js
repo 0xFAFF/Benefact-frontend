@@ -8,9 +8,9 @@ const privilegeMap = {
   admin: 128
 };
 
-const hasPrivilege = (privilege, role) => {
-  if(!role || !role.privilege) return false;
-  if((role.privilege & privilegeMap.admin) !== 0) return true;
-  return privilege.split("|").some(p => (privilegeMap[p] & role.privilege) !== 0);
+const hasPrivilege = (privilege, userPrivilege) => {
+  if(!userPrivilege) return false;
+  if((userPrivilege & privilegeMap.admin) !== 0) return true;
+  return privilege.split("|").some(p => (privilegeMap[p] & userPrivilege) !== 0);
 }
 export default hasPrivilege;

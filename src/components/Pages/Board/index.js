@@ -313,7 +313,7 @@ class Board extends React.Component {
     const editingCard = cardId && cardsById && cardsById[cardId];
     const goHome = () => this.props.history.push("/");
     if (!data) return <></>;
-    if (!data.userRole) {
+    if (!data.userPrivilege) {
       return (
         <Modal isOpen shouldCloseOnOverlayClick={false} onClose={goHome}>
           {!data.defaultPrivilege ? (

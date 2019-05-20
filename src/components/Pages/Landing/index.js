@@ -2,8 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import PageWrapper from "components/Pages/PageWrapper";
 import { RenderContent } from "./content";
-import { TwoSectionMenu } from "components/UI/PageComponents"
+import { TwoSectionMenu } from "components/UI/PageComponents";
+
 import "./index.scss";
+import Boards from "./content/Boards";
+import MyCards from "./content/MyCards";
 
 class Landing extends React.Component {
   static propTypes = {
@@ -18,45 +21,27 @@ class Landing extends React.Component {
   componentDidMount = () => {
     this.props.setChild(this);
   };
-  navbar = props => {
-    return {
-      title: "Benefact",
-      buttons: []
-    };
-  };
 
   dataSource = () =>
     this.props.compFetch("users", "CURRENT").then(data => {
       return { data };
     });
 
-  state = {
-    activeMenu: "boards"
-  };
-
-  handleActiveMenu = menu => {
-    this.setState({ activeMenu: menu });
-  };
-
   render() {
     const menuTabs = [
       {
-        uid: "boards",
-        header: "Boards"
+        header: "Boards",
+        comp: Boards
       },
       {
-        uid: "myCards",
-        header: "My Cards"
+        header: "My Cards",
+        comp: MyCards
       }
     ];
     return (
-      <>
-        <div id="landing-container" className="flex grow">
-          <TwoSectionMenu menuTabs={menuTabs} activeMenu={this.state.activeMenu} handleActiveMenu={this.handleActiveMenu}>
-            <RenderContent content={this.state.activeMenu} {...this.props} />
-          </TwoSectionMenu>
-        </div>
-      </>
+      <div id="landing-container" className="flex grow">
+        <TwoSectionMenu menuTabs={menuTabs} {...this.props} />
+      </div>
     );
   }
 }

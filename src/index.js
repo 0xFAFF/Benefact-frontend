@@ -67,7 +67,6 @@ class App extends React.Component {
         <Router>
           <Switch>
             <Route
-              exact
               path="/"
               render={props =>
                 token ? <Landing {...props} {...childProps} /> : <RedirectLogin {...props} />
@@ -86,7 +85,7 @@ class App extends React.Component {
                 token ? <User {...props} {...childProps} /> : <RedirectLogin {...props} />
               }
             />
-            <Route path="/version" render={props => <Version />} />
+            <Route path="/version" render={() => <Version />} />
           </Switch>
         </Router>
       </div>

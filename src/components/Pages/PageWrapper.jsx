@@ -109,8 +109,7 @@ const PageWrapper = Component => {
       if (ownerId && this.user && this.user.id === ownerId) return true;
       if (
         !isEmpty(this.state.page.data) &&
-        !isEmpty(this.state.page.data.userRole) &&
-        hasPrivilege(priv, this.state.page.data.userRole)
+        hasPrivilege(priv, this.state.page.data.userPrivilege)
       )
         return true;
       return false;

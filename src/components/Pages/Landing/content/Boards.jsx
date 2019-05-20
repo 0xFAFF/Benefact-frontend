@@ -1,13 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateBoard from "./CreateBoard";
 import "./Boards.scss";
 
-const Boards = ({ page: { data = {}, compFetch, showModal, closeModal }, history }) => {
-  const goToBoard = boardUrlName => {
-    history.push(`/board/${boardUrlName}`);
-  };
+const Boards = ({ page: { data = {}, showModal, closeModal } }) => {
   const { roles = [] } = data;
   return (
     <div id="boards-content">
@@ -31,9 +29,9 @@ const Boards = ({ page: { data = {}, compFetch, showModal, closeModal }, history
               <div className="board-info grow">
                 <div className="board-title">Board: {title}</div>
                 <div className="board-user-role">Role: {privilege}</div>
-                <div className="board-link" onClick={() => goToBoard(urlName)}>
+                <Link className="board-link" to={`/board/${urlName}`}>
                   View Board
-                </div>
+                </Link>
               </div>
             </div>
           );

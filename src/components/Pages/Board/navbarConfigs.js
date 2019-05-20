@@ -9,6 +9,7 @@ export const navbarConfigs = (child, props) => {
     page: { data, hasPrivilege, history, filters }
   } = props;
   if (!data) return {};
+  console.log(props);
   return {
     title: data.title,
     buttons: [
@@ -63,8 +64,12 @@ export const navbarConfigs = (child, props) => {
         params: {
           // handleUpdate: child.handleUpdate,
           // cards: data.allCards,
-          // columns: data.columns,
-          // tags: data.tags
+          general: {
+            defaultPrivilege: data.defaultPrivilege,
+            description: data.description
+          },
+          columns: data.columns,
+          tags: data.tags
         }
       }
     ]

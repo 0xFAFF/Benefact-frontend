@@ -5,7 +5,6 @@ export class General extends React.Component {
   state = {};
 
   componentDidMount() {
-    console.log(this.props);
     const { defaultPrivilege, description } = this.props.general;
     this.setState({
       defaultPrivilege,
@@ -16,13 +15,24 @@ export class General extends React.Component {
   render() {
     const sectionConfigs = [
       {
-        uid: "description",
         header: "Description",
-        content: <input name="description" value={this.state.description} />
+        content: (
+          <input
+            name="description"
+            value={this.state.description || ""}
+            onChange={e => this.setState({ description: e.target.value })}
+          />
+        )
       },
       {
-        uid: "defaultPrivilege",
-        header: "Default Privilege"
+        header: "Default Privilege",
+        content: (
+          <input
+            name="defaultPrivilege"
+            value={this.state.defaultPrivilege || ""}
+            onChange={e => this.setState({ defaultPrivilege: e.target.value })}
+          />
+        )
       },
       {
         uid: "create_board_link",
@@ -32,7 +42,7 @@ export class General extends React.Component {
     return (
       <>
         {sectionConfigs.map(section => (
-          <ContentSection key={section.uid} {...section} {...this.props} />
+          <ContentSection key={section.header} {...section} {...this.props} />
         ))}
       </>
     );

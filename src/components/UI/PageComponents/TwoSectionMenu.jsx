@@ -1,14 +1,14 @@
 import React from "react";
 import "./TwoSectionMenu.scss";
 
-class TwoSectionMenu extends React.Component {
+export class TwoSectionMenu extends React.Component {
   state = {
     activeIndex: 0
   };
   render = () => {
     const { menuTabs = [], ...childProps } = this.props;
     const { activeIndex } = this.state;
-    const ActiveComp = menuTabs[activeIndex].comp;
+    const ActiveComp = menuTabs[activeIndex].comp || null;
     return (
       <div id="two-section-menu" className="flex grow">
         <div id="menu-tabs">
@@ -25,12 +25,8 @@ class TwoSectionMenu extends React.Component {
             );
           })}
         </div>
-        <div id="content">
-          <ActiveComp {...childProps}/>
-        </div>
+        <div id="content">{ActiveComp && <ActiveComp {...childProps} />}</div>
       </div>
     );
   };
 }
-
-export default TwoSectionMenu;

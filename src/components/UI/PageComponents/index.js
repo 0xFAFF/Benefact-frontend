@@ -1,1 +1,1 @@
-export { default as TwoSectionMenu } from "./TwoSectionMenu"
+export { TwoSectionMenu } from "./TwoSectionMenu";

@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { TwoSectionMenu } from "components/UI/PageComponents"
 import { RenderContent } from "./content"
 import "./index.scss";

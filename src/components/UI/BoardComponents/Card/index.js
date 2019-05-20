@@ -34,7 +34,7 @@ class Card extends React.Component {
     const { page, card, index, openCard } = this.props;
     const { hasPrivilege } = page;
     const cardDiv = props => (
-      <div id="card-draggable" {...props} onClick={() => openCard(card.id)}>
+      <div id="card-draggable" {...props} onClick={() => openCard(card)}>
         <div className="card-draggable-container col">
           <div className="row">
             <div className="col">{card.title}</div>

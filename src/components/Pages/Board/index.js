@@ -346,7 +346,7 @@ class Board extends React.Component {
           kanbanFunctions={kanbanFunctions}
           listFunctions={listFunctions}
           filtersActive={Boolean(filters)}
-          openCard={id =>
+          openCard={({ id }) =>
             this.props.history.push(
               `/board/${boardId}${view === "kanban" ? "" : "/list"}/card/${id}`
             )

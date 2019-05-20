@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import PageWrapper from "components/Pages/PageWrapper";
-import { RenderContent } from "./content";
 import { TwoSectionMenu } from "components/UI/PageComponents";
 
 import "./index.scss";
@@ -24,6 +23,11 @@ class Landing extends React.Component {
 
   dataSource = () =>
     this.props.compFetch("users", "CURRENT").then(data => {
+      const boardLookup = data.boards.reduce((boards, board) => {
+        boards[board.id] = { ...board };
+        return boards;
+      }, {});
+      data.boardLookup = boardLookup;
       return { data };
     });
 

@@ -9,7 +9,6 @@ export const navbarConfigs = (child, props) => {
     page: { data, hasPrivilege, history, filters }
   } = props;
   if (!data) return {};
-  console.log(props);
   return {
     title: data.title,
     buttons: [

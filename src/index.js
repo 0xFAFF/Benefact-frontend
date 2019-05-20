@@ -68,6 +68,7 @@ class App extends React.Component {
           <Switch>
             <Route
               path="/"
+              exact
               render={props =>
                 token ? <Landing {...props} {...childProps} /> : <RedirectLogin {...props} />
               }

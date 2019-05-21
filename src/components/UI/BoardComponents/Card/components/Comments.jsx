@@ -1,11 +1,11 @@
 import React from "react";
-import moment from "moment";
 import { isEqual, sortBy, get } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Comments.scss";
 import { MarkdownEditor } from "components/UI";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
 import { PageProp } from "components/Pages/PageContext";
+import { formatTime } from "utils";
 
 class Comments extends React.Component {
   state = {
@@ -143,11 +143,11 @@ class Comments extends React.Component {
                         <div className="comment-entry-time">
                           {editedTime ? (
                             <div>
-                              <span>{moment.unix(editedTime).format("MMM D [at] h:mm A z")}</span>
+                              <span>{formatTime(editedTime)}</span>
                               <span>(Edited)</span>
                             </div>
                           ) : (
-                            moment.unix(createdTime).format("MMM D [at] h:mm A z")
+                            formatTime(createdTime)
                           )}
                         </div>
                       </div>

@@ -6,6 +6,7 @@ import { TwoSectionMenu } from "components/UI/PageComponents";
 import "./index.scss";
 import Boards from "./content/Boards";
 import MyCards from "./content/MyCards";
+import { MyActivity } from "./content";
 
 class Landing extends React.Component {
   static propTypes = {
@@ -40,6 +41,10 @@ class Landing extends React.Component {
       {
         header: "My Cards",
         comp: MyCards
+      },
+      {
+        header: "My Activity",
+        comp: MyActivity
       }
     ];
     return (

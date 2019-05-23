@@ -64,6 +64,9 @@ const urlKeyMap = {
     },
     CHANGE_PASSWORD: {
       url: "users/changepassword"
+    },
+    RESET_PASSWORD: {
+      url: "users/sendpasswordreset"
     }
   },
   comments: {

@@ -5,6 +5,7 @@ import PageWrapper from "../../Pages/PageWrapper";
 import { Redirect } from "react-router-dom";
 import "./index.scss";
 import { notifyToast } from "../../../utils";
+import ForgotPassword from "./Views/ForgotPassword";
 
 class Login extends React.Component {
   static propTypes = {
@@ -59,30 +60,31 @@ class Login extends React.Component {
     if (reset) view = "reset";
     return (
       <div id="login" className="flex grow center">
-        <div className="login-container">
-          {view === "signin" && (
-            <SignIn
-              onViewChangeHandler={this.onViewChangeHandler}
-              onLoginHandler={onLoginHandler}
-              compFetch={compFetch}
-            />
-          )}
-          {view === "register" && (
-            <Register
-              onViewChangeHandler={this.onViewChangeHandler}
-              onLoginHandler={onLoginHandler}
-              compFetch={compFetch}
-            />
-          )}
-          {view === "reset" && (
-            <PasswordReset
-              onViewChangeHandler={this.onViewChangeHandler}
-              compFetch={compFetch}
-              nonce={reset}
-              page={this.props.page}
-            />
-          )}
-        </div>
+        {view === "signin" && (
+          <SignIn
+            onViewChangeHandler={this.onViewChangeHandler}
+            onLoginHandler={onLoginHandler}
+            compFetch={compFetch}
+          />
+        )}
+        {view === "register" && (
+          <Register
+            onViewChangeHandler={this.onViewChangeHandler}
+            onLoginHandler={onLoginHandler}
+            compFetch={compFetch}
+          />
+        )}
+        {view === "reset" && (
+          <PasswordReset
+            onViewChangeHandler={this.onViewChangeHandler}
+            compFetch={compFetch}
+            nonce={reset}
+            page={this.props.page}
+          />
+        )}
+        {view === "forgot" && (
+          <ForgotPassword onViewChangeHandler={this.onViewChangeHandler} compFetch={compFetch} />
+        )}
       </div>
     );
   }

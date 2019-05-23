@@ -14,8 +14,7 @@ export class PasswordReset extends React.Component {
     this.setState({ [field]: e.target.value });
   };
 
-  resetPassword = async () => {
-    const { password, confirmPassword } = this.state;
+  resetPassword = async ({ password, confirmPassword }) => {
     const { page, nonce, compFetch } = this.props;
 
     if (password !== confirmPassword) {
@@ -23,16 +22,9 @@ export class PasswordReset extends React.Component {
       return;
     }
 
-    await compFetch("users", "CHANGE_PASSWORD", {
-      password,
-      nonce: nonce
-    }).then(page.history.push("/"));
-  };
-
-  handlePressEnter = e => {
-    if (e.key === "Enter") {
-      this.resetPassword();
-    }
+    await compFetch("users", "CHANGE_PASSWORD", { password, nonce });
+    notifyToast("info", "Your password has been reset, please login");
+    page.history.push("/");
   };
 
   btmItems = [
@@ -43,46 +35,21 @@ export class PasswordReset extends React.Component {
     }
   ];
 
+  formItems = [
+    { name: "password", placeholder: "New Password", icon: "key", type: "password" },
+    { name: "confirmPassword", placeholder: "Confirm Password", icon: "key", type: "password" }
+  ];
+
   render() {
     return (
       <ViewContainer
         items={this.btmItems}
         className="password-reset"
-        handleKeyPress={this.handlePressEnter}
-        button={{
-          onClick: this.resetPassword,
-          title: "Reset Password"
-        }}
-        header={{ title: "Forgot Password?" }}
-      >
-        <div className="input-container">
-          <div className="input-icon">
-            <FontAwesomeIcon icon={"key"} size="sm" />
-          </div>
-          <input
-            className="input-field"
-            name="password"
-            placeholder="Password"
-            type="password"
-            value={this.state.confirmPassword}
-            onChange={e => this.onInputChangeHandler(e, "confirmPassword")}
-          />
-        </div>
-        <div className="input-container">
-          <div className="input-icon">
-            <FontAwesomeIcon icon={"key"} size="sm" />
-          </div>
-          <input
-            className="input-field"
-            id="confirm-password"
-            name="password"
-            placeholder="Confirm Password"
-            type="password"
-            value={this.state.password}
-            onChange={e => this.onInputChangeHandler(e, "password")}
-          />
-        </div>
-      </ViewContainer>
+        onSubmit={this.resetPassword}
+        buttonTitle="Reset Password"
+        header={{ title: "Password Reset" }}
+        formItems={this.formItems}
+      />
     );
   }
 }

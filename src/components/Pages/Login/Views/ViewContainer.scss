@@ -1,19 +1,9 @@
 #view-container {
-  &.signin,
-  &.password-reset {
-    width: 500px;
-  }
-  &.register {
-    border: none;
-    background-color: var(--login-primary);
-    width: 600px;
-  }
-  &.signin,
-  &.register,
-  &.password-reset {
-    @media only screen and (max-width: 550px) {
-      width: inherit;
-    }
+  box-shadow: var(--bg-shadow);
+  background-color: var(--login-primary);
+  width: 500px;
+  @media only screen and (max-width: 550px) {
+    width: 100%;
   }
 
   #inner-container {

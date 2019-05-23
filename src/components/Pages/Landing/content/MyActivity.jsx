@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { formatTime } from "utils";
 
 const typeMap = {
@@ -21,13 +22,13 @@ class MyActivity extends React.Component {
         data: { activity, boardLookup }
       }
     } = this.props;
-    return activity.map((a, i) => {
+    return activity.map(({ commentId, type, time, cardId, boardId }, i) => {
       let entity = "card";
-      if (a.commentId) entity = "comment";
+      if (commentId) entity = "comment";
       return (
         <div key={i}>
-          {`${typeMap[entity][a.type]} at ${formatTime(a.time)}`}
-          <a href={`/board/${boardLookup[a.boardId].urlName}/card/${a.cardId}`}>View card</a>
+          {`${typeMap[entity][type]} at ${formatTime(time)}`}
+          <Link to={`/board/${boardLookup[boardId].urlName}/card/${cardId}`}>View card</Link>
         </div>
       );
     });

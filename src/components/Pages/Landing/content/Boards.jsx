@@ -29,9 +29,7 @@ const Boards = ({ page: { data = {}, showModal, closeModal } }) => {
               <div className="board-info grow">
                 <div className="board-title">Board: {title}</div>
                 <div className="board-user-role">Role: {userPrivilege}</div>
-                <Link className="board-link" to={`/board/${urlName}`}>
-                  View Board
-                </Link>
+                <Link to={`/board/${urlName}`}>View Board</Link>
               </div>
             </div>
           );

@@ -3,17 +3,25 @@ import PropTypes from "prop-types";
 import "./index.scss";
 
 const AcceptCancelButtons = props => {
-  const { onAcceptHandler, onCancelHandler, acceptTitle, cancelTitle } = props;
+  const {
+    onAcceptHandler,
+    onCancelHandler,
+    acceptTitle,
+    cancelTitle,
+    buttonClass = "grow"
+  } = props;
   return (
     <div id="accept-cancel-button-group">
       {acceptTitle && (
-        <button className="button-accept" onClick={onAcceptHandler}>
+        <button className={`button-accept ${buttonClass}`} onClick={onAcceptHandler}>
           {acceptTitle}
         </button>
       )}
-      <button className="button-cancel" onClick={onCancelHandler}>
-        {cancelTitle}
-      </button>
+      {cancelTitle && (
+        <button className={`button-cancel ${buttonClass}`} onClick={onCancelHandler}>
+          {cancelTitle}
+        </button>
+      )}
     </div>
   );
 };
@@ -23,7 +31,8 @@ AcceptCancelButtons.propTypes = {
   onCancelHandler: PropTypes.func,
   showAccept: PropTypes.bool,
   acceptTitle: PropTypes.string,
-  cancelTitle: PropTypes.string
+  cancelTitle: PropTypes.string,
+  buttonClass: PropTypes.string
 };
 
 export default AcceptCancelButtons;

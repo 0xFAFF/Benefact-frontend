@@ -24,6 +24,7 @@ body {
   textarea {
     font-family: "Lato", serif;
     color: var(--text-color);
+    background: none;
   }
 
   svg:not(.secondary) {
@@ -73,6 +74,10 @@ body {
     align-content: center;
   }
 
+  .hidden {
+    visibility: hidden;
+  }
+
   .editable {
     cursor: pointer;
     &:focus {
@@ -87,6 +92,21 @@ body {
     text-decoration: underline;
     cursor: pointer;
     display: inline;
+  }
+
+  button {
+    border: none;
+    outline: none;
+    padding: 10px 16px;
+    border-radius: 3px;
+    color: var(--text-color);
+    cursor: pointer;
+    box-shadow: 1px 1px 2px #00000050;
+    background-color: var(--button-color);
+    height: fit-content;
+    &:hover {
+      background-color: var(--button-hover);
+    }
   }
 
   --bg-primary: #eef1f5;

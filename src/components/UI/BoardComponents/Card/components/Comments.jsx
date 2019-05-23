@@ -6,6 +6,7 @@ import { MarkdownEditor } from "components/UI";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
 import { PageProp } from "components/Pages/PageContext";
 import { formatTime } from "utils";
+import { AcceptCancelButtons } from "components/UI/Popup";
 
 class Comments extends React.Component {
   state = {
@@ -96,10 +97,13 @@ class Comments extends React.Component {
       }
     } = this.props;
     const editComment = this.state.editComment || {};
-    const onFocusEditComment = (id, text) =>
-      this.setState({
-        editComment: { id, message: text }
-      });
+    const onFocusEditComment = (id, text) => {
+      if (this.state.editComment.id !== id) this.setState({ editComment: { id, message: text } });
+    };
+    const onBlurEditComment = (id, text) => {
+      if (this.state.editComment.id === id && text === this.state.editComment.message)
+        this.setState({ editComment: { id: null, message: "" } });
+    };
     return (
       <>
         {hasPrivilege("comment", authorId) && (
@@ -111,17 +115,15 @@ class Comments extends React.Component {
                 placeholder="Leave a comment"
                 onChange={e => this.setState({ addComment: e.target.value })}
               />
+              {this.state.addComment && (
+                <AcceptCancelButtons
+                  acceptTitle="Comment"
+                  cancelTitle="Cancel"
+                  onAcceptHandler={() => this.onUpdateComment("add", id)}
+                  onCancelHandler={() => this.setState({ addComment: "" })}
+                />
+              )}
             </div>
-            {this.state.addComment && (
-              <button
-                className="editor-comments-save"
-                onMouseDown={async () => {
-                  if (this.state.addComment) await this.onUpdateComment("add", id);
-                }}
-              >
-                Comment
-              </button>
-            )}
           </EditorActivity>
         )}
         {!comments.length ? null : (
@@ -163,22 +165,24 @@ class Comments extends React.Component {
                         </div>
                       )}
                     </div>
-                    <div className="comment-entry-text-container">
+                    <div className="text-container col">
                       <MarkdownEditor
                         allowEdit={hasPrivilege("developer", userId)}
                         value={editComment.id === id ? editComment.message : text}
+                        editing={editComment.id === id}
                         onFocus={() => onFocusEditComment(id, text)}
+                        onBlur={() => onBlurEditComment(id, text)}
                         onChange={e => this.onChangeComment(e, "edit", id)}
                       />
                       {editComment.id === id && (
-                        <button
-                          className="editor-comments-save edit-comment-save"
-                          onMouseDown={() => {
-                            this.onUpdateComment("edit", id);
-                          }}
-                        >
-                          Save
-                        </button>
+                        <AcceptCancelButtons
+                          acceptTitle="Save"
+                          cancelTitle="Cancel"
+                          onAcceptHandler={() => this.onUpdateComment("edit", id)}
+                          onCancelHandler={() =>
+                            this.setState({ editComment: { id: null, message: "" } })
+                          }
+                        />
                       )}
                     </div>
                   </div>

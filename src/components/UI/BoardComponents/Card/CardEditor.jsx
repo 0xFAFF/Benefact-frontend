@@ -277,6 +277,7 @@ class CardEditor extends React.Component {
             onCancelHandler={this.handleOnCancel}
             acceptTitle={"Save"}
             cancelTitle={"Close"}
+            buttonClass="grow"
           />
           <DeleteModal
             handleCloseModal={() => {

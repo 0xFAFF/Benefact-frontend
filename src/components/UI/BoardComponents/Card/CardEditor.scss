@@ -96,21 +96,6 @@
     }
   }
   .editor-comments-save {
-    border: none;
-    outline: none;
-    padding: 8px 16px;
     margin-left: 15px;
-    border-radius: 10px;
-    background-color: var(--button-color);
-    color: white;
-    cursor: pointer;
-  }
-  .editor-comments-save:hover:enabled {
-    background-color: var(--button-hover);
-  }
-  .editor-comments-save:disabled,
-  .editor-comments-save:hover:disabled {
-    background-color: lightgray;
-    cursor: initial;
   }
 }

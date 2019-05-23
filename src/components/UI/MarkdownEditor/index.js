@@ -39,13 +39,13 @@ class MarkdownEditor extends React.Component {
   };
 
   render = () => {
-    const { allowEdit = true, ...rest } = this.props;
+    const { allowEdit = true, editing = false, ...rest } = this.props;
 
     let className = "markdown-area markdown-preview";
     if (!this.props.value) className += " empty";
     if (allowEdit) className += " editable";
 
-    return this.state.editing ? (
+    return editing || this.state.editing ? (
       <TextArea
         {...rest}
         className={`markdown-area markdown-edit`}
@@ -69,7 +69,8 @@ MarkdownEditor.propTypes = {
   content: PropTypes.string,
   onChange: PropTypes.func,
   allowEdit: PropTypes.bool,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  editing: PropTypes.bool
 };
 
 export default MarkdownEditor;

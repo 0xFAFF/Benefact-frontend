@@ -41,29 +41,6 @@
     font-size: 0.9em;
   }
 
-  .comment-entry-text-container {
-    word-break: break-word;
-    display: flex;
-    flex-direction: column;
-    .comment-entry-text {
-      display: inline-block;
-      border: 1px solid rgb(153, 153, 153);
-      padding: 10px;
-      border-radius: 5px;
-      background-color: white;
-      cursor: pointer;
-      resize: none;
-      max-width: 94%;
-    }
-    .comment-entry-text:focus {
-      cursor: initial;
-    }
-    .edit-comment-save {
-      margin: 5px 0 0 0;
-      width: 100px;
-    }
-  }
-
   .comment-entry-actions {
     display: flex;
     font-size: 0.8em;

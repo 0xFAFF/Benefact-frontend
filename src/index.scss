@@ -83,7 +83,7 @@ body {
   a {
     font-size: 0.9em;
     font-style: italic;
-    color: blue;
+    color: var(--link-color);
     text-decoration: underline;
     cursor: pointer;
     display: inline;
@@ -118,6 +118,7 @@ body {
   --tooltip-bg-color: #222;
   --menu-border: var(--card-border);
   --menu-hover: var(--card-hover);
+  --link-color: rgb(60, 137, 255);
 }
 
 #root,

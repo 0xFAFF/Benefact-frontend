@@ -24,7 +24,7 @@ const Boards = ({ page: { data = {}, showModal, closeModal } }) => {
               data-for="board"
             >
               <div className="board-icon">
-                <FontAwesomeIcon icon="columns" />
+                <FontAwesomeIcon icon="columns" className="secondary" />
               </div>
               <div className="board-info grow">
                 <div className="board-title">Board: {title}</div>

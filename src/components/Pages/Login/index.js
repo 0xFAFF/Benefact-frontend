@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { SignIn, Register } from "./Views";
+import { SignIn, Register, PasswordReset } from "./Views";
 import PageWrapper from "../../Pages/PageWrapper";
 import { Redirect } from "react-router-dom";
 import "./index.scss";
 import { notifyToast } from "../../../utils";
-import PasswordReset from "components/Pages/Login/Views/PasswordReset";
 
 class Login extends React.Component {
   static propTypes = {

@@ -41,6 +41,13 @@ body {
     }
   }
 
+  .pull-left {
+    margin-right: auto;
+    &:not(.col) {
+      justify-content: flex-start;
+    }
+  }
+
   .row {
     display: flex;
     flex-direction: row;

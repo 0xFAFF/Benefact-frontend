@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./SignIn.scss";
 import { notifyToast } from "utils";
 
-class PasswordReset extends React.Component {
+export class PasswordReset extends React.Component {
   state = {
     password: "",
     confirmPassword: ""
@@ -22,11 +22,12 @@ class PasswordReset extends React.Component {
       return;
     }
 
-    await this.props.compFetch("users", "CHANGE_PASSWORD", {
-      password: password,
-      nonce: this.props.nonce
-    })
-    .then(this.props.page.history.push("/"));
+    await this.props
+      .compFetch("users", "CHANGE_PASSWORD", {
+        password: password,
+        nonce: this.props.nonce
+      })
+      .then(this.props.page.history.push("/"));
   };
 
   handlePressEnter = e => {

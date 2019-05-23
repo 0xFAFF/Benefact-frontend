@@ -1,7 +1,7 @@
 const baseURL =
   process.env.NODE_ENV === "production"
     ? "/api/" // Don't change this
-    : "http://localhost/api/";
+    : "https://staging.benefact.dev/api/";
 
 const urlKeyMap = {
   cards: {

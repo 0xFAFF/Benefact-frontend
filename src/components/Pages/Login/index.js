@@ -4,7 +4,8 @@ import { SignIn, Register } from "./Views";
 import PageWrapper from "../../Pages/PageWrapper";
 import { Redirect } from "react-router-dom";
 import "./index.scss";
-import { notifyToast, parseQuery } from "../../../utils";
+import { notifyToast } from "../../../utils";
+import PasswordReset from "components/Pages/Login/Views/PasswordReset";
 
 class Login extends React.Component {
   static propTypes = {
@@ -26,17 +27,15 @@ class Login extends React.Component {
 
   componentDidMount = async () => {
     this.props.setChild(this);
-    if (!this.props.token && this.props.page.query.nonce)
+    if (!this.props.token && this.props.page.query.verify)
       notifyToast("info", "Please login to verify your email address");
   };
 
   componentDidUpdate = async _ => {
-    const nonce = this.props.page.query.nonce;
+    const verify = this.props.page.query.verify;
     if (!this.props.token) return;
-    if (nonce && !this.state.verifyDone) {
-      let verified = await this.props.compFetch("users", "VERIFY", {
-        nonce: nonce
-      });
+    if (verify && !this.state.verifyDone) {
+      let verified = await this.props.compFetch("users", "VERIFY", { nonce: verify });
       if (verified === undefined) return;
       if (verified) notifyToast("info", "Email succesfully verified");
     }
@@ -48,10 +47,17 @@ class Login extends React.Component {
   };
 
   render() {
-    const { view, verifyDone } = this.state;
-    const { onLoginHandler, compFetch, token } = this.props;
-    const query = parseQuery();
-    if (verifyDone && token) return <Redirect to={query.redirect || "/board/benefact"} />;
+    let { view, verifyDone } = this.state;
+    const {
+      onLoginHandler,
+      compFetch,
+      token,
+      page: {
+        query: { redirect, reset }
+      }
+    } = this.props;
+    if (verifyDone && token) return <Redirect to={redirect || "/"} />;
+    if (reset) view = "reset";
     return (
       <div id="login" className="flex grow center">
         <div className="login-container">
@@ -72,6 +78,14 @@ class Login extends React.Component {
               onViewChangeHandler={this.onViewChangeHandler}
               onLoginHandler={onLoginHandler}
               compFetch={compFetch}
+            />
+          )}
+          {view === "reset" && (
+            <PasswordReset
+              compFetch={compFetch}
+              nonce={reset}
+              page={this.props.page}
+              onReset={() => this.setState({ view: "signin" })}
             />
           )}
         </div>

@@ -136,7 +136,6 @@ const PageWrapper = Component => {
               icon: "home",
               onClick: () => this.props.history.push("/")
             },
-            { id: "menu", tooltip: "Menu", icon: "bars" },
             {
               id: "user",
               tooltip: "User",

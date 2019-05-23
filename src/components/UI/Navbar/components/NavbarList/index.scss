@@ -120,8 +120,10 @@
       div {
         justify-content: space-evenly;
       }
+    }
+    @media (min-width: 1000px) {
       li {
-        padding: 10px 10px;
+        padding: 10px 20px;
       }
     }
 

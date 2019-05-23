@@ -5,8 +5,8 @@ import { notifyToast } from "utils";
 
 class ForgotPassword extends React.Component {
   onCreateAccount = async ({ email }) => {
-    const result = await this.props.compFetch("users", "RESET_PASSWORD", { email }, (e, next) => {
-      if (e.status == 404) notifyToast("error", "Couldn't find an account with that email");
+    const result = await this.props.compFetch("users", "RESET_PASSWORD", { email }, e => {
+      if (e.status === 404) notifyToast("error", "Couldn't find an account with that email");
     });
     if (result) {
       notifyToast("info", "An email has been sent to reset your password");

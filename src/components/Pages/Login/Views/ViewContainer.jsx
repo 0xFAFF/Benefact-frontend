@@ -33,7 +33,7 @@ class ViewContainer extends React.Component {
             <div className={`header flex center ${headerClassName}`}>{headerTitle}</div>
           )}
           {formItems.map(({ name, placeholder, icon, type }) => (
-            <div className="input-container">
+            <div key={name} className="input-container">
               <div className="input-icon">
                 <FontAwesomeIcon icon={icon} size="sm" />
               </div>
@@ -42,7 +42,7 @@ class ViewContainer extends React.Component {
                 id={name}
                 name={name}
                 placeholder={placeholder}
-                value={this.state.form[name]}
+                value={this.state.form[name] || ""}
                 type={type}
                 onKeyPress={this.handlePressEnter}
                 onChange={e =>

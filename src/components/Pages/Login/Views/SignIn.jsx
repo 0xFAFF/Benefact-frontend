@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewContainer } from "../Views";
+import { notifyToast } from "utils";
 
 class SignIn extends React.Component {
   onInputChangeHandler = (e, field) => {
@@ -10,7 +11,10 @@ class SignIn extends React.Component {
 
   onSubmit = async ({ email, password }) => {
     if (!email || !password) {
-      console.warn("There's an empty field");
+      const missing = [];
+      if (!email) missing.push("Email/Username");
+      if (!password) missing.push("Password");
+      notifyToast("error", `Missing ${missing.join(", ")}`);
       return;
     }
 

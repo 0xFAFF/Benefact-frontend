@@ -1,5 +1,5 @@
 import React from "react";
-import "./TwoSectionMenu.scss";
+import "./index.scss";
 
 export class TwoSectionMenu extends React.Component {
   state = {

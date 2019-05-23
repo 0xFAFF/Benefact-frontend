@@ -6,7 +6,12 @@ import { notifyToast } from "utils";
 class Register extends React.Component {
   onCreateAccount = async ({ email, username, password, confirmPassword }) => {
     if (!email || !username || !password || !confirmPassword) {
-      console.warn("There's an empty field");
+      const missing = [];
+      if (!email) missing.push("Email");
+      if (!username) missing.push("Username");
+      if (!password) missing.push("Password");
+      if (!confirmPassword) missing.push("Confirm Password");
+      notifyToast("error", `Missing ${missing.join(", ")}`);
       return;
     }
 

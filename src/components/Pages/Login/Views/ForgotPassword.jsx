@@ -5,6 +5,13 @@ import { notifyToast } from "utils";
 
 class ForgotPassword extends React.Component {
   onCreateAccount = async ({ email }) => {
+    if (!email) {
+      const missing = [];
+      if (!email) missing.push("Email");
+      notifyToast("error", `Missing ${missing.join(", ")}`);
+      return;
+    }
+
     const result = await this.props.compFetch("users", "RESET_PASSWORD", { email }, e => {
       if (e.status === 404) notifyToast("error", "Couldn't find an account with that email");
     });

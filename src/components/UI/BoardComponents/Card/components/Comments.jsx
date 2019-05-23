@@ -108,6 +108,7 @@ class Comments extends React.Component {
               <MarkdownEditor
                 minRows={1}
                 value={this.state.addComment}
+                placeholder="Leave a comment"
                 onChange={e => this.setState({ addComment: e.target.value })}
               />
             </div>

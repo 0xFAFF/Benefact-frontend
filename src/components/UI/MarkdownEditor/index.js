@@ -24,8 +24,8 @@ class MarkdownEditor extends React.Component {
         return hljs.highlightAuto(code).value;
       }
     });
-
-    const rawMarkup = marked(this.props.value || "", {
+    if (!this.props.value) return { __html: this.props.placeholder || "" };
+    const rawMarkup = marked(this.props.value, {
       sanitize: true
     });
     return {
@@ -40,6 +40,11 @@ class MarkdownEditor extends React.Component {
 
   render = () => {
     const { allowEdit = true, ...rest } = this.props;
+
+    let className = "markdown-area markdown-preview";
+    if (!this.props.value) className += " empty";
+    if (allowEdit) className += " editable";
+
     return this.state.editing ? (
       <TextArea
         {...rest}
@@ -51,7 +56,7 @@ class MarkdownEditor extends React.Component {
       />
     ) : (
       <div
-        className={`${allowEdit && "editable"} markdown-area markdown-preview`}
+        className={className}
         id="preview-mode"
         onClick={allowEdit ? () => this.setState({ editing: true }) : null}
         dangerouslySetInnerHTML={this.rawMarkup()}
@@ -63,7 +68,8 @@ class MarkdownEditor extends React.Component {
 MarkdownEditor.propTypes = {
   content: PropTypes.string,
   onChange: PropTypes.func,
-  allowEdit: PropTypes.bool
+  allowEdit: PropTypes.bool,
+  placeholder: PropTypes.string
 };
 
 export default MarkdownEditor;

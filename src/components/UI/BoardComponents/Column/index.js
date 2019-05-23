@@ -6,19 +6,6 @@ import Header from "./Header";
 import "./index.scss";
 import { PageProp } from "components/Pages/PageContext";
 
-const InnerList = props => {
-  const { colCards, ...rest } = props;
-  return colCards.map((card, index) => <Card key={card.id} index={index} card={card} {...rest} />);
-};
-
-InnerList.propTypes = {
-  colCards: PropTypes.array,
-  columns: PropTypes.array,
-  updateBoardContent: PropTypes.func,
-  handleResetBoard: PropTypes.func,
-  handleUpdate: PropTypes.func
-};
-
 class Column extends React.Component {
   static propTypes = {
     column: PropTypes.object,
@@ -43,6 +30,15 @@ class Column extends React.Component {
       openCard,
       page
     } = this.props;
+    const cardProps = {
+      index,
+      columns,
+      openCard,
+      handleUpdate,
+      handleResetBoard,
+      updateBoardContent,
+      colCards
+    };
     const { hasPrivilege } = page;
 
     const draggingStyle = { backgroundColor: "var(--column-hover)" };
@@ -77,14 +73,9 @@ class Column extends React.Component {
                     style={snapshot.isDraggingOver ? draggingStyle : {}}
                     {...provided.droppableProps}
                   >
-                    <InnerList
-                      colCards={colCards}
-                      columns={columns}
-                      updateBoardContent={updateBoardContent}
-                      handleResetBoard={handleResetBoard}
-                      handleUpdate={handleUpdate}
-                      openCard={openCard}
-                    />
+                    {colCards.map(card => (
+                      <Card key={card.id} card={card} {...cardProps} />
+                    ))}
                     {provided.placeholder}
                   </div>
                 )}

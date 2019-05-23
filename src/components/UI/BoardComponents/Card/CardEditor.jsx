@@ -173,8 +173,8 @@ class CardEditor extends React.Component {
               <TextArea
                 id="editor-title"
                 className="editable"
+                placeholder="Card Title"
                 spellCheck={false}
-                minRows={1}
                 value={title}
                 onChange={e => this.onChangeHandler(e, "title")}
               />
@@ -256,6 +256,7 @@ class CardEditor extends React.Component {
               className="editor-description"
               allowEdit={allowEdit}
               onChange={e => this.onChangeHandler(e, "description")}
+              placeholder="Description"
               onPaste={e => {
                 e.preventDefault();
               }}

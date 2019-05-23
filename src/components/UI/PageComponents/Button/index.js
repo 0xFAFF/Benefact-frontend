@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.scss";
 
-export const Button = ({ className, onClick, title, icon, round, size = "md"}) => {
+export const Button = ({ className, onClick, children, icon, round, size = "md" }) => {
   const btnClassName = `${className ? `${className} ` : ""}${round ? "btn-radius " : ""}${size}`;
   return (
     <button id="btn" className={btnClassName} onClick={onClick}>
-      {title && <span>{title}</span>}
+      {children && <span>{children}</span>}
       {icon && (
         <span>
           <FontAwesomeIcon icon={icon} />

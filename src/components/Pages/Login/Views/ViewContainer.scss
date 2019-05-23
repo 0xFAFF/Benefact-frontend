@@ -1,26 +1,40 @@
-#register-container {
-  border: none;
-  background-color: var(--login-primary);
-  width: 600px;
-
-  @media only screen and (max-width: 550px) {
-    width: inherit;
+#view-container {
+  &.signin,
+  &.password-reset {
+    width: 500px;
+  }
+  &.register {
+    border: none;
+    background-color: var(--login-primary);
+    width: 600px;
+  }
+  &.signin,
+  &.register,
+  &.password-reset {
+    @media only screen and (max-width: 550px) {
+      width: inherit;
+    }
   }
 
-  .register-inner {
-    padding: 20px;
-    .register-header {
+  #inner-container {
+    padding: 18px;
+    margin-bottom: 1px;
+    .header {
       font-size: 1.6em;
       text-align: center;
-      margin-bottom: 19px;
+      padding-bottom: 18px;
     }
-    .register-button {
+    .app-title {
+      font-size: 2.7em;
+      font-family: "Frank Ruhl Libre", serif;
+    }
+    button {
       text-align: center;
       background-color: var(--login-button-bg-color);
       color: var(--login-button-color);
+      font-weight: bold;
       width: 100%;
       border: none;
-      font-weight: bold;
       padding: 10px;
       font-size: 1.2em;
       opacity: 0.9;
@@ -37,6 +51,7 @@
         padding: 10px;
         outline: none;
         font-size: 1.1em;
+        color: black;
       }
       .input-field:focus {
         border: 1px solid var(--login-input-focus);
@@ -52,17 +67,13 @@
       }
     }
   }
-  .register-bottom-container {
-    display: flex;
-    justify-content: center;
+  #bottom-container {
     padding-bottom: 10px;
-    .register-bottom-circle {
-      display: flex;
-      align-items: center;
+    .signin-bottom-circle {
       font-size: 5px;
       margin: 0 5px;
     }
-    .register {
+    .link {
       cursor: pointer;
     }
   }

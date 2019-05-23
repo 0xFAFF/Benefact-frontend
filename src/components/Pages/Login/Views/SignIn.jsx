@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./SignIn.scss";
+import { ViewContainer } from "../Views";
 
 class SignIn extends React.Component {
   state = {
@@ -35,59 +35,71 @@ class SignIn extends React.Component {
     }
   };
 
+  btmItems = [
+    {
+      content: "Register",
+      className: "link",
+      onClick: () => this.props.onViewChangeHandler("register")
+    },
+    {
+      content: <FontAwesomeIcon icon={"circle"} size="sm" />,
+      className: "signin-bottom-circle flex center"
+    },
+    {
+      content: "Forgot Password?",
+      className: "link",
+      onClick: () => this.props.onViewChangeHandler("reset")
+    }
+  ];
+
   render() {
-    const { onViewChangeHandler } = this.props;
     return (
-      <div id="signin-container">
-        <div className="signin-inner" onKeyPress={this.handlePressEnter}>
-          <div className="input-container">
-            <div className="input-icon">
-              <FontAwesomeIcon icon="user" size="sm" />
-            </div>
-            <input
-              className="input-field"
-              id="username"
-              name="username"
-              placeholder="Username or Email"
-              value={this.state.email}
-              onChange={e => this.onInputChangeHandler(e, "email")}
-            />
+      <ViewContainer
+        items={this.btmItems}
+        className="signin"
+        handleKeyPress={this.handlePressEnter}
+        button={{
+          onClick: this.onAuthCheck,
+          title: "Login"
+        }}
+        header={{ title: "Benefact", className: "app-title" }}
+      >
+        <div className="input-container">
+          <div className="input-icon">
+            <FontAwesomeIcon icon="user" size="sm" />
           </div>
-          <div className="input-container">
-            <div className="input-icon">
-              <FontAwesomeIcon icon={"key"} size="sm" />
-            </div>
-            <input
-              className="input-field"
-              id="password"
-              name="password"
-              placeholder="Password"
-              type="password"
-              value={this.state.password}
-              onChange={e => this.onInputChangeHandler(e, "password")}
-            />
-          </div>
-          <button className="signin-button" onClick={this.onAuthCheck}>
-            Login
-          </button>
+          <input
+            className="input-field"
+            id="username"
+            name="username"
+            placeholder="Username or Email"
+            value={this.state.email}
+            onChange={e => this.onInputChangeHandler(e, "email")}
+          />
         </div>
-        <div className="signin-bottom-container">
-          <div className="register" onClick={() => onViewChangeHandler("register")}>
-            Register
+        <div className="input-container">
+          <div className="input-icon">
+            <FontAwesomeIcon icon={"key"} size="sm" />
           </div>
-          <div className="signin-bottom-circle">
-            <FontAwesomeIcon icon={"circle"} size="sm" />
-          </div>
-          <div className="forgot-password">Forgot Password?</div>
+          <input
+            className="input-field"
+            id="password"
+            name="password"
+            placeholder="Password"
+            type="password"
+            value={this.state.password}
+            onChange={e => this.onInputChangeHandler(e, "password")}
+          />
         </div>
-      </div>
+      </ViewContainer>
     );
   }
 }
 
 SignIn.propTypes = {
   onViewChangeHandler: PropTypes.func,
-  onLoginHandler: PropTypes.func
+  onLoginHandler: PropTypes.func,
+  compFetch: PropTypes.func
 };
 
 export default SignIn;

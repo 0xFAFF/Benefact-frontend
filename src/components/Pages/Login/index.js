@@ -61,16 +61,11 @@ class Login extends React.Component {
       <div id="login" className="flex grow center">
         <div className="login-container">
           {view === "signin" && (
-            <>
-              <div className="header flex center">
-                <div className="app-title flex center">Benefact</div>
-              </div>
-              <SignIn
-                onViewChangeHandler={this.onViewChangeHandler}
-                onLoginHandler={onLoginHandler}
-                compFetch={compFetch}
-              />
-            </>
+            <SignIn
+              onViewChangeHandler={this.onViewChangeHandler}
+              onLoginHandler={onLoginHandler}
+              compFetch={compFetch}
+            />
           )}
           {view === "register" && (
             <Register
@@ -81,10 +76,10 @@ class Login extends React.Component {
           )}
           {view === "reset" && (
             <PasswordReset
+              onViewChangeHandler={this.onViewChangeHandler}
               compFetch={compFetch}
               nonce={reset}
               page={this.props.page}
-              onReset={() => this.setState({ view: "signin" })}
             />
           )}
         </div>

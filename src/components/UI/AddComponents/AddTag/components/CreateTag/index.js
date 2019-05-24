@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Colors, Characters } from "./options";
-import { AcceptCancelButtons } from "../../../../Popup";
+import { AcceptCancelButtons } from "components/UI/PageComponents";
 import "./index.scss";
 
 class CreateTag extends React.Component {
@@ -42,19 +42,14 @@ class CreateTag extends React.Component {
   };
 
   onAcceptHandler = () => {
-    const {
-      handleUpdate,
-      onAcceptHandler,
-      currSelectedTag,
-      updateBoardContent
-    } = this.props;
+    const { handleUpdate, onAcceptHandler, currSelectedTag, updateBoardContent } = this.props;
     if (currSelectedTag) {
       updateBoardContent({ ...this.state, id: currSelectedTag.id }, "tags");
     } else {
       handleUpdate("tags", "ADD", {
         name: this.state.name,
         color: this.state.color === "" ? null : this.state.color,
-        character: this.state.character === "" ? null : this.state.character,
+        character: this.state.character === "" ? null : this.state.character
       });
     }
     if (onAcceptHandler) {
@@ -82,10 +77,7 @@ class CreateTag extends React.Component {
           <div className="create-tag-input-container">
             <label>Tag Color</label>
             <div className="create-tag-input-color">
-              <Colors
-                selectColorHandler={this.selectColorHandler}
-                currColor={this.state.color}
-              />
+              <Colors selectColorHandler={this.selectColorHandler} currColor={this.state.color} />
             </div>
           </div>
           <div className="create-tag-input-container">
@@ -107,11 +99,7 @@ class CreateTag extends React.Component {
               }}
             >
               {this.state.character ? (
-                <FontAwesomeIcon
-                  icon={this.state.character}
-                  size="lg"
-                  color="#000"
-                />
+                <FontAwesomeIcon icon={this.state.character} size="lg" color="#000" />
               ) : (
                 this.state.name
               )}

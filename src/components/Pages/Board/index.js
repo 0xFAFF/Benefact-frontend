@@ -7,7 +7,7 @@ import { Modal } from "../../UI";
 import { PageWrapper } from "../../Pages";
 import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 import { navbarConfigs } from "./navbarConfigs";
-import { AcceptCancelButtons } from "components/UI/Popup";
+import { AcceptCancelButtons } from "components/UI/PageComponents";
 
 class Board extends React.Component {
   static propTypes = {

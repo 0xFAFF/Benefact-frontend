@@ -10,10 +10,9 @@ import {
   Attachments
 } from "components/UI/BoardComponents/Card/components";
 import { Tags } from "components/UI/BoardComponents";
-import { AcceptCancelButtons } from "components/UI/Popup";
+import { AcceptCancelButtons } from "components/UI/PageComponents";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
 import { FileDrop, Tooltip, MarkdownEditor } from "components/UI";
-
 import "./CardEditor.scss";
 import { PageProp } from "components/Pages/PageContext";
 
@@ -277,7 +276,6 @@ class CardEditor extends React.Component {
             onCancelHandler={this.handleOnCancel}
             acceptTitle={"Save"}
             cancelTitle={"Close"}
-            buttonClass="grow"
           />
           <DeleteModal
             handleCloseModal={() => {

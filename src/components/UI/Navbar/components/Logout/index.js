@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { AcceptCancelButtons } from "../../../Popup";
+import { AcceptCancelButtons } from "components/UI/PageComponents";
 import "./index.scss";
 
 const Logout = props => {

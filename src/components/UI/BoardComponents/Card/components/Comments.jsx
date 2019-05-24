@@ -6,7 +6,7 @@ import { MarkdownEditor } from "components/UI";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
 import { PageProp } from "components/Pages/PageContext";
 import { formatTime } from "utils";
-import { AcceptCancelButtons } from "components/UI/Popup";
+import { AcceptCancelButtons } from "components/UI/PageComponents";
 
 class Comments extends React.Component {
   state = {

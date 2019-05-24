@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TagWrapper from "./TagWrapper";
 import ColumnWrapper from "./ColumnWrapper";
 import TitleWrapper from "./TitleWrapper";
-import { AcceptCancelButtons } from "components/UI/Popup";
+import { AcceptCancelButtons } from "components/UI/PageComponents";
 import "./Basic.scss";
 
 class Basic extends React.Component {

@@ -28,7 +28,7 @@ class ViewContainer extends React.Component {
 
     return (
       <div id="view-container" className={className}>
-        <div id="inner-container" className="col">
+        <div id="inner-container">
           {headerTitle && (
             <div className={`header flex center ${headerClassName}`}>{headerTitle}</div>
           )}

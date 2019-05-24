@@ -4,23 +4,24 @@ import { Button } from "../";
 import "./index.scss";
 
 export const ButtonGroup = ({ btns, groupClassName, fluid, align }) => {
-  const btnGroupClassName = `${groupClassName ? `${groupClassName} ` : ""}${
-    fluid === true || align ? "flex " : ""
-  }${
-    align === "right"
-      ? "pull-right center"
-      : align === "left"
-      ? "pull-left center"
-      : align === "center"
-      ? "center"
-      : ""
-  }`;
+  let btnGroupClassName = groupClassName ? groupClassName : "";
+  if (fluid === true || align) btnGroupClassName += " flex";
+  if (align === "right") {
+    btnGroupClassName += " pull-right center";
+  } else if (align === "left") {
+    btnGroupClassName += " pull-left center";
+  } else if (align === "center") {
+    btnGroupClassName += " center";
+  }
   return (
     <div id="button-group" className={btnGroupClassName}>
       {btns.map(({ BtnComp, className, ...btnProps }) => {
         if (BtnComp) return <BtnComp />;
         return (
-          <Button className={`${className ? `${className} ` : ""}${fluid === true ? "grow " : ""}`} {...btnProps} />
+          <Button
+            className={`${className ? `${className} ` : ""}${fluid === true ? "grow " : ""}`}
+            {...btnProps}
+          />
         );
       })}
     </div>

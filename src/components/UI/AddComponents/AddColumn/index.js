@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { AcceptCancelButtons } from "../../Popup";
+import { AcceptCancelButtons } from "components/UI/PageComponents";
 
 class AddColumn extends React.Component {
   static propTypes = {

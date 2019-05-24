@@ -1,10 +1,11 @@
 #navbar-container {
   .navbar-header {
     h2 {
-      margin-top: 0;
-      margin-bottom: 5px;
+      margin: 10px auto;
     }
-    border-bottom: 1px solid var(--card-border);
-    margin-bottom: 10px;
+    box-shadow: var(--bg-shadow);
+  }
+  .navbar-margin {
+    margin: 10px;
   }
 }

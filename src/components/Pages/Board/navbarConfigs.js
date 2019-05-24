@@ -33,6 +33,7 @@ export const navbarConfigs = (child, props) => {
         icon: "filter",
         component: Filter,
         componentHeader: "Filter Cards",
+        navbarStyle: { margin: "10px" },
         params: {
           updateFilterGroupIndex: child.updateFilterGroupIndex,
           createFilterGroup: child.createFilterGroup,
@@ -49,6 +50,7 @@ export const navbarConfigs = (child, props) => {
         icon: "plus-circle",
         component: AddCard,
         componentHeader: "Add Card",
+        navbarStyle: { margin: "10px" },
         params: {
           handleUpdate: child.handleUpdate,
           columns: data.columns,

@@ -26,6 +26,7 @@ class Navbar extends React.Component {
               {...this.state.modal.params}
               component={this.state.modal.component}
               componentHeader={this.state.modal.componentHeader}
+              navbarStyle={this.state.modal.navbarStyle}
             />
           </Modal>
         )}

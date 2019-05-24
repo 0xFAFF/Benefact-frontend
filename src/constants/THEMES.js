@@ -1,7 +1,7 @@
 const THEMES = () => {
   return {
     // NOTE: use "" for default theme
-    currentTheme: "",
+    currentTheme: "dark",
     themes: {
       // NOTE: out of date with default
       light: {
@@ -17,23 +17,29 @@ const THEMES = () => {
         "modal-icon-color": "rgb(26, 25, 25)"
       },
       dark: {
-        "bg-primary": "#333",
-        "card-primary": "#444",
-        "card-hover": "#4f4f4f",
-        "navbar-text-color": "#b7b7b7",
+        "bg-primary": "rgb(37, 38, 36)",
+        "card-primary": "rgb(32, 33, 31)",
+        "card-hover": "#333333",
+        "navbar-text-color": "rgb(246, 236, 219)",
         "column-shadow": "0px 0px 6px 0px rgba(0, 0, 0, 0.31)",
-        "bg-shadow": "0px 0px 13px 0px rgba(0, 0, 0, 0.31)",
-        "card-border": "#272727",
-        "text-color": "#b7b7b7",
-        "text-bg-color": "#333",
+        "bg-shadow": "0px 0px 13px 0px rgba(71, 71, 69, 0.24)",
+        "card-border": "rgb(69, 67, 62)",
+        "text-color": "rgb(246, 236, 219)",
+        "text-bg-color": "rgb(43, 43, 41)",
         "icon-primary-color": "#b7b7b7",
         "icon-secondary-color": "#666666",
         "login-icon-bg-color": "var(--text-bg-color)",
         "login-icon-color": "#ffffff",
         "login-button-bg-color": "var(--login-icon-bg-color)",
         "login-button-color": "#ffffff",
+        "login-input-focus": "rgb(112, 109, 102)",
         "tooltip-text-color": "#ffffff",
-        "tooltip-bg-color": "black"
+        "tooltip-bg-color": "black",
+        "input-border": "#615e58",
+        "input-placeholder-text-color": "#c6bba8",
+        "scrollbar-track-bg": "rgb(36, 37, 35)",
+        "scrollbar-thumb-bg": "rgb(68, 68, 65)",
+        "scrollbar-thumb-hover-bg": "rgb(73, 73, 65)"
       },
       "high-contrast": {
         "bg-primary": "#333",

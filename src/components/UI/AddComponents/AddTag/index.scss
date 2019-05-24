@@ -1,5 +1,5 @@
 #add-tag {
-  border: 1px solid lightgray;
+  border: 1px solid var(--card-border);
   color: #000 !important;
   cursor: pointer;
 }
@@ -10,7 +10,7 @@
   .create-tag-container {
     display: flex;
     margin: 10px 20px 0px 20px;
-    border: 1px solid lightgray;
+    border: 1px solid var(--card-border);
     height: 30px;
     align-items: center;
     justify-content: center;
@@ -19,11 +19,11 @@
     }
     outline: none;
     border-radius: 10px;
-    background-color: #f1f1f1;
+    background-color: var(--card-primary);
     cursor: pointer;
   }
   .create-tag-container:hover {
-    background-color: #c9c9c9;
+    background-color: var(--card-hover);
   }
 }
 

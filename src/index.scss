@@ -3,13 +3,13 @@
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--scrollbar-track-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: var(--scrollbar-thumb-bg);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--scrollbar-thumb-hover-bg);
 }
 
 html {
@@ -24,7 +24,12 @@ body {
   textarea {
     font-family: "Lato", serif;
     color: var(--text-color);
+    border-color: var(--input-border);
     background: none;
+  }
+
+  input::placeholder {
+    color: var(--input-placeholder-text-color);
   }
 
   svg:not(.secondary) {
@@ -138,6 +143,11 @@ body {
   --menu-border: var(--card-border);
   --menu-hover: var(--card-hover);
   --link-color: rgb(60, 137, 255);
+  --input-border: "initial";
+  --input-placeholder-text-color: rgb(117, 117, 117);
+  --scrollbar-track-bg: #f1f1f1;
+  --scrollbar-thumb-bg: #888;
+  --scrollbar-thumb-hover-bg: #555;
 }
 
 #root,

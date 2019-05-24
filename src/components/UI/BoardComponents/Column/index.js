@@ -31,7 +31,6 @@ class Column extends React.Component {
       page
     } = this.props;
     const cardProps = {
-      index,
       columns,
       openCard,
       handleUpdate,
@@ -73,8 +72,8 @@ class Column extends React.Component {
                     style={snapshot.isDraggingOver ? draggingStyle : {}}
                     {...provided.droppableProps}
                   >
-                    {colCards.map(card => (
-                      <Card key={card.id} card={card} {...cardProps} />
+                    {colCards.map((card, index) => (
+                      <Card key={card.id} card={card} index={index} {...cardProps} />
                     ))}
                     {provided.placeholder}
                   </div>

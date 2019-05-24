@@ -15,7 +15,7 @@ const typeMap = {
   }
 };
 
-class MyActivity extends React.Component {
+class UserActivity extends React.Component {
   render = () => {
     const {
       page: {
@@ -34,4 +34,4 @@ class MyActivity extends React.Component {
     });
   };
 }
-export default MyActivity;
+export default UserActivity;

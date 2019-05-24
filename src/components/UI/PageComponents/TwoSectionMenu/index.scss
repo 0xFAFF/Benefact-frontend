@@ -25,9 +25,11 @@
   }
   #content {
     overflow-x: hidden;
-    padding: 0.5em;
+    overflow-y: auto;
+    padding-left: 10px;
     flex-grow: 1;
     flex-basis: 0;
+    height: 100%;
   }
 
   @media only screen and (max-width: 850px) {

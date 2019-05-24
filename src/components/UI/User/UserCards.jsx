@@ -1,7 +1,7 @@
 import React from "react";
 import List from "components/Pages/Board/Views/List";
 
-class MyCards extends React.Component {
+class UserCards extends React.Component {
   render = () => {
     const {
       page: {
@@ -19,4 +19,4 @@ class MyCards extends React.Component {
     );
   };
 }
-export default MyCards;
+export default UserCards;

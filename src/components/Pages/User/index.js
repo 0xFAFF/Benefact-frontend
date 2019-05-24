@@ -3,7 +3,7 @@ import "./index.scss";
 import PageWrapper from "components/Pages/PageWrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TwoSectionMenu } from "components/UI";
-import MyActivity from "components/UI/User/MyActivity";
+import { UserActivity, UserCards } from "components/UI/User";
 
 class User extends React.Component {
   componentDidMount = () => {
@@ -36,13 +36,11 @@ class User extends React.Component {
   menuTabs = [
     {
       header: "Activity",
-      comp: MyActivity
+      comp: UserActivity
     },
     {
-      header: "Boards"
-    },
-    {
-      header: "Cards"
+      header: "Cards",
+      comp: UserCards
     }
   ];
   render() {

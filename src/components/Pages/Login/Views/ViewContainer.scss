@@ -20,15 +20,12 @@
     }
     button {
       text-align: center;
-      background-color: var(--login-button-bg-color);
-      color: var(--login-button-color);
       font-weight: bold;
       width: 100%;
       border: none;
       padding: 10px;
       font-size: 1.2em;
       opacity: 0.9;
-      cursor: pointer;
     }
     .input-container {
       display: flex;

@@ -1,7 +1,6 @@
 #two-section-menu {
   #menu-tabs {
     box-shadow: var(--bg-shadow);
-    margin: 1em;
     flex-grow: 1;
     flex-basis: 0;
     max-width: 175px;
@@ -26,10 +25,7 @@
   }
   #content {
     overflow-x: hidden;
-    box-shadow: var(--bg-shadow);
     padding: 0.5em;
-    margin: 1em;
-    margin-left: 0;
     flex-grow: 1;
     flex-basis: 0;
   }

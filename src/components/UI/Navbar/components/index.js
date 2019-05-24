@@ -1,4 +1,4 @@
-export { default as NavbarPopup } from "./NavbarPopup";
+export { default as NavbarContainer } from "./NavbarContainer";
 export { default as NavbarList } from "./NavbarList";
 export { default as Delete } from "./Delete";
 export { default as View } from "./View";

@@ -15,12 +15,13 @@ export const ButtonGroup = ({ btns, groupClassName, fluid, align }) => {
   }
   return (
     <div id="button-group" className={btnGroupClassName}>
-      {btns.map(({ BtnComp, className, ...btnProps }) => {
-        if (BtnComp) return <BtnComp />;
+      {btns.map(({ BtnComp, className, ...btnProps }, index) => {
+        if (BtnComp) return <BtnComp key={index} />;
         return (
           <Button
             className={`${className ? `${className} ` : ""}${fluid === true ? "grow " : ""}`}
             {...btnProps}
+            key={index}
           />
         );
       })}

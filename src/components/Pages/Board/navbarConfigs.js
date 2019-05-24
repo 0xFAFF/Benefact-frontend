@@ -32,6 +32,7 @@ export const navbarConfigs = (child, props) => {
         ) : null,
         icon: "filter",
         component: Filter,
+        componentHeader: "Filter Cards",
         params: {
           updateFilterGroupIndex: child.updateFilterGroupIndex,
           createFilterGroup: child.createFilterGroup,
@@ -47,6 +48,7 @@ export const navbarConfigs = (child, props) => {
         hide: !hasPrivilege("contribute|developer"),
         icon: "plus-circle",
         component: AddCard,
+        componentHeader: "Add Card",
         params: {
           handleUpdate: child.handleUpdate,
           columns: data.columns,
@@ -59,6 +61,7 @@ export const navbarConfigs = (child, props) => {
         // hide: !hasPrivilege("admin"),
         icon: "cog",
         component: BoardSettings,
+        componentHeader: "Board Settings",
         modalClassName: "board-settings",
         params: {
           // handleUpdate: child.handleUpdate,

@@ -1,7 +1,7 @@
 const THEMES = () => {
   return {
     // NOTE: use "" for default theme
-    currentTheme: "dark",
+    currentTheme: "",
     themes: {
       // NOTE: out of date with default
       light: {},
@@ -12,9 +12,9 @@ const THEMES = () => {
         "card-shadow": "0 0 3px 0 rgba(235, 235, 235, 0.12)",
         "button-color": "#2d2d2d",
         "navbar-text-color": "rgb(246, 236, 219)",
-        "column-shadow": "0px 0px 6px 0px rgba(71, 71, 69, 0.32)",
+        "column-shadow": "0px 0px 6px 0px rgba(71, 71, 69, 0.5)",
         "column-secondary": "rgb(37, 38, 36)",
-        "bg-shadow": "0px 0px 13px 0px rgba(71, 71, 69, 0.24)",
+        "bg-shadow": "0px 0px 10px 0px rgba(0, 0, 0, 0.9)",
         "card-border": "rgb(69, 67, 62)",
         "text-color": "rgb(246, 236, 219)",
         "text-bg-color": "rgb(43, 43, 41)",

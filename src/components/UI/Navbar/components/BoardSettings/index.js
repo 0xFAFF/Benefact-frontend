@@ -20,9 +20,6 @@ export const BoardSettings = props => {
   ];
   return (
     <div id="board-settings" className="flex col">
-      <div className="flex">
-        <h1 className="center">Board Settings</h1>
-      </div>
       <TwoSectionMenu menuTabs={menuTabs} {...props} />
     </div>
   );

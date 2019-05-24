@@ -91,17 +91,14 @@ class Filter extends React.Component {
       filters
     };
     return (
-      <>
-        <h1>Filter Cards</h1>
-        <div id="filter-container">
-          <Basic
-            {...rest}
-            {...basicProps}
-            onAcceptHandler={this.onAcceptHandler}
-            resetFilters={this.resetFilters}
-          />
-        </div>
-      </>
+      <div id="filter-container">
+        <Basic
+          {...rest}
+          {...basicProps}
+          onAcceptHandler={this.onAcceptHandler}
+          resetFilters={this.resetFilters}
+        />
+      </div>
     );
   }
 }

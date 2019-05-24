@@ -87,7 +87,7 @@
       margin: 5px 0;
     }
     .middle {
-      flex-grow: 0;
+      flex-basis: initial;
       li {
         display: none;
       }

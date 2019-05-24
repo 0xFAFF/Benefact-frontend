@@ -6,7 +6,7 @@ import { TwoSectionMenu } from "components/UI/PageComponents";
 import "./index.scss";
 import Boards from "./content/Boards";
 import MyCards from "./content/MyCards";
-import { MyActivity } from "./content";
+import MyActivity from "components/UI/User/MyActivity";
 
 class Landing extends React.Component {
   static propTypes = {

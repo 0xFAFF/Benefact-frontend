@@ -44,6 +44,7 @@ body {
     margin-left: auto;
     &:not(.col) {
       justify-content: flex-end;
+      text-align: end;
     }
   }
 
@@ -51,6 +52,7 @@ body {
     margin-right: auto;
     &:not(.col) {
       justify-content: flex-start;
+      text-align: start;
     }
   }
 
@@ -77,6 +79,7 @@ body {
     justify-content: center;
     align-items: center;
     align-content: center;
+    text-align: center;
   }
 
   .hidden {

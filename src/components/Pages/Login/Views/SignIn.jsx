@@ -19,7 +19,7 @@ class SignIn extends React.Component {
     }
 
     const queryParams = { email, password };
-    await this.props.compFetch("users", "GET", queryParams).then(result => {
+    await this.props.compFetch("users", "AUTH", queryParams).then(result => {
       this.props.onLoginHandler(result);
     });
   };

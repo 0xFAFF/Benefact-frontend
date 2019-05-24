@@ -37,7 +37,7 @@ class ForgotPassword extends React.Component {
         items={this.btmItems}
         className="register"
         onSubmit={this.onCreateAccount}
-        buttonTitle="Reset Password"
+        submitBtnTitle="Reset Password"
         header={{ title: "Forgot Password" }}
         formItems={this.formItems}
       />

@@ -51,7 +51,7 @@ class Register extends React.Component {
         items={this.btmItems}
         className="register"
         onSubmit={this.onCreateAccount}
-        buttonTitle="Create Account"
+        submitBtnTitle="Create Account"
         header={{ title: "Create a New Account" }}
         formItems={this.formItems}
       />

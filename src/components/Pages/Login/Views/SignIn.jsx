@@ -52,7 +52,7 @@ class SignIn extends React.Component {
         items={this.btmItems}
         className="signin"
         onSubmit={this.onSubmit}
-        buttonTitle="Login"
+        submitBtnTitle="Login"
         header={{ title: "Benefact", className: "app-title" }}
         formItems={this.formItems}
       />

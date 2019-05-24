@@ -113,6 +113,35 @@ body {
     }
   }
 
+  .toast-success {
+    background: var(--toast-success-bg-color);
+    color: var(--toast-success-text-color);
+  }
+  .toast-success-progress {
+    background: var(--toast-success-progress-color);
+  }
+  .toast-error {
+    background: var(--toast-error-bg-color);
+    color: var(--toast-error-text-color);
+  }
+  .toast-error-progress {
+    background: var(--toast-error-progress-color);
+  }
+  .toast-warn {
+    background: var(--toast-warn-bg-color);
+    color: var(--toast-warn-text-color);
+  }
+  .toast-warn-progress {
+    background: var(--toast-warn-progress-color);
+  }
+  .toast-info {
+    background: var(--toast-info-bg-color);
+    color: var(--toast-info-text-color);
+  }
+  .toast-info-progress {
+    background: var(--toast-info-progress-color);
+  }
+
   --bg-primary: #eef1f5;
   --bg-navbar: var(--card-primary);
   --navbar-text-color: var(--text-color);
@@ -141,11 +170,23 @@ body {
   --menu-border: var(--card-border);
   --menu-hover: var(--card-hover);
   --link-color: rgb(60, 137, 255);
-  --input-border: "initial";
+  --input-border: currentColor;
   --input-placeholder-text-color: rgb(117, 117, 117);
   --scrollbar-track-bg: #f1f1f1;
   --scrollbar-thumb-bg: #888;
   --scrollbar-thumb-hover-bg: #555;
+  --toast-success-text-color: #fff;
+  --toast-error-text-color: #fff;
+  --toast-warn-text-color: #fff;
+  --toast-info-text-color: #fff;
+  --toast-success-bg-color: #07bc0c;
+  --toast-error-bg-color: #e74c3c;
+  --toast-warn-bg-color: #f1c40f;
+  --toast-info-bg-color: #3498db;
+  --toast-success-progress-color: rgba(255, 255, 255, 0.7);
+  --toast-error-progress-color: rgba(255, 255, 255, 0.7);
+  --toast-warn-progress-color: rgba(255, 255, 255, 0.7);
+  --toast-info-progress-color: rgba(255, 255, 255, 0.7);
 }
 
 #root,

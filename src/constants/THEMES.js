@@ -4,18 +4,7 @@ const THEMES = () => {
     currentTheme: "dark",
     themes: {
       // NOTE: out of date with default
-      light: {
-        "bg-primary": "#eef1f5",
-        "column-shadow": "0px 0px 6px 0px rgba(98, 98, 102, 0.16)",
-        "bg-shadow": "0px 0px 13px 0px rgba(98, 98, 102, 0.16)",
-        "card-border": "lightgrey",
-        "card-primary": "#f9f9f9",
-        "card-hover": "#e5eae9",
-        "column-hover": "#f3f3f3",
-        "text-color": "black",
-        "text-bg-color": "#f0f0f0",
-        "modal-icon-color": "rgb(26, 25, 25)"
-      },
+      light: {},
       dark: {
         "bg-primary": "rgb(37, 38, 36)",
         "card-primary": "rgb(32, 33, 31)",
@@ -38,7 +27,19 @@ const THEMES = () => {
         "input-placeholder-text-color": "#c6bba8",
         "scrollbar-track-bg": "rgb(36, 37, 35)",
         "scrollbar-thumb-bg": "rgb(68, 68, 65)",
-        "scrollbar-thumb-hover-bg": "rgb(73, 73, 65)"
+        "scrollbar-thumb-hover-bg": "rgb(73, 73, 65)",
+        "toast-success-text-color": "rgb(255, 255, 245)",
+        "toast-error-text-color": "rgb(255, 255, 245)",
+        "toast-warn-text-color": "rgb(255, 255, 245)",
+        "toast-info-text-color": "rgb(255, 255, 245)",
+        "toast-success-bg-color": "rgb(47, 172, 39)",
+        "toast-error-bg-color": "rgb(134, 47, 33)",
+        "toast-warn-bg-color": "rgb(183, 154, 45)",
+        "toast-info-bg-color": "rgb(52, 101, 130)",
+        "toast-success-progress-color": "rgba(32, 33, 31, 0.7)",
+        "toast-error-progress-color": "rgba(32, 33, 31, 0.7)",
+        "toast-warn-progress-color": "rgba(32, 33, 31, 0.7)",
+        "toast-info-progress-color": "rgba(32, 33, 31, 0.7)"
       },
       "high-contrast": {
         "bg-primary": "#333",

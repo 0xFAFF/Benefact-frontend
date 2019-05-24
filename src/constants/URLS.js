@@ -47,8 +47,11 @@ const urlKeyMap = {
     }
   },
   users: {
-    GET: {
+    AUTH: {
       url: "users/auth"
+    },
+    GET: {
+      url: "users/get"
     },
     ADD: {
       url: "users/add"

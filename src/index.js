@@ -81,7 +81,7 @@ class App extends React.Component {
             />
             <Route exact path="/board/:boardId/:view(list|kanban)?" render={boardRender} />
             <Route
-              path="/user"
+              path="/user/:userId?"
               render={props =>
                 token ? <User {...props} {...childProps} /> : <RedirectLogin {...props} />
               }

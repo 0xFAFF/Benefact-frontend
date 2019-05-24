@@ -12,15 +12,12 @@ const Logout = props => {
   };
 
   return (
-    <>
-      <h1>Logout?</h1>
-      <AcceptCancelButtons
-        onAcceptHandler={onAcceptHandler}
-        onCancelHandler={onClose}
-        acceptTitle={"Yes"}
-        cancelTitle={"No"}
-      />
-    </>
+    <AcceptCancelButtons
+      onAcceptHandler={onAcceptHandler}
+      onCancelHandler={onClose}
+      acceptTitle={"Yes"}
+      cancelTitle={"No"}
+    />
   );
 };
 

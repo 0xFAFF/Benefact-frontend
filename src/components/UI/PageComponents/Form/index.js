@@ -1,8 +1,18 @@
 import React from "react";
-import { Button, AcceptCancelButtons } from "components/UI/PageComponents";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PropTypes from "prop-types";
+import { Button, AcceptCancelButtons, Input } from "components/UI/PageComponents";
+import "./index.scss";
 
 export class Form extends React.Component {
+  static propTypes = {
+    submitBtnTitle: PropTypes.string,
+    cancelBtnTitle: PropTypes.string,
+    items: PropTypes.array,
+    className: PropTypes.string,
+    onSubmit: PropTypes.func,
+    onCancel: PropTypes.func
+  };
+
   state = { form: {} };
 
   handlePressEnter = e => {
@@ -26,24 +36,16 @@ export class Form extends React.Component {
     } = this.props;
     return (
       <div id="form" className={className}>
-        {items.map(({ name, placeholder, icon, type }) => (
-          <div key={name} className="input-container">
-            <div className="input-icon">
-              <FontAwesomeIcon icon={icon} size="sm" />
-            </div>
-            <input
-              className="input-field"
-              id={name}
-              name={name}
-              placeholder={placeholder}
-              value={this.state.form[name] || ""}
-              type={type}
-              onKeyPress={this.handlePressEnter}
-              onChange={e =>
-                this.setState({ form: { ...this.state.form, [name]: e.target.value } })
-              }
-            />
-          </div>
+        {items.map(inputProps => (
+          <Input
+            key={inputProps.name}
+            {...inputProps}
+            value={this.state.form[inputProps.name] || ""}
+            onKeyPress={this.handlePressEnter}
+            onChange={e =>
+              this.setState({ form: { ...this.state.form, [inputProps.name]: e.target.value } })
+            }
+          />
         ))}
         {onSubmit && onCancel ? (
           <AcceptCancelButtons

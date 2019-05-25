@@ -18,40 +18,6 @@
       font-size: 2.7em;
       font-family: "Frank Ruhl Libre", serif;
     }
-    button {
-      text-align: center;
-      font-weight: bold;
-      width: 100%;
-      border: none;
-      padding: 10px;
-      font-size: 1.2em;
-      opacity: 0.9;
-    }
-    .input-container {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      align-items: center;
-      margin-bottom: 20px;
-      .input-field {
-        width: 100%;
-        padding: 10px;
-        outline: none;
-        font-size: 1.1em;
-      }
-      .input-field:focus {
-        border: 1px solid var(--login-input-focus);
-      }
-      .input-icon {
-        text-align: center;
-        font-size: 1.1em;
-        padding: 12px;
-        background: var(--login-icon-bg-color);
-        svg {
-          color: var(--login-icon-color);
-        }
-      }
-    }
   }
   #bottom-container {
     padding-bottom: 10px;

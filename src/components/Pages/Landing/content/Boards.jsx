@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateBoard from "./CreateBoard";
 import "./Boards.scss";
+import { ModalContainer } from "components/UI";
 
 const Boards = ({ page: { data = {}, showModal, closeModal } }) => {
   const { boards = [] } = data;
@@ -11,7 +12,17 @@ const Boards = ({ page: { data = {}, showModal, closeModal } }) => {
     <div id="boards-content">
       <>
         <div className="new-board flex">
-          <button onClick={() => showModal(<CreateBoard onClose={closeModal} />)}>
+          <button
+            onClick={() =>
+              showModal(
+                <ModalContainer
+                  onClose={closeModal}
+                  componentHeader="Create a New Board"
+                  component={CreateBoard}
+                />
+              )
+            }
+          >
             Create New Board
           </button>
         </div>

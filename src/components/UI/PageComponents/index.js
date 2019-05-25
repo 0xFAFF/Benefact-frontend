@@ -4,3 +4,4 @@ export { Button } from "./Button";
 export { AcceptCancelButtons } from "./AcceptCancelButtons";
 export { default as Form } from "./Form";
 export { Segment } from "./Segment";
+export { Input } from "./Input";

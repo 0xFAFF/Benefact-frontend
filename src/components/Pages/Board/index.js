@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 import { getCards } from "../../../utils";
 import Views from "./Views";
-import { Modal } from "../../UI";
+import { Modal, ModalContainer } from "components/UI";
 import { PageWrapper } from "../../Pages";
 import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 import { navbarConfigs } from "./navbarConfigs";
-import { AcceptCancelButtons } from "components/UI/PageComponents";
+import { AcceptCancelButtons, Button, Segment } from "components/UI/PageComponents";
 
 class Board extends React.Component {
   static propTypes = {
@@ -314,25 +314,29 @@ class Board extends React.Component {
     const goHome = () => this.props.history.push("/");
     if (!data) return <></>;
     if (!data.userPrivilege) {
+      const PrivateBoard = () => (
+        <Segment margin center>
+          This board is private, please request an invite from an administrator.
+          <Button fluid title="OK" onClick={goHome} />
+        </Segment>
+      );
+      const JoinBoard = () => (
+        <Segment margin center>
+          Would you like to join this board?
+          <AcceptCancelButtons
+            acceptTitle="Yes"
+            cancelTitle="No"
+            onAcceptHandler={() => refreshData(compFetch("boards", "JOIN"))}
+            onCancelHandler={goHome}
+          />
+        </Segment>
+      );
       return (
         <Modal isOpen shouldCloseOnOverlayClick={false} onClose={goHome}>
           {!data.defaultPrivilege ? (
-            <>
-              <h1>Private Board</h1>
-              This board is private, please request an invite from an administrator
-              <AcceptCancelButtons cancelTitle="OK" onCancelHandler={goHome} />
-            </>
+            <ModalContainer componentHeader="Private Board" component={PrivateBoard} />
           ) : (
-            <>
-              <h1>Join Board</h1>
-              Would you like to join this board?
-              <AcceptCancelButtons
-                acceptTitle="Yes"
-                cancelTitle="No"
-                onAcceptHandler={() => refreshData(compFetch("boards", "JOIN"))}
-                onCancelHandler={goHome}
-              />
-            </>
+            <ModalContainer componentHeader="Join Board" component={JoinBoard} />
           )}
         </Modal>
       );

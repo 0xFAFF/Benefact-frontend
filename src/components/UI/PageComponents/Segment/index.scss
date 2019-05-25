@@ -1,0 +1,14 @@
+#segment {
+  &.border {
+    box-shadow: var(--bg-shadow);
+  }
+  &.margin {
+    margin: 10px;
+  }
+  &.padding10 {
+    padding: 10px;
+  }
+  &.padding30 {
+    padding: 30px;
+  }
+}

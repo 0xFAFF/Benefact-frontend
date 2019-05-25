@@ -2,30 +2,31 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./index.scss";
 
-const NavbarContainer = ({
+const ModalContainer = ({
+  children,
   onClose,
   component: Component,
   componentHeader,
-  navbarStyle,
+  modalStyle,
   ...compParams
 }) => (
-  <div id="navbar-container">
+  <div id="modal-container">
     {componentHeader ? (
-      <div className="navbar-header flex center">
+      <div className="modal-header flex center">
         <h2>{componentHeader}</h2>
       </div>
     ) : null}
     {Component ? (
-      <div style={{ ...navbarStyle }}>
+      <div style={{ ...modalStyle }}>
         <Component onClose={onClose} {...compParams} />
       </div>
     ) : null}
   </div>
 );
 
-export default NavbarContainer;
+export default ModalContainer;
 
-NavbarContainer.propTypes = {
+ModalContainer.propTypes = {
   params: PropTypes.object,
   onClose: PropTypes.func,
   component: PropTypes.func

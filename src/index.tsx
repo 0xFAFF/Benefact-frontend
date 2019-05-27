@@ -16,8 +16,23 @@ toast.configure({
   draggable: false
 });
 
-class App extends React.Component {
-  constructor(props) {
+interface Props {
+  match?: {
+    url?: string;
+    params?: {
+      boardId?: string;
+      cardId?: string;
+      view?: string;
+    };
+  };
+}
+
+interface State {
+  token: string;
+}
+
+class App extends React.Component<Props, State> {
+  constructor(props: any) {
     super(props);
     let token = Cookies.get("token");
     if (!token || !parseToken(token)) {
@@ -27,7 +42,7 @@ class App extends React.Component {
     this.state = { token };
   }
 
-  onLoginHandler = token => {
+  onLoginHandler = (token: string) => {
     if (token && parseToken(token)) {
       this.setState({ token });
       Cookies.set("token", token);
@@ -40,7 +55,7 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    const { themes, currentTheme } = THEMES();
+    const { themes, currentTheme }: { themes: any; currentTheme: string } = THEMES();
     setTheme(themes[currentTheme]);
   }
 
@@ -51,11 +66,13 @@ class App extends React.Component {
       onLoginHandler: this.onLoginHandler,
       onLogoutHandler: this.onLogoutHandler
     };
-    const RedirectLogin = props => (
-      <Redirect to={`/login${props.match ? `?redirect=${encodeURI(props.match.url)}` : ""}`} />
-    );
-    const boardRender = props => {
-      const { boardId, cardId, view = "kanban" } = props.match.params;
+    const RedirectLogin = (props: Props) => {
+      let { match = {} } = props;
+      let { url = "" } = match;
+      return <Redirect to={`/login${match ? `?redirect=${encodeURI(url)}` : ""}`} />;
+    };
+    const BoardRender = (props: Props) => {
+      const { match: { params: { boardId = "", cardId = "", view = "kanban" } = {} } = {} } = props;
       return token ? (
         <Board view={view} boardId={boardId} cardId={cardId} {...props} {...childProps} />
       ) : (
@@ -77,9 +94,9 @@ class App extends React.Component {
             <Route
               exact
               path="/board/:boardId/:view(list|kanban)?/card/:cardId"
-              render={boardRender}
+              render={BoardRender}
             />
-            <Route exact path="/board/:boardId/:view(list|kanban)?" render={boardRender} />
+            <Route exact path="/board/:boardId/:view(list|kanban)?" render={BoardRender} />
             <Route
               path="/user/:userId?"
               render={props =>
@@ -94,4 +111,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root") as HTMLElement);

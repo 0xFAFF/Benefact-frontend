@@ -1,4 +1,4 @@
-const setTheme = theme => {
+const setTheme = (theme: any) => {
   if (!theme || typeof theme !== "object") return;
   Object.keys(theme).forEach(key => {
     const cssKey = `--${key}`;

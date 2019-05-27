@@ -7,13 +7,7 @@ import "./index.scss";
 import { PageConsumer } from "components/Pages/PageContext";
 
 const Tags = props => {
-  const {
-    tagIds,
-    displayAddTag,
-    onChangeHandler,
-    handleUpdate,
-    updateBoardContent
-  } = props;
+  const { tagIds, displayAddTag, onChangeHandler, handleUpdate, updateBoardContent } = props;
   return (
     <PageConsumer>
       {page => {

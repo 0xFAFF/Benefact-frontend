@@ -9,7 +9,7 @@ class UserCards extends React.Component {
     } = this.props;
     if (createdCards.length === 0)
       return (
-        <Segment border center padding margin>
+        <Segment border center padding30 margin>
           There are currently no available cards for display.
         </Segment>
       );

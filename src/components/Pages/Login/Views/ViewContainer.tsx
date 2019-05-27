@@ -1,8 +1,41 @@
 import React from "react";
 import { Form } from "components/UI/PageComponents";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import "./ViewContainer.scss";
 
-const ViewContainer = props => {
+interface formItem {
+  name: string;
+  icon?: string | IconProp;
+  placeholder?: string;
+  type?: string;
+  onKeyPress?: void;
+  value?: string | number;
+  onChange?: void;
+}
+
+interface formItems extends Array<formItem> {}
+
+interface item {
+  className?: string;
+  onClick?: any;
+  content?: any;
+}
+
+interface items extends Array<item> {}
+
+interface Props {
+  header: {
+    title?: string;
+    className?: string;
+  };
+  formItems?: formItems;
+  items?: items;
+  className?: string;
+  onSubmit?: any;
+  submitBtnTitle?: string;
+}
+
+const ViewContainer = (props: Props) => {
   const {
     header: { title: headerTitle, className: headerClassName },
     formItems = [],

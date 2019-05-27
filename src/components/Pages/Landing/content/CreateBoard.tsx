@@ -3,27 +3,16 @@ import { PageProp } from "components/Pages/PageContext";
 import { Form, Segment } from "components/UI/PageComponents";
 import { notifyToast } from "utils";
 
-class CreateBoard extends React.Component {
-  state = {
-    fields: {
-      title: "",
-      urlName: ""
-    }
+interface Props {
+  page: {
+    compFetch(type: string, action: string, queryParams?: any, errorHandler?: any): any;
+    closeModal(): void;
+    history: { push(url: string): void };
   };
+}
 
-  onInputChangeHandler = (e, field) => {
-    this.setState({
-      fields: {
-        ...this.state.fields,
-        [field]: e.target.value
-      }
-    });
-  };
-
-  onCreateBoard = async () => {
-    const {
-      fields: { title, urlName }
-    } = this.state;
+class CreateBoard extends React.Component<Props, {}> {
+  onCreateBoard = async ({ title, urlName }: { title: string; urlName: string }) => {
     const {
       page: { compFetch, closeModal, history }
     } = this.props;
@@ -40,7 +29,7 @@ class CreateBoard extends React.Component {
       title,
       urlName
     };
-    await compFetch("board", "ADD", queryParams).then(result => {
+    await compFetch("board", "ADD", queryParams).then((result: any) => {
       if (result) {
         closeModal();
         history.push(`/board/${urlName}`);

@@ -1,15 +1,22 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewContainer } from "../Views";
 import { notifyToast } from "utils";
 
-class SignIn extends React.Component {
-  onInputChangeHandler = (e, field) => {
-    this.setState({ [field]: e.target.value });
-  };
+interface Props {
+  onViewChangeHandler(view: string): void;
+  compFetch(
+    type: string,
+    action: string,
+    queryParams?: { email?: string; password?: string },
+    errorHandler?: any
+  ): any;
+  onLoginHandler: any;
+}
+interface State {}
 
-  onSubmit = async ({ email, password }) => {
+class SignIn extends React.Component<Props, State> {
+  onSubmit = async ({ email, password }: { email: string; password: string }) => {
     if (!email || !password) {
       const missing = [];
       if (!email) missing.push("Email/Username");
@@ -19,7 +26,7 @@ class SignIn extends React.Component {
     }
 
     const queryParams = { email, password };
-    await this.props.compFetch("users", "AUTH", queryParams).then(result => {
+    await this.props.compFetch("users", "AUTH", queryParams).then((result: any) => {
       this.props.onLoginHandler(result);
     });
   };
@@ -59,11 +66,5 @@ class SignIn extends React.Component {
     );
   }
 }
-
-SignIn.propTypes = {
-  onViewChangeHandler: PropTypes.func,
-  onLoginHandler: PropTypes.func,
-  compFetch: PropTypes.func
-};
 
 export default SignIn;

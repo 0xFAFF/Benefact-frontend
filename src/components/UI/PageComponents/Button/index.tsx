@@ -1,7 +1,18 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.scss";
+
+interface Props {
+  className?: string;
+  onClick?: any;
+  children?: React.ElementType | string;
+  title?: string;
+  icon?: IconProp;
+  round?: boolean;
+  size?: string;
+  fluid?: boolean;
+}
 
 export const Button = ({
   className,
@@ -12,7 +23,7 @@ export const Button = ({
   round,
   size = "md",
   fluid
-}) => {
+}: Props) => {
   let btnClassName = className ? className : "";
   if (round) btnClassName += " btn-radius";
   if (size) btnClassName += ` ${size}`;
@@ -33,12 +44,4 @@ export const Button = ({
     return <div className="flex">{button()}</div>;
   }
   return button();
-};
-
-Button.propTypes = {
-  onClick: PropTypes.func,
-  title: PropTypes.string,
-  icon: PropTypes.string,
-  round: PropTypes.bool,
-  className: PropTypes.string
 };

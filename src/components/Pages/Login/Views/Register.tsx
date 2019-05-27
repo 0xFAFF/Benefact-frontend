@@ -1,10 +1,31 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { ViewContainer } from "../Views";
 import { notifyToast } from "utils";
 
-class Register extends React.Component {
-  onCreateAccount = async ({ email, username, password, confirmPassword }) => {
+interface Props {
+  onViewChangeHandler(view: string): void;
+  compFetch(
+    type: string,
+    action: string,
+    queryParams?: { email?: string; name?: string; password?: string },
+    errorHandler?: any
+  ): any;
+  onLoginHandler: any;
+}
+interface State {}
+
+class Register extends React.Component<Props, State> {
+  onCreateAccount = async ({
+    email,
+    username,
+    password,
+    confirmPassword
+  }: {
+    email: string;
+    username: string;
+    password: string;
+    confirmPassword: string;
+  }) => {
     if (!email || !username || !password || !confirmPassword) {
       const missing = [];
       if (!email) missing.push("Email");
@@ -22,7 +43,7 @@ class Register extends React.Component {
         name: username,
         password: password
       };
-      await this.props.compFetch("users", "ADD", queryParams).then(result => {
+      await this.props.compFetch("users", "ADD", queryParams).then((result: any) => {
         this.props.onLoginHandler(result);
       });
     } else {
@@ -58,11 +79,5 @@ class Register extends React.Component {
     );
   }
 }
-
-Register.propTypes = {
-  onViewChangeHandler: PropTypes.func,
-  compFetch: PropTypes.func,
-  onLoginHandler: PropTypes.func
-};
 
 export default Register;

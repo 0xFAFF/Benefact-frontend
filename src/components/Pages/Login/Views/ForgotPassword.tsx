@@ -1,10 +1,19 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { ViewContainer } from "../Views";
+import { ViewContainer } from ".";
 import { notifyToast } from "utils";
 
-class ForgotPassword extends React.Component {
-  onCreateAccount = async ({ email }) => {
+interface Props {
+  onViewChangeHandler(view: string): void;
+  compFetch(
+    type: string,
+    action: string,
+    queryParams?: { email?: string },
+    errorHandler?: any
+  ): any;
+}
+
+class ForgotPassword extends React.Component<Props, {}> {
+  onCreateAccount = async ({ email }: { email: string }) => {
     if (!email) {
       const missing = [];
       if (!email) missing.push("Email");
@@ -12,9 +21,14 @@ class ForgotPassword extends React.Component {
       return;
     }
 
-    const result = await this.props.compFetch("users", "RESET_PASSWORD", { email }, e => {
-      if (e.status === 404) notifyToast("error", "Couldn't find an account with that email");
-    });
+    const result = await this.props.compFetch(
+      "users",
+      "RESET_PASSWORD",
+      { email },
+      (e: { status: number }) => {
+        if (e.status === 404) notifyToast("error", "Couldn't find an account with that email");
+      }
+    );
     if (result) {
       notifyToast("info", "An email has been sent to reset your password");
       this.props.onViewChangeHandler("signin");
@@ -44,10 +58,5 @@ class ForgotPassword extends React.Component {
     );
   }
 }
-
-ForgotPassword.propTypes = {
-  onViewChangeHandler: PropTypes.func,
-  compFetch: PropTypes.func
-};
 
 export default ForgotPassword;

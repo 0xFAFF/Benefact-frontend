@@ -274,9 +274,11 @@ class Board extends React.Component {
   closeCard = () => {
     this.props.history.push(
       `/board/${this.props.boardId}${this.props.view === "kanban" ? "" : "/list"}`
-    );
-  };
-
+      );
+    };
+    
+  goHome = () => this.props.history.push("/");
+  
   render() {
     const {
       cardId,
@@ -311,13 +313,12 @@ class Board extends React.Component {
     };
 
     const editingCard = cardId && cardsById && cardsById[cardId];
-    const goHome = () => this.props.history.push("/");
     if (!data) return <></>;
     if (!data.userPrivilege) {
       const PrivateBoard = () => (
         <Segment margin center>
           This board is private, please request an invite from an administrator.
-          <Button fluid title="OK" onClick={goHome} />
+          <Button fluid title="OK" onClick={this.goHome} />
         </Segment>
       );
       const JoinBoard = () => (
@@ -327,12 +328,12 @@ class Board extends React.Component {
             acceptTitle="Yes"
             cancelTitle="No"
             onAcceptHandler={() => refreshData(compFetch("boards", "JOIN"))}
-            onCancelHandler={goHome}
+            onCancelHandler={this.goHome}
           />
         </Segment>
       );
       return (
-        <Modal isOpen shouldCloseOnOverlayClick={false} onClose={goHome}>
+        <Modal isOpen shouldCloseOnOverlayClick={false} onClose={this.goHome}>
           {!data.defaultPrivilege ? (
             <ModalContainer componentHeader="Private Board" component={PrivateBoard} />
           ) : (

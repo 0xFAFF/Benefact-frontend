@@ -1,21 +1,22 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Button, AcceptCancelButtons, Input } from "components/UI/PageComponents";
 import "./index.scss";
 
-export class Form extends React.Component {
-  static propTypes = {
-    submitBtnTitle: PropTypes.string,
-    cancelBtnTitle: PropTypes.string,
-    items: PropTypes.array,
-    className: PropTypes.string,
-    onSubmit: PropTypes.func,
-    onCancel: PropTypes.func
-  };
+interface Props {
+  submitBtnTitle?: string;
+  cancelBtnTitle?: string;
+  items: Array<{ name: string }>;
+  className?: string;
+  onSubmit?: any;
+  onCancel?: void;
+}
 
-  state = { form: {} };
+interface State {
+  form: any;
+}
 
-  handlePressEnter = e => {
+export class Form extends React.Component<Props, State> {
+  handlePressEnter = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       this.submitForm();
     }
@@ -42,7 +43,7 @@ export class Form extends React.Component {
             {...inputProps}
             value={this.state.form[inputProps.name] || ""}
             onKeyPress={this.handlePressEnter}
-            onChange={e =>
+            onChange={(e: any) =>
               this.setState({ form: { ...this.state.form, [inputProps.name]: e.target.value } })
             }
           />

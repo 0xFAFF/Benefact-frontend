@@ -3,7 +3,22 @@ import { BoardSettings, FilterView } from "components/UI/Navbar/components";
 import { AddCard } from "components/UI/AddComponents";
 import { Filter } from "components/UI/BoardComponents/Filter";
 
-export const navbarConfigs = (child, props) => {
+interface Child {
+  handleUpdate(): void
+}
+interface Props {
+  view: string,
+  page: {
+    data?: any,
+    hasPrivilege(priv?: string): boolean,
+    history?: any,
+    filters?: any,
+    updatePage(page?: any, callback?: void): void,
+    refreshData?: void
+  }
+}
+
+export const navbarConfigs = (child: Child, props: Props) => {
   const {
     view,
     page: { data, hasPrivilege, history, filters }
@@ -34,9 +49,9 @@ export const navbarConfigs = (child, props) => {
         component: Filter,
         componentHeader: "Filter Cards",
         params: {
-          updateFilterGroupIndex: child.updateFilterGroupIndex,
-          createFilterGroup: child.createFilterGroup,
-          onChangeFilterHandler: child.onChangeFilterHandler,
+          // updateFilterGroupIndex: child.updateFilterGroupIndex,
+          // createFilterGroup: child.createFilterGroup,
+          // onChangeFilterHandler: child.onChangeFilterHandler,
           columns: data.columns,
           tags: data.tags,
           filters: filters

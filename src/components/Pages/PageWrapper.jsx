@@ -9,9 +9,9 @@ import {
   middleWare,
   hasPrivilege,
   parseToken
-} from "../../utils";
+} from "utils";
 import { URLS } from "../../constants";
-import { PageProvider } from "components/Pages/PageContext";
+import { PageProvider } from "../Pages/PageContext";
 import { Modal, Navbar } from "components/UI";
 import { Logout } from "components/UI/Navbar/components";
 import { PacmanLoader } from "components/UI/Loader";
@@ -107,10 +107,7 @@ const PageWrapper = Component => {
 
     hasPrivilege = (priv, ownerId) => {
       if (ownerId && this.user && this.user.id === ownerId) return true;
-      if (
-        !isEmpty(this.state.page.data) &&
-        hasPrivilege(priv, this.state.page.data.userPrivilege)
-      )
+      if (!isEmpty(this.state.page.data) && hasPrivilege(priv, this.state.page.data.userPrivilege))
         return true;
       return false;
     };

@@ -1,9 +1,19 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import "./index.scss";
 
-export const Input = ({ name, icon, placeholder, type, onKeyPress, value, onChange }) => {
+interface Props {
+  name: string;
+  icon?: IconProp;
+  placeholder?: string;
+  type?: string;
+  onKeyPress(e: React.KeyboardEvent): void;
+  value: string | number;
+  onChange(e: React.SyntheticEvent): void;
+}
+
+export const Input = ({ name, icon, placeholder, type, onKeyPress, value, onChange }: Props) => {
   return (
     <div id="input-container">
       {icon && (
@@ -23,14 +33,4 @@ export const Input = ({ name, icon, placeholder, type, onKeyPress, value, onChan
       />
     </div>
   );
-};
-
-Input.propTypes = {
-  name: PropTypes.string.isRequired,
-  icon: PropTypes.string,
-  placeholder: PropTypes.string,
-  type: PropTypes.string,
-  onKeyPress: PropTypes.func,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
 };

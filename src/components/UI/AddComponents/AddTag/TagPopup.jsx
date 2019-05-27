@@ -23,12 +23,7 @@ class TagPopup extends React.Component {
   };
 
   render() {
-    const {
-      onChangeHandler,
-      cardTags,
-      handleUpdate,
-      updateBoardContent
-    } = this.props;
+    const { onChangeHandler, cardTags, handleUpdate, updateBoardContent } = this.props;
     return (
       <div className="tag-popup">
         <PageConsumer>

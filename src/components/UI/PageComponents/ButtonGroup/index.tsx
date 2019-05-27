@@ -1,9 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Button } from "../";
 import "./index.scss";
 
-export const ButtonGroup = ({ btns, groupClassName, fluid, align }) => {
+interface Props {
+  btns: Array<{ BtnComp?: React.ElementType; className?: string }>;
+  groupClassName?: string;
+  fluid?: boolean;
+  align?: string;
+}
+
+export const ButtonGroup = ({ btns, groupClassName, fluid, align }: Props) => {
   let btnGroupClassName = groupClassName ? groupClassName : "";
   if (fluid === true || align) btnGroupClassName += " flex";
   if (align === "right") {
@@ -27,11 +33,4 @@ export const ButtonGroup = ({ btns, groupClassName, fluid, align }) => {
       })}
     </div>
   );
-};
-
-ButtonGroup.propTypes = {
-  btns: PropTypes.array,
-  groupClassName: PropTypes.string,
-  fluid: PropTypes.bool,
-  align: PropTypes.oneOf(["right", "left", "center"])
 };

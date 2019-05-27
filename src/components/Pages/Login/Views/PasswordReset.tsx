@@ -1,19 +1,28 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { notifyToast } from "utils";
 import { ViewContainer } from "../Views";
 
-export class PasswordReset extends React.Component {
-  state = {
-    password: "",
-    confirmPassword: ""
-  };
+interface Props {
+  onViewChangeHandler(view: string): void;
+  compFetch(
+    type: string,
+    action: string,
+    queryParams?: { password?: string; nonce?: boolean },
+    errorHandler?: any
+  ): any;
+  page: { history: { push(url: string): void } };
+  nonce: boolean;
+}
+interface State {}
 
-  onInputChangeHandler = (e, field) => {
-    this.setState({ [field]: e.target.value });
-  };
-
-  resetPassword = async ({ password, confirmPassword }) => {
+export class PasswordReset extends React.Component<Props, State> {
+  resetPassword = async ({
+    password,
+    confirmPassword
+  }: {
+    password: string;
+    confirmPassword: string;
+  }) => {
     const { page, nonce, compFetch } = this.props;
 
     if (password !== confirmPassword) {
@@ -52,13 +61,5 @@ export class PasswordReset extends React.Component {
     );
   }
 }
-
-PasswordReset.propTypes = {
-  nonce: PropTypes.string,
-  onReset: PropTypes.func,
-  page: PropTypes.object,
-  compFetch: PropTypes.func,
-  onViewChangeHandler: PropTypes.func
-};
 
 export default PasswordReset;

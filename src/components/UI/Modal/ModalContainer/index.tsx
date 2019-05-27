@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import "./index.scss";
 
 const ModalContainer = ({
@@ -9,6 +8,12 @@ const ModalContainer = ({
   componentHeader,
   modalStyle,
   ...compParams
+}: {
+  children?: React.ElementType;
+  onClose?: void;
+  component?: React.ElementType;
+  componentHeader?: string;
+  modalStyle?: any;
 }) => (
   <div id="modal-container">
     {componentHeader ? (
@@ -25,9 +30,3 @@ const ModalContainer = ({
 );
 
 export default ModalContainer;
-
-ModalContainer.propTypes = {
-  params: PropTypes.object,
-  onClose: PropTypes.func,
-  component: PropTypes.func
-};

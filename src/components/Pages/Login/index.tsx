@@ -1,23 +1,38 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { SignIn, Register, PasswordReset } from "./Views";
-import PageWrapper from "../../Pages/PageWrapper";
+import { SignIn, Register, PasswordReset, ForgotPassword } from "./Views";
+import PageWrapper from "../PageWrapper";
 import { Redirect } from "react-router-dom";
 import "./index.scss";
-import { notifyToast } from "../../../utils";
-import ForgotPassword from "./Views/ForgotPassword";
+import { notifyToast } from "utils";
 
-class Login extends React.Component {
-  static propTypes = {
-    onLoginHandler: PropTypes.func
+interface Props {
+  onLoginHandler(token: string): void;
+  setChild(thisClass: React.Component): void;
+  compFetch(type: string, action: string, queryParams?: any, errorHandler?: any): any;
+  token: string;
+  page: {
+    query: {
+      verify: boolean;
+      redirect: string;
+      reset: boolean;
+    };
+    history: {
+      push(url: string): void;
+    };
   };
+}
+interface State {
+  view: string;
+  verifyDone: boolean;
+}
 
+class Login extends React.Component<Props, State> {
   state = {
     view: "signin",
     verifyDone: false
   };
 
-  navbar = props => {
+  navbar = () => {
     return {
       title: "Benefact",
       buttons: null,
@@ -31,7 +46,7 @@ class Login extends React.Component {
       notifyToast("info", "Please login to verify your email address");
   };
 
-  componentDidUpdate = async _ => {
+  componentDidUpdate = async () => {
     const verify = this.props.page.query.verify;
     if (!this.props.token) return;
     if (verify && !this.state.verifyDone) {
@@ -42,7 +57,7 @@ class Login extends React.Component {
     if (!this.state.verifyDone) this.setState({ verifyDone: true });
   };
 
-  onViewChangeHandler = view => {
+  onViewChangeHandler = (view: string) => {
     this.setState({ view });
   };
 

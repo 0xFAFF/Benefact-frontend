@@ -1,10 +1,21 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Kanban from "./Kanban";
 import List from "./List";
 import "./index.scss";
 
-const Views = props => {
+// interface Props {
+//   view?: string;
+//   cards: object;
+//   columns?: Array<any>;
+//   tags?: Array<any>;
+//   columnOrder?: any;
+//   kanbanFunctions?: object;
+//   listFunctions?: object;
+//   filtersActive?: any;
+//   openCard?: boolean;
+// }
+
+const Views = (props) => {
   const {
     view,
     cards,
@@ -24,39 +35,27 @@ const Views = props => {
     openCard
   };
 
-  return (
-    <>
-      {Object.entries(cards).map(([groupName, groupCards], index) => {
-        return (
-          <div id="views-base-container" className="flex grow" key={index}>
-            {view === "kanban" && (
-              <Kanban
-                {...innerProps}
-                {...kanbanFunctions}
-                cards={groupCards}
-                groupName={groupName}
-                filterIndex={index}
-                filtersActive={filtersActive}
-              />
-            )}
-            {view === "list" && (
-              <List {...innerProps} {...listFunctions} cards={groupCards} groupName={groupName} />
-            )}
-          </div>
-        );
-      })}
-    </>
-  );
-};
+  if (Object.keys(cards).length === 0) return null;
 
-Views.propTypes = {
-  view: PropTypes.string,
-  cards: PropTypes.object,
-  columns: PropTypes.array,
-  tags: PropTypes.array,
-  columnOrder: PropTypes.array,
-  kanbanFunctions: PropTypes.object,
-  listFunctions: PropTypes.object
+  return Object.entries(cards).map(([groupName, groupCards], index) => {
+    return (
+      <div id="views-base-container" className="flex grow" key={index}>
+        {view === "kanban" && (
+          <Kanban
+            {...innerProps}
+            {...kanbanFunctions}
+            cards={groupCards}
+            groupName={groupName}
+            filterIndex={index}
+            filtersActive={filtersActive}
+          />
+        )}
+        {view === "list" && (
+          <List {...innerProps} {...listFunctions} cards={groupCards} groupName={groupName} />
+        )}
+      </div>
+    );
+  });
 };
 
 export default Views;

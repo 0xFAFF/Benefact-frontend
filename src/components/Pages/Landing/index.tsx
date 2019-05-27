@@ -2,12 +2,41 @@ import React from "react";
 import PropTypes from "prop-types";
 import PageWrapper from "components/Pages/PageWrapper";
 import { TwoSectionMenu } from "components/UI/PageComponents";
-
 import "./index.scss";
 import Boards from "./content/Boards";
 import { UserActivity, UserCards } from "components/UI/User";
 
-class Landing extends React.Component {
+interface Props {
+  setChild(thisClass: React.Component): void;
+  page: {
+    match: {
+      params: {
+        userId?: string;
+      };
+    };
+    compFetch(type: string, action: string, queryParams?: any, errorHandler?: any): any;
+    history: { replace(url?: string): void };
+    user: { name?: string };
+    data: {
+      user: {
+        name?: string;
+        email?: string;
+      };
+    };
+    isLoading?: boolean;
+  };
+  onViewChangeHandler(view: string): void;
+  compFetch(
+    type: string,
+    action: string,
+    queryParams?: { email?: string; password?: string },
+    errorHandler?: any
+  ): any;
+  onLoginHandler: any;
+}
+interface State {}
+
+class Landing extends React.Component<Props, State> {
   static propTypes = {
     page: PropTypes.shape({
       data: PropTypes.shape({
@@ -22,8 +51,8 @@ class Landing extends React.Component {
   };
 
   dataSource = () =>
-    this.props.compFetch("users", "CURRENT").then(data => {
-      const boardLookup = data.boards.reduce((boards, board) => {
+    this.props.compFetch("users", "CURRENT").then((data: any) => {
+      const boardLookup = data.boards.reduce((boards: any, board: any) => {
         boards[board.id] = { ...board };
         return boards;
       }, {});

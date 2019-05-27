@@ -1,7 +1,15 @@
 import React from "react";
 import "./index.scss";
 
-export class TwoSectionMenu extends React.Component {
+interface Props {
+  menuTabs: Array<{ header: string; comp: React.ElementType }>;
+}
+
+interface State {
+  activeIndex: number;
+}
+
+export class TwoSectionMenu extends React.Component<Props, State> {
   state = {
     activeIndex: 0
   };

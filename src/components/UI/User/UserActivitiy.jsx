@@ -23,7 +23,7 @@ class UserActivity extends React.Component {
     } = this.props;
     if (activity.length === 0)
       return (
-        <Segment border center padding margin>
+        <Segment border center padding30 margin>
           There are currently no recent activities available.
         </Segment>
       );
@@ -31,7 +31,7 @@ class UserActivity extends React.Component {
       let entity = "card";
       if (commentId) entity = "comment";
       return (
-        <Segment border padding margin key={i}>
+        <Segment border padding10 margin key={i}>
           {`${typeMap[entity][type]} at ${formatTime(time)}`}
           <Link to={`/board/${boardLookup[boardId].urlName}/card/${cardId}`}>View card</Link>
         </Segment>

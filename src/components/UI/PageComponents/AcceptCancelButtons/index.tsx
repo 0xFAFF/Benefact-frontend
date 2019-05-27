@@ -1,10 +1,20 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { ButtonGroup } from "components/UI/PageComponents";
 import "./index.scss";
 
-export const AcceptCancelButtons = props => {
-  const { onAcceptHandler, onCancelHandler, acceptTitle, cancelTitle } = props;
+interface Props {
+  onAcceptHandler?: void;
+  onCancelHandler?: void;
+  acceptTitle?: string;
+  cancelTitle?: string;
+}
+
+export const AcceptCancelButtons = ({
+  onAcceptHandler,
+  onCancelHandler,
+  acceptTitle,
+  cancelTitle
+}: Props) => {
   const btns = [
     {
       title: acceptTitle,
@@ -18,11 +28,4 @@ export const AcceptCancelButtons = props => {
     }
   ];
   return <ButtonGroup btns={btns} fluid />;
-};
-
-AcceptCancelButtons.propTypes = {
-  onAcceptHandler: PropTypes.func,
-  onCancelHandler: PropTypes.func,
-  acceptTitle: PropTypes.string,
-  cancelTitle: PropTypes.string
 };

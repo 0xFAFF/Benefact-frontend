@@ -8,7 +8,6 @@ class UserCards extends React.Component {
       cards = [],
       page: { history, data: { boardLookup } = {} }
     } = this.props;
-    console.log(cards);
     if (cards.length === 0)
       return (
         <Segment border center padding30 margin>

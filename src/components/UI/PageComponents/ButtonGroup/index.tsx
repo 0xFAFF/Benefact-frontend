@@ -6,7 +6,7 @@ interface Props {
   btns: Array<{ BtnComp?: React.ElementType; className?: string }>;
   groupClassName?: string;
   fluid?: boolean;
-  align?: string;
+  align?: "right" | "left" | "center";
 }
 
 export const ButtonGroup = ({ btns, groupClassName, fluid, align }: Props) => {

@@ -10,7 +10,7 @@ interface Props {
   title?: string;
   icon?: IconProp;
   round?: boolean;
-  size?: string;
+  size?: "sm" | "md" | "lg";
   fluid?: boolean;
 }
 

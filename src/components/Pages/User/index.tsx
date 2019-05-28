@@ -1,9 +1,9 @@
 import React from "react";
-import "./index.scss";
 import PageWrapper from "components/Pages/PageWrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { TwoSectionMenu } from "components/UI";
+import { TwoSectionMenu, Segment } from "components/UI";
 import { UserActivity, UserCards } from "components/UI/User";
+import "./index.scss";
 
 interface Props {
   setChild(thisClass: React.Component): void;
@@ -92,15 +92,17 @@ class User extends React.Component<Props, State> {
     if (isLoading || !user) return <></>;
     return (
       <div id="user-profile" className="col grow">
-        <div className="row">
-          <div className="grow pull-right">
-            <FontAwesomeIcon icon="user" className="avatar" />
+        <Segment border margin padding10>
+          <div className="row">
+            <div className="grow pull-right">
+              <FontAwesomeIcon icon="user" className="avatar" />
+            </div>
+            <div className="grow">
+              <h1 className="grow">{user.name}</h1>
+              <h2 className="grow">{user.email}</h2>
+            </div>
           </div>
-          <div className="grow">
-            <h1 className="grow">{user.name}</h1>
-            <h2 className="grow">{user.email}</h2>
-          </div>
-        </div>
+        </Segment>
         <TwoSectionMenu menuTabs={menuTabs} {...this.props} />
       </div>
     );

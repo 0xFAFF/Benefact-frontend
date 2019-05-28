@@ -93,7 +93,7 @@ class Comments extends React.Component {
       comments = [],
       page: {
         hasPrivilege,
-        data: { users }
+        data: { roles }
       }
     } = this.props;
     const editComment = this.state.editComment || {};
@@ -130,18 +130,15 @@ class Comments extends React.Component {
           <EditorActivity icon={"comments"} dataTip="Card Comments">
             <div id="comment-entry-container">
               {comments.map(({ id, text, userId, createdTime, editedTime }) => {
-                const userData = users.find(user => user.id === userId) || {
-                  name: "",
-                  email: ""
-                };
-                const userName = userData["name"];
-                const userEmail = userData["email"];
+                const { user: { name = "", email = "" } = {} } = roles.find(
+                  role => role.userId === userId
+                );
                 return (
                   <div key={id} className="comment-entry">
                     <div className="comment-entry-header">
                       <div className="comment-entry-header-left">
                         <div className="comment-entry-name">
-                          {userName ? <div>{userName}</div> : <div>{userEmail}</div>}
+                          {name ? <div>{name}</div> : <div>{email}</div>}
                         </div>
                         <div className="comment-entry-time">
                           {editedTime ? (

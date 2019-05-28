@@ -22,6 +22,7 @@ interface Props {
         name?: string;
         email?: string;
       };
+      assignedCards: Array<any>;
     };
     isLoading?: boolean;
   };
@@ -61,6 +62,7 @@ class Landing extends React.Component<Props, State> {
     });
 
   render() {
+    const { data: { assignedCards = [] } = {} } = this.props.page;
     const menuTabs = [
       {
         header: "Boards",
@@ -68,7 +70,8 @@ class Landing extends React.Component<Props, State> {
       },
       {
         header: "My Cards",
-        comp: UserCards
+        comp: UserCards,
+        props: { cards: assignedCards }
       },
       {
         header: "My Activity",

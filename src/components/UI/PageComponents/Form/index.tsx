@@ -8,14 +8,14 @@ interface Props {
   items: Array<{ name: string }>;
   className?: string;
   onSubmit?: any;
-  onCancel?: void;
+  onCancel?: any;
 }
 
-interface State {
-  form: any;
-}
+export class Form extends React.Component<Props> {
+  state = {
+    form: {} as any
+  }
 
-export class Form extends React.Component<Props, State> {
   handlePressEnter = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       this.submitForm();

@@ -21,6 +21,8 @@ interface Props {
         name?: string;
         email?: string;
       };
+      assignedCards: Array<any>;
+      createdCards: Array<any>;
     };
     isLoading?: boolean;
   };
@@ -66,22 +68,28 @@ class User extends React.Component<Props, State> {
       buttons: []
     };
   };
-
-  menuTabs = [
-    {
-      header: "Activity",
-      comp: UserActivity
-    },
-    {
-      header: "Cards",
-      comp: UserCards
-    }
-  ];
   render() {
     const {
-      page: { data, isLoading }
+      page: { data: { createdCards = [], assignedCards = [], user = null } = {}, isLoading }
     } = this.props;
-    if (isLoading || !data) return <></>;
+
+    const menuTabs = [
+      {
+        header: "Activity",
+        comp: UserActivity
+      },
+      {
+        header: "Created",
+        comp: UserCards,
+        props: { cards: createdCards }
+      },
+      {
+        header: "Assigned",
+        comp: UserCards,
+        props: { cards: assignedCards }
+      }
+    ];
+    if (isLoading || !user) return <></>;
     return (
       <div id="user-profile" className="col grow">
         <div className="row">
@@ -89,11 +97,11 @@ class User extends React.Component<Props, State> {
             <FontAwesomeIcon icon="user" className="avatar" />
           </div>
           <div className="grow">
-            <h1 className="grow">{data.user.name}</h1>
-            <h2 className="grow">{data.user.email}</h2>
+            <h1 className="grow">{user.name}</h1>
+            <h2 className="grow">{user.email}</h2>
           </div>
         </div>
-        <TwoSectionMenu menuTabs={this.menuTabs} {...this.props} />
+        <TwoSectionMenu menuTabs={menuTabs} {...this.props} />
       </div>
     );
   }

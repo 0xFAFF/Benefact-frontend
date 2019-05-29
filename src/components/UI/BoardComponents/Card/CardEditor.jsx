@@ -7,7 +7,8 @@ import {
   Voting,
   Comments,
   DeleteModal,
-  Attachments
+  Attachments,
+  StyledSelect
 } from "components/UI/BoardComponents/Card/components";
 import { Tags } from "components/UI/BoardComponents";
 import { AcceptCancelButtons } from "components/UI/PageComponents";
@@ -223,23 +224,14 @@ class CardEditor extends React.Component {
               icon={"columns"}
               size="lg"
             />
-            <div
-              className={`styled-select background-color semi-square ${allowEdit && "editable"}`}
-            >
-              {allowEdit ? (
-                <select onChange={e => this.onChangeHandler(e, "columnId")} value={columnId}>
-                  {columns.map(option => {
-                    return (
-                      <option key={option.id} value={option.id}>
-                        {option.title}
-                      </option>
-                    );
-                  })}
-                </select>
-              ) : (
-                <div>{(columns.find(c => c.id === columnId) || { title: "" }).title}</div>
-              )}
-            </div>
+            <StyledSelect
+              editable={allowEdit}
+              options={columns}
+              onChangeHandler={c =>
+                this.setState({ newContent: { ...this.state.newContent, columnId: c.id } })
+              }
+              selectedId={columnId}
+            />
           </div>
           <EditorActivity icon="tag" dataTip="Card Tags">
             <Tags
@@ -262,6 +254,7 @@ class CardEditor extends React.Component {
               value={description}
             />
           </EditorActivity>
+          <EditorActivity icon="user" dataTip="Assignee" />
           {disableComponents || !this.props.content.attachments.length ? null : (
             <Attachments
               handleUpdate={this.props.handleUpdate}

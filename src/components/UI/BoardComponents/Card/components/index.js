@@ -3,3 +3,4 @@ export { default as Comments } from "./Comments";
 export { default as DeleteModal } from "./DeleteModal";
 export { default as EditorActivity } from "./EditorActivity";
 export { default as Attachments } from "./Attachments";
+export { default as StyledSelect } from "./StyledSelect";

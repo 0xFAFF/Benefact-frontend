@@ -36,7 +36,14 @@ const Header = props => {
         <div
           className="add-card"
           onClick={() => {
-            showModal(<AddCard onClose={closeModal} columnId={column.id} {...props} />);
+            showModal(
+              <AddCard
+                onClose={closeModal}
+                columnId={column.id}
+                {...props}
+                roles={page.data.roles}
+              />
+            );
           }}
         >
           <FontAwesomeIcon icon="plus" size="sm" />

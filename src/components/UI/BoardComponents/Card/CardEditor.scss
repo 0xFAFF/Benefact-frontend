@@ -8,7 +8,8 @@
     font-size: 1.6em;
   }
 
-  input, textarea {
+  input,
+  textarea {
     resize: none;
     border: none;
     padding: 5px;
@@ -22,30 +23,18 @@
   }
   .editor-container {
     display: flex;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--card-border);
+    margin-bottom: 5px;
+    &:not(.no-border) {
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--card-border);
+    }
     min-height: 2em;
-  }
-
-  .flex-row {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-  }
-
-  .flex-column {
-    flex-direction: column;
   }
 
   .container-icon {
     margin-right: 15px;
-    padding-top: 4px;
+    padding-top: 5px;
   }
-  .container-icon-padding {
-    padding-top: 0;
-  }
-
   .row-margin {
     margin-bottom: 5px;
   }
@@ -69,33 +58,6 @@
     }
   }
 
-  #editor-column {
-    .styled-select {
-      border: 1px solid var(--card-border);
-      overflow: hidden;
-      width: 180px;
-    }
-    .styled-select {
-      select,
-      div {
-        outline: none;
-        background: var(--text-bg-color);
-        border: none;
-        font-size: 1.2em;
-        padding: 5px;
-        width: 200px;
-      }
-    }
-
-    .semi-square {
-      -webkit-border-radius: 5px;
-      -moz-border-radius: 5px;
-      border-radius: 5px;
-    }
-    .background-color {
-      background-color: #ccd9e052;
-    }
-  }
   .editor-comments-save {
     margin-left: 15px;
   }

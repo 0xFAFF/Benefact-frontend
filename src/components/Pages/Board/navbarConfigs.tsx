@@ -67,7 +67,8 @@ export const navbarConfigs = (child: Child, props: Props) => {
         params: {
           handleUpdate: child.handleUpdate,
           columns: data.columns,
-          disableComponents: true
+          disableComponents: true,
+          roles: data.roles
         }
       },
       {

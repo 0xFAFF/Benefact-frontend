@@ -16,6 +16,7 @@ import EditorActivity from "components/UI/BoardComponents/Card/components/Editor
 import { FileDrop, Tooltip, MarkdownEditor } from "components/UI";
 import "./CardEditor.scss";
 import { PageProp } from "components/Pages/PageContext";
+import { hasPrivilege } from "utils";
 
 class CardEditor extends React.Component {
   static propTypes = {
@@ -28,10 +29,13 @@ class CardEditor extends React.Component {
     handleUpdate: PropTypes.func,
     disableComponents: PropTypes.bool
   };
-
-  state = {
-    newContent: {}
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      newContent: {}
+    };
+    if (props.columnId) this.state.newContent.columnId = props.columnId;
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const prevVotes = get(prevState, "newContent.votes", []);
@@ -47,21 +51,6 @@ class CardEditor extends React.Component {
     }
 
     return prevState;
-  }
-
-  componentDidMount() {
-    const { columns = [], content = {}, columnId } = this.props;
-    const { index, ...rest } = content;
-    const defaultColumnId = columns[0].id;
-    this.setState({
-      newContent: {
-        title: "",
-        description: "",
-        tagIds: [],
-        columnId: columnId || defaultColumnId,
-        ...rest
-      }
-    });
   }
 
   resetContent = () => {
@@ -137,7 +126,8 @@ class CardEditor extends React.Component {
 
   handleOnAccept = () => {
     const { updateBoardContent, onAcceptHandler, onClose } = this.props;
-    updateBoardContent(this.state.newContent, "cards").then(e => {
+    const id = this.props.content && this.props.content.id;
+    updateBoardContent({ id, ...this.state.newContent }, "cards").then(e => {
       onAcceptHandler && onAcceptHandler();
       onClose && onClose();
     });
@@ -154,16 +144,22 @@ class CardEditor extends React.Component {
       updateBoardContent,
       disableComponents = false,
       onClose,
-      columns
+      columns,
+      roles,
+      content: { id = 0 } = {},
+      page: { hasPrivilege: boardPrivilege }
     } = this.props;
-    const {
-      id = 0,
-      title = "",
-      description = "",
-      tagIds = [],
-      columnId,
-      votes = []
-    } = this.state.newContent;
+    const developers = [{ id: 0, title: "None" }].concat(
+      roles
+        .filter(r => hasPrivilege("developer", r.privilege, true))
+        .map(r => {
+          return { id: r.user.id, title: r.user.name };
+        })
+    );
+    let { title, description, tagIds, columnId, assigneeId, votes } = {
+      ...this.props.content,
+      ...this.state.newContent
+    };
     return (
       <div id="editor-mode">
         <Tooltip id="card-editor" />
@@ -195,18 +191,9 @@ class CardEditor extends React.Component {
             )}
           </EditorActivity>
           {disableComponents ? null : (
-            <div className="editor-header flex-row row-margin">
-              <div id="editor-id" className="flex-row">
-                <FontAwesomeIcon
-                  data-tip="Card ID"
-                  data-for="card-editor"
-                  className="container-icon container-icon-padding secondary"
-                  icon={"id-card"}
-                  size="lg"
-                />
-                <div>{id}</div>
-              </div>
-              <div className="editor-vote">
+            <EditorActivity icon="id-card" dataTip="Card ID" className="no-border center">
+              {id}
+              <div className="editor-vote pull-right">
                 <Voting
                   defaultDisplay={true}
                   size="lg"
@@ -214,25 +201,28 @@ class CardEditor extends React.Component {
                   onUpdateVote={this.onUpdateVote}
                 />
               </div>
-            </div>
+            </EditorActivity>
           )}
-          <div id="editor-column" className="flex-row row-margin">
-            <FontAwesomeIcon
-              data-tip="Card Column"
-              data-for="card-editor"
-              className="container-icon container-icon-padding secondary"
-              icon={"columns"}
-              size="lg"
-            />
+          <EditorActivity icon="columns" dataType="Card Column" className="no-border">
             <StyledSelect
-              editable={allowEdit}
+              editable={allowEdit && boardPrivilege("developer")}
               options={columns}
               onChangeHandler={c =>
                 this.setState({ newContent: { ...this.state.newContent, columnId: c.id } })
               }
               selectedId={columnId}
             />
-          </div>
+          </EditorActivity>
+          <EditorActivity icon="user" dataTip="Assignee">
+            <StyledSelect
+              editable={allowEdit && boardPrivilege("developer")}
+              options={developers}
+              onChangeHandler={c =>
+                this.setState({ newContent: { ...this.state.newContent, assigneeId: c.id } })
+              }
+              selectedId={assigneeId || 0}
+            />
+          </EditorActivity>
           <EditorActivity icon="tag" dataTip="Card Tags">
             <Tags
               tagIds={tagIds}
@@ -254,7 +244,6 @@ class CardEditor extends React.Component {
               value={description}
             />
           </EditorActivity>
-          <EditorActivity icon="user" dataTip="Assignee" />
           {disableComponents || !this.props.content.attachments.length ? null : (
             <Attachments
               handleUpdate={this.props.handleUpdate}

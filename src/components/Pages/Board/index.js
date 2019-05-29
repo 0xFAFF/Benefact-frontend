@@ -105,8 +105,8 @@ class Board extends React.Component {
       let cardGroups = { ...this.props.page.data[type] };
       const cards = Object.entries(cardGroups).map(([cardGroupKey, cardGroupValue]) => {
         const cardIndex = cardGroupValue.findIndex(type => type.id === newContent.id);
-        if (cardIndex > -1) {
-          cardGroupValue[cardIndex] = newContent;
+        if (cardIndex !== -1) {
+          cardGroupValue[cardIndex] = { ...cardGroupValue[cardIndex], ...newContent };
         }
         return { [cardGroupKey]: [...cardGroupValue] };
       });
@@ -274,11 +274,11 @@ class Board extends React.Component {
   closeCard = () => {
     this.props.history.push(
       `/board/${this.props.boardId}${this.props.view === "kanban" ? "" : "/list"}`
-      );
-    };
-    
+    );
+  };
+
   goHome = () => this.props.history.push("/");
-  
+
   render() {
     const {
       cardId,

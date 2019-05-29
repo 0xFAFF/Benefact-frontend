@@ -1,4 +1,5 @@
 import React from "react";
+import "./StyledSelect.scss";
 
 interface SelectOption {
   id: string;
@@ -16,7 +17,7 @@ class StyledSelect extends React.Component<Props> {
   render = () => {
     const { editable, onChangeHandler, options, selectedId } = this.props;
     return (
-      <div className={`styled-select background-color semi-square ${editable && "editable"}`}>
+      <div className={`styled-select background-color ${editable && "editable"}`}>
         {editable ? (
           <select
             onChange={e =>

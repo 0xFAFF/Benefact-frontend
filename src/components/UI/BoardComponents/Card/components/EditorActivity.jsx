@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const EditorActivity = props => {
+  const className = "editor-container " + (props.className || "")
   return (
-    <div className="editor-container">
+    <div className={className}>
       <FontAwesomeIcon
         data-tip={props.dataTip || ""}
         data-for="card-editor"
         className="container-icon secondary"
-        style={props.style || { paddingTop: "5px" }}
         icon={props.icon}
         size="lg"
       />

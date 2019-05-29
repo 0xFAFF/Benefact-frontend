@@ -10,7 +10,7 @@ const urlKeyMap = {
     },
     UPDATE: {
       url: "boards/{boardId}/cards/update",
-      whiteList: ["id", "title", "index", "columnId", "tagIds", "description"]
+      whiteList: ["id", "title", "index", "columnId", "tagIds", "description", "assigneeId"]
     },
     ADD: {
       url: "boards/{boardId}/cards/add"

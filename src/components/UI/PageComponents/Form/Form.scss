@@ -2,7 +2,6 @@
   button {
     text-align: center;
     font-weight: bold;
-    width: 100%;
     border: none;
     padding: 10px;
     font-size: 1.2em;
@@ -16,7 +15,7 @@
   padding: 10px;
   .input-field {
     font-size: inherit;
-    width: 100%;
+    flex-grow: 1;
     outline: none;
     padding-left:10px;
   }

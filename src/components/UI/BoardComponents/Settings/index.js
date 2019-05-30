@@ -4,7 +4,7 @@ import { General, Columns, Tags } from "./content";
 import "./index.scss";
 import { PageProp } from "components/Pages/PageContext";
 
-export const BoardSettings = PageProp(props => {
+export const Settings = PageProp(props => {
   const menuTabs = [
     {
       header: "General",
@@ -25,3 +25,5 @@ export const BoardSettings = PageProp(props => {
     </div>
   );
 });
+
+export default Settings;

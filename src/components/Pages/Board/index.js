@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 import { getCards } from "../../../utils";
 import Views from "./Views";
-import { Modal, ModalContainer } from "components/UI";
+import { Modal } from "components/UI";
 import { PageWrapper } from "../../Pages";
 import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 import { navbarConfigs } from "./navbarConfigs";
@@ -332,13 +332,11 @@ class Board extends React.Component {
           />
         </Segment>
       );
+      const isPrivate = data.defaultPrivilege === 0;
+      const title = isPrivate ? "Private Board" : "Join Board";
       return (
-        <Modal isOpen shouldCloseOnOverlayClick={false} onClose={this.goHome}>
-          {!data.defaultPrivilege ? (
-            <ModalContainer componentHeader="Private Board" component={PrivateBoard} />
-          ) : (
-            <ModalContainer componentHeader="Join Board" component={JoinBoard} />
-          )}
+        <Modal title={title} isOpen shouldCloseOnOverlayClick={false} onClose={this.goHome}>
+          {isPrivate ? <PrivateBoard /> : <JoinBoard />}
         </Modal>
       );
     }

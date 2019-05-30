@@ -1,7 +1,7 @@
 import React from "react";
 import { NavbarList } from "./components";
 import "./index.scss";
-import { Modal, ModalContainer } from "components/UI";
+import { Modal } from "components/UI";
 
 class Navbar extends React.Component {
   state = { modal: null, modalClassName: "" };
@@ -20,14 +20,13 @@ class Navbar extends React.Component {
       <div id="navbar">
         <NavbarList configs={this.props.configs || []} onItemClick={this.onItemClick} />
         {this.state.modal && (
-          <Modal isOpen onClose={this.modalClose} modalClassName={this.state.modalClassName}>
-            <ModalContainer
-              onClose={this.modalClose}
-              {...this.state.modal.params}
-              component={this.state.modal.component}
-              componentHeader={this.state.modal.componentHeader}
-              modalStyle={this.state.modal.modalStyle}
-            />
+          <Modal
+            isOpen
+            onClose={this.modalClose}
+            modalClassName={this.state.modalClassName}
+            title={this.state.modal.componentHeader}
+          >
+            <this.state.modal.component onClose={this.modalClose} {...this.state.modal.params} />
           </Modal>
         )}
       </div>

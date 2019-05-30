@@ -14,23 +14,15 @@
   position: relative;
   width: 80%;
   max-width: 500px;
+  &.large{
+    max-width: 1000px;
+  }
   top: 12%;
   margin-left: auto;
   margin-right: auto;
-  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.outer-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  justify-content: center;
-  align-items: center;
-}
-
-.inner-container {
+.inner-content {
   background: var(--modal-bg-color);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   border-radius: 10px;
@@ -41,9 +33,12 @@
   svg:not([color] .secondary) {
     color: var(--icon-secondary-color);
   }
-}
-
-.inner-content {
+  .modal-header {
+    h2 {
+      margin: 10px auto;
+    }
+    box-shadow: var(--bg-shadow);
+  }
   flex-direction: column;
   display: flex;
   flex-grow: 1;

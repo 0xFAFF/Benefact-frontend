@@ -7,6 +7,7 @@ interface Props {
   name: string;
   icon?: IconProp;
   placeholder?: string;
+  className?: string;
   type?: string;
   label?: string;
   onKeyPress?(e: React.KeyboardEvent): void;
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { icon, label, ...childProps } = props;
+  const { icon, label, className, ...childProps } = props;
   return (
     <div id="input-container" className="col">
       {label && <label htmlFor={childProps.name}>{label}</label>}
@@ -25,7 +26,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
             <FontAwesomeIcon icon={icon} size="sm" />
           </div>
         )}
-        <input ref={ref} className="input-field" id={childProps.name} {...childProps} />
+        <input ref={ref} className={`input-field ${className || ""}`} id={childProps.name} {...childProps} />
       </div>
     </div>
   );

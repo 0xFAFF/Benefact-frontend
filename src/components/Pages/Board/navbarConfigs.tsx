@@ -1,7 +1,8 @@
 import React from "react";
-import { BoardSettings, FilterView } from "components/UI/Navbar/components";
+import { FilterView } from "components/UI/Navbar/components";
 import { AddCard } from "components/UI/AddComponents";
 import { Filter } from "components/UI/BoardComponents/Filter";
+import { Settings } from "components/UI";
 
 interface Child {
   handleUpdate(): void
@@ -76,9 +77,9 @@ export const navbarConfigs = (child: Child, props: Props) => {
         tooltip: "Board Settings",
         hide: !hasPrivilege("admin"),
         icon: "cog",
-        component: BoardSettings,
+        component: Settings,
         componentHeader: "Board Settings",
-        modalClassName: "board-settings",
+        modalClassName: "large",
         params: {
           handleUpdate: child.handleUpdate
         }

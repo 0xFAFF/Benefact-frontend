@@ -80,14 +80,7 @@ export const navbarConfigs = (child: Child, props: Props) => {
         componentHeader: "Board Settings",
         modalClassName: "board-settings",
         params: {
-          handleUpdate: child.handleUpdate,
-          general: {
-            defaultPrivilege: data.defaultPrivilege,
-            description: data.description,
-            title: data.title
-          },
-          columns: data.columns,
-          tags: data.tags
+          handleUpdate: child.handleUpdate
         }
       }
     ]

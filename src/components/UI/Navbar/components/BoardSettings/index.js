@@ -2,8 +2,9 @@ import React from "react";
 import { TwoSectionMenu } from "components/UI/PageComponents";
 import { General, Columns, Tags } from "./content";
 import "./index.scss";
+import { PageProp } from "components/Pages/PageContext";
 
-export const BoardSettings = props => {
+export const BoardSettings = PageProp(props => {
   const menuTabs = [
     {
       header: "General",
@@ -23,4 +24,4 @@ export const BoardSettings = props => {
       <TwoSectionMenu menuTabs={menuTabs} {...props} />
     </div>
   );
-};
+});

@@ -30,6 +30,8 @@ export class Form extends React.Component<Props> {
       form[key] = value.current && value.current.value;
     });
     this.props.onSubmit(form);
+    Object.entries(this.state).map(([key, _])=> delete this.state[key]);
+    this.setState(this.state);
   };
 
   clearForm = () => {

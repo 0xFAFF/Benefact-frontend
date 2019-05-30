@@ -103,6 +103,15 @@ const urlKeyMap = {
   boards: {
     JOIN: {
       url: "boards/{boardId}/join"
+    },
+    UPDATE: {
+      url: "boards/{boardId}/update"
+    },
+    INVITE: {
+      url: "boards/{boardId}/invite"
+    },
+    SET_PRIVILEGE: {
+      url: "boards/{boardId}/setprivilege"
     }
   },
   board: {

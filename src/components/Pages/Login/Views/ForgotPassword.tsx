@@ -1,6 +1,7 @@
 import React from "react";
 import { ViewContainer } from ".";
 import { notifyToast } from "utils";
+import { Input } from "components/UI";
 
 interface Props {
   onViewChangeHandler(view: string): void;
@@ -43,8 +44,6 @@ class ForgotPassword extends React.Component<Props, {}> {
     }
   ];
 
-  formItems = [{ name: "email", placeholder: "Email", icon: "envelope" }];
-
   render() {
     return (
       <ViewContainer
@@ -53,8 +52,9 @@ class ForgotPassword extends React.Component<Props, {}> {
         onSubmit={this.onCreateAccount}
         submitBtnTitle="Reset Password"
         header={{ title: "Forgot Password" }}
-        formItems={this.formItems}
-      />
+      >
+        <Input name="email" placeholder="Email" icon="envelope" />
+      </ViewContainer>
     );
   }
 }

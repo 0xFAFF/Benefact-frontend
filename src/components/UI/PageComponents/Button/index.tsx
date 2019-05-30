@@ -3,7 +3,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.scss";
 
-interface Props {
+export interface Props {
   className?: string;
   onClick?: any;
   children?: React.ElementType | string;

@@ -1,6 +1,6 @@
 import React from "react";
 import { PageProp } from "components/Pages/PageContext";
-import { Form, Segment } from "components/UI/PageComponents";
+import { Form, Segment, Input } from "components/UI/PageComponents";
 import { notifyToast } from "utils";
 
 interface Props {
@@ -37,15 +37,13 @@ class CreateBoard extends React.Component<Props, {}> {
     });
   };
 
-  formItems = [
-    { name: "boardTitle", placeholder: "Board Title", icon: "columns" },
-    { name: "urlName", placeholder: "URL Name", icon: "link" }
-  ];
-
   render() {
     return (
       <Segment margin>
-        <Form items={this.formItems} submitBtnTitle="Create Board" onSubmit={this.onCreateBoard} />
+        <Form submitBtnTitle="Create Board" onSubmit={this.onCreateBoard}>
+          <Input name="title" placeholder="Board Title" icon="columns" />
+          <Input name="urlName" placeholder="URL Name" icon="link" />
+        </Form>
       </Segment>
     );
   }

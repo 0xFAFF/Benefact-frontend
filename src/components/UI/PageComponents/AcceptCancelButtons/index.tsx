@@ -3,8 +3,8 @@ import { ButtonGroup } from "components/UI/PageComponents";
 import "./index.scss";
 
 interface Props {
-  onAcceptHandler?: void;
-  onCancelHandler?: void;
+  onAcceptHandler?: () => void;
+  onCancelHandler?: () => void;
   acceptTitle?: string;
   cancelTitle?: string;
 }
@@ -15,17 +15,18 @@ export const AcceptCancelButtons = ({
   acceptTitle,
   cancelTitle
 }: Props) => {
-  const btns = [
-    {
+  let btns = [];
+  if (acceptTitle)
+    btns.push({
       title: acceptTitle,
       onClick: onAcceptHandler,
       className: "button-accept"
-    },
-    {
+    });
+  if (cancelTitle)
+    btns.push({
       title: cancelTitle,
       onClick: onCancelHandler,
       className: "button-cancel"
-    }
-  ];
+    });
   return <ButtonGroup btns={btns} fluid />;
 };

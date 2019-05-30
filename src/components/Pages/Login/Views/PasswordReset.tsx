@@ -56,7 +56,6 @@ export class PasswordReset extends React.Component<Props, State> {
         onSubmit={this.resetPassword}
         submitBtnTitle="Reset Password"
         header={{ title: "Password Reset" }}
-        formItems={this.formItems}
       />
     );
   }

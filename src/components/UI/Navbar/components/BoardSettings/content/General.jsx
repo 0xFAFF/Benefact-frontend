@@ -1,50 +1,27 @@
 import React from "react";
-import { ContentSection } from "../content";
+import { Input, Form } from "components/UI/PageComponents";
 
 export class General extends React.Component {
   state = {};
 
   componentDidMount() {
-    const { defaultPrivilege, description } = this.props.general;
+    const { defaultPrivilege, description, title } = this.props.general;
     this.setState({
       defaultPrivilege,
-      description
+      description,
+      title
     });
   }
 
+  onSubmit = (form) => {
+  }
+
   render() {
-    const sectionConfigs = [
-      {
-        header: "Description",
-        content: (
-          <input
-            name="description"
-            value={this.state.description || ""}
-            onChange={e => this.setState({ description: e.target.value })}
-          />
-        )
-      },
-      {
-        header: "Default Privilege",
-        content: (
-          <input
-            name="defaultPrivilege"
-            value={this.state.defaultPrivilege || ""}
-            onChange={e => this.setState({ defaultPrivilege: e.target.value })}
-          />
-        )
-      },
-      {
-        uid: "create_board_link",
-        header: "Board Invite Link"
-      }
-    ];
     return (
-      <>
-        {sectionConfigs.map(section => (
-          <ContentSection key={section.header} {...section} {...this.props} />
-        ))}
-      </>
+      <Form onSubmit={this.onSubmit} submitBtnTitle="Update" cancelBtnTitle="Cancel" onlyChanged>
+        <Input icon="outdent" label="Title" name="title" defaultValue={this.state.title}/>
+        <Input icon="newspaper" label="Description" name="description"/>
+      </Form>
     );
   }
 }

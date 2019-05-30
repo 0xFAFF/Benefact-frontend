@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewContainer } from "../Views";
 import { notifyToast } from "utils";
+import { Input } from "components/UI";
 
 interface Props {
   onViewChangeHandler(view: string): void;
@@ -48,11 +49,6 @@ class SignIn extends React.Component<Props, State> {
     }
   ];
 
-  formItems = [
-    { name: "email", placeholder: "Username or Email", icon: "user" },
-    { name: "password", placeholder: "Password", icon: "key", type: "password" }
-  ];
-
   render() {
     return (
       <ViewContainer
@@ -61,8 +57,10 @@ class SignIn extends React.Component<Props, State> {
         onSubmit={this.onSubmit}
         submitBtnTitle="Login"
         header={{ title: "Benefact", className: "app-title" }}
-        formItems={this.formItems}
-      />
+      >
+        <Input name="email" placeholder="Username or Email" icon="user" />
+        <Input name="password" placeholder="Password" icon="key" type="password" />
+      </ViewContainer>
     );
   }
 }

@@ -74,17 +74,17 @@ export const navbarConfigs = (child: Child, props: Props) => {
       {
         id: "boardSettings",
         tooltip: "Board Settings",
-        // hide: !hasPrivilege("admin"),
+        hide: !hasPrivilege("admin"),
         icon: "cog",
         component: BoardSettings,
         componentHeader: "Board Settings",
         modalClassName: "board-settings",
         params: {
-          // handleUpdate: child.handleUpdate,
-          // cards: data.allCards,
+          handleUpdate: child.handleUpdate,
           general: {
             defaultPrivilege: data.defaultPrivilege,
-            description: data.description
+            description: data.description,
+            title: data.title
           },
           columns: data.columns,
           tags: data.tags

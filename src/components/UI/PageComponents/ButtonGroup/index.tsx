@@ -1,9 +1,9 @@
 import React from "react";
-import { Button } from "../";
+import { Button, Props as ButtonProps } from "../Button";
 import "./index.scss";
 
 interface Props {
-  btns: Array<{ BtnComp?: React.ElementType; className?: string }>;
+  btns: Array<{ BtnComp?: React.ElementType; } & ButtonProps>;
   groupClassName?: string;
   fluid?: boolean;
   align?: "right" | "left" | "center";

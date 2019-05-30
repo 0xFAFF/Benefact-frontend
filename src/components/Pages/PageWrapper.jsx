@@ -125,7 +125,7 @@ const PageWrapper = Component => {
       return {
         listConfig: [
           buttons,
-          [{ id: "brand", className: "brand", title: title }],
+          [{ id: "brand", className: "brand center", title: title }],
           [
             {
               id: "home",

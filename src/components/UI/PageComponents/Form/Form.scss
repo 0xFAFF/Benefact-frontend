@@ -11,16 +11,18 @@
 
 #input-container {
   font-size: 1.1em;
-  label { padding: 5px; }
+  label {
+    padding: 5px;
+  }
   padding: 10px;
   .input-field {
     font-size: inherit;
-    flex-grow: 1;
     outline: none;
-    padding-left:10px;
+    padding: 12px;
+    height: 1.1em;
   }
   .input-field:focus {
-    border: 1px solid var(--login-input-focus);
+    border-color: var(--login-input-focus);
   }
   .input-icon {
     text-align: center;

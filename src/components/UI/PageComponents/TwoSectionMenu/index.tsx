@@ -19,7 +19,7 @@ export class TwoSectionMenu extends React.Component<Props, State> {
     const ActiveComp = menuTabs[activeIndex].comp || null;
     const passedProps = menuTabs[activeIndex].props || {};
     return (
-      <div id="two-section-menu" className="flex grow">
+      <div id="two-section-menu" className="row grow">
         <div id="menu-tabs">
           {menuTabs.map(({ header }, index) => {
             return (

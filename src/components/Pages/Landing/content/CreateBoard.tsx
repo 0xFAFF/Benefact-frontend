@@ -41,8 +41,8 @@ class CreateBoard extends React.Component<Props, {}> {
     return (
       <Segment margin>
         <Form submitBtnTitle="Create Board" onSubmit={this.onCreateBoard}>
-          <Input name="title" placeholder="Board Title" icon="columns" />
-          <Input name="urlName" placeholder="URL Name" icon="link" />
+          <Input id="title" placeholder="Board Title" icon="columns" />
+          <Input id="urlName" placeholder="URL Name" icon="link" />
         </Form>
       </Segment>
     );

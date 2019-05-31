@@ -2,21 +2,19 @@
   border-radius: 5px;
   border: 1px solid var(--card-border);
   overflow: hidden;
-  width: 180px;
   background-color: #ccd9e052;
   &:not(.editable) {
     cursor: default;
   }
+  outline: none;
+  background: var(--text-bg-color);
+  font-size: 19px;
+  padding: 5px;
+  width: 200px;
 }
 .styled-select {
   select,
   div {
     cursor: inherit;
-    outline: none;
-    background: var(--text-bg-color);
-    border: none;
-    font-size: 1.2em;
-    padding: 5px;
-    width: 200px;
   }
 }

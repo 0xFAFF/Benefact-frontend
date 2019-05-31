@@ -10,8 +10,8 @@ export class General extends React.Component {
     const { title, description } = this.props.page.data;
     return (
       <Form onSubmit={this.onSubmit} submitBtnTitle="Update" cancelBtnTitle="Cancel" onlyChanged>
-        <Input icon="outdent" label="Title" name="title" defaultValue={title} />
-        <Input icon="newspaper" label="Description" name="description" defaultValue={description} />
+        <Input icon="outdent" label="Title" id="title" defaultValue={title} />
+        <Input icon="newspaper" label="Description" id="description" defaultValue={description} />
       </Form>
     );
   }

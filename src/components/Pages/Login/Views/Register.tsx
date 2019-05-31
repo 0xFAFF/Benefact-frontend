@@ -55,10 +55,10 @@ class Register extends React.Component<Props, State> {
         submitBtnTitle="Create Account"
         header={{ title: "Create a New Account" }}
       >
-        <Input name="name" placeholder="Username" icon="user" />
-        <Input name="email" placeholder="Email" icon="envelope" />
-        <Input name="password" placeholder="Password" icon="key" type="password" />
-        <Input name="confirmPassword" placeholder="Confirm Password" icon="key" type="password" />
+        <Input id="name" placeholder="Username" icon="user" />
+        <Input id="email" placeholder="Email" icon="envelope" />
+        <Input id="password" placeholder="Password" icon="key" type="password" />
+        <Input id="confirmPassword" placeholder="Confirm Password" icon="key" type="password" />
       </ViewContainer>
     );
   }

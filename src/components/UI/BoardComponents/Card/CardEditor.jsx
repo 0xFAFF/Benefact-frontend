@@ -7,11 +7,10 @@ import {
   Voting,
   Comments,
   DeleteModal,
-  Attachments,
-  StyledSelect
+  Attachments
 } from "components/UI/BoardComponents/Card/components";
 import { Tags } from "components/UI/BoardComponents";
-import { AcceptCancelButtons } from "components/UI/PageComponents";
+import { AcceptCancelButtons, StyledSelect } from "components/UI/PageComponents";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
 import { FileDrop, Tooltip, MarkdownEditor } from "components/UI";
 import "./CardEditor.scss";
@@ -205,22 +204,22 @@ class CardEditor extends React.Component {
           )}
           <EditorActivity icon="columns" dataType="Card Column" className="no-border">
             <StyledSelect
-              editable={allowEdit && boardPrivilege("developer")}
+              disabled={!(allowEdit && boardPrivilege("developer"))}
               options={columns}
               onChangeHandler={c =>
                 this.setState({ newContent: { ...this.state.newContent, columnId: c.id } })
               }
-              selectedId={columnId}
+              defaultValue={columnId}
             />
           </EditorActivity>
           <EditorActivity icon="user" dataTip="Assignee">
             <StyledSelect
-              editable={allowEdit && boardPrivilege("developer")}
+              disabled={!(allowEdit && boardPrivilege("developer"))}
               options={developers}
               onChangeHandler={c =>
                 this.setState({ newContent: { ...this.state.newContent, assigneeId: c.id } })
               }
-              selectedId={assigneeId || 0}
+              defaultValue={assigneeId || 0}
             />
           </EditorActivity>
           <EditorActivity icon="tag" dataTip="Card Tags">

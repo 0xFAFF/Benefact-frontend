@@ -9,10 +9,11 @@ interface Props {
   onSubmit?: any;
   onCancel?: any;
   onlyChanged?: boolean;
+  values?: {};
 }
 
 export class Form extends React.Component<Props> {
-  form = {} as { [s: string]: RefObject<HTMLInputElement> };
+  form = {} as { [s: string]: RefObject<any> };
   state = {} as { [s: string]: boolean };
 
   handlePressEnter = (e: React.KeyboardEvent) => {
@@ -25,7 +26,7 @@ export class Form extends React.Component<Props> {
     if (!this.props.onSubmit) return;
     let entries = Object.entries(this.form);
     if (this.props.onlyChanged) entries = entries.filter(([key, _]) => this.state[key]);
-    let form = {} as any;
+    let form = this.props.values || {} as any;
     entries.map(([key, value]) => {
       form[key] = value.current && value.current.value;
     });
@@ -38,14 +39,15 @@ export class Form extends React.Component<Props> {
     Object.entries(this.state).map(([key, _]) => delete this.state[key]);
     this.setState(this.state);
     Object.values(this.form).forEach(value => {
-      if (value.current) value.current.value = value.current.defaultValue;
+      if (!value.current) return;
+      value.current.value = value.current.defaultValue;
     });
   };
 
-  input = (id: string) => {
-    const ref = React.createRef<HTMLInputElement>();
-    this.form[id] = ref;
-    const onChange = () => !this.state[id] && this.setState({ [id]: true });
+  input = <T extends {}>(name: string) => {
+    const ref = React.createRef<T>();
+    this.form[name] = ref;
+    const onChange = () => !this.state[name] && this.setState({ [name]: true });
     return { ref, onChange };
   };
 
@@ -57,7 +59,7 @@ export class Form extends React.Component<Props> {
         {typeof this.props.children === "function" && (this.props.children as any)(this.input)}
         {React.Children.map(this.props.children, child => {
           if (!React.isValidElement(child)) return;
-          return <child.type {...child.props} {...this.input((child.props as any).name)} />;
+          return <child.type {...child.props} {...this.input((child.props as any).id)} />;
         })}
         {(!onlyChanged || Object.entries(this.state).length > 0) && (
           <AcceptCancelButtons

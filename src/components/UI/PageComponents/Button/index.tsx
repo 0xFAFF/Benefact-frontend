@@ -8,28 +8,11 @@ export interface Props {
   children?: React.ElementType | string;
   title?: string;
   icon?: IconProp;
-  round?: boolean;
-  size?: "sm" | "md" | "lg";
-  fluid?: boolean;
 }
 
-export const Button = ({
-  className,
-  onClick,
-  children,
-  title,
-  icon,
-  round,
-  size = "md",
-  fluid
-}: Props) => {
-  let btnClassName = className ? className : "";
-  if (round) btnClassName += " btn-radius";
-  if (size) btnClassName += ` ${size}`;
-  if (fluid) btnClassName += " grow";
-
+export const Button = ({ className, onClick, children, title, icon }: Props) => {
   const button = () => (
-    <button id="btn" className={btnClassName} onClick={onClick}>
+    <button className={className} onClick={onClick}>
       {(children || title) && <span>{children || title}</span>}
       {icon && (
         <span>
@@ -39,8 +22,5 @@ export const Button = ({
     </button>
   );
 
-  if (fluid) {
-    return <div className="flex">{button()}</div>;
-  }
   return button();
 };

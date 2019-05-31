@@ -58,8 +58,8 @@ class SignIn extends React.Component<Props, State> {
         submitBtnTitle="Login"
         header={{ title: "Benefact", className: "app-title" }}
       >
-        <Input name="email" placeholder="Username or Email" icon="user" />
-        <Input name="password" placeholder="Password" icon="key" type="password" />
+        <Input id="email" placeholder="Username or Email" icon="user" />
+        <Input id="password" placeholder="Password" icon="key" type="password" />
       </ViewContainer>
     );
   }

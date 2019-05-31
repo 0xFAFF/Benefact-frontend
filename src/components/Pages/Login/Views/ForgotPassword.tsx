@@ -53,7 +53,7 @@ class ForgotPassword extends React.Component<Props, {}> {
         submitBtnTitle="Reset Password"
         header={{ title: "Forgot Password" }}
       >
-        <Input name="email" placeholder="Email" icon="envelope" />
+        <Input id="email" placeholder="Email" icon="envelope" />
       </ViewContainer>
     );
   }

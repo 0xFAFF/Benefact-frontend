@@ -4,7 +4,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import "./Form.scss";
 
 interface Props {
-  name: string;
+  id?: string;
   grow?: boolean;
   icon?: IconProp;
   placeholder?: string;
@@ -20,7 +20,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const { icon, label, className, grow = true, ...childProps } = props;
   return (
     <div id="input-container" className={className || "col"}>
-      {label && <label htmlFor={childProps.name}>{label}</label>}
+      {label && <label htmlFor={childProps.id}>{label}</label>}
       <div className="row">
         {icon && (
           <div className="input-icon">
@@ -30,7 +30,7 @@ export const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
         <input
           ref={ref}
           className={`input-field ${(grow && "grow") || ""}`}
-          id={childProps.name}
+          id={childProps.id}
           {...childProps}
         />
       </div>

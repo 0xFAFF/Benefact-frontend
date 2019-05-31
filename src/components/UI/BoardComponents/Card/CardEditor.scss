@@ -1,6 +1,6 @@
 #editor-mode {
   height: 100%;
-  margin: 10px;
+  padding: 10px;
 
   #input-container {
     padding: 0;
@@ -33,6 +33,11 @@
       border-bottom: 1px solid var(--card-border);
     }
     min-height: 2em;
+  }
+  .editor-container:last-child {
+    border-bottom: none;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
   }
 
   .container-icon {

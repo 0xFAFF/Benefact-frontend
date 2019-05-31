@@ -21,6 +21,7 @@ export const Columns = (props: any) => {
       onlyChanged
       onSubmit={submit}
       cancelBtnTitle="Cancel"
+      className="section"
     >
       {(inputProps: any) => (
         <div className="row">
@@ -44,9 +45,21 @@ export const Columns = (props: any) => {
               { id: "3", title: "Cancelled" }
             ]}
           />
+          <Input
+            id={`${c.id}.contrib`}
+            className="col grow-even"
+            label="Contributors?"
+            type="checkbox"
+            {...inputProps("allowContribution")}
+            defaultValue={c.allowContribution}
+          />
           <div id="input-container" className="col grow-even">
             <label>Delete</label>
-            <Button className="pull-left" icon="trash" />
+            <Button
+              className="pull-left sm"
+              icon="trash"
+              onClick={() => props.handleUpdate("columns", "DELETE", { id: c.id })}
+            />
           </div>
         </div>
       )}

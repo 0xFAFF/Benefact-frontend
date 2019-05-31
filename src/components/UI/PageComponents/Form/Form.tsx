@@ -1,6 +1,7 @@
 import React, { RefObject } from "react";
 import { Button, AcceptCancelButtons, Input } from "components/UI/PageComponents";
 import "./Form.scss";
+import { InputComponent } from "components/UI/PageComponents/Form/InputWrapper";
 
 interface Props {
   submitBtnTitle?: string;
@@ -13,7 +14,7 @@ interface Props {
 }
 
 export class Form extends React.Component<Props> {
-  form = {} as { [s: string]: RefObject<any> };
+  form = {} as { [s: string]: RefObject<InputComponent> };
   state = {} as { [s: string]: boolean };
 
   handlePressEnter = (e: React.KeyboardEvent) => {
@@ -26,9 +27,10 @@ export class Form extends React.Component<Props> {
     if (!this.props.onSubmit) return;
     let entries = Object.entries(this.form);
     if (this.props.onlyChanged) entries = entries.filter(([key, _]) => this.state[key]);
-    let form = this.props.values || {} as any;
+    let form = this.props.values || ({} as any);
     entries.map(([key, value]) => {
-      form[key] = value.current && value.current.value;
+      if (!value.current) return;
+      form[key] = value.current.value();
     });
     this.props.onSubmit(form);
     Object.entries(this.state).map(([key, _]) => delete this.state[key]);
@@ -40,12 +42,12 @@ export class Form extends React.Component<Props> {
     this.setState(this.state);
     Object.values(this.form).forEach(value => {
       if (!value.current) return;
-      value.current.value = value.current.defaultValue;
+      value.current.reset();
     });
   };
 
-  input = <T extends {}>(name: string) => {
-    const ref = React.createRef<T>();
+  input = (name: string) => {
+    const ref = React.createRef<InputComponent>();
     this.form[name] = ref;
     const onChange = () => !this.state[name] && this.setState({ [name]: true });
     return { ref, onChange };

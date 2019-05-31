@@ -1,38 +1,44 @@
 import React, { RefObject } from "react";
 import "./StyledSelect.scss";
+import { InputWrapper, InputComponent, InputProps } from "components/UI/PageComponents/Form/InputWrapper";
 
 interface SelectOption {
   id: string;
   title: string;
 }
 
-interface Props {
+interface Props extends InputProps {
   id?: string;
   disabled?: boolean;
   options?: Array<SelectOption>;
   onChangeHandler?: (newValue: SelectOption) => void;
-  defaultValue?: string;
   className?: string;
   label?: string;
   ref?: RefObject<HTMLSelectElement>;
   onChange?(e: React.SyntheticEvent): void;
 }
 
-export const StyledSelect = React.forwardRef<HTMLSelectElement, Props>((props, ref) => {
-  const { id, disabled, onChangeHandler, options = [] } = props;
-  const { label, className, onChange, defaultValue } = props;
-  const result = (
-    <div id="input-container" className={className || "col"}>
-      {label && <label htmlFor={id}>{label}</label>}
-      {!disabled ? (
+export const StyledSelect = InputWrapper(
+  class extends React.Component<Props> implements InputComponent {
+    value() {
+      return this.ref.current && this.ref.current.value;
+    }
+    reset() {
+      this.ref.current && (this.ref.current.value = this.defaultValue);
+    }
+    ref = React.createRef<HTMLSelectElement>();
+    defaultValue: string = "";
+    render = () => {
+      const { id, disabled, onChangeHandler, options = [] } = this.props;
+      const { onChange, defaultValue = "" } = this.props;
+      this.defaultValue = defaultValue;
+      const result = !disabled ? (
         <select
           id={id}
           defaultValue={defaultValue}
           className="styled-select editable"
-          ref={ref}
+          ref={this.ref}
           onChange={e => {
-            // Derpy hack to get defaultValue on the ref's target
-            (e.target as any).defaultValue = defaultValue;
             onChange && onChange(e);
             onChangeHandler &&
               onChangeHandler(options.find(o => String(o.id) === e.target.value) || options[0]);
@@ -50,9 +56,8 @@ export const StyledSelect = React.forwardRef<HTMLSelectElement, Props>((props, r
         <div className="styled-select">
           {(options.find(o => o.id === defaultValue) || options[0]).title}
         </div>
-      )}
-    </div>
-  );
-
-  return result;
-});
+      );
+      return result;
+    };
+  }
+);

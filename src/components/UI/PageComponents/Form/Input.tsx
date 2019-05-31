@@ -1,26 +1,38 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { InputWrapper, InputProps, InputComponent } from "./InputWrapper";
 import "./Form.scss";
 
-interface Props {
+interface Props extends InputProps {
   id?: string;
   grow?: boolean;
   icon?: IconProp;
   placeholder?: string;
-  className?: string;
   type?: string;
-  label?: string;
   onKeyPress?(e: React.KeyboardEvent): void;
-  defaultValue?: string;
-  onChange?(e: React.SyntheticEvent): void;
 }
 
-export const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { icon, label, className, grow = true, ...childProps } = props;
-  return (
-    <div id="input-container" className={className || "col"}>
-      {label && <label htmlFor={childProps.id}>{label}</label>}
+export const Input = InputWrapper(class extends React.Component<Props> implements InputComponent {
+  ref = React.createRef<HTMLInputElement>();
+  value = () => {
+    const input = this.ref.current;
+    return input && (input.type ==="checkbox" ? input.checked : input.value);
+  }
+  reset = () => {
+    const input = this.ref.current;
+    if(!input) return;
+    if(input.type === "checkbox") input.checked = input.defaultChecked;
+    else input.value = input.defaultValue;
+  }
+  render = () => {
+    const { icon, label, className, grow = true, ...rest } = this.props;
+    let childProps = rest as any;
+    if (childProps.type === "checkbox") {
+      childProps.defaultChecked = childProps.defaultValue;
+      delete childProps.defaultValue;
+    }
+    return (
       <div className="row">
         {icon && (
           <div className="input-icon">
@@ -28,14 +40,14 @@ export const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
           </div>
         )}
         <input
-          ref={ref}
+          ref={this.ref}
           className={`input-field ${(grow && "grow") || ""}`}
           id={childProps.id}
           {...childProps}
         />
       </div>
-    </div>
-  );
+    );
+  };
 });
 
 export default Input;

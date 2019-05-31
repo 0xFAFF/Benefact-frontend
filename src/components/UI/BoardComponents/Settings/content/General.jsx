@@ -9,7 +9,7 @@ export class General extends React.Component {
   render() {
     const { title, description } = this.props.page.data;
     return (
-      <Form onSubmit={this.onSubmit} submitBtnTitle="Update" cancelBtnTitle="Cancel" onlyChanged>
+      <Form className="section" onSubmit={this.onSubmit} submitBtnTitle="Update" cancelBtnTitle="Cancel" onlyChanged>
         <Input icon="outdent" label="Title" id="title" defaultValue={title} />
         <Input icon="newspaper" label="Description" id="description" defaultValue={description} />
       </Form>

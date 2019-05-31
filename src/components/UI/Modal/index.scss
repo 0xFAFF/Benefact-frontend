@@ -14,24 +14,37 @@
   position: relative;
   width: 80%;
   max-width: 500px;
-  &.large{
+  &.large {
     max-width: 1000px;
   }
   margin: 5% auto;
 }
 
 .inner-content {
-  background: var(--modal-bg-color);
+  background: var(--bg-primary);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   border-radius: 10px;
   svg:not([color] .secondary) {
     color: var(--icon-primary-color);
   }
 
+  .section {
+    flex-direction: row;
+    background-color: var(--card-primary);
+    &:not(.fitted) {
+      margin: 8px;
+    }
+    border-radius: 5px;
+    box-shadow: var(--card-shadow);
+  }
+
   svg:not([color]).secondary {
     color: var(--icon-secondary-color);
   }
   .modal-header {
+    background: var(--bg-navbar);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     h2 {
       margin: 10px auto;
     }

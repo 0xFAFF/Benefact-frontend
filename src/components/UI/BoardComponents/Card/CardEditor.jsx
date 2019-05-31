@@ -160,9 +160,9 @@ class CardEditor extends React.Component {
       ...this.state.newContent
     };
     return (
-      <div id="editor-mode">
-        <Tooltip id="card-editor" />
-        <FileDrop onDrop={this.onFileUpload}>
+      <FileDrop onDrop={this.onFileUpload}>
+        <div id="editor-mode" className="section">
+          <Tooltip id="card-editor" />
           <EditorActivity icon="outdent" style={{ paddingTop: "10px" }} dataTip="Card Title">
             {allowEdit ? (
               <TextArea
@@ -252,23 +252,23 @@ class CardEditor extends React.Component {
           {disableComponents ? null : (
             <Comments {...this.props} comments={this.props.content.comments} />
           )}
-          <AcceptCancelButtons
-            onAcceptHandler={this.handleOnAccept}
-            onCancelHandler={this.handleOnCancel}
-            acceptTitle={"Save"}
-            cancelTitle={"Close"}
-          />
-          <DeleteModal
-            handleCloseModal={() => {
-              this.setState({ openDeleteModal: false });
-            }}
-            onDelete={() => onClose && onClose()}
-            isOpen={this.state.openDeleteModal}
-            handleUpdate={this.props.handleUpdate}
-            cardId={id}
-          />
-        </FileDrop>
-      </div>
+        </div>
+        <DeleteModal
+          handleCloseModal={() => {
+            this.setState({ openDeleteModal: false });
+          }}
+          onDelete={() => onClose && onClose()}
+          isOpen={this.state.openDeleteModal}
+          handleUpdate={this.props.handleUpdate}
+          cardId={id}
+        />
+        <AcceptCancelButtons
+          onAcceptHandler={this.handleOnAccept}
+          onCancelHandler={this.handleOnCancel}
+          acceptTitle={"Save"}
+          cancelTitle={"Close"}
+        />
+      </FileDrop>
     );
   }
 }

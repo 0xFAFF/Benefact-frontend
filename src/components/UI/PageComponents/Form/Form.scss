@@ -1,32 +1,21 @@
-#form {
-  button {
-    text-align: center;
-    font-weight: bold;
-    border: none;
-    padding: 10px;
-    font-size: 1.2em;
-    opacity: 0.9;
-  }
-}
-
 #input-container {
-  font-size: 1.1em;
+  font-size: 19px;
+  padding: 10px;
   label {
     padding: 5px;
   }
-  padding: 10px;
   .input-field {
+    padding: 8px;
     font-size: inherit;
     outline: none;
-    padding: 12px;
-    height: 1.1em;
+    height: 19px;
   }
   .input-field:focus {
     border-color: var(--login-input-focus);
   }
   .input-icon {
+    padding: 8px;
     text-align: center;
-    padding: 12px;
     width: 20px;
     background: var(--login-icon-bg-color);
     svg {

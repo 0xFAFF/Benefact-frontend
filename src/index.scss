@@ -41,7 +41,7 @@ body {
   }
 
   .pull-right {
-    margin-left: auto;
+    margin-left: auto !important;
     &:not(.col) {
       justify-content: flex-end;
       text-align: end;
@@ -49,7 +49,7 @@ body {
   }
 
   .pull-left {
-    margin-right: auto;
+    margin-right: auto !important;
     &:not(.col) {
       justify-content: flex-start;
       text-align: start;
@@ -112,6 +112,9 @@ body {
     padding: 10px 16px;
     border-radius: 3px;
     color: var(--text-color);
+    padding: 10px 16px;
+    font-size: 1em;
+    font-weight: bold;
     cursor: pointer;
     box-shadow: 1px 1px 2px #00000050;
     background-color: var(--button-color);
@@ -156,7 +159,7 @@ body {
   --bg-shadow: 0px 0px 13px 0px rgba(98, 98, 102, 0.24);
   --card-border: lightgrey;
   --card-primary: #ffffff;
-  --card-hover: #ebebeb;
+  --card-hover: #e6e6e6;
   --card-shadow: 0 0 3px 0 rgba(0, 1, 0, 0.32);
   --column-hover: var(--card-hover);
   --column-primary: var(--bg-navbar);

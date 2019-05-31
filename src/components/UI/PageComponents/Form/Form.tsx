@@ -30,36 +30,34 @@ export class Form extends React.Component<Props> {
       form[key] = value.current && value.current.value;
     });
     this.props.onSubmit(form);
-    Object.entries(this.state).map(([key, _])=> delete this.state[key]);
+    Object.entries(this.state).map(([key, _]) => delete this.state[key]);
     this.setState(this.state);
   };
 
   clearForm = () => {
-    Object.entries(this.state).map(([key, _])=> delete this.state[key]);
+    Object.entries(this.state).map(([key, _]) => delete this.state[key]);
     this.setState(this.state);
     Object.values(this.form).forEach(value => {
       if (value.current) value.current.value = value.current.defaultValue;
     });
   };
 
+  input = (id: string) => {
+    const ref = React.createRef<HTMLInputElement>();
+    this.form[id] = ref;
+    const onChange = () => !this.state[id] && this.setState({ [id]: true });
+    return { ref, onChange };
+  };
+
   render() {
     const { submitBtnTitle, cancelBtnTitle, className, onlyChanged } = this.props;
     this.form = {};
     return (
-      <div id="form" className={className}>
+      <div id="form" className={className} onKeyPress={this.handlePressEnter}>
+        {typeof this.props.children === "function" && (this.props.children as any)(this.input)}
         {React.Children.map(this.props.children, child => {
           if (!React.isValidElement(child)) return;
-          const ref = React.createRef<HTMLInputElement>();
-          const name = (child.props as any).name;
-          this.form[name] = ref;
-          return (
-            <child.type
-              {...child.props}
-              ref={ref}
-              onKeyPress={this.handlePressEnter}
-              onChange={() => this.setState({ [name]: true })}
-            />
-          );
+          return <child.type {...child.props} {...this.input((child.props as any).name)} />;
         })}
         {(!onlyChanged || Object.entries(this.state).length > 0) && (
           <AcceptCancelButtons

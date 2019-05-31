@@ -1,6 +1,5 @@
 import React from "react";
 import { ButtonGroup } from "components/UI/PageComponents";
-import "./index.scss";
 
 interface Props {
   onAcceptHandler?: () => void;

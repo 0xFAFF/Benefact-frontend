@@ -25,7 +25,7 @@ const urlKeyMap = {
   columns: {
     UPDATE: {
       url: "boards/{boardId}/columns/update",
-      whiteList: ["id", "index", "title"]
+      whiteList: ["id", "index", "title", "state", "allowContribution"]
     },
     ADD: {
       url: "boards/{boardId}/columns/add"

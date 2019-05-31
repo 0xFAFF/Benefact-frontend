@@ -1,0 +1,28 @@
+.toast-success {
+  background: var(--toast-success-bg-color);
+  color: var(--toast-success-text-color);
+}
+.toast-success-progress {
+  background: var(--toast-success-progress-color);
+}
+.toast-error {
+  background: var(--toast-error-bg-color);
+  color: var(--toast-error-text-color);
+}
+.toast-error-progress {
+  background: var(--toast-error-progress-color);
+}
+.toast-warn {
+  background: var(--toast-warn-bg-color);
+  color: var(--toast-warn-text-color);
+}
+.toast-warn-progress {
+  background: var(--toast-warn-progress-color);
+}
+.toast-info {
+  background: var(--toast-info-bg-color);
+  color: var(--toast-info-text-color);
+}
+.toast-info-progress {
+  background: var(--toast-info-progress-color);
+}

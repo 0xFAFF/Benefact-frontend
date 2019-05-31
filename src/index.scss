@@ -1,3 +1,6 @@
+@import "Button.scss";
+@import "Toast.scss";
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -106,52 +109,6 @@ body {
     display: inline;
   }
 
-  button {
-    border: none;
-    outline: none;
-    padding: 10px 16px;
-    border-radius: 3px;
-    color: var(--text-color);
-    padding: 10px 16px;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 1px 1px 2px #00000050;
-    background-color: var(--button-color);
-    &:hover {
-      background-color: var(--button-hover);
-    }
-  }
-
-  .toast-success {
-    background: var(--toast-success-bg-color);
-    color: var(--toast-success-text-color);
-  }
-  .toast-success-progress {
-    background: var(--toast-success-progress-color);
-  }
-  .toast-error {
-    background: var(--toast-error-bg-color);
-    color: var(--toast-error-text-color);
-  }
-  .toast-error-progress {
-    background: var(--toast-error-progress-color);
-  }
-  .toast-warn {
-    background: var(--toast-warn-bg-color);
-    color: var(--toast-warn-text-color);
-  }
-  .toast-warn-progress {
-    background: var(--toast-warn-progress-color);
-  }
-  .toast-info {
-    background: var(--toast-info-bg-color);
-    color: var(--toast-info-text-color);
-  }
-  .toast-info-progress {
-    background: var(--toast-info-progress-color);
-  }
-
   --bg-primary: #eef1f5;
   --bg-navbar: var(--card-primary);
   --navbar-text-color: var(--text-color);
@@ -166,12 +123,9 @@ body {
   --column-secondary: var(--bg-primary);
   --column-shadow: 0px 0px 6px 0px rgba(98, 98, 102, 0.32);
   --text-color: black;
-  --text-bg-color: #f0f0f0;
   --icon-primary-color: black;
   --icon-secondary-color: #72767b;
   --icon-hover: var(--card-hover);
-  --button-color: var(--text-bg-color);
-  --button-hover: var(--card-hover);
   --login-primary: var(--card-primary);
   --login-icon-bg-color: #dddddd;
   --login-icon-color: black;

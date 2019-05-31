@@ -1,0 +1,22 @@
+body {
+  --button-color: #f8faf8;
+  --button-hover: var(--card-hover);
+}
+
+button {
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  border-radius: 3px;
+  color: var(--text-color);
+  padding: 10px 16px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 1px 1px 2px #00000050;
+  background-color: var(--button-color);
+  border: 1px solid var(--card-border);
+  &:hover {
+    background-color: var(--button-hover);
+  }
+}

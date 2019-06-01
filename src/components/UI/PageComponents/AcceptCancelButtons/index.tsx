@@ -1,5 +1,6 @@
 import React from "react";
 import { ButtonGroup } from "components/UI/PageComponents";
+import { Button } from "components/UI/PageComponents/Button";
 
 interface Props {
   onAcceptHandler?: () => void;
@@ -14,18 +15,18 @@ export const AcceptCancelButtons = ({
   acceptTitle,
   cancelTitle
 }: Props) => {
-  let btns = [];
-  if (acceptTitle)
-    btns.push({
-      title: acceptTitle,
-      onClick: onAcceptHandler,
-      className: "button-accept"
-    });
-  if (cancelTitle)
-    btns.push({
-      title: cancelTitle,
-      onClick: onCancelHandler,
-      className: "button-cancel"
-    });
-  return <ButtonGroup btns={btns} fluid />;
+  return (
+    <ButtonGroup>
+      {acceptTitle && (
+        <Button onClick={onAcceptHandler} className="button-accept">
+          {acceptTitle}
+        </Button>
+      )}
+      {cancelTitle && (
+        <Button onClick={onCancelHandler} className="button-cancel">
+          {cancelTitle}
+        </Button>
+      )}
+    </ButtonGroup>
+  );
 };

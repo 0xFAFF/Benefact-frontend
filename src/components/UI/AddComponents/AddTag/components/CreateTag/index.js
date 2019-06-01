@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Colors, Characters } from "./options";
-import { AcceptCancelButtons } from "components/UI/PageComponents";
+import { Form, Input } from "components/UI/PageComponents";
 import "./index.scss";
 
 class CreateTag extends React.Component {
@@ -17,13 +17,6 @@ class CreateTag extends React.Component {
     name: "",
     color: "",
     character: ""
-  };
-
-  selectColorHandler = color => {
-    const newColor = color === this.state.color ? "" : color;
-    this.setState({
-      color: newColor
-    });
   };
 
   selectCharacterHandler = character => {
@@ -41,15 +34,15 @@ class CreateTag extends React.Component {
     this.setState({ name: "", color: "", character: "" });
   };
 
-  onAcceptHandler = () => {
+  onAcceptHandler = form => {
     const { handleUpdate, onAcceptHandler, currSelectedTag, updateBoardContent } = this.props;
     if (currSelectedTag) {
-      updateBoardContent({ ...this.state, id: currSelectedTag.id }, "tags");
+      updateBoardContent({ ...form, id: currSelectedTag.id }, "tags");
     } else {
       handleUpdate("tags", "ADD", {
-        name: this.state.name,
-        color: this.state.color === "" ? null : this.state.color,
-        character: this.state.character === "" ? null : this.state.character
+        name: form.name,
+        color: form.color === "" ? null : form.color,
+        character: form.character === "" ? null : form.character
       });
     }
     if (onAcceptHandler) {
@@ -69,49 +62,40 @@ class CreateTag extends React.Component {
     const { currSelectedTag } = this.props;
     return (
       <div id="create-tag">
-        <div className="create-tag-inputs">
-          <div className="create-tag-input-container">
-            <label>Tag Name</label>
-            <input value={this.state.name} onChange={this.onChangeHandler} />
-          </div>
-          <div className="create-tag-input-container">
-            <label>Tag Color</label>
-            <div className="create-tag-input-color">
-              <Colors selectColorHandler={this.selectColorHandler} currColor={this.state.color} />
-            </div>
-          </div>
-          <div className="create-tag-input-container">
-            <label>Tag Character</label>
-            <div className="create-tag-input-color">
-              <Characters
-                selectCharacterHandler={this.selectCharacterHandler}
-                currChar={this.state.character}
-              />
-            </div>
-          </div>
-          <div>
-            <label>Preview Tag</label>
-            <div
-              className="create-tag-preview-tag"
-              style={{
-                backgroundColor: this.state.color || "#dddddd",
-                border: this.state.color ? "none" : "1px solid lightgray"
-              }}
-            >
-              {this.state.character ? (
-                <FontAwesomeIcon icon={this.state.character} size="lg" color="#000" />
-              ) : (
-                this.state.name
-              )}
-            </div>
-          </div>
-        </div>
-        <AcceptCancelButtons
-          onAcceptHandler={this.onAcceptHandler}
-          onCancelHandler={this.onResetHandler}
-          acceptTitle={`${currSelectedTag ? "Update" : "Create"}`}
-          cancelTitle={"Reset"}
-        />
+        <Form
+          ref={this.formRef}
+          defaults={currSelectedTag}
+          onlyChanged={Boolean(currSelectedTag)}
+          submitBtnTitle={Boolean(currSelectedTag) ? "Update" : "Add"}
+          cancelBtnTitle="Cancel"
+          onSubmit={this.onAcceptHandler}
+        >
+          {({ attach, value }) => {
+            return (
+              <div className="section create-tag-inputs">
+                <div className="input-container">
+                  <label>Preview Tag</label>
+                  <div
+                    className="create-tag-preview-tag"
+                    style={{
+                      backgroundColor: value.color || "#dddddd",
+                      border: value.color ? "none" : "1px solid lightgray"
+                    }}
+                  >
+                    {this.state.character ? (
+                      <FontAwesomeIcon icon={this.state.character} size="lg" color="#000" />
+                    ) : (
+                      value.name
+                    )}
+                  </div>
+                </div>
+                <Input id="name" {...attach("name")} label="Tag Name" />
+                <Colors id="color" {...attach("color")} label="Tag Color" />
+                <Characters id="char" {...attach("character")} label="Tag Symbol" />
+              </div>
+            );
+          }}
+        </Form>
       </div>
     );
   }

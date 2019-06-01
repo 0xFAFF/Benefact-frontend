@@ -1,6 +1,6 @@
 import React, { RefObject } from "react";
 import "./StyledSelect.scss";
-import { InputWrapper, InputComponent, InputProps } from "components/UI/PageComponents/Form/InputWrapper";
+import { InputWrapper, InputProps } from "components/UI/PageComponents/Form/InputWrapper";
 
 interface SelectOption {
   id: string;
@@ -19,7 +19,7 @@ interface Props extends InputProps {
 }
 
 export const StyledSelect = InputWrapper(
-  class extends React.Component<Props> implements InputComponent {
+  class extends React.Component<Props> {
     value() {
       return this.ref.current && this.ref.current.value;
     }

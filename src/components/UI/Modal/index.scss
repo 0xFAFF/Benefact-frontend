@@ -14,8 +14,11 @@
   position: relative;
   width: 80%;
   max-width: 500px;
-  &.large {
+  &.lg {
     max-width: 1000px;
+  }
+  &.sm {
+    max-width: 275px;
   }
   margin: 5% auto;
 }
@@ -33,6 +36,7 @@
     background-color: var(--card-primary);
     &:not(.fitted) {
       margin: 8px;
+      padding: 5px;
     }
     border-radius: 5px;
     box-shadow: var(--card-shadow);

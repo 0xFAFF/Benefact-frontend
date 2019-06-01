@@ -1,5 +1,8 @@
 #button-group {
+  display: flex;
   button {
+    flex-grow: 1;
+    flex-basis: 0;
     margin: .5em 5px;
   }
 }

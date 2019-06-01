@@ -6,16 +6,18 @@ import "./index.scss";
 const Confirm = props => {
   const { onAcceptHandler, onCancelHandler, confirmMessage = "Are you sure?", children } = props;
   return (
-    <div id="confirm-container">
-      <div className="child-component">{children}</div>
-      <div className="confirmation">{confirmMessage}</div>
+    <>
+      <div id="confirm-container" class="section">
+        <div className="child-component">{children}</div>
+        <div className="confirmation">{confirmMessage}</div>
+      </div>
       <AcceptCancelButtons
         onAcceptHandler={onAcceptHandler}
         onCancelHandler={onCancelHandler}
         acceptTitle={"Yes"}
         cancelTitle={"No"}
       />
-    </div>
+    </>
   );
 };
 

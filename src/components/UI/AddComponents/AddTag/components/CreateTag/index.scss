@@ -9,67 +9,61 @@
       display: flex;
       margin-bottom: 3px;
     }
-    input {
+    .input-container {
       width: 100%;
-    }
-    .create-tag-input-container {
+      margin: 0;
+      padding: 0;
       margin-bottom: 10px;
-      width: 100%;
-      select {
-        width: 100%;
+    }
+    .create-tag-input-color-ul,
+    .create-tag-input-character-ul {
+      align-items: center;
+      list-style-type: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 25px);
+      grid-gap: 0.5rem;
+      justify-content: space-between;
+      padding: 0;
+      margin: 0;
+      .create-tag-input-color-tag {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
       }
-      .create-tag-input-color {
-        .create-tag-input-color-ul,
-        .create-tag-input-character-ul {
+      .create-tag-input-character-tag > div {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+      }
+      .create-tag-input-color-tag {
+        border-radius: 50%;
+        .create-tag-input-color-tag-selected {
+          display: flex;
           align-items: center;
-          list-style-type: none;
-          display: grid;
-          grid-template-columns: repeat(auto-fill, 25px);
-          grid-gap: 0.5rem;
-          justify-content: space-between;
-          padding: 0;
-          margin: 0;
-          .create-tag-input-color-tag {
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-          }
-          .create-tag-input-character-tag > div {
-            width: 25px;
-            height: 25px;
-            cursor: pointer;
-          }
-          .create-tag-input-color-tag {
-            border-radius: 50%;
-            .create-tag-input-color-tag-selected {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              color: #fff;
-              width: 100%;
-              height: 100%;
-            }
-          }
-          .create-tag-input-character-tag {
-            div {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-            .create-tag-input-character-tag-selected {
-              border: 2px solid coral;
-              border-radius: 50%;
-              display: flex;
+          justify-content: center;
+          color: #fff;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .create-tag-input-character-tag {
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .create-tag-input-character-tag-selected {
+          border: 2px solid coral;
+          border-radius: 50%;
+          display: flex;
 
-              align-items: center;
-              justify-content: center;
-            }
-          }
+          align-items: center;
+          justify-content: center;
         }
-        .create-tag-input-color-ul:after {
-          flex: auto;
-          content: "";
-        }
+      }
+      .create-tag-input-color-ul:after {
+        flex: auto;
+        content: "";
       }
     }
   }

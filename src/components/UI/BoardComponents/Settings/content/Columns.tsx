@@ -22,22 +22,21 @@ export const Columns = (props: any) => {
       onSubmit={submit}
       cancelBtnTitle="Cancel"
       className="section"
+      defaults={c}
     >
-      {(inputProps: any) => (
+      {({ attach: inputProps }: { attach: any }) => (
         <div className="row">
           <Input
             id={`${c.id}.title`}
             className="col grow-even"
             label="Title"
             {...inputProps("title")}
-            defaultValue={c.title}
           />
           <StyledSelect
             id={`${c.id}.state`}
             label="State"
             {...inputProps("state")}
             className="col grow-even"
-            defaultValue={c.state}
             options={[
               { id: "0", title: "Open" },
               { id: "1", title: "Active" },
@@ -51,7 +50,6 @@ export const Columns = (props: any) => {
             label="Contributors?"
             type="checkbox"
             {...inputProps("allowContribution")}
-            defaultValue={c.allowContribution}
           />
           <div id="input-container" className="col grow-even">
             <label>Delete</label>

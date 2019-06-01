@@ -1,21 +1,21 @@
 import React, { RefObject } from "react";
 import { Button, AcceptCancelButtons, Input } from "components/UI/PageComponents";
 import "./Form.scss";
-import { InputComponent } from "components/UI/PageComponents/Form/InputWrapper";
 
 interface Props {
   submitBtnTitle?: string;
   cancelBtnTitle?: string;
   className?: string;
-  onSubmit?: any;
+  onSubmit?(form: { [s: string]: any }): void;
   onCancel?: any;
+  onChange?(form: { [s: string]: any }): void;
   onlyChanged?: boolean;
   values?: {};
+  defaults?: { [s: string]: any };
 }
 
 export class Form extends React.Component<Props> {
-  form = {} as { [s: string]: RefObject<InputComponent> };
-  state = {} as { [s: string]: boolean };
+  state = {} as { [s: string]: any };
 
   handlePressEnter = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -24,44 +24,45 @@ export class Form extends React.Component<Props> {
   };
 
   submitForm = () => {
-    if (!this.props.onSubmit) return;
-    let entries = Object.entries(this.form);
-    if (this.props.onlyChanged) entries = entries.filter(([key, _]) => this.state[key]);
-    let form = this.props.values || ({} as any);
-    entries.map(([key, value]) => {
-      if (!value.current) return;
-      form[key] = value.current.value();
-    });
-    this.props.onSubmit(form);
+    if (this.props.onSubmit) this.props.onSubmit(this.form());
     Object.entries(this.state).map(([key, _]) => delete this.state[key]);
     this.setState(this.state);
   };
 
   clearForm = () => {
     Object.entries(this.state).map(([key, _]) => delete this.state[key]);
-    this.setState(this.state);
-    Object.values(this.form).forEach(value => {
-      if (!value.current) return;
-      value.current.reset();
-    });
+    this.forceUpdate();
   };
 
-  input = (name: string) => {
-    const ref = React.createRef<InputComponent>();
-    this.form[name] = ref;
-    const onChange = () => !this.state[name] && this.setState({ [name]: true });
-    return { ref, onChange };
+  form = (includeDefaults?: boolean) => {
+    let form = { ...this.props.values, ...this.state };
+    if (includeDefaults || !this.props.onlyChanged) form = { ...this.props.defaults, ...form };
+    return form;
+  };
+
+  attach = (name: string) => {
+    const onChange = (value: any) => {
+      this.setState(
+        { [name]: value },
+        () => this.props.onChange && this.props.onChange(this.state)
+      );
+    };
+    const defaults = this.props.defaults || {};
+    let value = this.state[name];
+    if (value === undefined) value = defaults[name];
+    if (value === undefined) value = "";
+    return { onChange, name, value };
   };
 
   render() {
     const { submitBtnTitle, cancelBtnTitle, className, onlyChanged } = this.props;
-    this.form = {};
     return (
       <div id="form" className={className} onKeyPress={this.handlePressEnter}>
-        {typeof this.props.children === "function" && (this.props.children as any)(this.input)}
+        {typeof this.props.children === "function" &&
+          (this.props.children as any)({ attach: this.attach, value: this.form(true) })}
         {React.Children.map(this.props.children, child => {
           if (!React.isValidElement(child)) return;
-          return <child.type {...child.props} {...this.input((child.props as any).id)} />;
+          return <child.type {...child.props} {...this.attach((child.props as any).id)} />;
         })}
         {(!onlyChanged || Object.entries(this.state).length > 0) && (
           <AcceptCancelButtons

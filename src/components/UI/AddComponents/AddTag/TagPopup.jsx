@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SelectTag, CreateTag } from "./components";
-import { Back } from "../../Popup";
 import { PageConsumer } from "components/Pages/PageContext";
+import { Button, ButtonGroup } from "components/UI/PageComponents";
 
 class TagPopup extends React.Component {
   static propTypes = {
@@ -32,25 +31,24 @@ class TagPopup extends React.Component {
               <>
                 {this.state.option === "select" && (
                   <>
-                    <p>Select A Tag</p>
+                    <ButtonGroup>
+                      <Button onClick={() => this.handleOptionSelect("create")}>
+                        Create New Tag
+                      </Button>
+                    </ButtonGroup>
                     <SelectTag
                       tagsList={page.data.tags}
                       onChangeHandler={onChangeHandler}
                       cardTags={cardTags}
                       handleOptionSelect={this.handleOptionSelect}
                     />
-                    <div
-                      className="create-tag-container"
-                      onClick={() => this.handleOptionSelect("create")}
-                    >
-                      <FontAwesomeIcon icon="plus-circle" size="sm" />
-                      <span>Create New Tag</span>
-                    </div>
                   </>
                 )}
                 {this.state.option === "create" && (
                   <>
-                    <Back onClick={() => this.handleOptionSelect("select")} />
+                    <ButtonGroup>
+                      <Button onClick={() => this.handleOptionSelect("select")}>Back</Button>
+                    </ButtonGroup>
                     <CreateTag
                       onAcceptHandler={() => this.handleOptionSelect("select")}
                       currSelectedTag={this.state.currSelectedTag}

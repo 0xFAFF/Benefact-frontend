@@ -6,7 +6,7 @@ import "./index.scss";
 const SelectTag = props => {
   const { tagsList, onChangeHandler, cardTags, handleOptionSelect } = props;
   return (
-    <div id="select-tag">
+    <div id="select-tag" className="section">
       <ul className="tags-ul">
         {tagsList.map((tag, index) => (
           <li key={index}>

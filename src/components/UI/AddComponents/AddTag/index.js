@@ -23,8 +23,6 @@ class AddTag extends React.Component {
 
   render() {
     const { cardTags, onChangeHandler, handleUpdate, updateBoardContent } = this.props;
-    const modalContainer = document.getElementById("editor-mode");
-    const left = modalContainer ? modalContainer.getBoundingClientRect().right : null;
     return (
       <>
         <div
@@ -38,26 +36,10 @@ class AddTag extends React.Component {
           <FontAwesomeIcon icon="plus-circle" size="lg" />
         </div>
         <Modal
+          title="Select Tags"
+          modalClassName="sm"
           isOpen={this.state.showModal}
           onClose={this.handleCloseModal}
-          modalStyle={{
-            overlay: {
-              position: "fixed",
-              top: "0",
-              left: "0",
-              right: "0",
-              bottom: "0",
-              backgroundColor: "rgba(0, 0, 0, 0.3)"
-            },
-            content: {
-              position: "absolute",
-              top: "25%",
-              left: `${left + 30}px`,
-              backgroundColor: "rgba(0, 0, 0, 0.3)"
-            }
-          }}
-          innerCnterClassName="add-tag-modal-inner-container inner-container"
-          outerCnterClassName="add-tag-modal-outer-container"
         >
           <TagPopup
             cardTags={cardTags}

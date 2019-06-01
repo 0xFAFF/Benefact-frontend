@@ -1,33 +1,34 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CHARACTERS } from "../../../../../../../constants";
+import { default as CHARACTERS } from "constants/CHARACTERS";
+import { InputWrapper } from "components/UI/PageComponents/Form/InputWrapper";
 
-const CharacterOptions = ({ selectCharacterHandler, currChar }) => {
-  let charactersList = CHARACTERS();
-  return (
-    <ul className="create-tag-input-character-ul">
-      {Object.keys(charactersList).map(character => {
-        const displayedCharacter = CHARACTERS()[character];
-        return (
-          <li
-            key={displayedCharacter}
-            className="create-tag-input-character-tag"
-            onClick={() => selectCharacterHandler(displayedCharacter)}
-          >
-            <div
-              className={
-                currChar === displayedCharacter
-                  ? "create-tag-input-character-tag-selected"
-                  : ""
-              }
-            >
-              <FontAwesomeIcon icon={displayedCharacter} size="sm" />
-            </div>
-          </li>
-        );
-      })}
-    </ul>
-  );
-};
+export const CharacterOptions = InputWrapper(
+  class extends React.Component {
+    render = () => {
+      return (
+        <ul className="create-tag-input-character-ul">
+          {Object.values(CHARACTERS()).map(character => {
+            return (
+              <li
+                key={character}
+                className="create-tag-input-character-tag"
+                onClick={() => this.props.onChange(character)}
+              >
+                <div
+                  className={
+                    this.props.value === character ? "create-tag-input-character-tag-selected" : ""
+                  }
+                >
+                  <FontAwesomeIcon icon={character} size="sm" />
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      );
+    };
+  }
+);
 
 export default CharacterOptions;

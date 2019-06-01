@@ -24,6 +24,7 @@ const DeleteModal = props => {
         modalClassName="delete-modal-Modal"
         innerCnterClassName="delete-modal-inner-container"
         outerCnterClassName="delete-modal-outer-container"
+        title="Archive Card"
       >
         <Confirm
           onAcceptHandler={onAcceptHandler}

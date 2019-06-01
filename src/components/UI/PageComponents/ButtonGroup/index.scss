@@ -1,8 +1,11 @@
-#button-group {
+.button-group {
   display: flex;
+  margin: 8px 0px;
   button {
-    flex-grow: 1;
-    flex-basis: 0;
-    margin: .5em 5px;
+    &:not(.sm) {
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+    margin: 0px 8px;
   }
 }

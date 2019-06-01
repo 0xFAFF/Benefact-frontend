@@ -1,19 +1,90 @@
 import React from "react";
 import DisplayTag from "components/UI/BoardComponents/Tags/DisplayTag";
-import { Button } from "components/UI/PageComponents";
+import { Button, Form, Input, ButtonGroup } from "components/UI/PageComponents";
+import {
+  Colors,
+  Characters
+} from "components/UI/AddComponents/AddTag/components/CreateTag/options";
 
-export const Tags = props => {
-  return (
-    <div className="tags-list center">
-      {props.page.data.tags.map(tag => {
-        return (
-          <div className="section row">
-            <DisplayTag tag={tag} className="lg" />
-            <Button className="grow">Edit</Button>
-            <Button className="pull-right" icon="trash" />
-          </div>
-        );
-      })}
+export class Tags extends React.Component {
+  state = { editId: null, addTag: false };
+  onUpdate = async tag => {
+    await this.props.handleUpdate("tags", "UPDATE", tag);
+    this.setState({ editId: null });
+  };
+  onAdd = async tag => {
+    await this.props.handleUpdate("tags", "ADD", tag);
+    this.setState({ addTag: false });
+  };
+  tagForm = (tag, onAccept, onCancel) => (
+    <div className="create-tag grow">
+      <Form
+        values={{ id: tag && tag.id }}
+        defaults={tag || { title: "", color: "" }}
+        submitBtnTitle={tag ? "Update" : "Add"}
+        onlyChanged={Boolean(tag)}
+        className="col"
+        onSubmit={onAccept}
+      >
+        {({ attach, value }) => {
+          return (
+            <>
+              <div className="row">
+                <DisplayTag tag={value} className="lg" />
+                <ButtonGroup className="grow">
+                  <Button className="grow" onClick={onCancel}>
+                    Cancel
+                  </Button>
+                </ButtonGroup>
+              </div>
+              <div className="create-tag-inputs">
+                <Input id="name" {...attach("name")} label="Tag Name" />
+                <Colors id="color" {...attach("color")} label="Tag Color" />
+                <Characters id="char" {...attach("character")} label="Tag Symbol" />
+              </div>
+            </>
+          );
+        }}
+      </Form>
     </div>
   );
-};
+  render = () => {
+    const { tags } = this.props.page.data;
+    return (
+      <div className="tags-list center">
+        {tags.map(tag => {
+          return (
+            <div className="section row">
+              {tag.id === this.state.editId ? (
+                this.tagForm(tag, this.onUpdate, () => this.setState({ editId: null }))
+              ) : (
+                <>
+                  <DisplayTag tag={tag} className="lg" />
+                  <ButtonGroup className="grow">
+                    <Button className="grow" onClick={() => this.setState({ editId: tag.id })}>
+                      Edit
+                    </Button>
+                    <Button
+                      className="pull-right sm"
+                      icon="trash"
+                      onClick={() => this.props.handleUpdate("tags", "DELETE", { id: tag.id })}
+                    />
+                  </ButtonGroup>
+                </>
+              )}
+            </div>
+          );
+        })}
+        {this.state.addTag ? (
+          <div className="section row">
+            {this.tagForm(null, this.onAdd, () => this.setState({ addTag: false }))}
+          </div>
+        ) : (
+          <ButtonGroup>
+            <Button onClick={() => this.setState({ addTag: true })}>Add Tag</Button>
+          </ButtonGroup>
+        )}
+      </div>
+    );
+  };
+}

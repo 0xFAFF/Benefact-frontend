@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Form, Button, StyledSelect } from "components/UI/PageComponents";
+import { Input, Form, Button, StyledSelect, ButtonGroup } from "components/UI/PageComponents";
 
 export class Columns extends React.Component<any> {
   state = {
@@ -75,11 +75,9 @@ export class Columns extends React.Component<any> {
           </Form>
         ))}
         {!this.state.addColumn ? (
-          <div className="add-column">
-            <Button className="grow" onClick={() => this.setState({ addColumn: true })}>
-              Add Column
-            </Button>
-          </div>
+          <ButtonGroup>
+            <Button onClick={() => this.setState({ addColumn: true })}>Add Column</Button>
+          </ButtonGroup>
         ) : (
           <Form
             submitBtnTitle="Add"

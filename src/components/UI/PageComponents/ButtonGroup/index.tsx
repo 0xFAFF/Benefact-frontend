@@ -9,8 +9,10 @@ interface Props {
 }
 
 export const ButtonGroup = ({ btns, className, children }: Props) => {
+  let cname = "button-group";
+  if(className) cname += " " + className;
   return (
-    <div id="button-group" className={className}>
+    <div className={cname}>
       {children}
       {btns &&
         btns.map(({ BtnComp, className, ...btnProps }, index) => {

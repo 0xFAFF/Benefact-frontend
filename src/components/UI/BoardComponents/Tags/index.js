@@ -18,14 +18,12 @@ const Tags = props => {
               <DisplayTag tag={tag} key={tag.id} />
             ))}
             {displayAddTag && (
-              <div className="tag">
-                <AddTag
-                  cardTags={tags}
-                  onChangeHandler={onChangeHandler}
-                  handleUpdate={handleUpdate}
-                  updateBoardContent={updateBoardContent}
-                />
-              </div>
+              <AddTag
+                cardTags={tags}
+                onChangeHandler={onChangeHandler}
+                handleUpdate={handleUpdate}
+                updateBoardContent={updateBoardContent}
+              />
             )}
           </div>
         );

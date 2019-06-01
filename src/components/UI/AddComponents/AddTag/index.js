@@ -26,7 +26,7 @@ class AddTag extends React.Component {
     return (
       <>
         <div
-          id="add-tag"
+          className="add-tag tag"
           onClick={e => {
             this.setState({ showModal: true });
           }}

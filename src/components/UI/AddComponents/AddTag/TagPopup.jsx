@@ -51,7 +51,7 @@ class TagPopup extends React.Component {
                     </ButtonGroup>
                     <CreateTag
                       onAcceptHandler={() => this.handleOptionSelect("select")}
-                      currSelectedTag={this.state.currSelectedTag}
+                      tag={this.state.currSelectedTag}
                       handleUpdate={handleUpdate}
                       updateBoardContent={updateBoardContent}
                       onClose={this.onClose}

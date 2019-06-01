@@ -10,13 +10,14 @@ class CreateTag extends React.Component {
     handleUpdate: PropTypes.func,
     onAcceptHandler: PropTypes.func,
     updateBoardContent: PropTypes.func,
-    currSelectedTag: PropTypes.object
+    tag: PropTypes.object,
+    onCancel: PropTypes.func
   };
 
   onAcceptHandler = form => {
-    const { handleUpdate, onAcceptHandler, currSelectedTag, updateBoardContent } = this.props;
-    if (currSelectedTag) {
-      updateBoardContent({ ...form, id: currSelectedTag.id }, "tags");
+    const { handleUpdate, onAcceptHandler, tag, updateBoardContent } = this.props;
+    if (tag) {
+      updateBoardContent({ ...form, id: tag.id }, "tags");
     } else {
       handleUpdate("tags", "ADD", {
         name: form.name,
@@ -29,32 +30,25 @@ class CreateTag extends React.Component {
     }
   };
 
-  componentDidMount() {
-    const { currSelectedTag } = this.props;
-    if (currSelectedTag) {
-      const { name = "", color = "", character = "" } = currSelectedTag;
-      this.setState({ name, color, character });
-    }
-  }
-
   render() {
-    const { currSelectedTag } = this.props;
+    const { tag, onCancel } = this.props;
     return (
-      <div id="create-tag">
+      <div className="create-tag">
         <Form
           ref={this.formRef}
-          defaults={currSelectedTag}
-          onlyChanged={Boolean(currSelectedTag)}
-          submitBtnTitle={Boolean(currSelectedTag) ? "Update" : "Add"}
-          cancelBtnTitle={Boolean(currSelectedTag) && "Reset"}
+          defaults={tag}
+          onlyChanged={Boolean(tag)}
+          submitBtnTitle={Boolean(tag) ? "Update" : "Add"}
+          cancelBtnTitle={Boolean(tag) && "Reset"}
           onSubmit={this.onAcceptHandler}
+          onCancel={onCancel}
         >
           {({ attach, value }) => {
             return (
               <div className="section create-tag-inputs">
                 <div className="input-container">
                   <label>Preview Tag</label>
-                  <DisplayTag tag={value} />
+                  <DisplayTag className="lg" tag={value} />
                 </div>
                 <Input id="name" {...attach("name")} label="Tag Name" />
                 <Colors id="color" {...attach("color")} label="Tag Color" />

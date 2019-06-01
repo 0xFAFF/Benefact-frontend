@@ -29,9 +29,9 @@ export class Form extends React.Component<Props> {
     this.setState(this.state);
   };
 
-  clearForm = () => {
+  cancelHandler = () => {
     Object.entries(this.state).map(([key, _]) => delete this.state[key]);
-    this.forceUpdate();
+    this.forceUpdate(() => this.props.onCancel && this.props.onCancel());
   };
 
   form = (includeDefaults?: boolean) => {
@@ -67,7 +67,7 @@ export class Form extends React.Component<Props> {
         {(!onlyChanged || Object.entries(this.state).length > 0) && (
           <AcceptCancelButtons
             onAcceptHandler={this.submitForm}
-            onCancelHandler={this.clearForm}
+            onCancelHandler={this.cancelHandler}
             acceptTitle={submitBtnTitle}
             cancelTitle={cancelBtnTitle}
           />

@@ -148,11 +148,11 @@ class CardEditor extends React.Component {
       content: { id = 0 } = {},
       page: { hasPrivilege: boardPrivilege }
     } = this.props;
-    const developers = [{ id: 0, title: "None" }].concat(
+    const developers = [{ value: 0, title: "None" }].concat(
       roles
         .filter(r => hasPrivilege("developer", r.privilege, true))
         .map(r => {
-          return { id: r.user.id, title: r.user.name };
+          return { value: r.user.id, title: r.user.name };
         })
     );
     let { title, description, tagIds, columnId, assigneeId, votes } = {
@@ -205,21 +205,23 @@ class CardEditor extends React.Component {
           <EditorActivity icon="columns" dataType="Card Column" className="no-border">
             <StyledSelect
               disabled={!(allowEdit && boardPrivilege("developer"))}
-              options={columns}
-              onChangeHandler={c =>
-                this.setState({ newContent: { ...this.state.newContent, columnId: c.id } })
+              options={columns.map(c => {
+                return { value: c.id, title: c.title };
+              })}
+              onChange={columnId =>
+                this.setState({ newContent: { ...this.state.newContent, columnId } })
               }
-              defaultValue={columnId}
+              value={columnId}
             />
           </EditorActivity>
           <EditorActivity icon="user" dataTip="Assignee">
             <StyledSelect
               disabled={!(allowEdit && boardPrivilege("developer"))}
               options={developers}
-              onChangeHandler={c =>
-                this.setState({ newContent: { ...this.state.newContent, assigneeId: c.id } })
+              onChange={assigneeId =>
+                this.setState({ newContent: { ...this.state.newContent, assigneeId } })
               }
-              defaultValue={assigneeId || 0}
+              value={assigneeId || 0}
             />
           </EditorActivity>
           <EditorActivity icon="tag" dataTip="Card Tags">

@@ -19,7 +19,7 @@ export class TwoSectionMenu extends React.Component<Props, State> {
     const ActiveComp = menuTabs[activeIndex].comp || null;
     const passedProps = menuTabs[activeIndex].props || {};
     return (
-      <div id="two-section-menu" className="row grow">
+      <div className="grow two-section-menu">
         <div id="menu-tabs">
           {menuTabs.map(({ header }, index) => {
             return (
@@ -34,7 +34,9 @@ export class TwoSectionMenu extends React.Component<Props, State> {
             );
           })}
         </div>
-        <div id="content">{ActiveComp && <ActiveComp {...passedProps} {...childProps} />}</div>
+        <div className="content">
+          {ActiveComp && <ActiveComp {...passedProps} {...childProps} />}
+        </div>
       </div>
     );
   };

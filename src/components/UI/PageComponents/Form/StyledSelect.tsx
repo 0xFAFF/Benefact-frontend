@@ -3,50 +3,40 @@ import "./StyledSelect.scss";
 import { InputWrapper, InputProps } from "components/UI/PageComponents/Form/InputWrapper";
 
 interface SelectOption {
-  id: string;
   title: string;
+  value: any;
 }
 
 interface Props extends InputProps {
   id?: string;
   disabled?: boolean;
   options?: Array<SelectOption>;
-  onChangeHandler?: (newValue: SelectOption) => void;
   className?: string;
   label?: string;
   ref?: RefObject<HTMLSelectElement>;
-  onChange?(e: React.SyntheticEvent): void;
 }
 
-export const StyledSelect = InputWrapper(
+export const StyledSelect = InputWrapper<Props>(
   class extends React.Component<Props> {
-    value() {
-      return this.ref.current && this.ref.current.value;
-    }
-    reset() {
-      this.ref.current && (this.ref.current.value = this.defaultValue);
-    }
-    ref = React.createRef<HTMLSelectElement>();
-    defaultValue: string = "";
     render = () => {
-      const { id, disabled, onChangeHandler, options = [] } = this.props;
-      const { onChange, defaultValue = "" } = this.props;
-      this.defaultValue = defaultValue;
+      const { id, disabled, options = [] } = this.props;
+      const { onChange, value } = this.props;
       const result = !disabled ? (
         <select
           id={id}
-          defaultValue={defaultValue}
           className="styled-select editable"
-          ref={this.ref}
           onChange={e => {
-            onChange && onChange(e);
-            onChangeHandler &&
-              onChangeHandler(options.find(o => String(o.id) === e.target.value) || options[0]);
+            const value = options.find(o => String(o.value) === e.target.value) || options[0];
+            onChange && onChange(value.value);
           }}
         >
           {options.map(option => {
             return (
-              <option key={option.id} value={option.id}>
+              <option
+                key={option.value}
+                value={String(option.value)}
+                selected={option.value === value}
+              >
                 {option.title}
               </option>
             );
@@ -54,7 +44,7 @@ export const StyledSelect = InputWrapper(
         </select>
       ) : (
         <div className="styled-select">
-          {(options.find(o => o.id === defaultValue) || options[0]).title}
+          {(options.find(o => o.value === value) || options[0]).title}
         </div>
       );
       return result;

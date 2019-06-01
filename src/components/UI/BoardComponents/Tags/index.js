@@ -13,22 +13,20 @@ const Tags = props => {
       {page => {
         const tags = getTags(page.data.tags, tagIds);
         return (
-          <div id="card-tags">
-            <ul className="tags-ul">
-              {tags.map(tag => (
-                <DisplayTag tag={tag} key={tag.id} />
-              ))}
-              {displayAddTag && (
-                <li>
-                  <AddTag
-                    cardTags={tags}
-                    onChangeHandler={onChangeHandler}
-                    handleUpdate={handleUpdate}
-                    updateBoardContent={updateBoardContent}
-                  />
-                </li>
-              )}
-            </ul>
+          <div className="card-tags">
+            {tags.map(tag => (
+              <DisplayTag tag={tag} key={tag.id} />
+            ))}
+            {displayAddTag && (
+              <div className="tag">
+                <AddTag
+                  cardTags={tags}
+                  onChangeHandler={onChangeHandler}
+                  handleUpdate={handleUpdate}
+                  updateBoardContent={updateBoardContent}
+                />
+              </div>
+            )}
           </div>
         );
       }}

@@ -4,26 +4,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const DisplayTag = props => {
   const {
-    tag: { name, color, character }
+    tag: { name, color, character },
+    className: providedClass
   } = props;
-  const display = (
-    <div>
-      {character ? (
-        <FontAwesomeIcon icon={character} size="lg" color="#000" />
-      ) : (
-        name
-      )}
-    </div>
-  );
+  let className = "tag";
+  if (providedClass) className += " " + providedClass;
   return (
-    <li
+    <div
+      className={className}
       style={{
         backgroundColor: color || "#dddddd",
         border: color ? "none" : "1px solid lightgray"
       }}
     >
-      {display}
-    </li>
+      <div>{character ? <FontAwesomeIcon icon={character} size="lg" color="#000" /> : name}</div>
+    </div>
   );
 };
 

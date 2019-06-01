@@ -4,22 +4,13 @@ import "./index.scss";
 
 interface Props {
   btns?: Array<{ BtnComp?: React.ElementType } & ButtonProps>;
-  groupClassName?: string;
-  align?: "right" | "left" | "center";
+  className?: string;
   children?: ReactNode;
 }
 
-export const ButtonGroup = ({ btns, groupClassName, align, children }: Props) => {
-  let btnGroupClassName = groupClassName ? groupClassName : "";
-  if (align === "right") {
-    btnGroupClassName += " pull-right center";
-  } else if (align === "left") {
-    btnGroupClassName += " pull-left center";
-  } else if (align === "center") {
-    btnGroupClassName += " center";
-  }
+export const ButtonGroup = ({ btns, className, children }: Props) => {
   return (
-    <div id="button-group" className={btnGroupClassName}>
+    <div id="button-group" className={className}>
       {children}
       {btns &&
         btns.map(({ BtnComp, className, ...btnProps }, index) => {

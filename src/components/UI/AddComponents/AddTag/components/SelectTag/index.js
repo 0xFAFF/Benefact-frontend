@@ -19,11 +19,7 @@ const SelectTag = props => {
             >
               <div className="tags-label">
                 {tag.character ? (
-                  <FontAwesomeIcon
-                    icon={tag.character}
-                    size="sm"
-                    color="#000"
-                  />
+                  <FontAwesomeIcon icon={tag.character} size="sm" color="#000" />
                 ) : (
                   tag.name
                 )}

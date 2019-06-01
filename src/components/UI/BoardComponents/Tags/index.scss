@@ -1,29 +1,30 @@
-#card-tags {
-  .tags-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    li {
-      border-radius: 1em;
-      margin: 5px 5px 5px 0;
-      display: flex;
-      align-items: center;
-      div {
-        display: flex;
-        overflow: hidden;
-        text-align: center;
-        justify-content: center;
-        min-width: 50px;
-        max-width: 100px;
-        max-height: 15px;
-        height: 15px;
-        font-size: 12px;
-        padding: 2px 5px;
-        color: #fff;
-      }
-    }
+.card-tags {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+.tag {
+  border-radius: 1em;
+  margin: 5px 5px 5px 0;
+  display: flex;
+  align-items: center;
+  height: fit-content;
+  width: fit-content;
+  font-size: 12px;
+  height: 15px;
+  padding: 2px 5px;
+  min-width: 50px;
+  max-width: 100px;
+  &.lg {
+    font-size: 19px;
+    height: 30px;
+    width: 100px;
   }
+  display: flex;
+  overflow: hidden;
+  text-align: center;
+  justify-content: center;
+  color: #fff;
 }

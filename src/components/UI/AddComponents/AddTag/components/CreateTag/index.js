@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Colors, Characters } from "./options";
 import { Form, Input } from "components/UI/PageComponents";
 import "./index.scss";
+import DisplayTag from "components/UI/BoardComponents/Tags/DisplayTag";
 
 class CreateTag extends React.Component {
   static propTypes = {
@@ -11,27 +11,6 @@ class CreateTag extends React.Component {
     onAcceptHandler: PropTypes.func,
     updateBoardContent: PropTypes.func,
     currSelectedTag: PropTypes.object
-  };
-
-  state = {
-    name: "",
-    color: "",
-    character: ""
-  };
-
-  selectCharacterHandler = character => {
-    const newCharacter = character === this.state.character ? "" : character;
-    this.setState({
-      character: newCharacter
-    });
-  };
-
-  onChangeHandler = e => {
-    this.setState({ name: e.target.value });
-  };
-
-  onResetHandler = () => {
-    this.setState({ name: "", color: "", character: "" });
   };
 
   onAcceptHandler = form => {
@@ -67,7 +46,7 @@ class CreateTag extends React.Component {
           defaults={currSelectedTag}
           onlyChanged={Boolean(currSelectedTag)}
           submitBtnTitle={Boolean(currSelectedTag) ? "Update" : "Add"}
-          cancelBtnTitle="Cancel"
+          cancelBtnTitle={Boolean(currSelectedTag) && "Reset"}
           onSubmit={this.onAcceptHandler}
         >
           {({ attach, value }) => {
@@ -75,19 +54,7 @@ class CreateTag extends React.Component {
               <div className="section create-tag-inputs">
                 <div className="input-container">
                   <label>Preview Tag</label>
-                  <div
-                    className="create-tag-preview-tag"
-                    style={{
-                      backgroundColor: value.color || "#dddddd",
-                      border: value.color ? "none" : "1px solid lightgray"
-                    }}
-                  >
-                    {this.state.character ? (
-                      <FontAwesomeIcon icon={this.state.character} size="lg" color="#000" />
-                    ) : (
-                      value.name
-                    )}
-                  </div>
+                  <DisplayTag tag={value} />
                 </div>
                 <Input id="name" {...attach("name")} label="Tag Name" />
                 <Colors id="color" {...attach("color")} label="Tag Color" />

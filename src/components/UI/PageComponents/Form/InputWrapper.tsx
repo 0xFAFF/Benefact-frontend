@@ -10,13 +10,11 @@ export interface InputProps {
   onChange?(newValue: any): void;
 }
 
-export const InputWrapper = (Child: ComponentClass<InputProps>) => {
-  return React.forwardRef<any, any>((props, ref) => {
-    return (
-      <div className={"input-container " + (props.className || "col")}>
-        {props.label && <label htmlFor={props.id}>{props.label}</label>}
-        <Child ref={ref} {...props} />
-      </div>
-    );
-  });
+export const InputWrapper = <T extends InputProps = InputProps>(Child: ComponentClass<T>) => {
+  return (props: T) => (
+    <div className={"input-container " + (props.className || "col")}>
+      {props.label && <label htmlFor={props.id}>{props.label}</label>}
+      <Child {...props} />
+    </div>
+  );
 };

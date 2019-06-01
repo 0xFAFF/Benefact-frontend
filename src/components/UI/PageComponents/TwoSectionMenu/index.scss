@@ -1,5 +1,7 @@
-#two-section-menu {
+.two-section-menu {
   height: 100%;
+  flex-direction: row;
+  display: flex;
   #menu-tabs {
     box-shadow: var(--bg-shadow);
     width: 175px;
@@ -22,7 +24,7 @@
       box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.23), 2px 3px 6px rgba(0, 0, 0, 0.03);
     }
   }
-  #content {
+  .content {
     overflow-x: hidden;
     overflow-y: auto;
     flex-grow: 1;

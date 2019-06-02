@@ -1,6 +1,6 @@
 import React from "react";
 import { TwoSectionMenu } from "components/UI/PageComponents";
-import { General, Columns, Tags } from "./content";
+import { General, Columns, Tags, Invite } from "./content";
 import "./index.scss";
 import { PageProp } from "components/Pages/PageContext";
 
@@ -9,6 +9,10 @@ export const Settings = PageProp(props => {
     {
       header: "General",
       comp: General
+    },
+    {
+      header: "Invite",
+      comp: Invite
     },
     {
       header: "Columns",

@@ -18,7 +18,7 @@ interface State {}
 class Register extends React.Component<Props, State> {
   onCreateAccount = async ({ email, name, password, confirmPassword }: { [s: string]: string }) => {
     if (!email || !name || !password || !confirmPassword) {
-      const missing = [];
+      const missing = [] as Array<string>;
       if (!email) missing.push("Email");
       if (!name) missing.push("Username");
       if (!password) missing.push("Password");

@@ -16,7 +16,7 @@ interface Props {
 class ForgotPassword extends React.Component<Props, {}> {
   onCreateAccount = async ({ email }: { email: string }) => {
     if (!email) {
-      const missing = [];
+      const missing = [] as Array<string>;
       if (!email) missing.push("Email");
       notifyToast("error", `Missing ${missing.join(", ")}`);
       return;

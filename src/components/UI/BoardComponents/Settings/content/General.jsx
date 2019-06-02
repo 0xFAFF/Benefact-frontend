@@ -2,8 +2,8 @@ import React from "react";
 import { Input, Form } from "components/UI/PageComponents";
 
 export class General extends React.Component {
-  onSubmit = form => {
-    this.props.handleUpdate("boards", "UPDATE", form);
+  onSubmit = async form => {
+    await this.props.handleUpdate("boards", "UPDATE", form);
   };
 
   render() {

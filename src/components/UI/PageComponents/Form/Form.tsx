@@ -23,8 +23,8 @@ export class Form extends React.Component<Props> {
     }
   };
 
-  submitForm = () => {
-    if (this.props.onSubmit) this.props.onSubmit(this.form());
+  submitForm = async () => {
+    if (this.props.onSubmit) await this.props.onSubmit(this.form());
     Object.entries(this.state).map(([key, _]) => delete this.state[key]);
     this.setState(this.state);
   };

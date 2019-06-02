@@ -18,7 +18,7 @@ class CreateBoard extends React.Component<Props, {}> {
     } = this.props;
 
     if (!title || !urlName) {
-      const missing = [];
+      const missing = [] as Array<string>;
       if (!title) missing.push("BoardTitle");
       if (!urlName) missing.push("URL Name");
       notifyToast("error", `Missing ${missing.join(", ")}`);

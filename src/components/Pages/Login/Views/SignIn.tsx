@@ -19,7 +19,7 @@ interface State {}
 class SignIn extends React.Component<Props, State> {
   onSubmit = async ({ email, password }: { email: string; password: string }) => {
     if (!email || !password) {
-      const missing = [];
+      const missing = [] as Array<string>;
       if (!email) missing.push("Email/Username");
       if (!password) missing.push("Password");
       notifyToast("error", `Missing ${missing.join(", ")}`);

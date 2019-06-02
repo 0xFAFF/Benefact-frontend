@@ -95,7 +95,7 @@ class Board extends React.Component {
   };
 
   handleUpdate = async (type, action, queryParams, errorHandler) => {
-    this.props.page.refreshData(this.props.compFetch(type, action, queryParams, errorHandler));
+    await this.props.page.refreshData(this.props.compFetch(type, action, queryParams, errorHandler));
   };
 
   updateBoardContent = async (newContent, type) => {

@@ -5,6 +5,7 @@ import "./Form.scss";
 interface Props {
   submitBtnTitle?: string;
   cancelBtnTitle?: string;
+  keepAfterSubmit?: boolean;
   className?: string;
   onSubmit?(form: { [s: string]: any }): void;
   onCancel?: any;
@@ -25,8 +26,10 @@ export class Form extends React.Component<Props> {
 
   submitForm = async () => {
     if (this.props.onSubmit) await this.props.onSubmit(this.form());
-    Object.entries(this.state).map(([key, _]) => delete this.state[key]);
-    this.setState(this.state);
+    if (!this.props.keepAfterSubmit) {
+      Object.entries(this.state).map(([key, _]) => delete this.state[key]);
+      this.setState(this.state);
+    }
   };
 
   cancelHandler = () => {

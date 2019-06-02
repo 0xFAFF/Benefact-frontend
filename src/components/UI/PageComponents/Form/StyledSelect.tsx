@@ -7,7 +7,7 @@ interface SelectOption {
   value: any;
 }
 
-interface Props extends InputProps {
+export interface SelectProps extends InputProps {
   id?: string;
   disabled?: boolean;
   options?: Array<SelectOption>;
@@ -17,17 +17,18 @@ interface Props extends InputProps {
 }
 
 export const StyledSelect = InputWrapper(
-  class extends React.Component<Props> {
+  class extends React.Component<SelectProps> {
     render = () => {
       const { id, disabled, options = [] } = this.props;
       const { onChange, value } = this.props;
+      const option0 = options[0] || {};
       const result = !disabled ? (
         <select
           id={id}
           className="styled-select editable"
-          value={(options.find(o => o.value === value) || options[0]).value}
+          value={(options.find(o => o.value === value) || option0).value}
           onChange={e => {
-            const value = options.find(o => String(o.value) === e.target.value) || options[0];
+            const value = options.find(o => String(o.value) === e.target.value) || option0;
             onChange && onChange(value.value);
           }}
         >

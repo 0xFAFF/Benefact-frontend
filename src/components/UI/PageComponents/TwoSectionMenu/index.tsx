@@ -21,7 +21,7 @@ export class TwoSectionMenu extends React.Component<Props, State> {
     const passedProps = menuTabs[activeIndex].props || {};
     let className = "two-section-menu";
     if (providedClass) className += " " + providedClass;
-    else className += "grow";
+    else className += " grow";
     return (
       <div className={className}>
         <div id="menu-tabs">

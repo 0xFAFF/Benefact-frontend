@@ -23,7 +23,7 @@ export const Input = InputWrapper(
         delete childProps.value;
       }
       return (
-        <div className="row">
+        <div className="row grow center">
           {icon && (
             <div className="input-icon">
               <FontAwesomeIcon icon={icon} size="sm" />

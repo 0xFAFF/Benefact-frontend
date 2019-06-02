@@ -17,6 +17,11 @@
     .tag {
       margin-top: auto;
       margin-bottom: auto;
+      display: flex;
+      flex-grow: 1;
     }
+  }
+  .tag-button-group {
+    justify-content: flex-end;
   }
 }

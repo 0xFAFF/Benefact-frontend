@@ -56,6 +56,10 @@
   .tag-container {
     margin: 10px 0;
   }
+  .inner-tag {
+    padding: 10px;
+    max-width: none;
+  }
 
   .editor-delete-card {
     display: flex;

@@ -17,7 +17,9 @@ const DisplayTag = props => {
         border: color ? "none" : "1px solid lightgray"
       }}
     >
-      <div>{character ? <FontAwesomeIcon icon={character} size="lg" color="#000" /> : name}</div>
+      <div className="inner-tag">
+        {character ? <FontAwesomeIcon icon={character} size="lg" color="#000" /> : name}
+      </div>
     </div>
   );
 };

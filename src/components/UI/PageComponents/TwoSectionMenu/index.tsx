@@ -24,12 +24,12 @@ export class TwoSectionMenu extends React.Component<Props, State> {
     else className += " grow";
     return (
       <div className={className}>
-        <div id="menu-tabs">
+        <div id="menu-tabs" className="wrap">
           {menuTabs.map(({ header }, index) => {
             return (
               <div
                 key={index}
-                className={`menu-tab ${index === activeIndex ? "active" : ""}`}
+                className={`menu-tab flex center wrap ${index === activeIndex ? "active" : ""}`}
                 id={header}
                 onClick={() => this.setState({ activeIndex: index })}
               >

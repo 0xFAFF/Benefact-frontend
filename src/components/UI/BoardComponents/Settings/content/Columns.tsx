@@ -28,7 +28,7 @@ export class Columns extends React.Component<any> {
             { value: 3, title: "Cancelled" }
           ]}
         />
-        <div className="grow row">
+        <div className="grow row center wrap">
           <Input
             id={`${id}.contrib`}
             className="col"
@@ -40,7 +40,7 @@ export class Columns extends React.Component<any> {
             <div className="input-container col">
               <label>Delete</label>
               <Button
-                className="pull-left sm"
+                className="sm"
                 icon="trash"
                 onClick={() => this.props.handleUpdate("columns", "DELETE", { id: col.id })}
               />
@@ -95,7 +95,7 @@ export class Columns extends React.Component<any> {
             }}
           >
             {({ attach: inputProps }: { attach: any }) => (
-              <div className="section row">{this.columnInputs("add", inputProps)}</div>
+              <div className="section row wrap">{this.columnInputs("add", inputProps)}</div>
             )}
           </Form>
         )}

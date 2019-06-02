@@ -31,7 +31,7 @@ export class Tags extends React.Component {
             <>
               <div className="row">
                 <DisplayTag tag={value} className="lg" />
-                <ButtonGroup className="grow">
+                <ButtonGroup>
                   <Button className="grow" onClick={onCancel}>
                     Cancel
                   </Button>
@@ -54,18 +54,20 @@ export class Tags extends React.Component {
       <div className="tags-list center">
         {tags.map(tag => {
           return (
-            <div key={tag.id} className="section row">
+            <div key={tag.id} className="section row wrap">
               {tag.id === this.state.editId ? (
                 this.tagForm(tag, this.onUpdate, () => this.setState({ editId: null }))
               ) : (
                 <>
                   <DisplayTag tag={tag} className="lg" />
-                  <ButtonGroup className="grow">
-                    <Button className="grow" onClick={() => this.setState({ editId: tag.id })}>
-                      Edit
-                    </Button>
+                  <ButtonGroup className="flex tag-button-group">
                     <Button
-                      className="pull-right sm"
+                      className="sm"
+                      icon="edit"
+                      onClick={() => this.setState({ editId: tag.id })}
+                    />
+                    <Button
+                      className="sm"
                       icon="trash"
                       onClick={() => this.props.handleUpdate("tags", "DELETE", { id: tag.id })}
                     />

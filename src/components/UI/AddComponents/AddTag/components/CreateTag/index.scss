@@ -19,21 +19,21 @@
     .create-tag-input-character-ul {
       align-items: center;
       list-style-type: none;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, 25px);
-      grid-gap: 0.5rem;
-      justify-content: space-between;
+      display: flex;
+      flex-wrap: wrap;
       padding: 0;
       margin: 0;
       .create-tag-input-color-tag {
         width: 30px;
         height: 30px;
         cursor: pointer;
+        margin: 5px;
       }
       .create-tag-input-character-tag > div {
         width: 25px;
         height: 25px;
         cursor: pointer;
+        margin: 5px;
       }
       .create-tag-input-color-tag {
         border-radius: 50%;

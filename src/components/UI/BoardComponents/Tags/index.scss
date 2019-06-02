@@ -11,20 +11,25 @@
   display: flex;
   align-items: center;
   height: fit-content;
-  width: fit-content;
   font-size: 12px;
   height: 15px;
-  padding: 2px 5px;
-  min-width: 50px;
-  max-width: 100px;
+  padding: 3px 5px;
+  min-width: 75px;
   &.lg {
     font-size: 19px;
     height: 30px;
-    width: 100px;
+    min-width: 75px;
   }
   display: flex;
   overflow: hidden;
   text-align: center;
   justify-content: center;
   color: #fff;
+  .inner-tag {
+    padding: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100px;
+  }
 }

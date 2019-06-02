@@ -16,7 +16,7 @@ interface Props extends InputProps {
   ref?: RefObject<HTMLSelectElement>;
 }
 
-export const StyledSelect = InputWrapper<Props>(
+export const StyledSelect = InputWrapper(
   class extends React.Component<Props> {
     render = () => {
       const { id, disabled, options = [] } = this.props;
@@ -25,6 +25,7 @@ export const StyledSelect = InputWrapper<Props>(
         <select
           id={id}
           className="styled-select editable"
+          value={(options.find(o => o.value === value) || options[0]).value}
           onChange={e => {
             const value = options.find(o => String(o.value) === e.target.value) || options[0];
             onChange && onChange(value.value);
@@ -35,7 +36,6 @@ export const StyledSelect = InputWrapper<Props>(
               <option
                 key={option.value}
                 value={String(option.value)}
-                selected={option.value === value}
               >
                 {option.title}
               </option>

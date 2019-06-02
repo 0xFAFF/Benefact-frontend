@@ -1,11 +1,55 @@
 import React from "react";
 import { Input, Form, Button, StyledSelect, ButtonGroup } from "components/UI/PageComponents";
+import "./Columns.scss";
 
 export class Columns extends React.Component<any> {
   state = {
     addColumn: false
   };
-
+  columnInputs = (col: any, inputProps: any) => {
+    const id = (col && col.id) || "add";
+    return (
+      <>
+        <Input
+          id={`${id}.title`}
+          className="col title-input"
+          label="Title"
+          {...inputProps("title")}
+        />
+        <StyledSelect
+          id={`${id}.state`}
+          label="State"
+          {...inputProps("state")}
+          className="col grow"
+          options={[
+            { value: 0, title: "Open" },
+            { value: 1, title: "Active" },
+            { value: 2, title: "Done" },
+            { value: 3, title: "Cancelled" }
+          ]}
+        />
+        <div className="grow row">
+          <Input
+            id={`${id}.contrib`}
+            className="col"
+            label="Contributors?"
+            type="checkbox"
+            {...inputProps("allowContribution")}
+          />
+          {col && (
+            <div className="input-container col">
+              <label>Delete</label>
+              <Button
+                className="pull-left sm"
+                icon="trash"
+                onClick={() => this.props.handleUpdate("columns", "DELETE", { id: col.id })}
+              />
+            </div>
+          )}
+        </div>
+      </>
+    );
+  };
   render = () => {
     const {
       handleUpdate,
@@ -15,38 +59,8 @@ export class Columns extends React.Component<any> {
     } = this.props;
     const submit = (form: any) => {
       if (form.state) form.state = Number.parseInt(form.state);
-      console.log(form);
       handleUpdate("columns", "UPDATE", form);
     };
-    const columnInputs = (id: string, inputProps: any) => (
-      <>
-        <Input
-          id={`${id}.title`}
-          className="col grow-even"
-          label="Title"
-          {...inputProps("title")}
-        />
-        <StyledSelect
-          id={`${id}.state`}
-          label="State"
-          {...inputProps("state")}
-          className="col grow-even"
-          options={[
-            { value: 0, title: "Open" },
-            { value: 1, title: "Active" },
-            { value: 2, title: "Done" },
-            { value: 3, title: "Cancelled" }
-          ]}
-        />
-        <Input
-          id={`${id}.contrib`}
-          className="col grow-even"
-          label="Contributors?"
-          type="checkbox"
-          {...inputProps("allowContribution")}
-        />
-      </>
-    );
     return (
       <>
         {columns.map((c: any) => (
@@ -60,17 +74,7 @@ export class Columns extends React.Component<any> {
             defaults={c}
           >
             {({ attach: inputProps }: { attach: any }) => (
-              <div className="section row">
-                {columnInputs(c.id, inputProps)}
-                <div className="input-container col grow-even">
-                  <label>Delete</label>
-                  <Button
-                    className="pull-left sm"
-                    icon="trash"
-                    onClick={() => this.props.handleUpdate("columns", "DELETE", { id: c.id })}
-                  />
-                </div>
-              </div>
+              <div className="section row wrap">{this.columnInputs(c.id, inputProps)}</div>
             )}
           </Form>
         ))}
@@ -91,7 +95,7 @@ export class Columns extends React.Component<any> {
             }}
           >
             {({ attach: inputProps }: { attach: any }) => (
-              <div className="section row">{columnInputs("add", inputProps)}</div>
+              <div className="section row">{this.columnInputs("add", inputProps)}</div>
             )}
           </Form>
         )}

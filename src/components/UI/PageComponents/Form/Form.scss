@@ -9,6 +9,9 @@
     font-size: inherit;
     outline: none;
     height: 19px;
+    &.grow{
+      width: 100%;
+    }
   }
   .input-field:focus {
     border-color: var(--login-input-focus);

@@ -31,7 +31,7 @@
     height: 100%;
   }
 
-  @media only screen and (max-width: 850px) {
+  @mixin vertical {
     flex-direction: column;
     #menu-tabs {
       display: flex;
@@ -48,5 +48,11 @@
     #content {
       margin: 0.5em 0 0 0;
     }
+  }
+  &.vertical {
+    @include vertical();
+  }
+  @media only screen and (max-width: 850px) {
+    @include vertical;
   }
 }

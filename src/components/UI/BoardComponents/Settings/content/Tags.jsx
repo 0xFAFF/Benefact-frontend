@@ -54,7 +54,7 @@ export class Tags extends React.Component {
       <div className="tags-list center">
         {tags.map(tag => {
           return (
-            <div className="section row">
+            <div key={tag.id} className="section row">
               {tag.id === this.state.editId ? (
                 this.tagForm(tag, this.onUpdate, () => this.setState({ editId: null }))
               ) : (

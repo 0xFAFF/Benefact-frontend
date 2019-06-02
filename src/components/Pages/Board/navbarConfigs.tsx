@@ -79,7 +79,6 @@ export const navbarConfigs = (child: Child, props: Props) => {
         icon: "cog",
         component: Settings,
         componentHeader: "Board Settings",
-        modalClassName: "lg",
         params: {
           handleUpdate: child.handleUpdate
         }

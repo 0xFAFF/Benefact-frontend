@@ -21,7 +21,7 @@ export const Settings = PageProp(props => {
   ];
   return (
     <div id="board-settings" className="flex col">
-      <TwoSectionMenu menuTabs={menuTabs} {...props} />
+      <TwoSectionMenu className="grow vertical" menuTabs={menuTabs} {...props} />
     </div>
   );
 });

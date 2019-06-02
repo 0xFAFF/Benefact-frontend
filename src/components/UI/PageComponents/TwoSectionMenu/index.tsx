@@ -2,6 +2,7 @@ import React from "react";
 import "./index.scss";
 
 interface Props {
+  className?: string;
   menuTabs: Array<{ header: string; comp: React.ElementType; props?: any }>;
 }
 
@@ -14,12 +15,15 @@ export class TwoSectionMenu extends React.Component<Props, State> {
     activeIndex: 0
   };
   render = () => {
-    const { menuTabs = [], ...childProps } = this.props;
+    const { menuTabs = [], className: providedClass, ...childProps } = this.props;
     const { activeIndex } = this.state;
     const ActiveComp = menuTabs[activeIndex].comp || null;
     const passedProps = menuTabs[activeIndex].props || {};
+    let className = "two-section-menu";
+    if (providedClass) className += " " + providedClass;
+    else className += "grow";
     return (
-      <div className="grow two-section-menu">
+      <div className={className}>
         <div id="menu-tabs">
           {menuTabs.map(({ header }, index) => {
             return (

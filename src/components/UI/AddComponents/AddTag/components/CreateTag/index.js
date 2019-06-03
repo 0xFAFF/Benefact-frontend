@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Colors, Characters } from "./options";
 import { Form, Input } from "components/UI/PageComponents";
-import "./index.scss";
 import DisplayTag from "components/UI/BoardComponents/Tags/DisplayTag";
+import { notifyToast } from "utils";
+import "./index.scss";
 
 class CreateTag extends React.Component {
   static propTypes = {
@@ -25,6 +26,7 @@ class CreateTag extends React.Component {
         character: form.character === "" ? null : form.character
       });
     }
+    notifyToast("success", `${tag ? "Updated" : "Created new"} tag`, { autoClose: 2000 });
     if (onAcceptHandler) {
       onAcceptHandler();
     }

@@ -95,36 +95,13 @@ class Board extends React.Component {
   };
 
   handleUpdate = async (type, action, queryParams, errorHandler) => {
-    await this.props.page.refreshData(this.props.compFetch(type, action, queryParams, errorHandler));
+    await this.props.page.refreshData(
+      this.props.compFetch(type, action, queryParams, errorHandler)
+    );
   };
 
   updateBoardContent = async (newContent, type) => {
-    let boardType;
-    let newData = { ...this.props.page.data };
-    if (type === "cards") {
-      let cardGroups = { ...this.props.page.data[type] };
-      const cards = Object.entries(cardGroups).map(([cardGroupKey, cardGroupValue]) => {
-        const cardIndex = cardGroupValue.findIndex(type => type.id === newContent.id);
-        if (cardIndex !== -1) {
-          cardGroupValue[cardIndex] = { ...cardGroupValue[cardIndex], ...newContent };
-        }
-        return { [cardGroupKey]: [...cardGroupValue] };
-      });
-      newData = {
-        ...newData,
-        cards: Object.assign(...cards)
-      };
-    } else {
-      boardType = [...this.props.page.data[type]];
-      boardType[boardType.findIndex(type => type.id === newContent.id)] = newContent;
-      newData = {
-        ...newData,
-        [type]: boardType
-      };
-    }
-    await this.props.compFetch(type, "UPDATE", newContent).then(_ => {
-      this.props.page.updatePage(newData);
-    });
+    await this.handleUpdate(type, "UPDATE", newContent);
   };
 
   kanbanOnDragEnd = async (result, groupName) => {

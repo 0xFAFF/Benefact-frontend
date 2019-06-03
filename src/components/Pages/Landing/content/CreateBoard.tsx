@@ -33,6 +33,7 @@ class CreateBoard extends React.Component<Props, {}> {
       if (result) {
         closeModal();
         history.push(`/board/${urlName}`);
+        notifyToast("success", `Created board ${title}`, { autoClose: 2000 });
       }
     });
   };

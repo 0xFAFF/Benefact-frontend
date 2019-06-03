@@ -3,18 +3,11 @@ import ReactDOM from "react-dom";
 import Cookies from "js-cookie";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import "./fontawesome";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { User, Login, Board, Landing } from "./components/Pages";
 import { Version } from "./components/Version";
 import { setTheme, parseToken } from "./utils";
 import { THEMES } from "./constants";
 import "./index.scss";
-
-toast.configure({
-  autoClose: 3500,
-  draggable: false
-});
 
 interface Props {
   match?: {

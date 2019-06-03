@@ -1,5 +1,6 @@
 import React from "react";
 import { Input, Form, Button, StyledSelect, ButtonGroup } from "components/UI/PageComponents";
+import { notifyToast } from "utils";
 import "./Columns.scss";
 
 export class Columns extends React.Component<any> {
@@ -57,9 +58,11 @@ export class Columns extends React.Component<any> {
         data: { columns }
       }
     } = this.props;
-    const submit = (form: any) => {
+    const submit = async (form: any) => {
       if (form.state) form.state = Number.parseInt(form.state);
-      handleUpdate("columns", "UPDATE", form);
+      await handleUpdate("columns", "UPDATE", form).then((_: any) => {
+        notifyToast("success", "Updated board columns", { autoClose: 2000 });
+      });
     };
     return (
       <>

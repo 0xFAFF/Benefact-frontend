@@ -13,9 +13,9 @@ import { Tags } from "components/UI/BoardComponents";
 import { AcceptCancelButtons, StyledSelect } from "components/UI/PageComponents";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
 import { FileDrop, Tooltip, MarkdownEditor } from "components/UI";
-import "./CardEditor.scss";
 import { PageProp } from "components/Pages/PageContext";
-import { hasPrivilege } from "utils";
+import { hasPrivilege, notifyToast } from "utils";
+import "./CardEditor.scss";
 
 class CardEditor extends React.Component {
   static propTypes = {
@@ -127,8 +127,9 @@ class CardEditor extends React.Component {
     const { updateBoardContent, onAcceptHandler, onClose } = this.props;
     const id = this.props.content && this.props.content.id;
     updateBoardContent({ id, ...this.state.newContent }, "cards").then(e => {
+      notifyToast("success", `${id ? "Updated" : "Created new card"}`, { autoClose: 2000 });
       onAcceptHandler && onAcceptHandler();
-      onClose && onClose();
+      !id && onClose && onClose();
     });
   };
 
@@ -212,6 +213,7 @@ class CardEditor extends React.Component {
                 this.setState({ newContent: { ...this.state.newContent, columnId } })
               }
               value={columnId}
+              className="grow"
             />
           </EditorActivity>
           <EditorActivity icon="user" dataTip="Assignee">
@@ -222,6 +224,7 @@ class CardEditor extends React.Component {
                 this.setState({ newContent: { ...this.state.newContent, assigneeId } })
               }
               value={assigneeId || 0}
+              className="grow"
             />
           </EditorActivity>
           <EditorActivity icon="tag" dataTip="Card Tags">

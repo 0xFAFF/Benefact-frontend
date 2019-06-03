@@ -34,10 +34,7 @@ export const StyledSelect = InputWrapper(
         >
           {options.map(option => {
             return (
-              <option
-                key={option.value}
-                value={String(option.value)}
-              >
+              <option key={option.value} value={String(option.value)}>
                 {option.title}
               </option>
             );

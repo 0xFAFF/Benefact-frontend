@@ -1,4 +1,5 @@
 import React from "react";
+import { notifyToast } from "utils";
 import DisplayTag from "components/UI/BoardComponents/Tags/DisplayTag";
 import { Button, Form, Input, ButtonGroup } from "components/UI/PageComponents";
 import {
@@ -9,13 +10,23 @@ import {
 export class Tags extends React.Component {
   state = { editId: null, addTag: false };
   onUpdate = async tag => {
-    await this.props.handleUpdate("tags", "UPDATE", tag);
-    this.setState({ editId: null });
+    await this.props.handleUpdate("tags", "UPDATE", tag).then(_ => {
+      this.setState({ editId: null });
+      notifyToast("success", "Updated tag", { autoClose: 2000 });
+    });
   };
   onAdd = async tag => {
-    await this.props.handleUpdate("tags", "ADD", tag);
-    this.setState({ addTag: false });
+    await this.props.handleUpdate("tags", "ADD", tag).then(_ => {
+      this.setState({ addTag: false });
+      notifyToast("success", "Created new tag", { autoClose: 2000 });
+    });
   };
+  onDelete = async tag => {
+    this.props.handleUpdate("tags", "DELETE", { id: tag.id }).then(_ => {
+      notifyToast("success", "Deleted tag", { autoClose: 2000 });
+    });
+  };
+
   tagForm = (tag, onAccept, onCancel) => (
     <div className="create-tag grow">
       <Form
@@ -66,11 +77,7 @@ export class Tags extends React.Component {
                       icon="edit"
                       onClick={() => this.setState({ editId: tag.id })}
                     />
-                    <Button
-                      className="sm"
-                      icon="trash"
-                      onClick={() => this.props.handleUpdate("tags", "DELETE", { id: tag.id })}
-                    />
+                    <Button className="sm" icon="trash" onClick={() => this.onDelete(tag)} />
                   </ButtonGroup>
                 </>
               )}

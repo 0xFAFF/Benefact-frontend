@@ -12,7 +12,15 @@ interface Props {
 }
 
 class CreateBoard extends React.Component<Props, {}> {
-  onCreateBoard = async ({ title, urlName }: { title: string; urlName: string }) => {
+  onCreateBoard = async ({
+    title,
+    urlName,
+    boardTemplate
+  }: {
+    title: string;
+    urlName: string;
+    boardTemplate: boolean;
+  }) => {
     const {
       page: { compFetch, closeModal, history }
     } = this.props;
@@ -27,8 +35,10 @@ class CreateBoard extends React.Component<Props, {}> {
 
     const queryParams = {
       title,
-      urlName
+      urlName,
+      boardTemplate
     };
+
     await compFetch("board", "ADD", queryParams).then((result: any) => {
       if (result) {
         closeModal();
@@ -41,9 +51,26 @@ class CreateBoard extends React.Component<Props, {}> {
   render() {
     return (
       <Segment margin>
-        <Form submitBtnTitle="Create Board" onSubmit={this.onCreateBoard}>
-          <Input id="title" placeholder="Board Title" icon="columns" />
-          <Input id="urlName" placeholder="URL Name" icon="link" />
+        <Form
+          submitBtnTitle="Create"
+          cancelBtnTitle="Cancel"
+          onSubmit={this.onCreateBoard}
+          defaults={{ boardTemplate: true }}
+          keepAfterSubmit
+        >
+          {({ attach }: { attach: any }) => (
+            <>
+              <Input id="title" label="Board Title" icon="columns" {...attach("title")} />
+              <Input id="urlName" label="URL Name" icon="link" {...attach("urlName")} />
+              <Input
+                id={`boardTemplate`}
+                className="row"
+                label="Board Template?"
+                type="checkbox"
+                {...attach("boardTemplate")}
+              />
+            </>
+          )}
         </Form>
       </Segment>
     );

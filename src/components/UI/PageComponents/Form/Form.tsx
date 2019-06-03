@@ -1,5 +1,5 @@
 import React, { RefObject } from "react";
-import { Button, AcceptCancelButtons, Input } from "components/UI/PageComponents";
+import { AcceptCancelButtons } from "components/UI/PageComponents";
 import "./Form.scss";
 
 interface Props {
@@ -27,14 +27,17 @@ export class Form extends React.Component<Props> {
   submitForm = async () => {
     if (this.props.onSubmit) await this.props.onSubmit(this.form());
     if (!this.props.keepAfterSubmit) {
-      Object.entries(this.state).map(([key, _]) => delete this.state[key]);
-      this.setState(this.state);
+      this.setState((prevState: { [s: string]: any }) => {
+        return Object.entries(prevState).map(([key, _]) => delete prevState[key]);
+      });
     }
   };
 
   cancelHandler = () => {
-    Object.entries(this.state).map(([key, _]) => delete this.state[key]);
-    this.forceUpdate(() => this.props.onCancel && this.props.onCancel());
+    this.setState((prevState: { [s: string]: any }) => {
+      return Object.entries(prevState).map(([key, _]) => delete prevState[key]);
+    });
+    if (this.props.onCancel) this.props.onCancel();
   };
 
   form = (includeDefaults?: boolean) => {

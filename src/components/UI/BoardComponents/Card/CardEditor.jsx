@@ -33,7 +33,19 @@ class CardEditor extends React.Component {
     this.state = {
       newContent: {}
     };
-    if (props.columnId) this.state.newContent.columnId = props.columnId;
+  }
+
+  componentDidMount() {
+    const { columnId, columns = [] } = this.props;
+    const colVal = columnId || (columns.length > 0 && columns[0].id);
+    if (colVal) {
+      this.setState({
+        newContent: {
+          columnId: colVal,
+          assigneeId: 0
+        }
+      });
+    }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -126,8 +138,13 @@ class CardEditor extends React.Component {
   handleOnAccept = () => {
     const { updateBoardContent, onAcceptHandler, onClose } = this.props;
     const id = this.props.content && this.props.content.id;
+    if (!this.state.newContent.columnId) {
+      notifyToast("error", "Unable to create card. Missing column field", { autoClose: 2000 });
+      return;
+    }
+
     updateBoardContent({ id, ...this.state.newContent }, "cards").then(e => {
-      notifyToast("success", `${id ? "Updated" : "Created new card"}`, { autoClose: 2000 });
+      notifyToast("success", `${id ? "Updated" : "Created new"} card`, { autoClose: 2000 });
       onAcceptHandler && onAcceptHandler();
       !id && onClose && onClose();
     });
@@ -212,7 +229,7 @@ class CardEditor extends React.Component {
               onChange={columnId =>
                 this.setState({ newContent: { ...this.state.newContent, columnId } })
               }
-              value={columnId}
+              value={columnId || (columns.length > 0 && columns[0].id) || ""}
               className="grow"
             />
           </EditorActivity>

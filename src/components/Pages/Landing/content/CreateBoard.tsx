@@ -15,11 +15,11 @@ class CreateBoard extends React.Component<Props, {}> {
   onCreateBoard = async ({
     title,
     urlName,
-    boardTemplate
+    createTemplate
   }: {
     title: string;
     urlName: string;
-    boardTemplate: boolean;
+    createTemplate: boolean;
   }) => {
     const {
       page: { compFetch, closeModal, history }
@@ -36,7 +36,7 @@ class CreateBoard extends React.Component<Props, {}> {
     const queryParams = {
       title,
       urlName,
-      boardTemplate
+      createTemplate
     };
 
     await compFetch("board", "ADD", queryParams).then((result: any) => {
@@ -55,7 +55,7 @@ class CreateBoard extends React.Component<Props, {}> {
           submitBtnTitle="Create"
           cancelBtnTitle="Cancel"
           onSubmit={this.onCreateBoard}
-          defaults={{ boardTemplate: true }}
+          defaults={{ createTemplate: true }}
           keepAfterSubmit
         >
           {({ attach }: { attach: any }) => (
@@ -63,11 +63,11 @@ class CreateBoard extends React.Component<Props, {}> {
               <Input id="title" label="Board Title" icon="columns" {...attach("title")} />
               <Input id="urlName" label="URL Name" icon="link" {...attach("urlName")} />
               <Input
-                id={`boardTemplate`}
+                id={`createTemplate`}
                 className="row"
-                label="Board Template?"
+                label="Create Template?"
                 type="checkbox"
-                {...attach("boardTemplate")}
+                {...attach("createTemplate")}
               />
             </>
           )}

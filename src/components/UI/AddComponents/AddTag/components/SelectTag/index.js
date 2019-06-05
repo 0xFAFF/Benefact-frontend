@@ -5,6 +5,7 @@ import "./index.scss";
 
 const SelectTag = props => {
   const { tagsList, onChangeHandler, cardTags, handleOptionSelect } = props;
+  if (tagsList.length === 0) return null;
   return (
     <div id="select-tag" className="section">
       <ul className="tags-ul">

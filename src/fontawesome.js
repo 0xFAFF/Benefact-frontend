@@ -45,7 +45,8 @@ import {
   faDownload,
   faPaperclip,
   faLink,
-  faArchive
+  faArchive,
+  faClipboard
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -91,5 +92,6 @@ library.add(
   faSignOutAlt,
   faDownload,
   faLink,
-  faArchive
+  faArchive,
+  faClipboard
 );

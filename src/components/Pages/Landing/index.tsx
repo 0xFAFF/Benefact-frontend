@@ -80,7 +80,12 @@ class Landing extends React.Component<Props, State> {
     ];
     return (
       <div id="landing-container" className="flex grow">
-        <TwoSectionMenu menuTabs={menuTabs} {...this.props} />
+        <TwoSectionMenu
+          className="vertical grow"
+          contentClassName="section"
+          menuTabs={menuTabs}
+          {...this.props}
+        />
       </div>
     );
   }

@@ -1,11 +1,15 @@
 #boards-content {
+  padding: 10px;
   .board {
     border: 1px solid var(--menu-border);
     font-size: 1em;
-    margin: 1em;
+    margin: 1em 0;
     padding: 0 1em;
     box-shadow: var(--bg-shadow);
     align-items: center;
+    &:last-child {
+      margin-bottom: 0;
+    }
     .board-icon,
     .board-info {
       padding: 0.5em;
@@ -27,8 +31,5 @@
         font-size: 1.5em;
       }
     }
-  }
-  .new-board {
-    margin: 1em;
   }
 }

@@ -91,7 +91,7 @@ class Filter extends React.Component {
       filters
     };
     return (
-      <div id="filter-container">
+      <div id="filter-container" className="section">
         <Basic
           {...rest}
           {...basicProps}

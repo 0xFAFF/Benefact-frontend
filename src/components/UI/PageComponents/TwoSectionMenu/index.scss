@@ -5,11 +5,10 @@
   #menu-tabs {
     box-shadow: var(--bg-shadow);
     width: 175px;
-    overflow-y: auto;
     .menu-tab {
       border: 1px solid var(--menu-border);
       font-size: 1.25em;
-      margin: 0.5em;
+      margin: 0.5em 0.75em;
       padding: 0.5em 1em;
       box-shadow: var(--bg-shadow);
       cursor: pointer;
@@ -27,7 +26,6 @@
     overflow-x: hidden;
     overflow-y: auto;
     flex-grow: 1;
-    height: 100%;
   }
 
   @mixin vertical {

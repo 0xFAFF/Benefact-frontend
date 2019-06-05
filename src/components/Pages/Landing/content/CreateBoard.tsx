@@ -50,7 +50,7 @@ class CreateBoard extends React.Component<Props, {}> {
 
   render() {
     return (
-      <Segment margin>
+      <div className="section">
         <Form
           submitBtnTitle="Create"
           cancelBtnTitle="Cancel"
@@ -72,7 +72,7 @@ class CreateBoard extends React.Component<Props, {}> {
             </>
           )}
         </Form>
-      </Segment>
+      </div>
     );
   }
 }

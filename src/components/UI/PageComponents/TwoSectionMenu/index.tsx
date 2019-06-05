@@ -3,6 +3,7 @@ import "./index.scss";
 
 interface Props {
   className?: string;
+  contentClassName?: string;
   menuTabs: Array<{ header: string; comp: React.ElementType; props?: any }>;
 }
 
@@ -15,12 +16,19 @@ export class TwoSectionMenu extends React.Component<Props, State> {
     activeIndex: 0
   };
   render = () => {
-    const { menuTabs = [], className: providedClass, ...childProps } = this.props;
+    const {
+      menuTabs = [],
+      className: providedClass,
+      contentClassName: providedContentClassName,
+      ...childProps
+    } = this.props;
     const { activeIndex } = this.state;
     const ActiveComp = menuTabs[activeIndex].comp || null;
     const passedProps = menuTabs[activeIndex].props || {};
     let className = "two-section-menu";
     if (providedClass) className += " " + providedClass;
+    let contentClassName = "content";
+    if (providedContentClassName) contentClassName += " " + providedContentClassName;
     else className += " grow";
     return (
       <div className={className}>
@@ -38,7 +46,7 @@ export class TwoSectionMenu extends React.Component<Props, State> {
             );
           })}
         </div>
-        <div className="content">
+        <div className={contentClassName}>
           {ActiveComp && <ActiveComp {...passedProps} {...childProps} />}
         </div>
       </div>

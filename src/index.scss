@@ -113,6 +113,17 @@ body {
     display: inline;
   }
 
+  .section {
+    flex-direction: row;
+    background-color: var(--card-primary);
+    &:not(.fitted) {
+      margin: 8px;
+      padding: 5px;
+    }
+    border-radius: 5px;
+    box-shadow: var(--card-shadow);
+  }
+
   --bg-primary: #eef1f5;
   --bg-navbar: var(--card-primary);
   --navbar-text-color: var(--text-color);

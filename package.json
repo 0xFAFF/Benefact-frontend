@@ -20,7 +20,7 @@
     "highlight.js": "=9.14.2",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
-    "marked": "^0.5.2",
+    "marked": "^0.6.1",
     "moment": "^2.24.0",
     "node-sass": "^4.10.0",
     "react": "^16.6.3",

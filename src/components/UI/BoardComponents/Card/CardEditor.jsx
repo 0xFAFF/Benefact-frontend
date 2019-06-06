@@ -36,13 +36,13 @@ class CardEditor extends React.Component {
   }
 
   componentDidMount() {
-    const { columnId, columns = [] } = this.props;
+    const { content: { columnId, assigneeId } = {}, columns = [] } = this.props;
     const colVal = columnId || (columns.length > 0 && columns[0].id);
     if (colVal) {
       this.setState({
         newContent: {
           columnId: colVal,
-          assigneeId: 0
+          assigneeId: assigneeId || 0
         }
       });
     }

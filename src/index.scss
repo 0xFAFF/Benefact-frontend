@@ -22,6 +22,7 @@ body {
   height: 100%;
   margin: 0;
   font-family: "Lato", sans-serif;
+  color: var(--text-color);
   input,
   select,
   textarea {
@@ -111,6 +112,17 @@ body {
     text-decoration: underline;
     cursor: pointer;
     display: inline;
+  }
+
+  .section {
+    flex-direction: row;
+    background-color: var(--card-primary);
+    &:not(.fitted) {
+      margin: 8px;
+      padding: 5px;
+    }
+    border-radius: 5px;
+    box-shadow: var(--card-shadow);
   }
 
   --bg-primary: #eef1f5;

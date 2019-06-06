@@ -16,6 +16,7 @@ interface Props {
       boardId?: string;
       cardId?: string;
       view?: string;
+      tab?: string;
     };
   };
 }
@@ -59,6 +60,8 @@ class App extends React.Component<Props, State> {
       onLoginHandler: this.onLoginHandler,
       onLogoutHandler: this.onLogoutHandler
     };
+    const RedirectHome = (props: Props) => <Redirect to={"/home/boards"} />;
+
     const RedirectLogin = (props: Props) => {
       let { match = {} } = props;
       let { url = "" } = match;
@@ -72,6 +75,15 @@ class App extends React.Component<Props, State> {
         <RedirectLogin {...props} />
       );
     };
+    const HomeRender = (props: Props) => {
+      const { match: { params: { tab = "boards" } = {} } = {} } = props;
+      return token ? (
+        <Landing tab={tab} {...props} {...childProps} />
+      ) : (
+        <RedirectLogin {...props} />
+      );
+    };
+
     return (
       <div id="app-container" className="flex col">
         <Router>
@@ -80,9 +92,17 @@ class App extends React.Component<Props, State> {
               path="/"
               exact
               render={props =>
-                token ? <Landing {...props} {...childProps} /> : <RedirectLogin {...props} />
+                token ? <RedirectHome {...props} {...childProps} /> : <RedirectLogin {...props} />
               }
             />
+            <Route
+              exact
+              path="/home"
+              render={props =>
+                token ? <RedirectHome {...props} {...childProps} /> : <RedirectLogin {...props} />
+              }
+            />
+            <Route exact path="/home/:tab(boards|mycards|myactivity)" render={HomeRender} />
             <Route path="/login" render={props => <Login {...childProps} {...props} />} />
             <Route
               exact

@@ -11,11 +11,11 @@ interface Props {
   page: {
     match: {
       params: {
-        userId?: string;
+        tab?: string;
       };
     };
     compFetch(type: string, action: string, queryParams?: any, errorHandler?: any): any;
-    history: { replace(url?: string): void };
+    history: { replace(url?: string): void; push(url?: string): void };
     user: { name?: string };
     data: {
       user: {
@@ -61,8 +61,17 @@ class Landing extends React.Component<Props, State> {
       return { data };
     });
 
+  updateUrl = (tabIndex: number) => {
+    this.props.page.history.push(`/home/${this.tabsMap[tabIndex]}`);
+  };
+
+  tabsMap = ["boards", "mycards", "myactivity"];
+
   render() {
-    const { data: { assignedCards = [] } = {} } = this.props.page;
+    const {
+      match: { params: { tab = "boards" } = {} } = {},
+      data: { assignedCards = [] } = {}
+    } = this.props.page;
     const menuTabs = [
       {
         header: "Boards",
@@ -78,12 +87,16 @@ class Landing extends React.Component<Props, State> {
         comp: UserActivity
       }
     ];
+
+    const initialIndex = this.tabsMap.findIndex(tabMap => tabMap === tab);
     return (
       <div id="landing-container" className="flex grow">
         <TwoSectionMenu
           className="vertical grow"
           contentClassName="section"
           menuTabs={menuTabs}
+          initialIndex={initialIndex !== -1 ? initialIndex : 0}
+          onClick={this.updateUrl}
           {...this.props}
         />
       </div>

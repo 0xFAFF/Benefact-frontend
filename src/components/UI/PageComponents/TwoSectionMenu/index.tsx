@@ -5,6 +5,8 @@ interface Props {
   className?: string;
   contentClassName?: string;
   menuTabs: Array<{ header: string; comp: React.ElementType; props?: any }>;
+  initialIndex?: number;
+  onClick?: any;
 }
 
 interface State {
@@ -15,11 +17,17 @@ export class TwoSectionMenu extends React.Component<Props, State> {
   state = {
     activeIndex: 0
   };
+
+  componentDidMount() {
+    if (this.props.initialIndex) this.setState({ activeIndex: this.props.initialIndex });
+  }
+
   render = () => {
     const {
       menuTabs = [],
       className: providedClass,
       contentClassName: providedContentClassName,
+      onClick,
       ...childProps
     } = this.props;
     const { activeIndex } = this.state;
@@ -39,7 +47,10 @@ export class TwoSectionMenu extends React.Component<Props, State> {
                 key={index}
                 className={`menu-tab flex center wrap ${index === activeIndex ? "active" : ""}`}
                 id={header}
-                onClick={() => this.setState({ activeIndex: index })}
+                onClick={() => {
+                  this.setState({ activeIndex: index });
+                  if (onClick) onClick(index);
+                }}
               >
                 {header}
               </div>

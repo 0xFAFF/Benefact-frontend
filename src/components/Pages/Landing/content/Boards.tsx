@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateBoard from "./CreateBoard";
 import "./Boards.scss";
 import { Modal } from "components/UI";
+import { PrivilegeMap } from "components/UI/PageComponents/Form/PrivilegeInput";
 
 interface board {
   title?: string;
   urlName?: string;
-  userPrivilege?: string;
+  userPrivilege: number;
 }
 
 class Boards extends React.Component {
@@ -18,7 +19,7 @@ class Boards extends React.Component {
       page: { data: { boards = [] } = {}, showModal, closeModal }
     } = this.props as any;
     return (
-      <div id="boards-content">
+      <div className="boards-content section-container">
         <Modal
           isOpen={this.state.showModal}
           title="Create a New Board"
@@ -26,14 +27,12 @@ class Boards extends React.Component {
         >
           <CreateBoard />
         </Modal>
-        <div className="new-board flex">
-          <button onClick={() => this.setState({ showModal: true })}>Create New Board</button>
-        </div>
+        <button onClick={() => this.setState({ showModal: true })}>Create New Board</button>
         {boards.map(({ title, urlName, userPrivilege }: board) => {
           return (
             <div
               key={urlName}
-              className="board flex"
+              className="section lg board flex"
               data-tip={`Go to board: ${title}`}
               data-for="board"
             >
@@ -42,7 +41,7 @@ class Boards extends React.Component {
               </div>
               <div className="board-info grow">
                 <div className="board-title">Board: {title}</div>
-                <div className="board-user-role">Role: {userPrivilege}</div>
+                <div className="board-user-role">Role: {PrivilegeMap[userPrivilege]}</div>
                 <Link to={`/board/${urlName}`}>View Board</Link>
               </div>
             </div>

@@ -44,7 +44,7 @@ class Card extends React.Component {
           </div>
           <div className="row">
             <Tags tagIds={card.tagIds} />
-            <IconRow className="pull-right row card-icon-row" {...card} />
+            <IconRow className="pull-right" card={card} userMap={page.data.userMap} />
           </div>
         </div>
       </div>

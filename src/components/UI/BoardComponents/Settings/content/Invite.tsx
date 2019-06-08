@@ -1,6 +1,5 @@
 import React from "react";
-import { Form, Button } from "components/UI/PageComponents";
-import { PrivilegeInput } from "./PrivilegeInput";
+import { Form, Button, PrivilegeInput } from "components/UI/PageComponents";
 import "./Invite.scss";
 import { notifyToast } from "utils";
 

@@ -144,7 +144,7 @@ const PageWrapper = Component => {
               tooltip: "Logout",
               icon: "sign-out-alt",
               component: Logout,
-              componentHeader: "Logout?",
+              componentHeader: "Logout",
               params: {
                 onLogoutHandler: this.props.onLogoutHandler
               }

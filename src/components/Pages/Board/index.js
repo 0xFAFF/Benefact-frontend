@@ -32,6 +32,10 @@ class Board extends React.Component {
         let { columns, cards } = result;
         result.columns = columns = columns || [];
         result.cards = cards = cards || {};
+        result.userMap = result.roles.reduce((users, role) => {
+          users[role.userId] = role.user;
+          return users;
+        }, {});
         let data = { ...result, ...this.getAllCards(result) };
         data = {
           ...data,

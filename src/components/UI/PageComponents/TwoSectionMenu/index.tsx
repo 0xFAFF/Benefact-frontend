@@ -45,7 +45,7 @@ export class TwoSectionMenu extends React.Component<Props, State> {
             return (
               <button
                 key={index}
-                className={`flex center warp ${index === activeIndex ? "active" : ""}`}
+                className={`flex center wrap ${index === activeIndex ? "active" : ""}`}
                 id={header}
                 onClick={() => {
                   this.setState({ activeIndex: index });

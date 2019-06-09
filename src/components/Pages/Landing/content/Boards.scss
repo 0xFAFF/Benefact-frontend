@@ -8,10 +8,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 10px;
-      max-width: 10px;
-      max-height: 10px;
-      font-size: 3em;
+      font-size: 2em;
     }
     .board-info {
       div {
@@ -19,6 +16,7 @@
       }
       .title {
         font-size: 1.5em;
+        text-align: left;
       }
       justify-content: space-between;
       align-items: center;

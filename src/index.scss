@@ -141,6 +141,10 @@ body {
     box-shadow: var(--card-shadow);
   }
 
+  .bg-primary {
+    background-color: var(--bg-primary);
+  }
+
   .cursor-pointer {
     cursor: pointer;
   }

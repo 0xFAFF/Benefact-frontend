@@ -36,7 +36,9 @@ class UserActivity extends React.Component {
           return (
             <div key={i} className="section lg">
               {`${typeMap[entity][type]} at ${formatTime(time)}`}
-              <Link to={`/board/${boardLookup[boardId].urlName}/card/${cardId}`}>View card</Link>
+              <Link to={`/board/${boardLookup[boardId].urlName}/kanban/card/${cardId}`}>
+                View card
+              </Link>
             </div>
           );
         })}

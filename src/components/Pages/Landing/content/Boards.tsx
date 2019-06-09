@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateBoard from "./CreateBoard";
-import "./Boards.scss";
 import { Modal, Accordion } from "components/UI";
 import { PrivilegeMap } from "components/UI/PageComponents/Form/PrivilegeInput";
+import "./Boards.scss";
 
 interface boardProps {
   title?: string;
@@ -38,19 +38,20 @@ class Boards extends React.Component {
               <div className="cursor-pointer" onClick={() => (onClick ? onClick(index) : null)}>
                 {isIndexActive && isIndexActive(index) ? "Hide Details" : "See Details"}
               </div>
-              <Link to={`/board/${urlName}`}>View Board</Link>
+              <Link to={`/board/${urlName}/kanban`}>View Board</Link>
             </div>
           </div>
         </>
       );
     };
 
-    const BoardContent = ({ userPrivilege = 0, description }: boardProps) => {
+    const BoardContent = ({ userPrivilege = 0, description, urlName }: boardProps) => {
       return (
-        <>
+        <div className="section bg-primary">
           <div className="board-user-role">Role: {PrivilegeMap[userPrivilege]}</div>
           <div className="board-user-description">Description: {description}</div>
-        </>
+          <Link to={`/board/${urlName}/kanban/settings`}>Edit Board Settings</Link>
+        </div>
       );
     };
 

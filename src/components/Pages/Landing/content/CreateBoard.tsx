@@ -42,7 +42,7 @@ class CreateBoard extends React.Component<Props, {}> {
     await compFetch("board", "ADD", queryParams).then((result: any) => {
       if (result) {
         closeModal();
-        history.push(`/board/${urlName}`);
+        history.push(`/board/${urlName}/kanban`);
         notifyToast("success", `Created board ${title}`, { autoClose: 2000 });
       }
     });

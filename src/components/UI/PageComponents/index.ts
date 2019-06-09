@@ -6,3 +6,4 @@ export { Form } from "./Form/Form";
 export { Input } from "./Form/Input";
 export { StyledSelect } from "./Form/StyledSelect";
 export { Segment } from "./Segment";
+export { default as Accordion } from "./Accordion";

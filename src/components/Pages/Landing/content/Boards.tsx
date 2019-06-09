@@ -3,20 +3,15 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateBoard from "./CreateBoard";
 import { Modal, Accordion } from "components/UI";
+import { AccordianChildProps } from "components/UI/PageComponents/Accordian";
 import { PrivilegeMap } from "components/UI/PageComponents/Form/PrivilegeInput";
 import "./Boards.scss";
 
 interface boardProps {
   title?: string;
   urlName?: string;
-  userPrivilege?: number;
+  userPrivilege: number;
   description?: string;
-}
-
-interface boardTitleProps extends boardProps {
-  onClick?: (index: number) => void;
-  index: number;
-  isIndexActive?: (index: number) => void;
 }
 
 class Boards extends React.Component {
@@ -26,55 +21,32 @@ class Boards extends React.Component {
       page: { data: { boards = [] } = {} }
     } = this.props as any;
 
-    const BoardTitle = ({ title, urlName, onClick, index, isIndexActive }: boardTitleProps) => {
-      return (
-        <>
+    const BoardEntry = (
+      { title, urlName, userPrivilege, description }: boardProps,
+      index: number
+    ) => ({ isActive, onClick }: AccordianChildProps) => (
+      <div key={index} className="section board">
+        <div className="row cursor-pointer" onClick={onClick}>
           <div className="board-icon">
             <FontAwesomeIcon icon="columns" className="secondary" />
           </div>
-          <div className="board-info grow row">
-            <div className="title">Board: {title}</div>
-            <div>
-              <div className="cursor-pointer" onClick={() => (onClick ? onClick(index) : null)}>
-                {isIndexActive && isIndexActive(index) ? "Hide Details" : "See Details"}
-              </div>
-              <Link to={`/board/${urlName}/kanban`}>View Board</Link>
+          <div className="board-info grow col">
+            <div className="row">
+              <div className="title">{title}</div>
+              <div className="pull-right">{isActive ? "Hide Details" : "Show Details"}</div>
             </div>
+            <Link to={`/board/${urlName}`}>View Board</Link>
           </div>
-        </>
-      );
-    };
-
-    const BoardContent = ({ userPrivilege = 0, description, urlName }: boardProps) => {
-      return (
-        <div className="section bg-primary">
-          <div className="board-user-role">Role: {PrivilegeMap[userPrivilege]}</div>
-          <div className="board-user-description">Description: {description}</div>
-          <Link to={`/board/${urlName}/kanban/settings`}>Edit Board Settings</Link>
         </div>
-      );
-    };
-
-    const panels = (titleClick: (index: number) => void, isIndexActive: (index: number) => void) =>
-      boards.map((board: boardProps, index: number) => {
-        return {
-          title: {
-            content: (
-              <BoardTitle
-                {...board}
-                onClick={titleClick}
-                isIndexActive={isIndexActive}
-                index={index}
-              />
-            ),
-            className: "board"
-          },
-          content: {
-            content: <BoardContent {...board} />,
-            className: "col"
-          }
-        };
-      });
+        {isActive && (
+          <>
+            <div className="board-user-role">Role: {PrivilegeMap[userPrivilege]}</div>
+            <div className="board-user-description">Description: {description}</div>
+            <Link to={`/board/${urlName}/settings`}>Edit Board Settings</Link>
+          </>
+        )}
+      </div>
+    );
 
     return (
       <div className="boards-content section-container">
@@ -83,12 +55,10 @@ class Boards extends React.Component {
           title="Create a New Board"
           onClose={() => this.setState({ showModal: false })}
         >
-          <CreateBoard />
+          <CreateBoard onClose={() => this.setState({ showModal: false })} />
         </Modal>
         <button onClick={() => this.setState({ showModal: true })}>Create New Board</button>
-        <Accordion className="board section row">
-          {({ titleClick, isIndexActive }) => panels(titleClick, isIndexActive)}
-        </Accordion>
+        <Accordion>{boards.map(BoardEntry)}</Accordion>
       </div>
     );
   };

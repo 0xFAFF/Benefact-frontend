@@ -254,7 +254,7 @@ class Board extends React.Component {
 
   closeCard = () => {
     this.props.history.push(
-      `/board/${this.props.boardId}${this.props.view === "kanban" ? "/kanban" : "/list"}`
+      `/board/${this.props.boardId}${this.props.view === "kanban" ? "" : "/list"}`
     );
   };
 

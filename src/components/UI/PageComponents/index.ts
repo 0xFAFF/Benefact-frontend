@@ -7,4 +7,4 @@ export { Input } from "./Form/Input";
 export { StyledSelect } from "./Form/StyledSelect";
 export { PrivilegeInput } from "./Form/PrivilegeInput";
 export { Segment } from "./Segment";
-export { default as Accordion } from "./Accordion";
+export { Accordion } from "./Accordian";

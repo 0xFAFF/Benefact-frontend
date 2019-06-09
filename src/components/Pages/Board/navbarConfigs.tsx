@@ -33,7 +33,7 @@ export const navbarConfigs = (child: Child, props: Props) => {
         tooltip: "View",
         icon: view === "kanban" ? "list-ul" : "columns",
         onClick: () => {
-          history.push(`/board/${data.urlName}/${view === "kanban" ? "list" : "kanban"}`);
+          history.push(`/board/${data.urlName}/${view === "kanban" ? "list" : ""}`);
         }
       },
       {
@@ -83,7 +83,7 @@ export const navbarConfigs = (child: Child, props: Props) => {
           handleUpdate: child.handleUpdate
         },
         onClick: () => {
-          history.push(`/board/${data.urlName}/${view === "kanban" ? "kanban" : "list"}/settings`);
+          history.push(`/board/${data.urlName}/${view === "kanban" ? "" : "list/"}settings`);
         }
       }
     ]

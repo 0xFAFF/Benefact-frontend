@@ -119,7 +119,7 @@ class App extends React.Component<Props, State> {
               path="/board/:boardId/:view(list|kanban)?/card/:cardId"
               render={BoardRender}
             />
-            <Route exact path="/board/:boardId/:view(list|kanban)/settings" render={BoardRender} />
+            <Route exact path="/board/:boardId/:view(list|kanban)?/settings" render={BoardRender} />
             <Route exact path="/board/:boardId/:view(list|kanban)?" render={BoardRender} />
             <Route
               path="/user/:userId?"

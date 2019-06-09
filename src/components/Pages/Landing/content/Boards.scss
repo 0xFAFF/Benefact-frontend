@@ -10,16 +10,14 @@
       justify-content: center;
       font-size: 2em;
     }
+    a {
+      width: fit-content;
+    }
     .board-info {
-      div {
-        text-align: right;
-      }
       .title {
         font-size: 1.5em;
         text-align: left;
       }
-      justify-content: space-between;
-      align-items: center;
     }
   }
 }

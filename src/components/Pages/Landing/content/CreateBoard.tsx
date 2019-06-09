@@ -1,17 +1,13 @@
 import React from "react";
-import { PageProp } from "components/Pages/PageContext";
-import { Form, Segment, Input } from "components/UI/PageComponents";
+import { PageProp, PageProps } from "components/Pages/PageContext";
+import { Form, Input } from "components/UI/PageComponents";
 import { notifyToast } from "utils";
 
 interface Props {
-  page: {
-    compFetch(type: string, action: string, queryParams?: any, errorHandler?: any): any;
-    closeModal(): void;
-    history: { push(url: string): void };
-  };
+  onClose(): void;
 }
 
-class CreateBoard extends React.Component<Props, {}> {
+class CreateBoard extends React.Component<Props & PageProps, {}> {
   onCreateBoard = async ({
     title,
     urlName,
@@ -22,7 +18,8 @@ class CreateBoard extends React.Component<Props, {}> {
     createTemplate: boolean;
   }) => {
     const {
-      page: { compFetch, closeModal, history }
+      page: { compFetch, history },
+      onClose
     } = this.props;
 
     if (!title || !urlName) {
@@ -41,8 +38,7 @@ class CreateBoard extends React.Component<Props, {}> {
 
     await compFetch("board", "ADD", queryParams).then((result: any) => {
       if (result) {
-        closeModal();
-        history.push(`/board/${urlName}/kanban`);
+        history.push(`/board/${urlName}`);
         notifyToast("success", `Created board ${title}`, { autoClose: 2000 });
       }
     });
@@ -50,29 +46,28 @@ class CreateBoard extends React.Component<Props, {}> {
 
   render() {
     return (
-      <div className="section">
-        <Form
-          submitBtnTitle="Create"
-          cancelBtnTitle="Cancel"
-          onSubmit={this.onCreateBoard}
-          defaults={{ createTemplate: true }}
-          keepAfterSubmit
-        >
-          {({ attach }: { attach: any }) => (
-            <>
-              <Input id="title" label="Board Title" icon="columns" {...attach("title")} />
-              <Input id="urlName" label="URL Name" icon="link" {...attach("urlName")} />
-              <Input
-                id={`createTemplate`}
-                className="row"
-                label="Create Template?"
-                type="checkbox"
-                {...attach("createTemplate")}
-              />
-            </>
-          )}
-        </Form>
-      </div>
+      <Form
+        submitBtnTitle="Create"
+        cancelBtnTitle="Cancel"
+        onSubmit={this.onCreateBoard}
+        onCancel={this.props.onClose}
+        defaults={{ createTemplate: true }}
+        keepAfterSubmit
+      >
+        {({ attach }: { attach: any }) => (
+          <div className="section">
+            <Input id="title" label="Board Title" icon="columns" {...attach("title")} />
+            <Input id="urlName" label="URL Name" icon="link" {...attach("urlName")} />
+            <Input
+              id={`createTemplate`}
+              className="row"
+              label="Create using defaults?"
+              type="checkbox"
+              {...attach("createTemplate")}
+            />
+          </div>
+        )}
+      </Form>
     );
   }
 }

@@ -4,16 +4,14 @@ import { AcceptCancelButtons } from "components/UI/PageComponents";
 import "./index.scss";
 
 const Confirm = props => {
-  const { onAcceptHandler, onCancelHandler, confirmMessage = "Are you sure?", children } = props;
+  const { onAccept, onCancel, confirmMessage = "Are you sure?", children } = props;
   return (
     <>
-      <div id="confirm-container" class="section">
-        <div className="child-component">{children}</div>
-        <div className="confirmation">{confirmMessage}</div>
-      </div>
+      <div className="section xlg">{confirmMessage}</div>
+      {children}
       <AcceptCancelButtons
-        onAcceptHandler={onAcceptHandler}
-        onCancelHandler={onCancelHandler}
+        onAcceptHandler={onAccept}
+        onCancelHandler={onCancel}
         acceptTitle={"Yes"}
         cancelTitle={"No"}
       />
@@ -22,8 +20,8 @@ const Confirm = props => {
 };
 
 Confirm.propTypes = {
-  onAcceptHandler: PropTypes.func,
-  onCancelHandler: PropTypes.func,
+  onAccept: PropTypes.func,
+  onCancel: PropTypes.func,
   confirmMessage: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };

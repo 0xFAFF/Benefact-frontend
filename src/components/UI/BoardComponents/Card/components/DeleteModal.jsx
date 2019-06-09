@@ -21,14 +21,11 @@ const DeleteModal = props => {
       <Modal
         onClose={handleCloseModal}
         isOpen={isOpen}
-        modalClassName="delete-modal-Modal"
-        innerCnterClassName="delete-modal-inner-container"
-        outerCnterClassName="delete-modal-outer-container"
         title="Archive Card"
       >
         <Confirm
-          onAcceptHandler={onAcceptHandler}
-          onCancelHandler={handleCloseModal}
+          onAccept={onAcceptHandler}
+          onCancel={handleCloseModal}
           confirmMessage={"Are you sure you want to archive this card?"}
         />
       </Modal>

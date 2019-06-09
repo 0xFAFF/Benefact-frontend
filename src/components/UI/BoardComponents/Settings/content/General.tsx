@@ -1,6 +1,5 @@
 import React from "react";
-import { Input, Form } from "components/UI/PageComponents";
-import { PrivilegeInput } from "./PrivilegeInput";
+import { Input, Form, PrivilegeInput } from "components/UI/PageComponents";
 import { notifyToast } from "utils";
 
 export class General extends React.Component<any> {

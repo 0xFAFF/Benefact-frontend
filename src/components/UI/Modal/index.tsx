@@ -35,7 +35,7 @@ const Modal: React.SFC<{
             <h2>{title}</h2>
           </div>
         )}
-        {children}
+        <div className="section-container col">{children}</div>
       </div>
     </ReactModal>
   );

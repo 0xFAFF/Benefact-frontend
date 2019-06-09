@@ -1,14 +1,5 @@
-#boards-content {
-  padding: 10px;
+.boards-content {
   .board {
-    border: 1px solid var(--menu-border);
-    font-size: 1em;
-    margin: 1em 0;
-    padding: 0 1em;
-    box-shadow: var(--bg-shadow);
-    &:last-child {
-      margin-bottom: 0;
-    }
     .board-icon,
     .board-info {
       padding: 0.5em;
@@ -31,12 +22,6 @@
       }
       justify-content: space-between;
       align-items: center;
-    }
-    .board-title {
-    }
-    .board-content {
-      margin-left: 10px;
-      flex-direction: column;
     }
   }
 }

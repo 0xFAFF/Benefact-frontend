@@ -5,17 +5,11 @@
   #menu-tabs {
     box-shadow: var(--bg-shadow);
     width: 175px;
-    .menu-tab {
-      border: 1px solid var(--menu-border);
-      font-size: 1.25em;
-      margin: 0.5em 0.75em;
-      padding: 0.5em 1em;
-      box-shadow: var(--bg-shadow);
-      cursor: pointer;
-      &:hover:not(.active) {
-        background-color: var(--menu-hover);
-        box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.23), 2px 3px 6px rgba(0, 0, 0, 0.03);
-      }
+    flex-direction: column;
+    display: flex;
+    padding: 4px;
+    button {
+      margin: 4px;
     }
     .active {
       background-color: var(--menu-hover);
@@ -32,6 +26,7 @@
     flex-direction: column;
     #menu-tabs {
       display: flex;
+      flex-direction: row;
       width: initial;
       flex-grow: 0;
       flex-basis: auto;
@@ -50,6 +45,6 @@
     @include vertical();
   }
   @media only screen and (max-width: 850px) {
-    @include vertical;
+    @include vertical();
   }
 }

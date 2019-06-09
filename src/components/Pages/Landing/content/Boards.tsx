@@ -2,13 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateBoard from "./CreateBoard";
-import { Modal, Accordion } from "components/UI";
 import "./Boards.scss";
+import { Modal, Accordion } from "components/UI";
+import { PrivilegeMap } from "components/UI/PageComponents/Form/PrivilegeInput";
 
 interface boardProps {
   title?: string;
   urlName?: string;
-  userPrivilege?: string;
+  userPrivilege?: number;
   description?: string;
 }
 
@@ -33,10 +34,10 @@ class Boards extends React.Component {
       );
     };
 
-    const BoardContent = ({ userPrivilege, description }: boardProps) => {
+    const BoardContent = ({ userPrivilege = 0, description }: boardProps) => {
       return (
         <>
-          <div className="board-user-role">Role: {userPrivilege}</div>
+          <div className="board-user-role">Role: {PrivilegeMap[userPrivilege]}</div>
           <div className="board-user-description">Description: {description}</div>
         </>
       );
@@ -46,17 +47,17 @@ class Boards extends React.Component {
       return {
         title: {
           content: <BoardTitle {...board} />,
-          className: "board-title"
+          className: "board"
         },
         content: {
           content: <BoardContent {...board} />,
-          className: "board-content"
+          className: "col"
         }
       };
     });
 
     return (
-      <div id="boards-content">
+      <div className="boards-content section-container">
         <Modal
           isOpen={this.state.showModal}
           title="Create a New Board"
@@ -64,12 +65,8 @@ class Boards extends React.Component {
         >
           <CreateBoard />
         </Modal>
-        <div className="new-board flex">
-          <button onClick={() => this.setState({ showModal: true })}>Create New Board</button>
-        </div>
-        <div>
-          <Accordion panels={panels} className="board" />
-        </div>
+        <button onClick={() => this.setState({ showModal: true })}>Create New Board</button>
+        <Accordion panels={panels} className="board section row" />
       </div>
     );
   };

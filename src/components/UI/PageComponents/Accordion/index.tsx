@@ -49,6 +49,7 @@ class Accordion extends Component<Props> {
 
     const accordionClassName = "flex col " + className;
 
+    // TODO: Update to render props pattern to expose an onclick handler for title child component
     return (
       <div className="accordion">
         {panels.map(({ title, content }, index) => {

@@ -34,12 +34,6 @@
     z-index: 20;
     display: flex;
     width: 100%;
-    .card-icon-row {
-      margin-top: 5px;
-      svg {
-        margin-left: 5px;
-      }
-    }
     #vote-container {
       .vote-tracker {
         padding: 3px 5px;
@@ -58,4 +52,21 @@
   cursor: pointer;
   visibility: hidden;
   opacity: 0;
+}
+
+.card-icon-row {
+  align-items: center;
+  svg, div {
+    margin-left: 5px;
+  }
+}
+.user-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  background-color: var(--bg-primary);
+  display: flex;
+  div {
+    margin: auto;
+  }
 }

@@ -39,7 +39,7 @@ const Header = props => {
             showModal(
               <AddCard
                 onClose={closeModal}
-                columnId={column.id}
+                content={{ columnId: column.id }}
                 {...props}
                 roles={page.data.roles}
               />

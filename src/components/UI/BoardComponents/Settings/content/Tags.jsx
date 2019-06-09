@@ -71,7 +71,7 @@ export class Tags extends React.Component {
               ) : (
                 <>
                   <DisplayTag tag={tag} className="lg" />
-                  <ButtonGroup className="flex tag-button-group">
+                  <ButtonGroup>
                     <Button
                       className="sm"
                       icon="edit"

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import PageWrapper from "components/Pages/PageWrapper";
 import { TwoSectionMenu } from "components/UI/PageComponents";
-import "./index.scss";
+import "./Landing.scss";
 import Boards from "./content/Boards";
 import { UserActivity, UserCards } from "components/UI/User";
 
@@ -92,8 +92,7 @@ class Landing extends React.Component<Props, State> {
     return (
       <div id="landing-container" className="flex grow">
         <TwoSectionMenu
-          className="vertical grow"
-          contentClassName="section"
+          className="grow"
           menuTabs={menuTabs}
           initialIndex={initialIndex !== -1 ? initialIndex : 0}
           onClick={this.updateUrl}

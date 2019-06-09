@@ -178,103 +178,105 @@ class CardEditor extends React.Component {
       ...this.state.newContent
     };
     return (
-      <FileDrop onDrop={this.onFileUpload}>
-        <div id="editor-mode" className="section">
-          <Tooltip id="card-editor" />
-          <EditorActivity icon="outdent" style={{ paddingTop: "10px" }} dataTip="Card Title">
-            {allowEdit ? (
-              <TextArea
-                id="editor-title"
-                className="editable"
-                placeholder="Card Title"
-                spellCheck={false}
-                value={title}
-                onChange={e => this.onChangeHandler(e, "title")}
-              />
-            ) : (
-              <div id="editor-title">{title}</div>
-            )}
-            {allowEdit && this.props.showDeleteModal && (
-              <div className="editor-delete-card">
-                <FontAwesomeIcon
-                  data-tip="Archive this card"
-                  data-for="card-editor"
-                  icon="archive"
-                  size="lg"
-                  className="editor-delete-card-icon"
-                  onClick={() => this.setState({ openDeleteModal: true })}
+      <>
+        <FileDrop onDrop={this.onFileUpload}>
+          <div id="editor-mode" className="section">
+            <Tooltip id="card-editor" />
+            <EditorActivity icon="outdent" style={{ paddingTop: "10px" }} dataTip="Card Title">
+              {allowEdit ? (
+                <TextArea
+                  id="editor-title"
+                  className="editable"
+                  placeholder="Card Title"
+                  spellCheck={false}
+                  value={title}
+                  onChange={e => this.onChangeHandler(e, "title")}
                 />
-              </div>
-            )}
-          </EditorActivity>
-          {disableComponents ? null : (
-            <EditorActivity icon="id-card" dataTip="Card ID" className="no-border center">
-              {id}
-              <div className="editor-vote pull-right">
-                <Voting
-                  defaultDisplay={true}
-                  size="lg"
-                  votes={votes}
-                  onUpdateVote={this.onUpdateVote}
-                />
-              </div>
+              ) : (
+                <div id="editor-title">{title}</div>
+              )}
+              {allowEdit && this.props.showDeleteModal && (
+                <div className="editor-delete-card">
+                  <FontAwesomeIcon
+                    data-tip="Archive this card"
+                    data-for="card-editor"
+                    icon="archive"
+                    size="lg"
+                    className="editor-delete-card-icon"
+                    onClick={() => this.setState({ openDeleteModal: true })}
+                  />
+                </div>
+              )}
             </EditorActivity>
-          )}
-          <EditorActivity icon="columns" dataType="Card Column" className="no-border">
-            <StyledSelect
-              disabled={!(allowEdit && boardPrivilege("developer"))}
-              options={columns.map(c => {
-                return { value: c.id, title: c.title };
-              })}
-              onChange={columnId =>
-                this.setState({ newContent: { ...this.state.newContent, columnId } })
-              }
-              value={columnId || (columns.length > 0 && columns[0].id) || ""}
-              className="grow"
-            />
-          </EditorActivity>
-          <EditorActivity icon="user" dataTip="Assignee">
-            <StyledSelect
-              disabled={!(allowEdit && boardPrivilege("developer"))}
-              options={developers}
-              onChange={assigneeId =>
-                this.setState({ newContent: { ...this.state.newContent, assigneeId } })
-              }
-              value={assigneeId || 0}
-              className="grow"
-            />
-          </EditorActivity>
-          <EditorActivity icon="tag" dataTip="Card Tags">
-            <Tags
-              tagIds={tagIds}
-              displayAddTag={allowEdit}
-              onChangeHandler={this.onChangeHandler}
-              handleUpdate={this.props.handleUpdate}
-              updateBoardContent={updateBoardContent}
-            />
-          </EditorActivity>
-          <EditorActivity icon="newspaper" dataTip="Card Description">
-            <MarkdownEditor
-              className="editor-description"
-              allowEdit={allowEdit}
-              onChange={e => this.onChangeHandler(e, "description")}
-              placeholder="Description"
-              onPaste={e => {
-                e.preventDefault();
-              }}
-              value={description}
-            />
-          </EditorActivity>
-          {disableComponents || !this.props.content.attachments.length ? null : (
-            <Attachments
-              handleUpdate={this.props.handleUpdate}
-              attachments={this.props.content.attachments}
-            />
-          )}
-          {disableComponents ? null : (
-            <Comments {...this.props} comments={this.props.content.comments} />
-          )}
-        </div>
+            {disableComponents ? null : (
+              <EditorActivity icon="id-card" dataTip="Card ID" className="no-border center">
+                {id}
+                <div className="editor-vote pull-right">
+                  <Voting
+                    defaultDisplay={true}
+                    size="lg"
+                    votes={votes}
+                    onUpdateVote={this.onUpdateVote}
+                  />
+                </div>
+              </EditorActivity>
+            )}
+            <EditorActivity icon="columns" dataType="Card Column" className="no-border">
+              <StyledSelect
+                disabled={!(allowEdit && boardPrivilege("developer"))}
+                options={columns.map(c => {
+                  return { value: c.id, title: c.title };
+                })}
+                onChange={columnId =>
+                  this.setState({ newContent: { ...this.state.newContent, columnId } })
+                }
+                value={columnId || (columns.length > 0 && columns[0].id) || ""}
+                className="grow"
+              />
+            </EditorActivity>
+            <EditorActivity icon="user" dataTip="Assignee">
+              <StyledSelect
+                disabled={!(allowEdit && boardPrivilege("developer"))}
+                options={developers}
+                onChange={assigneeId =>
+                  this.setState({ newContent: { ...this.state.newContent, assigneeId } })
+                }
+                value={assigneeId || 0}
+                className="grow"
+              />
+            </EditorActivity>
+            <EditorActivity icon="tag" dataTip="Card Tags">
+              <Tags
+                tagIds={tagIds}
+                displayAddTag={allowEdit}
+                onChangeHandler={this.onChangeHandler}
+                handleUpdate={this.props.handleUpdate}
+                updateBoardContent={updateBoardContent}
+              />
+            </EditorActivity>
+            <EditorActivity icon="newspaper" dataTip="Card Description">
+              <MarkdownEditor
+                className="editor-description"
+                allowEdit={allowEdit}
+                onChange={e => this.onChangeHandler(e, "description")}
+                placeholder="Description"
+                onPaste={e => {
+                  e.preventDefault();
+                }}
+                value={description}
+              />
+            </EditorActivity>
+            {disableComponents || !this.props.content.attachments.length ? null : (
+              <Attachments
+                handleUpdate={this.props.handleUpdate}
+                attachments={this.props.content.attachments}
+              />
+            )}
+            {disableComponents ? null : (
+              <Comments {...this.props} comments={this.props.content.comments} />
+            )}
+          </div>
+        </FileDrop>
         <DeleteModal
           handleCloseModal={() => {
             this.setState({ openDeleteModal: false });
@@ -290,7 +292,7 @@ class CardEditor extends React.Component {
           acceptTitle={"Save"}
           cancelTitle={"Close"}
         />
-      </FileDrop>
+      </>
     );
   }
 }

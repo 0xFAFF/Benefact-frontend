@@ -13,8 +13,10 @@ interface Panel {
   };
 }
 
+type API = ReturnType<Accordion["getApi"]>;
+
 interface Props {
-  panels?: Array<Panel>;
+  children: (api: API) => Array<Panel>;
   className?: string;
   exclusive?: boolean;
 }
@@ -44,23 +46,26 @@ class Accordion extends Component<Props> {
     });
   };
 
-  render() {
-    const { panels = [], className = "" } = this.props;
+  private getApi = () => {
+    return {
+      titleClick: this.handleTitleClick,
+      isIndexActive: this.isIndexActive
+    };
+  };
 
+  render() {
+    const { children, className = "" } = this.props;
     const accordionClassName = "flex col " + className;
 
-    // TODO: Update to render props pattern to expose an onclick handler for title child component
     return (
       <div className="accordion">
-        {panels.map(({ title, content }, index) => {
+        {children(this.getApi()).map(({ title, content }, index) => {
           return (
             <AccordionPanel
               key={index}
               className={accordionClassName}
               title={title}
               content={content}
-              handleTitleClick={this.handleTitleClick}
-              index={index}
               active={this.isIndexActive(index)}
             />
           );

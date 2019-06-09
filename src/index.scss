@@ -141,6 +141,10 @@ body {
     box-shadow: var(--card-shadow);
   }
 
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
   --bg-primary: #eef1f5;
   --bg-navbar: var(--card-primary);
   --navbar-text-color: var(--text-color);

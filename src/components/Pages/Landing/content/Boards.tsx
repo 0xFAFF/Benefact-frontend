@@ -5,6 +5,7 @@ import CreateBoard from "./CreateBoard";
 import { Modal, Accordion } from "components/UI";
 import { AccordianChildProps } from "components/UI/PageComponents/Accordian";
 import { PrivilegeMap } from "components/UI/PageComponents/Form/PrivilegeInput";
+import { hasPrivilege } from "utils";
 import "./Boards.scss";
 
 interface boardProps {
@@ -42,7 +43,9 @@ class Boards extends React.Component {
           <>
             <div className="board-user-role">Role: {PrivilegeMap[userPrivilege]}</div>
             <div className="board-user-description">Description: {description}</div>
-            <Link to={`/board/${urlName}/settings`}>Edit Board Settings</Link>
+            {hasPrivilege("admin", userPrivilege) && (
+              <Link to={`/board/${urlName}/settings`}>Edit Board Settings</Link>
+            )}
           </>
         )}
       </div>

@@ -22,34 +22,96 @@ class Boards extends React.Component {
       page: { data: { boards = [] } = {} }
     } = this.props as any;
 
-    const BoardEntry = (
-      { title, urlName, userPrivilege, description }: boardProps,
-      index: number
-    ) => ({ isActive, onClick }: AccordianChildProps) => (
-      <div key={index} className="section board">
-        <div className="row cursor-pointer" onClick={onClick}>
-          <div className="board-icon">
-            <FontAwesomeIcon icon="columns" className="secondary" />
-          </div>
-          <div className="board-info grow col">
-            <div className="row">
-              <div className="title">{title}</div>
-              <div className="pull-right">{isActive ? "Hide Details" : "Show Details"}</div>
+    const ActiveContent = ({ title, userPrivilege, description, urlName }: boardProps) => {
+      const fields = [
+        {
+          header: "Title",
+          content: title
+        },
+        {
+          header: "Description",
+          content: description || "No description available"
+        },
+        {
+          header: "URL Name",
+          // NOTE: Should probably not be hardcoded in here
+          content: `https://benefact.dev/board/${urlName}`
+        },
+        {
+          header: "Your Role",
+          content: PrivilegeMap[userPrivilege]
+        },
+        {
+          header: "Your Privileges",
+          content: "N/A"
+        },
+        {
+          header: "Default Privilege",
+          content: "N/A"
+        },
+        {
+          header: "Columns",
+          content: "N/A"
+        },
+        {
+          header: "Tags",
+          content: "N/A"
+        },
+        {
+          header: "Team Members",
+          content: "N/A"
+        },
+        {
+          header: "Contributors",
+          content: "N/A"
+        },
+        {
+          header: "Last Updated",
+          content: "N/A"
+        }
+      ];
+      return (
+        <div className="section bg-primary">
+          {hasPrivilege("admin", userPrivilege) && (
+            <div className="pull-right">
+              <Link to={`/board/${urlName}/settings`}>Edit Board Settings</Link>
             </div>
-            <Link to={`/board/${urlName}`}>View Board</Link>
+          )}
+          <div className="flex col table">
+            {fields.map(({ header, content }, index) => (
+              <div key={index} className="flex row table-container">
+                <div className="bold table-header">{header}</div>
+                <div className="grow table-content">{content}</div>
+              </div>
+            ))}
           </div>
         </div>
-        {isActive && (
-          <>
-            <div className="board-user-role">Role: {PrivilegeMap[userPrivilege]}</div>
-            <div className="board-user-description">Description: {description}</div>
-            {hasPrivilege("admin", userPrivilege) && (
-              <Link to={`/board/${urlName}/settings`}>Edit Board Settings</Link>
-            )}
-          </>
-        )}
-      </div>
-    );
+      );
+    };
+
+    const BoardEntry = (props: boardProps, index: number) => ({
+      isActive,
+      onClick
+    }: AccordianChildProps) => {
+      const { title, urlName } = props;
+      return (
+        <div key={index} className="section board">
+          <div className="row cursor-pointer" onClick={onClick}>
+            <div className="board-icon">
+              <FontAwesomeIcon icon="columns" className="secondary" />
+            </div>
+            <div className="board-info grow col">
+              <div className="row">
+                <div className="title">{title}</div>
+                <div className="pull-right">{isActive ? "Hide Details" : "Show Details"}</div>
+              </div>
+              <Link to={`/board/${urlName}`}>View Board</Link>
+            </div>
+          </div>
+          {isActive && <ActiveContent {...props} />}
+        </div>
+      );
+    };
 
     return (
       <div className="boards-content section-container">

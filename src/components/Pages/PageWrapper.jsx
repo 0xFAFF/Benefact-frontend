@@ -125,7 +125,14 @@ const PageWrapper = Component => {
       return {
         listConfig: [
           buttons,
-          [{ id: "brand", className: "brand center", title: title }],
+          [
+            {
+              id: "brand",
+              className: "brand center cursor-pointer",
+              title,
+              onClick: () => this.props.history.push("/home")
+            }
+          ],
           [
             {
               id: "home",

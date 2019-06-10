@@ -1,2 +1,2 @@
-export { default as UserActivity } from "./UserActivitiy"
+export { default as UserActivity } from "./UserActivity"
 export { default as UserCards } from "./UserCards"

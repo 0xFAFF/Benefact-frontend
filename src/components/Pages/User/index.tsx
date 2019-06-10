@@ -103,7 +103,7 @@ class User extends React.Component<Props, State> {
             </div>
           </div>
         </Segment>
-        <TwoSectionMenu menuTabs={menuTabs} contentClassName="section" {...this.props} />
+        <TwoSectionMenu menuTabs={menuTabs} {...this.props} />
       </div>
     );
   }

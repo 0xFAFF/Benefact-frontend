@@ -5,18 +5,18 @@ import { Filter } from "components/UI/BoardComponents/Filter";
 import { Settings } from "components/UI";
 
 interface Child {
-  handleUpdate(): void
+  handleUpdate(): void;
 }
 interface Props {
-  view: string,
+  view: string;
   page: {
-    data?: any,
-    hasPrivilege(priv?: string): boolean,
-    history?: any,
-    filters?: any,
-    updatePage(page?: any, callback?: void): void,
-    refreshData?: void
-  }
+    data?: any;
+    hasPrivilege(priv?: string): boolean;
+    history?: any;
+    filters?: any;
+    updatePage(page?: any, callback?: void): void;
+    refreshData?: void;
+  };
 }
 
 export const navbarConfigs = (child: Child, props: Props) => {
@@ -81,6 +81,9 @@ export const navbarConfigs = (child: Child, props: Props) => {
         componentHeader: "Board Settings",
         params: {
           handleUpdate: child.handleUpdate
+        },
+        onClick: () => {
+          history.push(`/board/${data.urlName}/${view === "kanban" ? "" : "list/"}settings`);
         }
       }
     ]

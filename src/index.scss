@@ -83,6 +83,11 @@ body {
     display: flex;
   }
 
+  .fit-content {
+    width: fit-content;
+    height: fit-content;
+  }
+
   .wrap {
     flex-wrap: wrap;
   }
@@ -114,15 +119,34 @@ body {
     display: inline;
   }
 
+  .section-container {
+    display: block;
+  }
+
   .section {
-    flex-direction: row;
     background-color: var(--card-primary);
     &:not(.fitted) {
       margin: 8px;
       padding: 5px;
+      &.lg {
+        font-size: 18px;
+        padding: 12px;
+      }
+      &.xlg {
+        font-size: 20px;
+        padding: 20px;
+      }
     }
     border-radius: 5px;
     box-shadow: var(--card-shadow);
+  }
+
+  .bg-primary {
+    background-color: var(--bg-primary);
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
   }
 
   --bg-primary: #eef1f5;

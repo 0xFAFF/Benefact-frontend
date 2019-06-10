@@ -5,4 +5,6 @@ export { AcceptCancelButtons } from "./AcceptCancelButtons";
 export { Form } from "./Form/Form";
 export { Input } from "./Form/Input";
 export { StyledSelect } from "./Form/StyledSelect";
+export { PrivilegeInput } from "./Form/PrivilegeInput";
 export { Segment } from "./Segment";
+export { Accordion } from "./Accordian";

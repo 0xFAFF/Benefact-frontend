@@ -18,7 +18,7 @@ class UserCards extends React.Component {
       <List
         cards={cards}
         openCard={card =>
-          history.push(`/board/${boardLookup[card.boardId].urlName}/card/${card.id}`)
+          history.push(`/board/${boardLookup[card.boardId].urlName}/list/card/${card.id}`)
         }
       />
     );

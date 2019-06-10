@@ -63,7 +63,7 @@ export class Form extends React.Component<Props> {
   render() {
     const { submitBtnTitle, cancelBtnTitle, className, onlyChanged } = this.props;
     return (
-      <div id="form" className={className} onKeyPress={this.handlePressEnter}>
+      <div className={className} onKeyPress={this.handlePressEnter}>
         {typeof this.props.children === "function" &&
           (this.props.children as any)({ attach: this.attach, value: this.form(true) })}
         {React.Children.map(this.props.children, child => {

@@ -40,12 +40,12 @@ export class TwoSectionMenu extends React.Component<Props, State> {
     else className += " grow";
     return (
       <div className={className}>
-        <div id="menu-tabs" className="wrap">
+        <div id="menu-tabs" className="wrap section-container">
           {menuTabs.map(({ header }, index) => {
             return (
-              <div
+              <button
                 key={index}
-                className={`menu-tab flex center wrap ${index === activeIndex ? "active" : ""}`}
+                className={`flex center wrap ${index === activeIndex ? "active" : ""}`}
                 id={header}
                 onClick={() => {
                   this.setState({ activeIndex: index });
@@ -53,7 +53,7 @@ export class TwoSectionMenu extends React.Component<Props, State> {
                 }}
               >
                 {header}
-              </div>
+              </button>
             );
           })}
         </div>

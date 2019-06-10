@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { AcceptCancelButtons } from "components/UI/PageComponents";
 import "./index.scss";
+import { Confirm } from "components/UI/Popup";
 
 const Logout = props => {
   const { onClose, onLogoutHandler } = props;
@@ -12,11 +12,10 @@ const Logout = props => {
   };
 
   return (
-    <AcceptCancelButtons
-      onAcceptHandler={onAcceptHandler}
-      onCancelHandler={onClose}
-      acceptTitle={"Yes"}
-      cancelTitle={"No"}
+    <Confirm
+      onAccept={onAcceptHandler}
+      onCancel={onClose}
+      confirmMessage="Are you sure you want to logout?"
     />
   );
 };

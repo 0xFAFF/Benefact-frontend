@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 import { getCards } from "../../../utils";
 import Views from "./Views";
-import { Modal } from "components/UI";
+import { Modal, Settings } from "components/UI";
 import { PageWrapper } from "../../Pages";
 import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 import { navbarConfigs } from "./navbarConfigs";
@@ -32,6 +32,10 @@ class Board extends React.Component {
         let { columns, cards } = result;
         result.columns = columns = columns || [];
         result.cards = cards = cards || {};
+        result.userMap = result.roles.reduce((users, role) => {
+          users[role.userId] = role.user;
+          return users;
+        }, {});
         let data = { ...result, ...this.getAllCards(result) };
         data = {
           ...data,
@@ -261,7 +265,8 @@ class Board extends React.Component {
       cardId,
       boardId,
       page: { hasPrivilege, data, filters, refreshData, compFetch },
-      view
+      view,
+      editSettings
     } = this.props;
     let cardsById = {};
     if (data && data.cards) {
@@ -328,7 +333,7 @@ class Board extends React.Component {
           filtersActive={Boolean(filters)}
           openCard={({ id }) =>
             this.props.history.push(
-              `/board/${boardId}${view === "kanban" ? "" : "/list"}/card/${id}`
+              `/board/${boardId}${view === "kanban" ? "/kanban" : "/list"}/card/${id}`
             )
           }
         />
@@ -343,6 +348,11 @@ class Board extends React.Component {
               {...data}
               showDeleteModal
             />
+          </Modal>
+        )}
+        {editSettings && (
+          <Modal isOpen onClose={this.closeCard}>
+            <Settings />
           </Modal>
         )}
       </>

@@ -127,8 +127,8 @@ class CardEditor extends React.Component {
 
   onFileUpload = async file => {
     let queryParams = new FormData();
-    queryParams.append("CardId", this.props.content.id);
-    queryParams.append("File", file);
+    queryParams.append("cardId", this.props.content.id);
+    queryParams.append("file", file);
     await this.props.handleUpdate("files", "ADD", queryParams, (e, next) => {
       if (e.status === 413) e.message = "The file is too large";
       next();
@@ -287,8 +287,8 @@ class CardEditor extends React.Component {
           cardId={id}
         />
         <AcceptCancelButtons
-          onAcceptHandler={this.handleOnAccept}
-          onCancelHandler={this.handleOnCancel}
+          onAccept={this.handleOnAccept}
+          onCancel={this.handleOnCancel}
           acceptTitle={"Save"}
           cancelTitle={"Close"}
         />

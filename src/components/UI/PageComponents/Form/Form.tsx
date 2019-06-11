@@ -72,8 +72,8 @@ export class Form extends React.Component<Props> {
         })}
         {(!onlyChanged || Object.entries(this.state).length > 0) && (
           <AcceptCancelButtons
-            onAcceptHandler={this.submitForm}
-            onCancelHandler={this.cancelHandler}
+            onAccept={this.submitForm}
+            onCancel={this.cancelHandler}
             acceptTitle={submitBtnTitle}
             cancelTitle={cancelBtnTitle}
           />

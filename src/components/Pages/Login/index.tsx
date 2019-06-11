@@ -32,14 +32,6 @@ class Login extends React.Component<Props, State> {
     verifyDone: false
   };
 
-  navbar = () => {
-    return {
-      title: "Benefact",
-      buttons: null,
-      className: "login-navbar"
-    };
-  };
-
   componentDidMount = async () => {
     this.props.setChild(this);
     if (!this.props.token && this.props.page.query.verify)

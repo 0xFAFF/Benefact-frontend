@@ -118,13 +118,24 @@ const PageWrapper = Component => {
     };
 
     navbarConfigs = page => {
-      const { buttons = [], title, className } = this.child.navbar
+      const { buttons = [], className } = this.child.navbar
         ? this.child.navbar(page)
-        : { buttons: [], title: "Benefact" };
+        : { buttons: [] };
 
       if (!buttons)
         return {
-          listConfig: [[], [{ id: "brand", className: "brand", title: title }], []],
+          listConfig: [
+            [],
+            [
+              {
+                id: "brand",
+                className: "brand center cursor-pointer",
+                img: <img src="/favicon.png" alt="Benefact" />,
+                onClick: () => this.props.history.push("/home")
+              }
+            ],
+            []
+          ],
           navbarClassName: className
         };
       return {

@@ -1,6 +1,11 @@
 body {
   --button-color: #f8faf8;
   --button-hover: var(--card-hover);
+  button {
+    svg:not([color]) {
+      color: inherit;
+    }
+  }
 }
 
 button {
@@ -13,11 +18,15 @@ button {
   }
   border-radius: 3px;
   color: var(--text-color);
+  &.danger {
+    color: var(--danger-color);
+  }
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 1px 1px 2px #00000050;
+  box-shadow: 1px 1px 2px #e4cdcd50;
   background-color: var(--button-color);
+
   border: 1px solid var(--card-border);
   &:hover {
     background-color: var(--button-hover);

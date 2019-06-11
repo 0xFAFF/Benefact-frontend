@@ -36,8 +36,8 @@ class AddColumn extends React.Component {
           <input value={this.state.title} onChange={this.onTitleChange} />
         </div>
         <AcceptCancelButtons
-          onAcceptHandler={this.onAcceptHandler}
-          onCancelHandler={this.onResetHandler}
+          onAccept={this.onAcceptHandler}
+          onCancel={this.onResetHandler}
           acceptTitle={"Create"}
           cancelTitle={"Reset"}
         />

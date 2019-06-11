@@ -1,10 +1,13 @@
 const baseURL =
   process.env.NODE_ENV === "production"
     ? "/api/" // Don't change this
-    : // : "http://localhost/api/";
-      "https://staging.benefact.dev/api/";
-
-const urlKeyMap = {
+    : "https://staging.benefact.dev/api/";
+    // : "http://localhost/api/";
+export interface URLType {
+  url: string;
+  whiteList?: Array<string>;
+}
+const urlKeyMap: { [type: string]: { [action: string]: URLType } } = {
   cards: {
     GET: {
       url: "boards/{boardId}/"
@@ -108,6 +111,9 @@ const urlKeyMap = {
     UPDATE: {
       url: "boards/{boardId}/update"
     },
+    DELETE: {
+      url: "boards/{boardId}/delete"
+    },
     INVITE: {
       url: "boards/{boardId}/invite"
     },
@@ -125,10 +131,10 @@ const urlKeyMap = {
   }
 };
 
-function URLS(type, action, urlParams = {}) {
-  let urlEntry = urlKeyMap[type][action];
-  let url = `${baseURL}${urlEntry.url}`.replace(/{(.*?)}/g, (_, m) => urlParams[m]);
-  return { type, action, name: url, ...urlEntry };
+function URLS(type: string, action: string, urlParams = {} as { [key: string]: any }) {
+  let urlEntry = { ...urlKeyMap[type][action] } as URLType;
+  urlEntry.url = `${baseURL}${urlEntry.url}`.replace(/{(.*?)}/g, (_, m) => urlParams[m]);
+  return urlEntry;
 }
 
 export default URLS;

@@ -119,8 +119,8 @@ class Comments extends React.Component {
                 <AcceptCancelButtons
                   acceptTitle="Comment"
                   cancelTitle="Cancel"
-                  onAcceptHandler={() => this.onUpdateComment("add", id)}
-                  onCancelHandler={() => this.setState({ addComment: "" })}
+                  onAccept={() => this.onUpdateComment("add", id)}
+                  onCancel={() => this.setState({ addComment: "" })}
                 />
               )}
             </div>
@@ -175,8 +175,8 @@ class Comments extends React.Component {
                         <AcceptCancelButtons
                           acceptTitle="Save"
                           cancelTitle="Cancel"
-                          onAcceptHandler={() => this.onUpdateComment("edit", id)}
-                          onCancelHandler={() =>
+                          onAccept={() => this.onUpdateComment("edit", id)}
+                          onCancel={() =>
                             this.setState({ editComment: { id: null, message: "" } })
                           }
                         />

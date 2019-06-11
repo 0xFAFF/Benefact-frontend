@@ -1,12 +1,17 @@
 import React from "react";
+import { URLType } from "constants/URLS";
 
 const PageContext = React.createContext({});
 
 export const PageProvider = PageContext.Provider;
 export const PageConsumer = PageContext.Consumer;
 export interface PageType {
-  compFetch(type: string, action: string, queryParams?: any, errorHandler?: any): any;
+  compFetch(type: string, action: string, queryParams?: any, errorHandler?: any): Promise<any>;
+  urlFetch(url: URLType, queryParams?: any, errorHandler?: any): Promise<any>;
+  refreshData(promise: Promise<any> | null) : Promise<any>;
   history: { push(url: string): void };
+  data: any;
+  user: { id: number };
 }
 export interface PageProps {
   page: PageType;

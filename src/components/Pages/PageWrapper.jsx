@@ -134,7 +134,7 @@ const PageWrapper = Component => {
             {
               id: "brand",
               className: "brand center cursor-pointer",
-              title,
+              img: <img src="/favicon.png" alt="Benefact" />,
               onClick: () => this.props.history.push("/home")
             }
           ],

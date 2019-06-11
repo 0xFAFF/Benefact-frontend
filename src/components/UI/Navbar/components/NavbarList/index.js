@@ -12,21 +12,13 @@ const NavbarList = props => {
   return (
     <div className={`navbar-list ${navbarClassName}`}>
       <div key="menu" className="navbar-list-container">
-        <div className="navbar-top-left">
-          <img src="/favicon.png" alt="Benefact" />
-        </div>
         <Tooltip id="navbar-tooltip" />
         <ul className={"menu flex grow"}>
           {listConfig.map((section, index) => {
             return (
-              <div
-                key={`menu ${index}`}
-                className={`grow row${(index === listConfig.length - 1 && " pull-right") ||
-                  ""}${(index === 1 && " middle") || ""}`}
-              >
-                {index === 1 && <img src="/favicon.png" alt="Benefact" />}
+              <div key={`menu ${index}`} className={`grow-even row`}>
                 {section.map(item => {
-                  const { id, icon, title, className = null, url, hide, tooltip } = item;
+                  const { id, icon, title, className = null, url, hide, tooltip, img } = item;
                   if (hide) return null;
                   return (
                     <Fragment key={id}>
@@ -39,6 +31,7 @@ const NavbarList = props => {
                         }}
                       >
                         <div className="icon-title">
+                          {img ? <span>{img}</span> : null}
                           {icon && <FontAwesomeIcon icon={icon} style={{ fontSize: "1.5em" }} />}
                           {title ? <span>{title}</span> : null}
                         </div>

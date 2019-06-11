@@ -17,6 +17,7 @@ interface boardProps {
   title: string;
   urlName: string;
   userPrivilege: number;
+  defaultPrivilege: number;
   description: string | null;
 }
 
@@ -37,7 +38,8 @@ class Boards extends React.Component {
       title,
       userPrivilege,
       description,
-      urlName
+      urlName,
+      defaultPrivilege
     }: boardProps) => {
       const fields = [
         {
@@ -63,7 +65,7 @@ class Boards extends React.Component {
         },
         {
           header: "Default Privilege",
-          content: "N/A"
+          content: PrivilegeMap[defaultPrivilege]
         },
         {
           header: "Columns",
@@ -90,7 +92,9 @@ class Boards extends React.Component {
         <div className="section bg-primary">
           {hasPrivilege("admin", userPrivilege) && (
             <div className="flex content-header">
-              <Link to={`/board/${urlName}/settings`}>Edit Board Settings</Link>
+              <Link to={`/board/${urlName}/settings`} className="center flex">
+                Edit Board Settings
+              </Link>
               {creatorId === userId && (
                 <Button
                   icon="trash"
@@ -126,9 +130,11 @@ class Boards extends React.Component {
             <div className="board-info grow col">
               <div className="row">
                 <div className="title">{title}</div>
-                <div className="pull-right">{isActive ? "Hide Details" : "Show Details"}</div>
               </div>
               <Link to={`/board/${urlName}`}>View Board</Link>
+            </div>
+            <div className="pull-right center flex details">
+              {isActive ? "Hide Details" : "Show Details"}
             </div>
           </div>
           {isActive && <ActiveContent {...props} />}

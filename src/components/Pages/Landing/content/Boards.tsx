@@ -32,15 +32,15 @@ class Boards extends React.Component {
         user: { id: userId }
       }
     } = this.props as PageProps;
-
     const ActiveContent = ({
       creatorId,
       title,
       userPrivilege,
       description,
-      urlName,
-      defaultPrivilege
+      urlName
     }: boardProps) => {
+      const link = `/board/${urlName}`;
+      const linkText = `${window.location.host}${link}`;
       const fields = [
         {
           header: "Title",
@@ -53,39 +53,11 @@ class Boards extends React.Component {
         {
           header: "URL Name",
           // NOTE: Should probably not be hardcoded in here
-          content: `https://benefact.dev/board/${urlName}`
+          content: <Link to={link}>{linkText}</Link>
         },
         {
           header: "Your Role",
           content: PrivilegeMap[userPrivilege]
-        },
-        {
-          header: "Your Privileges",
-          content: "N/A"
-        },
-        {
-          header: "Default Privilege",
-          content: PrivilegeMap[defaultPrivilege]
-        },
-        {
-          header: "Columns",
-          content: "N/A"
-        },
-        {
-          header: "Tags",
-          content: "N/A"
-        },
-        {
-          header: "Team Members",
-          content: "N/A"
-        },
-        {
-          header: "Contributors",
-          content: "N/A"
-        },
-        {
-          header: "Last Updated",
-          content: "N/A"
         }
       ];
       return (
@@ -106,9 +78,9 @@ class Boards extends React.Component {
           )}
           <div className="flex col table">
             {fields.map(({ header, content }, index) => (
-              <div key={index} className="flex row table-container">
-                <div className="bold table-header">{header}</div>
-                <div className="grow table-content">{content}</div>
+              <div key={index} className="flex table-container">
+                <div className="table-header">{header}</div>
+                <div className="table-content">{content}</div>
               </div>
             ))}
           </div>

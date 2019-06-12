@@ -352,7 +352,7 @@ class Board extends React.Component {
         )}
         {editSettings && (
           <Modal isOpen onClose={this.closeCard}>
-            <Settings />
+            <Settings handleUpdate={this.handleUpdate} />
           </Modal>
         )}
       </>

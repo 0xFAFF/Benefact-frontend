@@ -21,7 +21,7 @@ export const Input = InputWrapper(
       if (childProps.type === "checkbox") {
         childProps.checked = childProps.value;
         delete childProps.value;
-      }
+      } else if (childProps.value === null) childProps.value = "";
       return (
         <div className="row grow center">
           {icon && (

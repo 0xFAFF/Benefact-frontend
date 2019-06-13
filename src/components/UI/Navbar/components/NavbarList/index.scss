@@ -26,30 +26,12 @@
     position: absolute;
     top: 8px;
   }
-  @media (max-width: 500px) {
-    div.navbar-top-left {
-      display: none;
-    }
-  }
 
   ul.menu {
     margin: 0;
-    margin-left: 50px;
     align-items: center;
     padding: 0px;
     list-style: none;
-    justify-content: space-between;
-    .brand {
-      font-size: 1.8em;
-      font-family: "Lora";
-      letter-spacing: 3px;
-      margin-left: auto;
-      margin-right: auto;
-      font-weight: 600;
-      .icon-title > span {
-        margin-top: 0;
-      }
-    }
     .placeholder {
       width: 146px;
     }
@@ -86,12 +68,6 @@
       padding: 10px 5px;
       margin: 5px 0;
     }
-    .middle {
-      flex-basis: initial;
-      li {
-        display: none;
-      }
-    }
     div {
       justify-content: space-around;
     }
@@ -105,14 +81,6 @@
     @media only screen and (min-width: 500px) {
       li {
         padding: 10px 7px;
-      }
-      .middle {
-        li {
-          display: flex;
-        }
-        img {
-          display: none;
-        }
       }
     }
 
@@ -150,9 +118,6 @@
 }
 
 .login-navbar {
-  .middle {
-    display: flex !important;
-  }
   ul.menu {
     margin-left: 0;
   }

@@ -68,8 +68,8 @@ class Basic extends React.Component {
           />
         </div>
         <AcceptCancelButtons
-          onAcceptHandler={onAcceptHandler}
-          onCancelHandler={resetFilters}
+          onAccept={onAcceptHandler}
+          onCancel={resetFilters}
           acceptTitle={"Select"}
           cancelTitle={"Reset"}
         />

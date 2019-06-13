@@ -2,28 +2,32 @@ import React from "react";
 import { ButtonGroup } from "components/UI/PageComponents";
 import { Button } from "components/UI/PageComponents/Button";
 
-interface Props {
-  onAcceptHandler?: () => void;
-  onCancelHandler?: () => void;
+export interface Props {
+  onAccept?: () => void;
+  onCancel?: () => void;
   acceptTitle?: string;
   cancelTitle?: string;
+  acceptClassName?: string;
+  cancelClassName?: string;
 }
 
 export const AcceptCancelButtons = ({
-  onAcceptHandler,
-  onCancelHandler,
+  onAccept,
+  onCancel,
+  acceptClassName,
+  cancelClassName,
   acceptTitle,
   cancelTitle
 }: Props) => {
   return (
     <ButtonGroup>
       {acceptTitle && (
-        <Button onClick={onAcceptHandler} className="button-accept">
+        <Button onClick={onAccept} className={acceptClassName}>
           {acceptTitle}
         </Button>
       )}
       {cancelTitle && (
-        <Button onClick={onCancelHandler} className="button-cancel">
+        <Button onClick={onCancel} className={cancelClassName}>
           {cancelTitle}
         </Button>
       )}

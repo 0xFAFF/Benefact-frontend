@@ -60,6 +60,7 @@ class User extends React.Component<Props, State> {
       return boards;
     }, {});
     data.boardLookup = boardLookup;
+    data.userMap = { [data.user.id]: data.user };
     return { data };
   };
   navbar = (props: Props) => {

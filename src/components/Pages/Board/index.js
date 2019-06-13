@@ -309,8 +309,8 @@ class Board extends React.Component {
           <AcceptCancelButtons
             acceptTitle="Yes"
             cancelTitle="No"
-            onAcceptHandler={() => refreshData(compFetch("boards", "JOIN"))}
-            onCancelHandler={this.goHome}
+            onAccept={() => refreshData(compFetch("boards", "JOIN"))}
+            onCancel={this.goHome}
           />
         </Segment>
       );
@@ -352,7 +352,7 @@ class Board extends React.Component {
         )}
         {editSettings && (
           <Modal isOpen onClose={this.closeCard}>
-            <Settings />
+            <Settings handleUpdate={this.handleUpdate} />
           </Modal>
         )}
       </>

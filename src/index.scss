@@ -36,12 +36,11 @@ body {
     color: var(--input-placeholder-text-color);
   }
 
-  svg:not(.secondary) {
+  svg:not([color]) {
     color: var(--icon-primary-color);
-  }
-
-  svg:not([color] .secondary) {
-    color: var(--icon-secondary-color);
+    &.secondary {
+      color: var(--icon-secondary-color);
+    }
   }
 
   .pull-right {
@@ -111,7 +110,6 @@ body {
   }
 
   a {
-    font-size: 0.9em;
     font-style: italic;
     color: var(--link-color);
     text-decoration: underline;
@@ -184,14 +182,11 @@ body {
   --toast-error-text-color: #fff;
   --toast-warn-text-color: #fff;
   --toast-info-text-color: #fff;
-  --toast-success-bg-color: #07bc0c;
-  --toast-error-bg-color: #e74c3c;
-  --toast-warn-bg-color: #f1c40f;
-  --toast-info-bg-color: #3498db;
-  --toast-success-progress-color: rgba(255, 255, 255, 0.7);
-  --toast-error-progress-color: rgba(255, 255, 255, 0.7);
-  --toast-warn-progress-color: rgba(255, 255, 255, 0.7);
-  --toast-info-progress-color: rgba(255, 255, 255, 0.7);
+  --success-color: #07bc0c;
+  --danger-color: #e74c3c;
+  --warning-color: #f1c40f;
+  --info-color: #3498db;
+  --toast-progress-color: rgba(255, 255, 255, 0.7);
 }
 
 #root,

@@ -78,17 +78,22 @@ const PageWrapper = Component => {
       if (this.state.onModalClose) this.state.onModalClose();
       this.setState({ modal: null, onModalClose: null });
     };
-
-    compFetch = async (type, action, queryParams, errorHandler) => {
-      const { boardId, token } = this.props;
+    compFetch = (type, action, queryParams, errorHandler) => {
+      const boardId = this.props.boardId;
+      return this.urlFetch(
+        URLS(type, action, { ...(boardId && { boardId }) }),
+        queryParams,
+        errorHandler
+      );
+    };
+    urlFetch = async (url, queryParams, errorHandler) => {
       let handle = error => {
         let handle = middleWare(error, this.handleError);
         if (this.child.handleError) handle = middleWare(error, this.child.handleError, handle);
         if (errorHandler) handle = middleWare(error, errorHandler, handle);
         handle();
       };
-      const url = URLS(type, action, { ...(boardId && { boardId }) });
-      return await fetching(url, queryParams, token)
+      return await fetching(url, queryParams, this.props.token)
         .then(async res => {
           let result = null;
           try {
@@ -113,19 +118,37 @@ const PageWrapper = Component => {
     };
 
     navbarConfigs = page => {
-      const { buttons = [], title, className } = this.child.navbar
+      const { buttons = [], className } = this.child.navbar
         ? this.child.navbar(page)
-        : { buttons: [], title: "Benefact" };
+        : { buttons: [] };
 
       if (!buttons)
         return {
-          listConfig: [[], [{ id: "brand", className: "brand", title: title }], []],
+          listConfig: [
+            [],
+            [
+              {
+                id: "brand",
+                className: "brand center cursor-pointer",
+                img: <img src="/favicon.png" alt="Benefact" />,
+                onClick: () => this.props.history.push("/home")
+              }
+            ],
+            []
+          ],
           navbarClassName: className
         };
       return {
         listConfig: [
           buttons,
-          [{ id: "brand", className: "brand center", title: title }],
+          [
+            {
+              id: "brand",
+              className: "brand center cursor-pointer",
+              img: <img src="/favicon.png" alt="Benefact" />,
+              onClick: () => this.props.history.push("/home")
+            }
+          ],
           [
             {
               id: "home",
@@ -162,6 +185,7 @@ const PageWrapper = Component => {
         closeModal: this.closeModal,
         refreshData: this.refreshData,
         compFetch: this.compFetch,
+        urlFetch: this.urlFetch,
         history: this.props.history,
         match: this.props.match,
         isLoading: this.state.isLoading,

@@ -10,6 +10,11 @@
       justify-content: center;
       font-size: 2em;
     }
+    .content-header {
+      a {
+        margin: 3px 8px 8px 8px;
+      }
+    }
     a {
       width: fit-content;
     }
@@ -17,6 +22,43 @@
       .title {
         font-size: 1.5em;
         text-align: left;
+      }
+    }
+    .details {
+      min-width: 6em;
+    }
+  }
+
+  .table {
+    margin: 10px 0px;
+    .table-header,
+    .table-content {
+      padding: 10px;
+      margin: 0px 10px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .table-header {
+      flex: 3 auto 0;
+      font-weight: bold;
+    }
+    .table-content {
+      flex: 7 auto 0;
+      overflow-x: hidden;
+    }
+    .table-container {
+      flex-direction: row;
+    }
+    @media only screen and (max-width: 500px) {
+      .table-container {
+        flex-direction: column;
+      }
+      .table-header {
+        border-bottom: none;
+      }
+      .table-content {
+        padding-top: 0;
+        text-indent: 20px;
+        word-break: break-word;
       }
     }
   }

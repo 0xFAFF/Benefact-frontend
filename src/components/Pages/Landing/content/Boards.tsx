@@ -2,65 +2,146 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateBoard from "./CreateBoard";
-import { Modal, Accordion } from "components/UI";
+import { Modal, Accordion, Button } from "components/UI";
 import { AccordianChildProps } from "components/UI/PageComponents/Accordian";
 import { PrivilegeMap } from "components/UI/PageComponents/Form/PrivilegeInput";
 import { hasPrivilege } from "utils";
+import { PageProps } from "components/Pages/PageContext";
 import "./Boards.scss";
+import { Confirm } from "components/UI/Popup";
+import URLS from "constants/URLS";
 
 interface boardProps {
-  title?: string;
-  urlName?: string;
+  id: number;
+  creatorId: number;
+  title: string;
+  urlName: string;
   userPrivilege: number;
-  description?: string;
+  defaultPrivilege: number;
+  description: string | null;
 }
 
 class Boards extends React.Component {
-  state = { showModal: false };
+  state = { showCreateModal: false, showDeleteModal: null as string | null };
   render = () => {
     const {
-      page: { data: { boards = [] } = {} }
-    } = this.props as any;
-
-    const BoardEntry = (
-      { title, urlName, userPrivilege, description }: boardProps,
-      index: number
-    ) => ({ isActive, onClick }: AccordianChildProps) => (
-      <div key={index} className="section board">
-        <div className="row cursor-pointer" onClick={onClick}>
-          <div className="board-icon">
-            <FontAwesomeIcon icon="columns" className="secondary" />
-          </div>
-          <div className="board-info grow col">
-            <div className="row">
-              <div className="title">{title}</div>
-              <div className="pull-right">{isActive ? "Hide Details" : "Show Details"}</div>
+      page: {
+        refreshData,
+        urlFetch,
+        data: { boards = [] } = {},
+        user: { id: userId }
+      }
+    } = this.props as PageProps;
+    const ActiveContent = ({
+      creatorId,
+      title,
+      userPrivilege,
+      description,
+      urlName
+    }: boardProps) => {
+      const link = `/board/${urlName}`;
+      const linkText = `${window.location.host}${link}`;
+      const fields = [
+        {
+          header: "Title",
+          content: title
+        },
+        {
+          header: "Description",
+          content: description || "No description available"
+        },
+        {
+          header: "URL Name",
+          // NOTE: Should probably not be hardcoded in here
+          content: <Link to={link}>{linkText}</Link>
+        },
+        {
+          header: "Your Role",
+          content: PrivilegeMap[userPrivilege]
+        }
+      ];
+      return (
+        <div className="section bg-primary">
+          {hasPrivilege("admin", userPrivilege) && (
+            <div className="flex content-header">
+              <Link to={`/board/${urlName}/settings`} className="center flex">
+                Edit Board Settings
+              </Link>
+              {creatorId === userId && (
+                <Button
+                  icon="trash"
+                  className="sm danger pull-right"
+                  onClick={() => this.setState({ showDeleteModal: urlName })}
+                />
+              )}
             </div>
-            <Link to={`/board/${urlName}`}>View Board</Link>
+          )}
+          <div className="flex col table">
+            {fields.map(({ header, content }, index) => (
+              <div key={index} className="flex table-container">
+                <div className="table-header">{header}</div>
+                <div className="table-content">{content}</div>
+              </div>
+            ))}
           </div>
         </div>
-        {isActive && (
-          <>
-            <div className="board-user-role">Role: {PrivilegeMap[userPrivilege]}</div>
-            <div className="board-user-description">Description: {description}</div>
-            {hasPrivilege("admin", userPrivilege) && (
-              <Link to={`/board/${urlName}/settings`}>Edit Board Settings</Link>
-            )}
-          </>
-        )}
-      </div>
-    );
+      );
+    };
+
+    const BoardEntry = (props: boardProps, index: number) => ({
+      isActive,
+      onClick
+    }: AccordianChildProps) => {
+      const { title, urlName } = props;
+      return (
+        <div key={index} className="section board">
+          <div className="row cursor-pointer" onClick={onClick}>
+            <div className="board-icon">
+              <FontAwesomeIcon icon="columns" className="secondary" />
+            </div>
+            <div className="board-info grow col">
+              <div className="row">
+                <div className="title">{title}</div>
+              </div>
+              <Link to={`/board/${urlName}`}>View Board</Link>
+            </div>
+            <div className="pull-right center flex details">
+              {isActive ? "Hide Details" : "Show Details"}
+            </div>
+          </div>
+          {isActive && <ActiveContent {...props} />}
+        </div>
+      );
+    };
 
     return (
       <div className="boards-content section-container">
         <Modal
-          isOpen={this.state.showModal}
-          title="Create a New Board"
-          onClose={() => this.setState({ showModal: false })}
+          isOpen={this.state.showCreateModal}
+          title="Create Board"
+          onClose={() => this.setState({ showCreateModal: false })}
         >
-          <CreateBoard onClose={() => this.setState({ showModal: false })} />
+          <CreateBoard onClose={() => this.setState({ showCreateModal: false })} />
         </Modal>
-        <button onClick={() => this.setState({ showModal: true })}>Create New Board</button>
+        <Modal
+          isOpen={Boolean(this.state.showDeleteModal)}
+          title="Delete Board"
+          onClose={() => this.setState({ showDeleteModal: null })}
+        >
+          <Confirm
+            onAccept={async () => {
+              await refreshData(
+                urlFetch(URLS("boards", "DELETE", { boardId: this.state.showDeleteModal }))
+              );
+              this.setState({ showDeleteModal: null });
+            }}
+            acceptClassName="danger"
+            acceptTitle="Delete"
+            onCancel={() => this.setState({ showDeleteModal: null })}
+            confirmMessage={"Are you sure you want to permanently delete this board?"}
+          />
+        </Modal>
+        <button onClick={() => this.setState({ showCreateModal: true })}>Create New Board</button>
         <Accordion>{boards.map(BoardEntry)}</Accordion>
       </div>
     );

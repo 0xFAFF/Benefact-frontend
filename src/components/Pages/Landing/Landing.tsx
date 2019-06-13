@@ -58,6 +58,7 @@ class Landing extends React.Component<Props, State> {
         return boards;
       }, {});
       data.boardLookup = boardLookup;
+      data.userMap = { [data.user.id]: data.user };
       return { data };
     });
 

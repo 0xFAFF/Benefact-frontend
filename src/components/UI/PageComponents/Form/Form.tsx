@@ -15,7 +15,7 @@ interface Props {
   defaults?: { [s: string]: any };
 }
 
-export class Form extends React.Component<Props> {
+export class Form extends React.Component<Props, { [s: string]: any }> {
   state = {} as { [s: string]: any };
 
   handlePressEnter = (e: React.KeyboardEvent) => {
@@ -27,16 +27,14 @@ export class Form extends React.Component<Props> {
   submitForm = async () => {
     if (this.props.onSubmit) await this.props.onSubmit(this.form());
     if (!this.props.keepAfterSubmit) {
-      this.setState((prevState: { [s: string]: any }) => {
-        return Object.entries(prevState).map(([key, _]) => delete prevState[key]);
-      });
+      Object.entries(this.state).map(([key, _]) => delete this.state[key]);
+      this.forceUpdate();
     }
   };
 
   cancelHandler = () => {
-    this.setState((prevState: { [s: string]: any }) => {
-      return Object.entries(prevState).map(([key, _]) => delete prevState[key]);
-    });
+    Object.entries(this.state).map(([key, _]) => delete this.state[key]);
+    this.forceUpdate();
     if (this.props.onCancel) this.props.onCancel();
   };
 
@@ -72,8 +70,8 @@ export class Form extends React.Component<Props> {
         })}
         {(!onlyChanged || Object.entries(this.state).length > 0) && (
           <AcceptCancelButtons
-            onAcceptHandler={this.submitForm}
-            onCancelHandler={this.cancelHandler}
+            onAccept={this.submitForm}
+            onCancel={this.cancelHandler}
             acceptTitle={submitBtnTitle}
             cancelTitle={cancelBtnTitle}
           />

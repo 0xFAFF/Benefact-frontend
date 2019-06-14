@@ -35,19 +35,6 @@ class CardEditor extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const { content: { columnId, assigneeId } = {}, columns = [] } = this.props;
-    const colVal = columnId || (columns.length > 0 && columns[0].id);
-    if (colVal) {
-      this.setState({
-        newContent: {
-          columnId: colVal,
-          assigneeId: assigneeId || 0
-        }
-      });
-    }
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     const prevVotes = get(prevState, "newContent.votes", []);
     const nextVotes = get(nextProps, "content.votes", []);
@@ -83,7 +70,7 @@ class CardEditor extends React.Component {
   onChangeHandler = (e, key) => {
     let newState = {};
     if (key === "tag") {
-      const tagIds = [...(this.state.newContent.tagIds || [])];
+      const tagIds = [...(this.state.newContent.tagIds || this.props.content.tagIds || [])];
       const index = tagIds.findIndex(tag => tag === e);
       if (index !== -1) {
         tagIds.splice(index, 1);
@@ -138,10 +125,6 @@ class CardEditor extends React.Component {
   handleOnAccept = () => {
     const { updateBoardContent, onAcceptHandler, onClose } = this.props;
     const id = this.props.content && this.props.content.id;
-    if (!this.state.newContent.columnId) {
-      notifyToast("error", "Unable to create card. Missing column field", { autoClose: 2000 });
-      return;
-    }
 
     updateBoardContent({ id, ...this.state.newContent }, "cards").then(e => {
       notifyToast("success", `${id ? "Updated" : "Created new"} card`, { autoClose: 2000 });

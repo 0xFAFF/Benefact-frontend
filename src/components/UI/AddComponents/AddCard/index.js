@@ -13,7 +13,7 @@ const AddCard = props => {
           title: title || "",
           description: description || "",
           tagIds: tagIds || [],
-          columnId: columnId || 0,
+          columnId: columnId || props.columns[0].id,
           assigneeId: assigneeId || 0
         })
       }

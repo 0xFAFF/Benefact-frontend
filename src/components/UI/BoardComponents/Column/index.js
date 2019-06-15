@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Droppable, Draggable } from "react-beautiful-dnd";
 import { Card } from "../../BoardComponents";
 import Header from "./Header";
 import "./index.scss";
+import { Draggable, Droppable } from "components/DND";
 import { PageProp } from "components/Pages/PageContext";
 
 class Column extends React.Component {

@@ -1,7 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { parseToken } from "utils";
-import { Tooltip } from "components/UI";
 import { PageConsumer } from "components/Pages/PageContext";
 import "./Voting.scss";
 
@@ -23,7 +22,6 @@ const Voting = props => {
         }, 0);
         return (
           <div id="vote-container" className="row">
-            <Tooltip id="voting" />
             <div className={`row vote-thumbs-container ${totalVotes ? "has-votes" : ""}`}>
               {canVote && defaultDisplay && (
                 <div

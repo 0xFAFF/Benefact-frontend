@@ -23,16 +23,20 @@ export class DragDropContext extends React.Component {
     const { onDragEnd } = this.props as any;
     if (this.state.dragging) {
       const dragging = this.state.dragging;
+      const sourceId = dragging.context.source.props.id;
+      const destId = this.dropResult.droppableId;
       const dragEndResult = {
         draggableId: dragging.props.id,
         type: this.dropResult.type,
         source: {
-          droppableId: dragging.context.source.props.id,
+          droppableId: sourceId,
           index: dragging.props.index
         },
         destination: {
-          droppableId: this.dropResult.droppableId,
-          index: this.dropResult.index
+          droppableId: destId,
+          index:
+            this.dropResult.index +
+            (destId === sourceId && this.dropResult.index > dragging.props.index ? -1 : 0)
         }
       };
       this.setState({ dragging: null }, () => {

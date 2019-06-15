@@ -24,17 +24,12 @@ export class Droppable extends React.Component<DroppableProps> {
   draggables: { [key: number]: Draggable } = {};
   innerRef = React.createRef<HTMLElement>();
   animFrame = 0;
-  
+  animRequested = false;
+
   registerChild = (index: number, draggable: Draggable) => {
     this.draggables[index] = draggable;
   };
-  onMouseEnter = (e: MouseEvent) => {
-    this.animFrame = requestAnimationFrame(this.update);
-  };
-  endDragOver = () => {
-    cancelAnimationFrame(this.animFrame);
-    this.setState({ draggingOver: false });
-  };
+
   draggablesMap = (callback: (draggable: Draggable, element: HTMLElement) => void) => {
     Object.values(this.draggables).map(d => {
       if (!d.innerRef.current) return;
@@ -52,12 +47,13 @@ export class Droppable extends React.Component<DroppableProps> {
             firstAfterIndex = index;
           }
         });
+        console.log(firstAfterIndex);
         if (!this.state.draggingOver || this.state.firstAfterIndex !== firstAfterIndex) {
           this.context.updateDropResult(this, firstAfterIndex);
           this.setState({ draggingOver: true, firstAfterIndex });
         }
       }
-    } else if (this.state.draggingOver) this.endDragOver();
+    } else if (this.state.draggingOver) this.setState({ draggingOver: false });
     this.animFrame = requestAnimationFrame(this.update);
   };
   render = () => {
@@ -66,8 +62,9 @@ export class Droppable extends React.Component<DroppableProps> {
     //TODO: Figure out
     const vertical = true;
     if (this.context.dragging != null) {
-      placeholder = <div style={{ height: "20px", width: "20px" }} />;
       const dims = this.context.dragging.dims;
+      if (this.state.draggingOver)
+        placeholder = <div style={{ width: `${dims[0]}px`, height: `${dims[1]}px` }} />;
       dragOverShuffle = [vertical ? 0 : dims[0], vertical ? dims[1] : 0];
     }
     return (
@@ -85,8 +82,17 @@ export class Droppable extends React.Component<DroppableProps> {
           {
             placeholder,
             droppableProps: {
-              onMouseEnter: this.onMouseEnter,
-              onMouseLeave: this.endDragOver,
+              onMouseMove: () => {
+                if (!this.animRequested) {
+                  this.animRequested = true;
+                  this.animFrame = requestAnimationFrame(this.update);
+                }
+              },
+              onMouseLeave: () => {
+                cancelAnimationFrame(this.animFrame);
+                this.animRequested = false;
+                this.setState({ draggingOver: false });
+              },
               ref: this.innerRef
             }
           },

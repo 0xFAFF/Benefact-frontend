@@ -25,6 +25,10 @@ export class Draggable extends React.Component<DraggableProps> {
   startingDrag = false;
   lastX = 0;
   animFrame = 0;
+  unmounting = false;
+  componentWillUnmount = () => {
+    this.unmounting = true;
+  };
   globalOnMouseMove = (e: MouseEvent) => {
     if (e.buttons === 0) this.endDrag();
     this.mouse = [e.x, e.y];
@@ -37,8 +41,9 @@ export class Draggable extends React.Component<DraggableProps> {
     }
   };
   //TODO: Catch begin drags that quickly leave client rectangle
-  onMouseLeave = (e: MouseEvent) => {}
+  onMouseLeave = (e: MouseEvent) => {};
   beginDrag = (e: MouseEvent) => {
+    if (this.unmounting) return;
     this.startingDrag = false;
     if (this.context.dragging != null || this.innerRef.current === null) return;
     this.context.beginDrag(this);
@@ -52,11 +57,12 @@ export class Draggable extends React.Component<DraggableProps> {
     document.addEventListener("mousemove", this.globalOnMouseMove);
   };
   endDrag = () => {
-    this.context.endDrag(this);
     cancelAnimationFrame(this.animFrame);
-    this.setState({ dragging: false, style: null });
     document.removeEventListener("mouseup", this.endDrag);
     document.removeEventListener("mousemove", this.globalOnMouseMove);
+    this.context.endDrag(this);
+    if (this.unmounting) return;
+    this.setState({ dragging: false, style: null });
   };
   onMouseDown = (e: MouseEvent) => {
     this.startMouse = [e.clientX, e.clientY];
@@ -65,6 +71,7 @@ export class Draggable extends React.Component<DraggableProps> {
     e.preventDefault();
   };
   draggingUpdate = () => {
+    if (this.unmounting) return;
     let rotation = this.state.rotation * 0.9 + rotationCurve(this.mouse[0] - this.lastX, 0.15);
     this.lastX = this.mouse[0];
     const transform =
@@ -84,10 +91,6 @@ export class Draggable extends React.Component<DraggableProps> {
       }
     });
     this.animFrame = requestAnimationFrame(this.draggingUpdate);
-  };
-  setShuffle = (offset?: Array<number>) => {
-    if (offset) this.setState({ style: { color: "red" } });
-    else this.setState({ style: null });
   };
   render = () => {
     this.context.registerDraggable(this.props.index, this);

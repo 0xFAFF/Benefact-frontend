@@ -51,7 +51,7 @@ class Card extends React.Component {
     return (
       <>
         {hasPrivilege("developer") ? (
-          <Draggable draggableId={`card-${card.id}`} index={index}>
+          <Draggable type="card" id={`card-${card.id}`} index={index}>
             {(provided, snapshot) => {
               return cardDiv({
                 className: snapshot.isDragging ? "card-is-dragging" : "",

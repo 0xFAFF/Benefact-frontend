@@ -1,16 +1,21 @@
 import React from "react";
-import { DNDProps } from "components/DND";
 import "./DND.scss";
-import { ReactContext } from "components/DND/DragDropContext";
+import { DroppableContext } from "components/DND/Droppable";
+import { DNDProps } from "components/DND/DNDProps";
 const rotationCurve = (x: number, c: number) =>
   Math.pow(Math.sin(Math.min(Math.PI / 2, Math.abs(x * c))), 2) * Math.sign(x);
 const dist = (a: Array<number>, b: Array<number>) => {
   return Math.sqrt(a.map((v, i) => [v, b[i]]).reduce((t, v) => t + Math.pow(v[0] - v[1], 2), 0));
 };
+export interface DraggableProps extends DNDProps {
+  index: number;
+  type: string;
+  id: any;
+}
 
-export class Draggable extends React.Component<DNDProps> {
-  static contextType = ReactContext;
-  context!: React.ContextType<typeof ReactContext>;
+export class Draggable extends React.Component<DraggableProps> {
+  static contextType = DroppableContext;
+  context!: React.ContextType<typeof DroppableContext>;
   state = { dragging: false, style: null as {} | null, rotation: 0 };
   innerRef = React.createRef<HTMLElement>();
   startMouse = [0, 0];
@@ -31,16 +36,19 @@ export class Draggable extends React.Component<DNDProps> {
       this.beginDrag(e);
     }
   };
+  //TODO: Catch begin drags that quickly leave client rectangle
+  onMouseLeave = (e: MouseEvent) => {}
   beginDrag = (e: MouseEvent) => {
-    if (this.innerRef.current === null) return;
+    this.startingDrag = false;
+    if (this.context.dragging != null || this.innerRef.current === null) return;
     this.context.beginDrag(this);
     const ele = this.innerRef.current;
-    this.startingDrag = false;
     this.lastX = e.clientX;
     this.dims = [ele.clientWidth, ele.clientHeight];
     this.pos = [ele.offsetLeft, ele.offsetTop];
+    this.mouse = [e.clientX, e.clientY];
     this.setState({ dragging: true });
-    this.animFrame = requestAnimationFrame(this.anim);
+    this.animFrame = requestAnimationFrame(this.draggingUpdate);
     document.addEventListener("mousemove", this.globalOnMouseMove);
   };
   endDrag = () => {
@@ -56,7 +64,7 @@ export class Draggable extends React.Component<DNDProps> {
     document.addEventListener("mouseup", this.endDrag);
     e.preventDefault();
   };
-  anim = () => {
+  draggingUpdate = () => {
     let rotation = this.state.rotation * 0.9 + rotationCurve(this.mouse[0] - this.lastX, 0.15);
     this.lastX = this.mouse[0];
     const transform =
@@ -75,9 +83,23 @@ export class Draggable extends React.Component<DNDProps> {
         height: `${this.dims[1]}px`
       }
     });
-    this.animFrame = requestAnimationFrame(this.anim);
+    this.animFrame = requestAnimationFrame(this.draggingUpdate);
+  };
+  setShuffle = (offset?: Array<number>) => {
+    if (offset) this.setState({ style: { color: "red" } });
+    else this.setState({ style: null });
   };
   render = () => {
+    this.context.registerDraggable(this.props.index, this);
+    const dragOverStyle =
+      this.context.draggingOver && this.context.firstAfterIndex <= this.props.index
+        ? {
+            transform: `translate(${this.context.dragOverShuffle[0]}px, ${
+              this.context.dragOverShuffle[1]
+            }px)`
+          }
+        : null;
+    const style = this.state.dragging ? this.state.style : dragOverStyle;
     return this.props.children(
       {
         dragHandleProps: {
@@ -87,7 +109,7 @@ export class Draggable extends React.Component<DNDProps> {
           draggable: false
         },
         draggableProps: {
-          style: this.state.style,
+          style,
           ref: this.innerRef
         }
       },

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 
 const AddCard = props => {
-  const { handleUpdate, ...rest } = props;
+  const { handleUpdate, column = {}, ...rest } = props;
   return (
     <CardEditor
       {...rest}
@@ -13,7 +13,7 @@ const AddCard = props => {
           title: title || "",
           description: description || "",
           tagIds: tagIds || [],
-          columnId: columnId || props.columns[0].id,
+          columnId: columnId || column.id || props.columns[0].id,
           assigneeId: assigneeId || 0
         })
       }

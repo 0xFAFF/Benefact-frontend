@@ -1,6 +1,7 @@
 import React from "react";
 import { DNDProps } from "components/DND";
 import "./DND.scss";
+import { ReactContext } from "components/DND/DragDropContext";
 const rotationCurve = (x: number, c: number) =>
   Math.pow(Math.sin(Math.min(Math.PI / 2, Math.abs(x * c))), 2) * Math.sign(x);
 const dist = (a: Array<number>, b: Array<number>) => {
@@ -8,6 +9,8 @@ const dist = (a: Array<number>, b: Array<number>) => {
 };
 
 export class Draggable extends React.Component<DNDProps> {
+  static contextType = ReactContext;
+  context!: React.ContextType<typeof ReactContext>;
   state = { dragging: false, style: null as {} | null, rotation: 0 };
   innerRef = React.createRef<HTMLElement>();
   startMouse = [0, 0];
@@ -18,6 +21,7 @@ export class Draggable extends React.Component<DNDProps> {
   lastX = 0;
   animFrame = 0;
   globalOnMouseMove = (e: MouseEvent) => {
+    if (e.buttons === 0) this.endDrag();
     this.mouse = [e.x, e.y];
   };
   onMouseMove = (e: MouseEvent) => {
@@ -29,6 +33,7 @@ export class Draggable extends React.Component<DNDProps> {
   };
   beginDrag = (e: MouseEvent) => {
     if (this.innerRef.current === null) return;
+    this.context.beginDrag(this);
     const ele = this.innerRef.current;
     this.startingDrag = false;
     this.lastX = e.clientX;
@@ -39,6 +44,7 @@ export class Draggable extends React.Component<DNDProps> {
     document.addEventListener("mousemove", this.globalOnMouseMove);
   };
   endDrag = () => {
+    this.context.endDrag(this);
     cancelAnimationFrame(this.animFrame);
     this.setState({ dragging: false, style: null });
     document.removeEventListener("mouseup", this.endDrag);

@@ -91,7 +91,7 @@ export class Draggable extends React.Component<DraggableProps> {
     this.startingDrag = true;
     if (e.touches.length !== 1) return;
     const fakeE = { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
-    this.touchTimer = setTimeout(() => this.beginDrag(fakeE), 300);
+    this.touchTimer = setTimeout(() => this.beginDrag(fakeE), 100);
   };
   onTouchEnd = (e: TouchEvent) => {
     this.endDrag();

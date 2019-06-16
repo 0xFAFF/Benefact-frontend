@@ -104,6 +104,10 @@ class Board extends React.Component {
     );
   };
 
+  handleMove = (type, action, queryParams, errorHandler) => {
+    this.props.compFetch(type, action, queryParams, errorHandler);
+  };
+
   updateBoardContent = async (newContent, type) => {
     await this.handleUpdate(type, "UPDATE", newContent);
   };
@@ -144,6 +148,8 @@ class Board extends React.Component {
       column => `col-${column.id}` === destination.droppableId
     );
 
+    const columnId = +destination.droppableId.replace(/^\D+/g, "");
+
     // Moving within one column
     if (start === finish) {
       // new cards nonmutated array
@@ -154,9 +160,12 @@ class Board extends React.Component {
           `col-${card.columnId}` !== destination.droppableId
       );
       const draggedCard = cardsSrcCol.find(card => `card-${card.id}` === draggableId);
+      const targetCard =
+        destination.index !== 0
+          ? cardsSrcCol[destination.index - 1]
+          : cardsSrcCol[destination.index + 1];
+      const targetIsAfter = destination.index !== 0 ? true : false;
 
-      let newIndex = cardsSrcCol[destination.index]["index"];
-      draggedCard["index"] = newIndex;
       // Orders array for inserting droppable in new spot
       cardsSrcCol.splice(source.index, 1);
       cardsSrcCol.splice(destination.index, 0, draggedCard);
@@ -169,7 +178,12 @@ class Board extends React.Component {
         }
       };
       this.props.page.updatePage({ data: newData });
-      return this.handleUpdate("cards", "UPDATE", draggedCard);
+      return this.handleMove("cards", "MOVE", {
+        cardId: draggedCard.id,
+        columnId,
+        targetCardId: targetCard.id,
+        targetIsAfter
+      });
     }
 
     // Moving card from one column to another

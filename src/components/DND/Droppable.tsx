@@ -70,8 +70,9 @@ export class Droppable extends React.Component<DroppableProps> {
     const { vertical = true } = this.props;
     if (this.context.dragging != null) {
       const dims = this.context.dragging.dims;
-      if (this.state.draggingOver)
-        placeholder = <div style={{ width: `${dims[0]}px`, height: `${dims[1]}px` }} />;
+      // TODO: Having the placeholder always show avoids scrollbars during transform transitions
+      // if (this.state.draggingOver)
+      placeholder = <div style={{ width: `${dims[0]}px`, height: `${dims[1]}px` }} />;
       dragOverShuffle = [vertical ? 0 : dims[0], vertical ? dims[1] : 0];
     }
     return (
@@ -103,7 +104,7 @@ export class Droppable extends React.Component<DroppableProps> {
               ref: this.innerRef
             }
           },
-          {}
+          this.state
         )}
       </DroppableContext.Provider>
     );

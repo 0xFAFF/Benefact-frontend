@@ -47,13 +47,16 @@
     }
   }
 
-  #column-droppable {
+  .column-droppable {
     // TODO: Switch shadow vars to color only, size should be fixed
     box-shadow: 0 6px 6px -6px rgba(98, 98, 102, 0.32) inset;
     transition: background-color 0.2s ease;
     overflow: hidden auto;
     flex-grow: 1;
     max-height: 100%;
+    &.dragging-over {
+      background-color: var(--column-hover);
+    }
   }
 }
 

@@ -5,6 +5,7 @@ import Header from "./Header";
 import "./index.scss";
 import { Draggable, Droppable } from "components/DND";
 import { PageProp } from "components/Pages/PageContext";
+import { cls } from "utils";
 
 class Column extends React.Component {
   static propTypes = {
@@ -40,7 +41,6 @@ class Column extends React.Component {
     };
     const { hasPrivilege } = page;
 
-    const draggingStyle = { backgroundColor: "var(--column-hover)" };
     const dragDisabled = !hasPrivilege("admin");
     return (
       <Draggable type="column" id={column.id} index={index} isDragDisabled={dragDisabled}>
@@ -66,10 +66,12 @@ class Column extends React.Component {
               <Droppable id={`col-${column.id}`} type="card">
                 {(provided, snapshot) => (
                   <div
-                    id="column-droppable"
-                    className={colCards.length ? null : "column-empty"}
+                    className={cls(
+                      "column-droppable",
+                      colCards.length && "column-empty",
+                      snapshot.draggingOver && "dragging-over"
+                    )}
                     ref={provided.innerRef}
-                    style={snapshot.isDraggingOver ? draggingStyle : {}}
                     {...provided.droppableProps}
                   >
                     {colCards.map((card, index) => (

@@ -13,6 +13,17 @@ export interface DraggableProps extends DNDProps {
   id: any;
 }
 
+const findScrollParents = (
+  element: HTMLElement | null
+): Array<{ vertical: boolean; element: HTMLElement }> => {
+  if (!element) return [];
+  let result = findScrollParents(element.parentElement);
+  if (element.scrollHeight > element.offsetHeight)
+    result = [{ vertical: true, element }, ...result];
+  if (element.scrollWidth > element.offsetWidth) result = [{ vertical: false, element }, ...result];
+  return result;
+};
+
 export class Draggable extends React.Component<DraggableProps> {
   static contextType = DroppableContext;
   context!: React.ContextType<typeof DroppableContext>;
@@ -25,6 +36,7 @@ export class Draggable extends React.Component<DraggableProps> {
   startingDrag = false;
   lastX = 0;
   animFrame = 0;
+  dragOverElement: HTMLElement | null = null;
   unmounting = false;
   componentWillUnmount = () => {
     this.unmounting = true;
@@ -32,9 +44,11 @@ export class Draggable extends React.Component<DraggableProps> {
   globalOnMouseMove = (e: MouseEvent) => {
     if (e.buttons === 0) this.endDrag();
     this.mouse = [e.x, e.y];
+    this.dragOverElement = (e.target && (e.target as HTMLElement)) || null;
   };
+
   onMouseMove = (e: MouseEvent) => {
-    if(e.buttons === 0) this.startingDrag = false;
+    if (e.buttons === 0) this.startingDrag = false;
     if (!this.startingDrag) return;
     const pos = [e.clientX, e.clientY];
     if (dist(this.startMouse, pos) > 10) {
@@ -61,7 +75,7 @@ export class Draggable extends React.Component<DraggableProps> {
     cancelAnimationFrame(this.animFrame);
     document.removeEventListener("mouseup", this.endDrag);
     document.removeEventListener("mousemove", this.globalOnMouseMove);
-    if(!this.state.dragging) return;
+    if (!this.state.dragging) return;
     this.context.endDrag(this);
     if (this.unmounting) return;
     this.setState({ dragging: false, style: null });
@@ -72,8 +86,27 @@ export class Draggable extends React.Component<DraggableProps> {
     document.addEventListener("mouseup", this.endDrag);
     e.preventDefault();
   };
+  onTouchStart = (e: TouchEvent) => {
+    console.log(e.type);
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  scrollUpdate = () => {
+    if (this.dragOverElement) {
+      const scrolls = findScrollParents(this.dragOverElement);
+      scrolls.map(({ vertical, element }) => {
+        if (vertical && this.mouse[1] < element.offsetTop + 100) element.scrollBy(0, -5);
+        if (vertical && this.mouse[1] > element.offsetTop + element.offsetHeight - 100)
+          element.scrollBy(0, 5);
+        if (!vertical && this.mouse[0] < element.offsetLeft + 100) element.scrollBy(-5, 0);
+        if (!vertical && this.mouse[0] > element.offsetLeft + element.offsetWidth - 100)
+          element.scrollBy(5, 0);
+      });
+    }
+  };
   draggingUpdate = () => {
     if (this.unmounting) return;
+    this.scrollUpdate();
     let rotation = this.state.rotation * 0.9 + rotationCurve(this.mouse[0] - this.lastX, 0.15);
     this.lastX = this.mouse[0];
     const transform =
@@ -96,19 +129,23 @@ export class Draggable extends React.Component<DraggableProps> {
   };
   render = () => {
     this.context.registerDraggable(this.props.index, this);
-    let dragOverStyle: any = {
+    let notDraggingStyle: any = {
       transition: "transform 0.3s cubic-bezier(0.25, 0.75, 0, 1) 0s"
     };
-    if (this.context.draggingOver && this.context.firstAfterIndex <= this.props.index)
-      dragOverStyle.transform = `translate(${this.context.dragOverShuffle[0]}px, ${
-        this.context.dragOverShuffle[1]
-      }px)`;
-    const style = this.state.dragging ? this.state.style : dragOverStyle;
+    if (this.context.draggingOver) {
+      notDraggingStyle.pointerEvents = "none";
+      if (this.context.firstAfterIndex <= this.props.index)
+        notDraggingStyle.transform = `translate(${this.context.dragOverShuffle[0]}px, ${
+          this.context.dragOverShuffle[1]
+        }px)`;
+    }
+    let style = this.state.dragging ? this.state.style : notDraggingStyle;
     return this.props.children(
       {
         dragHandleProps: {
           "data-drag-handle": 0,
           onMouseDown: this.onMouseDown,
+          onTouchStart: this.onTouchStart,
           onMouseMove: this.onMouseMove,
           draggable: false
         },

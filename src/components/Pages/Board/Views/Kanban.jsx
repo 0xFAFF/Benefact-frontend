@@ -16,7 +16,7 @@ const Kanban = props => {
       >
         <Droppable id="all-columns" vertical={false} type="column">
           {provided => (
-            <div id="board-droppable" {...provided.droppableProps} ref={provided.innerRef}>
+            <div id="board-droppable" {...provided.droppableProps}>
               <div className="views-group-name">
                 <span
                   className="views-group-name-title"

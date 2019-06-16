@@ -28,7 +28,7 @@ export class Droppable extends React.Component<DroppableProps> {
   animRequested = false;
   componentDidMount = () => {
     this.context.registerDroppable(this);
-  }
+  };
   registerChild = (index: number, draggable: Draggable) => {
     this.draggables[index] = draggable;
   };
@@ -45,11 +45,15 @@ export class Droppable extends React.Component<DroppableProps> {
     if (dragging) {
       if (dragging.props.type === type) {
         const mouse = dragging.mouse;
-        const isAfter = (e: HTMLElement, index: number) =>
-          index > firstAfterIndex &&
-          (vertical
-            ? e.offsetTop + e.offsetHeight < mouse[1]
-            : e.offsetLeft + e.offsetWidth < mouse[0]);
+        const isAfter = (e: HTMLElement, index: number) => {
+          const rect = e.getBoundingClientRect();
+          return (
+            index > firstAfterIndex &&
+            (vertical
+              ? (rect.top + rect.bottom) / 2 < mouse[1]
+              : (rect.left + rect.right) / 2 < mouse[0])
+          );
+        };
         let firstAfterIndex = 0;
         this.draggablesMap((v, e) => {
           const index = v.props.index + 1;

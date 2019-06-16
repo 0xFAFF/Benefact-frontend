@@ -40,23 +40,31 @@ export class DragDropContext extends React.Component {
   animFrame = 0;
   scrollUpdate = () => {
     const mouse = this.mouse;
+    const linearScroll = (a: number, b: number, w: number) => {
+      const t = Math.min(99999, (b - a) / 4);
+      if (w >= b - t && w <= b) return ((w - (b - t)) / t) * 20;
+      if (w <= a + t && w >= a) return ((w - (a + t)) / t) * 20;
+      return 0;
+    };
     if (this.dragOverElement) {
       const scrolls = findScrollParents(this.dragOverElement);
       scrolls.map(({ vertical, element }) => {
-        if (vertical && mouse[1] < element.offsetTop + 100) element.scrollBy(0, -5);
-        if (vertical && mouse[1] > element.offsetTop + element.offsetHeight - 100)
-          element.scrollBy(0, 5);
-        if (!vertical && mouse[0] < element.offsetLeft + 100) element.scrollBy(-5, 0);
-        if (!vertical && mouse[0] > element.offsetLeft + element.offsetWidth - 100)
-          element.scrollBy(5, 0);
+        const rect = element.getBoundingClientRect();
+        if (vertical) element.scrollBy(0, linearScroll(rect.top, rect.bottom, mouse[1]));
+        if (!vertical) element.scrollBy(linearScroll(rect.left, rect.right, mouse[0]), 0);
       });
     }
     this.animFrame = requestAnimationFrame(this.scrollUpdate);
   };
-  findDropable(ele?: Element | null): Droppable | null {
+  findDropable(type: string, ele?: Element | null): Droppable | null {
     if (!ele) return null;
     const res = Object.values(this.droppables).find(d => d.innerRef.current === ele);
-    return res ? res : this.findDropable(ele.parentElement);
+    console.log(ele);
+    if (res) {
+      console.log(res.props.id);
+      if (res.props.type === type) return res;
+    }
+    return this.findDropable(type, ele.parentElement);
   }
   touchUpdate = (e: TouchEvent) => {
     this.mouseUpdate({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
@@ -66,10 +74,13 @@ export class DragDropContext extends React.Component {
     if (!target) target = document.elementFromPoint(clientX, clientY) as HTMLElement;
     if (buttons === 0) this.endDrag();
     this.mouse = [clientX, clientY];
-    if (this.state.dragging) this.state.dragging.mouse = this.mouse;
+    if (this.state.dragging) {
+      this.state.dragging.mouse = this.mouse;
+      const drop = this.findDropable(this.state.dragging.props.type, target);
+      console.log(drop);
+      if (drop) this.setDragOver(drop);
+    }
     this.dragOverElement = target || null;
-    const drop = this.findDropable(target);
-    if (drop) this.setDragOver(drop);
   };
   beginDrag = (e: MoveEvent, target: Draggable) => {
     this.setState({ dragging: target });

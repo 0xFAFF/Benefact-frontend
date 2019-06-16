@@ -83,8 +83,9 @@ export class Draggable extends React.Component<DraggableProps> {
     document.removeEventListener("touchend", this.endDrag);
   };
   onTouchMove = (e: TouchEvent) => {
-    if (this.state.dragging) { e.preventDefault(); }
-    else if (this.startingDrag) this.cancelEvents();
+    if (this.state.dragging) {
+      e.preventDefault();
+    } else if (this.startingDrag) this.cancelEvents();
   };
   onTouchStart = (e: TouchEvent) => {
     this.startingDrag = true;

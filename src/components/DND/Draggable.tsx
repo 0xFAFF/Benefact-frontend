@@ -38,6 +38,7 @@ export class Draggable extends React.Component<DraggableProps> {
   animFrame = 0;
   dragOverElement: HTMLElement | null = null;
   unmounting = false;
+  touchTimer: NodeJS.Timeout | undefined = undefined;
   componentWillUnmount = () => {
     this.unmounting = true;
   };
@@ -45,6 +46,18 @@ export class Draggable extends React.Component<DraggableProps> {
     if (e.buttons === 0) this.endDrag();
     this.mouse = [e.x, e.y];
     this.dragOverElement = (e.target && (e.target as HTMLElement)) || null;
+  };
+  globalTouchMove = (e: TouchEvent) => {
+    this.mouse = [e.touches[0].clientX, e.touches[0].clientY];
+    this.dragOverElement = (e.target && (e.target as HTMLElement)) || null;
+  };
+  // There is a bug in React where synethetic events for touchstart are
+  // incapable of calling preventDefault, this is a work around
+  componentDidMount = () => {
+    if (this.innerRef.current) {
+      this.innerRef.current.addEventListener("touchstart", this.onTouchStart);
+      this.innerRef.current.addEventListener("touchmove", this.onTouchMove);
+    }
   };
 
   onMouseMove = (e: MouseEvent) => {
@@ -57,7 +70,8 @@ export class Draggable extends React.Component<DraggableProps> {
   };
   //TODO: Catch begin drags that quickly leave client rectangle
   onMouseLeave = (e: MouseEvent) => {};
-  beginDrag = (e: MouseEvent) => {
+  beginDrag = (e: { clientX: number; clientY: number }) => {
+    console.log("Begin drag");
     if (this.unmounting) return;
     this.startingDrag = false;
     if (this.context.dragging != null || this.innerRef.current === null) return;
@@ -70,11 +84,11 @@ export class Draggable extends React.Component<DraggableProps> {
     this.setState({ dragging: true });
     this.animFrame = requestAnimationFrame(this.draggingUpdate);
     document.addEventListener("mousemove", this.globalOnMouseMove);
+    document.addEventListener("touchend", this.endDrag);
   };
   endDrag = () => {
-    cancelAnimationFrame(this.animFrame);
-    document.removeEventListener("mouseup", this.endDrag);
-    document.removeEventListener("mousemove", this.globalOnMouseMove);
+    console.log("Draggable", this.state.dragging);
+    this.cancelEvents();
     if (!this.state.dragging) return;
     this.context.endDrag(this);
     if (this.unmounting) return;
@@ -86,10 +100,28 @@ export class Draggable extends React.Component<DraggableProps> {
     document.addEventListener("mouseup", this.endDrag);
     e.preventDefault();
   };
+  cancelEvents = () => {
+    this.startingDrag = false;
+    cancelAnimationFrame(this.animFrame);
+    if (this.touchTimer) clearTimeout(this.touchTimer);
+    document.removeEventListener("mouseup", this.endDrag);
+    document.removeEventListener("touchend", this.endDrag);
+    document.removeEventListener("touchmove", this.globalTouchMove);
+    document.removeEventListener("mousemove", this.globalOnMouseMove);
+  };
+  onTouchMove = (e: TouchEvent) => {
+    if (this.state.dragging) { e.preventDefault(); }
+    else if (this.startingDrag) this.cancelEvents();
+  };
   onTouchStart = (e: TouchEvent) => {
-    console.log(e.type);
-    e.preventDefault();
-    e.stopPropagation();
+    this.startingDrag = true;
+    document.addEventListener("touchmove", this.globalTouchMove);
+    if (e.touches.length !== 1) return;
+    const fakeE = { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
+    this.touchTimer = setTimeout(() => this.beginDrag(fakeE), 300);
+  };
+  onTouchEnd = (e: TouchEvent) => {
+    this.endDrag();
   };
   scrollUpdate = () => {
     if (this.dragOverElement) {
@@ -109,18 +141,16 @@ export class Draggable extends React.Component<DraggableProps> {
     this.scrollUpdate();
     let rotation = this.state.rotation * 0.9 + rotationCurve(this.mouse[0] - this.lastX, 0.15);
     this.lastX = this.mouse[0];
-    const transform =
-      `translate(${this.mouse[0] - this.startMouse[0]}px, ${this.mouse[1] -
-        this.startMouse[1]}px)` + ` rotate(${rotation}deg)`;
+    const transform = `rotate(${rotation}deg)`;
     this.setState({
       rotation,
       style: {
         pointerEvents: "none",
-        position: "fixed",
+        position: "absolute",
         zIndex: 9999,
         transform,
-        left: `${this.pos[0]}px`,
-        top: `${this.pos[1]}px`,
+        left: `${this.mouse[0]}px`,
+        top: `${this.mouse[1]}px`,
         width: `${this.dims[0]}px`,
         height: `${this.dims[1]}px`
       }
@@ -145,7 +175,7 @@ export class Draggable extends React.Component<DraggableProps> {
         dragHandleProps: {
           "data-drag-handle": 0,
           onMouseDown: this.onMouseDown,
-          onTouchStart: this.onTouchStart,
+          onTouchEnd: this.onTouchEnd,
           onMouseMove: this.onMouseMove,
           draggable: false
         },

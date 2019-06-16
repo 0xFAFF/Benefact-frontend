@@ -40,9 +40,9 @@ export class DragDropContext extends React.Component {
         }
       };
       this.setState({ dragging: null }, () => {
-        if (onDragEnd) onDragEnd(dragEndResult);
+        if (onDragEnd && Object.values(this.dropResult).length > 0) onDragEnd(dragEndResult);
+        this.dropResult = {};
       });
-      this.dropResult = {};
     }
   };
   registerDroppable(droppable: Droppable) {

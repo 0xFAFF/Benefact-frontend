@@ -26,7 +26,10 @@ export class Droppable extends React.Component<DroppableProps> {
   innerRef = React.createRef<HTMLElement>();
   animFrame = 0;
   animRequested = false;
-
+  componentDidMount = () => {
+    if (!this.innerRef.current) return;
+    this.innerRef.current.addEventListener("touchmove", this.beginListening, { passive: false });
+  };
   registerChild = (index: number, draggable: Draggable) => {
     this.draggables[index] = draggable;
   };
@@ -55,7 +58,6 @@ export class Droppable extends React.Component<DroppableProps> {
             firstAfterIndex = index;
           }
         });
-        console.log(firstAfterIndex);
         if (!this.state.draggingOver || this.state.firstAfterIndex !== firstAfterIndex) {
           this.context.updateDropResult(this, firstAfterIndex);
           this.setState({ draggingOver: true, firstAfterIndex });
@@ -63,6 +65,19 @@ export class Droppable extends React.Component<DroppableProps> {
       }
     } else if (this.state.draggingOver) this.setState({ draggingOver: false });
     this.animFrame = requestAnimationFrame(this.update);
+  };
+  beginListening = () => {
+    if (!this.animRequested) {
+      console.log("Droppable begin listening", this.props.id);
+      this.animRequested = true;
+      this.animFrame = requestAnimationFrame(this.update);
+    }
+  };
+  endListening = () => {
+    console.log("Droppable end listening", this.props.id);
+    cancelAnimationFrame(this.animFrame);
+    this.animRequested = false;
+    this.setState({ draggingOver: false });
   };
   render = () => {
     let placeholder = null;
@@ -90,17 +105,10 @@ export class Droppable extends React.Component<DroppableProps> {
           {
             placeholder,
             droppableProps: {
-              onMouseMove: () => {
-                if (!this.animRequested) {
-                  this.animRequested = true;
-                  this.animFrame = requestAnimationFrame(this.update);
-                }
-              },
-              onMouseLeave: () => {
-                cancelAnimationFrame(this.animFrame);
-                this.animRequested = false;
-                this.setState({ draggingOver: false });
-              },
+              onMouseMove: this.beginListening,
+              onTouchMove: this.beginListening,
+              onMouseLeave: this.endListening,
+              onTouchEnd: this.endListening,
               ref: this.innerRef
             }
           },

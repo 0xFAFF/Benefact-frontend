@@ -27,9 +27,8 @@ export class Droppable extends React.Component<DroppableProps> {
   animFrame = 0;
   animRequested = false;
   componentDidMount = () => {
-    if (!this.innerRef.current) return;
-    this.innerRef.current.addEventListener("touchmove", this.beginListening, { passive: false });
-  };
+    this.context.registerDroppable(this);
+  }
   registerChild = (index: number, draggable: Draggable) => {
     this.draggables[index] = draggable;
   };
@@ -68,13 +67,11 @@ export class Droppable extends React.Component<DroppableProps> {
   };
   beginListening = () => {
     if (!this.animRequested) {
-      console.log("Droppable begin listening", this.props.id);
       this.animRequested = true;
       this.animFrame = requestAnimationFrame(this.update);
     }
   };
   endListening = () => {
-    console.log("Droppable end listening", this.props.id);
     cancelAnimationFrame(this.animFrame);
     this.animRequested = false;
     this.setState({ draggingOver: false });
@@ -83,7 +80,7 @@ export class Droppable extends React.Component<DroppableProps> {
     let placeholder = null;
     let dragOverShuffle = [0, 0];
     const { vertical = true } = this.props;
-    if (this.context.dragging != null) {
+    if (this.context.dragging != null && this.context.dragging.props.type === this.props.type) {
       const dims = this.context.dragging.dims;
       // TODO: Having the placeholder always show avoids scrollbars during transform transitions
       // if (this.state.draggingOver)
@@ -105,10 +102,6 @@ export class Droppable extends React.Component<DroppableProps> {
           {
             placeholder,
             droppableProps: {
-              onMouseMove: this.beginListening,
-              onTouchMove: this.beginListening,
-              onMouseLeave: this.endListening,
-              onTouchEnd: this.endListening,
               ref: this.innerRef
             }
           },

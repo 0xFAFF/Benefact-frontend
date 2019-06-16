@@ -110,7 +110,6 @@ class Board extends React.Component {
 
   kanbanOnDragEnd = async (result, groupName) => {
     const { destination, source, draggableId, type } = result;
-    console.log("WTF");
     // check if there is a destination
     if (!destination) return;
 

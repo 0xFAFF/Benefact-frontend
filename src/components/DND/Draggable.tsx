@@ -13,17 +13,6 @@ export interface DraggableProps extends DNDProps {
   id: any;
 }
 
-const findScrollParents = (
-  element: HTMLElement | null
-): Array<{ vertical: boolean; element: HTMLElement }> => {
-  if (!element) return [];
-  let result = findScrollParents(element.parentElement);
-  if (element.scrollHeight > element.offsetHeight)
-    result = [{ vertical: true, element }, ...result];
-  if (element.scrollWidth > element.offsetWidth) result = [{ vertical: false, element }, ...result];
-  return result;
-};
-
 export class Draggable extends React.Component<DraggableProps> {
   static contextType = DroppableContext;
   context!: React.ContextType<typeof DroppableContext>;
@@ -36,20 +25,10 @@ export class Draggable extends React.Component<DraggableProps> {
   startingDrag = false;
   lastX = 0;
   animFrame = 0;
-  dragOverElement: HTMLElement | null = null;
   unmounting = false;
   touchTimer: NodeJS.Timeout | undefined = undefined;
   componentWillUnmount = () => {
     this.unmounting = true;
-  };
-  globalOnMouseMove = (e: MouseEvent) => {
-    if (e.buttons === 0) this.endDrag();
-    this.mouse = [e.x, e.y];
-    this.dragOverElement = (e.target && (e.target as HTMLElement)) || null;
-  };
-  globalTouchMove = (e: TouchEvent) => {
-    this.mouse = [e.touches[0].clientX, e.touches[0].clientY];
-    this.dragOverElement = (e.target && (e.target as HTMLElement)) || null;
   };
   // There is a bug in React where synethetic events for touchstart are
   // incapable of calling preventDefault, this is a work around
@@ -71,23 +50,19 @@ export class Draggable extends React.Component<DraggableProps> {
   //TODO: Catch begin drags that quickly leave client rectangle
   onMouseLeave = (e: MouseEvent) => {};
   beginDrag = (e: { clientX: number; clientY: number }) => {
-    console.log("Begin drag");
     if (this.unmounting) return;
     this.startingDrag = false;
     if (this.context.dragging != null || this.innerRef.current === null) return;
-    this.context.beginDrag(this);
+    this.context.beginDrag(e, this);
     const ele = this.innerRef.current;
     this.lastX = e.clientX;
     this.dims = [ele.clientWidth, ele.clientHeight];
     this.pos = [ele.offsetLeft, ele.offsetTop];
-    this.mouse = [e.clientX, e.clientY];
     this.setState({ dragging: true });
     this.animFrame = requestAnimationFrame(this.draggingUpdate);
-    document.addEventListener("mousemove", this.globalOnMouseMove);
     document.addEventListener("touchend", this.endDrag);
   };
   endDrag = () => {
-    console.log("Draggable", this.state.dragging);
     this.cancelEvents();
     if (!this.state.dragging) return;
     this.context.endDrag(this);
@@ -106,8 +81,6 @@ export class Draggable extends React.Component<DraggableProps> {
     if (this.touchTimer) clearTimeout(this.touchTimer);
     document.removeEventListener("mouseup", this.endDrag);
     document.removeEventListener("touchend", this.endDrag);
-    document.removeEventListener("touchmove", this.globalTouchMove);
-    document.removeEventListener("mousemove", this.globalOnMouseMove);
   };
   onTouchMove = (e: TouchEvent) => {
     if (this.state.dragging) { e.preventDefault(); }
@@ -115,7 +88,6 @@ export class Draggable extends React.Component<DraggableProps> {
   };
   onTouchStart = (e: TouchEvent) => {
     this.startingDrag = true;
-    document.addEventListener("touchmove", this.globalTouchMove);
     if (e.touches.length !== 1) return;
     const fakeE = { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
     this.touchTimer = setTimeout(() => this.beginDrag(fakeE), 300);
@@ -123,34 +95,21 @@ export class Draggable extends React.Component<DraggableProps> {
   onTouchEnd = (e: TouchEvent) => {
     this.endDrag();
   };
-  scrollUpdate = () => {
-    if (this.dragOverElement) {
-      const scrolls = findScrollParents(this.dragOverElement);
-      scrolls.map(({ vertical, element }) => {
-        if (vertical && this.mouse[1] < element.offsetTop + 100) element.scrollBy(0, -5);
-        if (vertical && this.mouse[1] > element.offsetTop + element.offsetHeight - 100)
-          element.scrollBy(0, 5);
-        if (!vertical && this.mouse[0] < element.offsetLeft + 100) element.scrollBy(-5, 0);
-        if (!vertical && this.mouse[0] > element.offsetLeft + element.offsetWidth - 100)
-          element.scrollBy(5, 0);
-      });
-    }
-  };
   draggingUpdate = () => {
     if (this.unmounting) return;
-    this.scrollUpdate();
-    let rotation = this.state.rotation * 0.9 + rotationCurve(this.mouse[0] - this.lastX, 0.15);
-    this.lastX = this.mouse[0];
+    const mouse = this.mouse;
+    let rotation = this.state.rotation * 0.9 + rotationCurve(mouse[0] - this.lastX, 0.15);
+    this.lastX = mouse[0];
     const transform = `rotate(${rotation}deg)`;
     this.setState({
       rotation,
       style: {
         pointerEvents: "none",
-        position: "absolute",
+        position: "fixed",
         zIndex: 9999,
         transform,
-        left: `${this.mouse[0]}px`,
-        top: `${this.mouse[1]}px`,
+        left: `${mouse[0]}px`,
+        top: `${mouse[1]}px`,
         width: `${this.dims[0]}px`,
         height: `${this.dims[1]}px`
       }
@@ -164,6 +123,7 @@ export class Draggable extends React.Component<DraggableProps> {
     };
     if (this.context.draggingOver) {
       notDraggingStyle.pointerEvents = "none";
+      notDraggingStyle.touchEvents = "none";
       if (this.context.firstAfterIndex <= this.props.index)
         notDraggingStyle.transform = `translate(${this.context.dragOverShuffle[0]}px, ${
           this.context.dragOverShuffle[1]

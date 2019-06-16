@@ -14,7 +14,7 @@ const Kanban = props => {
         // onDragStart={this.onDragStart}
         // onDragUpdate={this.onDragUpdate}
       >
-        <Droppable id="all-columns" direction="horizontal" type="column">
+        <Droppable id="all-columns" vertical={false} type="column">
           {provided => (
             <div id="board-droppable" {...provided.droppableProps} ref={provided.innerRef}>
               <div className="views-group-name">

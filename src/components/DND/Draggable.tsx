@@ -34,6 +34,7 @@ export class Draggable extends React.Component<DraggableProps> {
     this.mouse = [e.x, e.y];
   };
   onMouseMove = (e: MouseEvent) => {
+    if(e.buttons === 0) this.startingDrag = false;
     if (!this.startingDrag) return;
     const pos = [e.clientX, e.clientY];
     if (dist(this.startMouse, pos) > 10) {
@@ -60,6 +61,7 @@ export class Draggable extends React.Component<DraggableProps> {
     cancelAnimationFrame(this.animFrame);
     document.removeEventListener("mouseup", this.endDrag);
     document.removeEventListener("mousemove", this.globalOnMouseMove);
+    if(!this.state.dragging) return;
     this.context.endDrag(this);
     if (this.unmounting) return;
     this.setState({ dragging: false, style: null });
@@ -94,14 +96,13 @@ export class Draggable extends React.Component<DraggableProps> {
   };
   render = () => {
     this.context.registerDraggable(this.props.index, this);
-    const dragOverStyle =
-      this.context.draggingOver && this.context.firstAfterIndex <= this.props.index
-        ? {
-            transform: `translate(${this.context.dragOverShuffle[0]}px, ${
-              this.context.dragOverShuffle[1]
-            }px)`
-          }
-        : null;
+    let dragOverStyle: any = {
+      transition: "transform 0.3s cubic-bezier(0.25, 0.75, 0, 1) 0s"
+    };
+    if (this.context.draggingOver && this.context.firstAfterIndex <= this.props.index)
+      dragOverStyle.transform = `translate(${this.context.dragOverShuffle[0]}px, ${
+        this.context.dragOverShuffle[1]
+      }px)`;
     const style = this.state.dragging ? this.state.style : dragOverStyle;
     return this.props.children(
       {

@@ -43,7 +43,7 @@ class Column extends React.Component {
     const draggingStyle = { backgroundColor: "var(--column-hover)" };
     const dragDisabled = !hasPrivilege("admin");
     return (
-      <Draggable type="column" id={`col-${column.id}`} index={index} isDragDisabled={dragDisabled}>
+      <Draggable type="column" id={column.id} index={index} isDragDisabled={dragDisabled}>
         {(provided, snapshot) => (
           <div
             id="column-draggable"

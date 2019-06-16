@@ -16,6 +16,7 @@ interface DroppableProps extends DNDProps {
   type: string;
   id: string;
   index: number;
+  vertical?: boolean;
 }
 export class Droppable extends React.Component<DroppableProps> {
   static contextType = DragDropReactContext;
@@ -37,13 +38,20 @@ export class Droppable extends React.Component<DroppableProps> {
     });
   };
   update = () => {
-    if (this.context.dragging) {
-      if (this.context.dragging.props.type === this.props.type) {
-        const mouse = this.context.dragging.mouse;
+    const { type, vertical = true } = this.props;
+    const dragging = this.context.dragging;
+    if (dragging) {
+      if (dragging.props.type === type) {
+        const mouse = dragging.mouse;
+        const isAfter = (e: HTMLElement, index: number) =>
+          index > firstAfterIndex &&
+          (vertical
+            ? e.offsetTop + e.offsetHeight < mouse[1]
+            : e.offsetLeft + e.offsetWidth < mouse[0]);
         let firstAfterIndex = 0;
         this.draggablesMap((v, e) => {
-          const index = v.props.index;
-          if (e.offsetTop < mouse[1] && index > firstAfterIndex) {
+          const index = v.props.index + 1;
+          if (isAfter(e, index)) {
             firstAfterIndex = index;
           }
         });
@@ -59,8 +67,7 @@ export class Droppable extends React.Component<DroppableProps> {
   render = () => {
     let placeholder = null;
     let dragOverShuffle = [0, 0];
-    //TODO: Figure out
-    const vertical = true;
+    const { vertical = true } = this.props;
     if (this.context.dragging != null) {
       const dims = this.context.dragging.dims;
       if (this.state.draggingOver)

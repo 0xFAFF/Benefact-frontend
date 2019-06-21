@@ -59,7 +59,6 @@ export class Draggable extends React.Component<DraggableProps> {
     this.dims = [ele.clientWidth, ele.clientHeight];
     this.pos = [ele.offsetLeft, ele.offsetTop];
     this.setState({ dragging: true });
-    this.animFrame = requestAnimationFrame(this.draggingUpdate);
     document.addEventListener("touchend", this.endDrag);
   };
   endDrag = () => {
@@ -117,11 +116,10 @@ export class Draggable extends React.Component<DraggableProps> {
     });
     this.animFrame = requestAnimationFrame(this.draggingUpdate);
   };
+  draggingOverDebounce = false;
   render = () => {
     this.context.registerDraggable(this.props.index, this);
-    let notDraggingStyle: any = {
-      transition: "transform 0.3s cubic-bezier(0.25, 0.75, 0, 1) 0s"
-    };
+    let notDraggingStyle: any = {};
     if (this.context.draggingOver) {
       notDraggingStyle.pointerEvents = "none";
       notDraggingStyle.touchEvents = "none";
@@ -130,6 +128,9 @@ export class Draggable extends React.Component<DraggableProps> {
           this.context.dragOverShuffle[1]
         }px)`;
     }
+    if (this.draggingOverDebounce)
+      notDraggingStyle.transition = "transform 0.3s cubic-bezier(0.25, 0.75, 0, 1) 0s";
+    this.draggingOverDebounce = Boolean(this.context.draggingOver);
     let style = this.state.dragging ? this.state.style : notDraggingStyle;
     return this.props.children(
       {

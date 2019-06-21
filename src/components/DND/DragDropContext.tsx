@@ -65,29 +65,31 @@ export class DragDropContext extends React.Component {
   touchUpdate = (e: TouchEvent) => {
     this.mouseUpdate({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
   };
-  mouseUpdate = (e: MoveEvent) => {
+  mouseUpdate = (e: MoveEvent, dragging?: Draggable, callback?: () => void) => {
     let { clientX, clientY, buttons = 1, target = null } = e;
     if (!target) target = document.elementFromPoint(clientX, clientY) as HTMLElement;
     if (buttons === 0) this.endDrag();
     this.mouse = [clientX, clientY];
-    if (this.state.dragging) {
-      this.state.dragging.mouse = this.mouse;
-      const drop = this.findDropable(this.state.dragging.props.type, target);
-      this.setDragOver(drop);
-    }
+    const _dragging = dragging || (this.state.dragging as Draggable);
+    _dragging.mouse = this.mouse;
+    const drop = this.findDropable(_dragging.props.type, target);
+    this.setDragOver(drop, callback);
     this.dragOverElement = target || null;
   };
   beginDrag = (e: MoveEvent, target: Draggable) => {
-    this.setState({ dragging: target });
-    this.mouseUpdate(e);
-    this.animFrame = requestAnimationFrame(this.scrollUpdate);
-    document.addEventListener("touchmove", this.touchUpdate);
-    document.addEventListener("mousemove", this.mouseUpdate as any);
+    e = { ...e };
+    this.setState({ dragging: target }, () => {
+      this.mouseUpdate(e, target, () => target.draggingUpdate());
+      document.addEventListener("mousemove", this.mouseUpdate as any);
+      this.animFrame = requestAnimationFrame(this.scrollUpdate);
+      document.addEventListener("touchmove", this.touchUpdate);
+      console.log("end begin");
+    });
   };
-  setDragOver = (dragOver: Droppable | null) => {
+  setDragOver = (dragOver: Droppable | null, callback?: () => void) => {
     if (this.dragOver && this.dragOver !== dragOver) this.dragOver.endListening();
     this.dragOver = dragOver;
-    if (this.dragOver) this.dragOver.beginListening();
+    if (this.dragOver) this.dragOver.beginListening(callback);
     else this.dropResult = null;
   };
   endDrag = () => {

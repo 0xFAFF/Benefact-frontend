@@ -39,7 +39,8 @@ export class Droppable extends React.Component<DroppableProps> {
       callback(d, d.innerRef.current);
     });
   };
-  update = () => {
+  update = (callback?: () => void) => {
+    if (!this.animRequested) return;
     const { type, vertical = true } = this.props;
     const dragging = this.context.dragging;
     if (dragging) {
@@ -62,22 +63,23 @@ export class Droppable extends React.Component<DroppableProps> {
           }
         });
         if (!this.state.draggingOver || this.state.firstAfterIndex !== firstAfterIndex) {
+          if (callback) console.log(firstAfterIndex);
           this.context.updateDropResult(this, firstAfterIndex);
-          this.setState({ draggingOver: true, firstAfterIndex });
-        }
+          this.setState({ draggingOver: true, firstAfterIndex }, callback);
+        } else callback && callback();
       }
     } else if (this.state.draggingOver) this.setState({ draggingOver: false });
-    this.animFrame = requestAnimationFrame(this.update);
+    this.animFrame = requestAnimationFrame(() => this.update());
   };
-  beginListening = () => {
+  beginListening = (callback?: () => void) => {
     if (!this.animRequested) {
       this.animRequested = true;
-      this.animFrame = requestAnimationFrame(this.update);
+      this.update(callback);
     }
   };
   endListening = () => {
-    cancelAnimationFrame(this.animFrame);
     this.animRequested = false;
+    cancelAnimationFrame(this.animFrame);
     this.setState({ draggingOver: false });
   };
   render = () => {
@@ -87,7 +89,7 @@ export class Droppable extends React.Component<DroppableProps> {
     if (this.context.dragging != null && this.context.dragging.props.type === this.props.type) {
       const dims = this.context.dragging.dims;
       placeholder = <div style={{ minWidth: `${dims[0]}px`, minHeight: `${dims[1]}px` }} />;
-      dragOverShuffle = [vertical ? 1 : dims[0], vertical ? dims[1] : 1];
+      dragOverShuffle = [vertical ? 0 : dims[0], vertical ? dims[1] : 0];
     }
     return (
       <DroppableContext.Provider

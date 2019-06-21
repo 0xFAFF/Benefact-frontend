@@ -94,7 +94,6 @@ export class DragDropContext extends React.Component {
     cancelAnimationFrame(this.animFrame);
     document.removeEventListener("touchmove", this.touchUpdate);
     document.removeEventListener("mousemove", this.mouseUpdate as any);
-    this.setDragOver(null);
     const { onDragEnd } = this.props as any;
     let dragEndResult = null as any;
     if (this.state.dragging && this.dropResult) {
@@ -117,6 +116,7 @@ export class DragDropContext extends React.Component {
       };
     }
     this.setState({ dragging: null }, () => {
+      this.setDragOver(null);
       if (onDragEnd && dragEndResult) onDragEnd(dragEndResult);
       this.dropResult = {};
     });

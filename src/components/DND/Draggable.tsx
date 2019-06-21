@@ -121,6 +121,8 @@ export class Draggable extends React.Component<DraggableProps> {
     this.context.registerDraggable(this.props.index, this);
     let notDraggingStyle: any = {};
     if (this.context.draggingOver) {
+      if (this.draggingOverDebounce)
+        notDraggingStyle.transition = "transform 0.3s cubic-bezier(0.25, 0.75, 0, 1) 0s";
       notDraggingStyle.pointerEvents = "none";
       notDraggingStyle.touchEvents = "none";
       if (this.context.firstAfterIndex <= this.props.index)
@@ -128,8 +130,6 @@ export class Draggable extends React.Component<DraggableProps> {
           this.context.dragOverShuffle[1]
         }px)`;
     }
-    if (this.draggingOverDebounce)
-      notDraggingStyle.transition = "transform 0.3s cubic-bezier(0.25, 0.75, 0, 1) 0s";
     this.draggingOverDebounce = Boolean(this.context.draggingOver);
     let style = this.state.dragging ? this.state.style : notDraggingStyle;
     return this.props.children(

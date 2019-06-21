@@ -59,11 +59,7 @@ export class DragDropContext extends React.Component {
   findDropable(type: string, ele?: Element | null): Droppable | null {
     if (!ele) return null;
     const res = Object.values(this.droppables).find(d => d.innerRef.current === ele);
-    console.log(ele);
-    if (res) {
-      console.log(res.props.id);
-      if (res.props.type === type) return res;
-    }
+    if (res && res.props.type === type) return res;
     return this.findDropable(type, ele.parentElement);
   }
   touchUpdate = (e: TouchEvent) => {
@@ -77,8 +73,7 @@ export class DragDropContext extends React.Component {
     if (this.state.dragging) {
       this.state.dragging.mouse = this.mouse;
       const drop = this.findDropable(this.state.dragging.props.type, target);
-      console.log(drop);
-      if (drop) this.setDragOver(drop);
+      this.setDragOver(drop);
     }
     this.dragOverElement = target || null;
   };
@@ -93,6 +88,7 @@ export class DragDropContext extends React.Component {
     if (this.dragOver && this.dragOver !== dragOver) this.dragOver.endListening();
     this.dragOver = dragOver;
     if (this.dragOver) this.dragOver.beginListening();
+    else this.dropResult = null;
   };
   endDrag = () => {
     cancelAnimationFrame(this.animFrame);
@@ -100,11 +96,12 @@ export class DragDropContext extends React.Component {
     document.removeEventListener("mousemove", this.mouseUpdate as any);
     this.setDragOver(null);
     const { onDragEnd } = this.props as any;
-    if (this.state.dragging) {
+    let dragEndResult = null as any;
+    if (this.state.dragging && this.dropResult) {
       const dragging = this.state.dragging;
       const sourceId = dragging.context.source.props.id;
       const destId = this.dropResult.droppableId;
-      const dragEndResult = {
+      dragEndResult = {
         draggableId: dragging.props.id,
         type: this.dropResult.type,
         source: {
@@ -118,11 +115,11 @@ export class DragDropContext extends React.Component {
             (destId === sourceId && this.dropResult.index > dragging.props.index ? -1 : 0)
         }
       };
-      this.setState({ dragging: null }, () => {
-        if (onDragEnd && Object.values(this.dropResult).length > 0) onDragEnd(dragEndResult);
-        this.dropResult = {};
-      });
     }
+    this.setState({ dragging: null }, () => {
+      if (onDragEnd && dragEndResult) onDragEnd(dragEndResult);
+      this.dropResult = {};
+    });
   };
   registerDroppable = (droppable: Droppable) => {
     this.droppables[`${droppable.props.type}-${droppable.props.id}`] = droppable;

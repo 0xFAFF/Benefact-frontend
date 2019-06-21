@@ -157,15 +157,13 @@ class Board extends React.Component {
     draggedCard.columnId = columnId;
     const moveAfter =
       destination.index === (start === finish ? cardsDstCol.length - 1 : cardsDstCol.length);
-    const targetCard = cardsDstCol[destination.index];
-    console.log(targetCard);
-    console.log(destination.index);
-    console.log(cardsDstCol);
-
-    // Orders array for inserting droppable in new spot
-    cards.splice(draggedCardIndex, 1);
-    const targetCardIndex = cards.findIndex(card => card.id === targetCard.id);
-    cards.splice(targetCardIndex + (moveAfter ? 1 : 0), 0, draggedCard);
+    const targetCard = cardsDstCol[destination.index - (moveAfter ? 1 : 0)];
+    if (targetCard) {
+      // Orders array for inserting droppable in new spot
+      cards.splice(draggedCardIndex, 1);
+      const targetCardIndex = cards.findIndex(card => card.id === targetCard.id);
+      cards.splice(targetCardIndex + (moveAfter ? 1 : 0), 0, draggedCard);
+    }
     let newData = { ...this.props.page.data };
     newData = {
       ...newData,
@@ -177,7 +175,7 @@ class Board extends React.Component {
     updatePage({ data: newData });
     return compFetch("cards", "MOVE", {
       cardId: draggedCard.id,
-      targetCardId: targetCard.id,
+      targetCardId: targetCard && targetCard.id,
       columnId: start === finish ? undefined : columnId,
       moveAfter
     });

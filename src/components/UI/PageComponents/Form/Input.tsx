@@ -32,10 +32,14 @@ export const Input = InputWrapper(
           <input
             className={`input-field ${(grow && "grow") || ""}`}
             id={childProps.id}
-            onChange={e =>
-              onChange &&
-              onChange(childProps.type === "checkbox" ? e.target.checked : e.target.value)
-            }
+            onChange={e => {
+              const newValue =
+                onChange &&
+                onChange(childProps.type === "checkbox" ? e.target.checked : e.target.value);
+              if (newValue !== undefined && newValue !== null) {
+                e.target.value = newValue;
+              }
+            }}
             {...childProps}
           />
         </div>

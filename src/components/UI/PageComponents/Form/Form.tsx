@@ -44,8 +44,10 @@ export class Form extends React.Component<Props, { [s: string]: any }> {
     return form;
   };
 
-  attach = (name: string) => {
-    const onChange = (value: any) => {
+  attach = (name: string, onChange?: (v: any) => any, renderedValue?: (v: any) => any) => {
+    const _onChange = (value: any) => {
+      const newValue = onChange && onChange(value);
+      value = newValue === undefined ? value : newValue;
       this.setState(
         { [name]: value },
         () => this.props.onChange && this.props.onChange(this.state)
@@ -55,7 +57,8 @@ export class Form extends React.Component<Props, { [s: string]: any }> {
     let value = this.state[name];
     if (value === undefined) value = defaults[name];
     if (value === undefined) value = "";
-    return { onChange, name, value };
+    if(renderedValue) value = renderedValue(value);
+    return { onChange: _onChange, name, value };
   };
 
   render() {

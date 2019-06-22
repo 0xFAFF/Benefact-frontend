@@ -6,6 +6,7 @@ const baseURL =
 export interface URLType {
   url: string;
   whiteList?: Array<string>;
+  keepCasing?: boolean;
 }
 const urlKeyMap: { [type: string]: { [action: string]: URLType } } = {
   cards: {
@@ -129,7 +130,8 @@ const urlKeyMap: { [type: string]: { [action: string]: URLType } } = {
       url: "board/create"
     },
     TRELLO_IMPORT: {
-      url: "board/trello_import"
+      url: "board/trello_import",
+      keepCasing: true
     }
   }
 };

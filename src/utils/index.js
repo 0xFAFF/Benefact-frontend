@@ -6,4 +6,4 @@ export { default as notifyToast } from "./notifyToast";
 export { default as middleWare } from "./middleWare";
 export { default as setTheme } from "./setTheme";
 export { default as hasPrivilege } from "./hasPrivilege";
-export * from "./formatting";
+export { formatTime, camelCase, parseQuery, parseToken, cls } from "./formatting";

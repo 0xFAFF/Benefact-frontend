@@ -1,7 +1,7 @@
 import { titleCase } from "../utils";
 
 const fetching = async (url, queryParams, token) => {
-  const { url: urlName, whiteList: urlWhiteList = null } = url;
+  const { url: urlName, whiteList: urlWhiteList = null, keepCasing = false } = url;
   let options = {
     method: "POST",
     headers: {}
@@ -19,7 +19,7 @@ const fetching = async (url, queryParams, token) => {
           }
         });
       }
-      queryParams = JSON.stringify(titleCase(whiteListedParams));
+      queryParams = JSON.stringify(keepCasing ? whiteListedParams : titleCase(whiteListedParams));
     }
     options.body = queryParams;
   }

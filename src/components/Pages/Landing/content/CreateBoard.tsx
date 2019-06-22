@@ -18,8 +18,7 @@ class CreateBoard extends React.Component<Props & PageProps, {}> {
     createTemplate: boolean;
   }) => {
     const {
-      page: { compFetch, history },
-      onClose
+      page: { compFetch, history }
     } = this.props;
 
     if (!title || !urlName) {

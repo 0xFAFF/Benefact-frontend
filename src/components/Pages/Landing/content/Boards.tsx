@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateBoard from "./CreateBoard";
+import ImportBoard from "./ImportBoard";
 import { Modal, Accordion, Button } from "components/UI";
 import { AccordianChildProps } from "components/UI/PageComponents/Accordian";
 import { PrivilegeMap } from "components/UI/PageComponents/Form/PrivilegeInput";
@@ -22,7 +23,11 @@ interface boardProps {
 }
 
 class Boards extends React.Component {
-  state = { showCreateModal: false, showDeleteModal: null as string | null };
+  state = {
+    showImportModal: false,
+    showCreateModal: false,
+    showDeleteModal: null as string | null
+  };
   render = () => {
     const {
       page: {
@@ -124,6 +129,13 @@ class Boards extends React.Component {
           <CreateBoard onClose={() => this.setState({ showCreateModal: false })} />
         </Modal>
         <Modal
+          isOpen={this.state.showImportModal}
+          title="Import Board"
+          onClose={() => this.setState({ showImportModal: false })}
+        >
+          <ImportBoard onClose={() => this.setState({ showImportModal: false })} />
+        </Modal>
+        <Modal
           isOpen={Boolean(this.state.showDeleteModal)}
           title="Delete Board"
           onClose={() => this.setState({ showDeleteModal: null })}
@@ -142,6 +154,7 @@ class Boards extends React.Component {
           />
         </Modal>
         <button onClick={() => this.setState({ showCreateModal: true })}>Create New Board</button>
+        <button onClick={() => this.setState({ showImportModal: true })}>Import Trello Board</button>
         <Accordion>{boards.map(BoardEntry)}</Accordion>
       </div>
     );

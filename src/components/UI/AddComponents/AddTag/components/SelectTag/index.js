@@ -2,40 +2,31 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.scss";
+import DisplayTag from "components/UI/BoardComponents/Tags/DisplayTag";
 
 const SelectTag = props => {
   const { tagsList, onChangeHandler, cardTags, handleOptionSelect } = props;
   if (tagsList.length === 0) return null;
   return (
-    <div id="select-tag" className="section">
+    <div className="select-tag section">
       <ul className="tags-ul">
         {tagsList.map((tag, index) => (
           <li key={index}>
-            <div
-              style={{
-                backgroundColor: tag.color ? tag.color : "#DDDDDD"
-              }}
-              className="tags-li-container"
-              onClick={() => onChangeHandler(tag.id, "tag")}
-            >
-              <div className="tags-label">
-                {tag.character ? (
-                  <FontAwesomeIcon icon={tag.character} size="sm" color="#000" />
-                ) : (
-                  tag.name
-                )}
-              </div>
-              {cardTags.find(cardTag => cardTag.id === tag.id) && (
-                <FontAwesomeIcon icon="check" size="sm" />
-              )}
+            <div className="center flex">
+              <FontAwesomeIcon
+                icon="check"
+                size="sm"
+                className={"center" + (cardTags.find(t => t.id === tag.id) ? "" : " hidden")}
+              />
             </div>
+            <DisplayTag className="lg" tag={tag} onClick={() => onChangeHandler(tag.id, "tag")} />
             <div
-              className="tags-edit-label"
+              className="tags-edit-label center flex"
               onClick={() => {
                 handleOptionSelect("create", tag);
               }}
             >
-              <FontAwesomeIcon icon="edit" size="sm" />
+              <FontAwesomeIcon icon="edit" size="sm" className="center" />
             </div>
           </li>
         ))}

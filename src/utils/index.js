@@ -1,12 +1,9 @@
-export { default as camelCase } from "./camelCase";
 export { default as titleCase } from "./titleCase";
 export { default as getCards } from "./getCards";
 export { default as getTags } from "./getTags";
 export { default as fetching } from "./fetching";
-export { default as parseToken } from "./parseToken";
 export { default as notifyToast } from "./notifyToast";
-export { default as parseQuery } from "./parseQuery";
 export { default as middleWare } from "./middleWare";
 export { default as setTheme } from "./setTheme";
 export { default as hasPrivilege } from "./hasPrivilege";
-export { formatTime } from "./formatting";
+export { formatTime, camelCase, parseQuery, parseToken, cls } from "./formatting";

@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Draggable } from "react-beautiful-dnd";
 import { Tags } from "../../BoardComponents";
 import { Voting } from "./components";
 import IconRow from "./IconRow";
-import UnnaturalDND from "components/UnnaturalDND";
 import { PageProp } from "components/Pages/PageContext";
+import { Draggable } from "components/DND";
 import "./index.scss";
 
 class Card extends React.Component {
@@ -52,21 +51,14 @@ class Card extends React.Component {
     return (
       <>
         {hasPrivilege("developer") ? (
-          <Draggable draggableId={`card-${card.id}`} index={index}>
+          <Draggable type="card" id={`card-${card.id}`} index={index}>
             {(provided, snapshot) => {
-              return (
-                <UnnaturalDND style={{ ...provided.draggableProps.style }} snapshot={snapshot}>
-                  {style =>
-                    cardDiv({
-                      className: snapshot.isDragging ? "card-is-dragging" : "",
-                      ref: provided.innerRef,
-                      ...provided.draggableProps,
-                      ...provided.dragHandleProps,
-                      style: style
-                    })
-                  }
-                </UnnaturalDND>
-              );
+              return cardDiv({
+                className: snapshot.isDragging ? "card-is-dragging" : "",
+                ref: provided.innerRef,
+                ...provided.draggableProps,
+                ...provided.dragHandleProps
+              });
             }}
           </Draggable>
         ) : (

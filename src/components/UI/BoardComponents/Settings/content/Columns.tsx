@@ -25,8 +25,8 @@ export class Columns extends React.Component<any> {
           options={[
             { value: 0, title: "Open" },
             { value: 1, title: "Active" },
-            { value: 2, title: "Done" },
-            { value: 3, title: "Cancelled" }
+            { value: 2, title: "Cancelled" },
+            { value: 3, title: "Done" }
           ]}
         />
         <div className="grow row center wrap">

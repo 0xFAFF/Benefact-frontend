@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const DisplayTag = props => {
   const {
     tag: { name, color, character },
-    className: providedClass
+    className: providedClass,
+    ...rest
   } = props;
   let className = "tag";
   if (providedClass) className += " " + providedClass;
@@ -16,6 +17,7 @@ const DisplayTag = props => {
         backgroundColor: color || "#dddddd",
         border: color ? "none" : "1px solid lightgray"
       }}
+      {...rest}
     >
       <div className="inner-tag">
         {character ? <FontAwesomeIcon icon={character} size="lg" color="#000" /> : name}

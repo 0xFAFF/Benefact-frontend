@@ -61,7 +61,7 @@ class CreateBoard extends React.Component<Props & PageProps, {}> {
             <Input
               id={`createTemplate`}
               className="row"
-              label="Create using defaults?"
+              label="Create with default board template?"
               type="checkbox"
               {...attach("createTemplate")}
             />

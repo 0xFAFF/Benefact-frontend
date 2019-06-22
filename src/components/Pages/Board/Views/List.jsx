@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Card } from "../../../UI/BoardComponents";
 import "./List.scss";
+import { DragDropContext, Droppable } from "components/DND";
 
 const List = props => {
   const {

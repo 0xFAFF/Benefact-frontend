@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Droppable, Draggable } from "react-beautiful-dnd";
 import { Card } from "../../BoardComponents";
 import Header from "./Header";
 import "./index.scss";
+import { Draggable, Droppable } from "components/DND";
 import { PageProp } from "components/Pages/PageContext";
+import { cls } from "utils";
 
 class Column extends React.Component {
   static propTypes = {
@@ -40,10 +41,9 @@ class Column extends React.Component {
     };
     const { hasPrivilege } = page;
 
-    const draggingStyle = { backgroundColor: "var(--column-hover)" };
     const dragDisabled = !hasPrivilege("admin");
     return (
-      <Draggable draggableId={column.id} index={index} isDragDisabled={dragDisabled}>
+      <Draggable type="column" id={column.id} index={index} isDragDisabled={dragDisabled}>
         {(provided, snapshot) => (
           <div
             id="column-draggable"
@@ -63,13 +63,15 @@ class Column extends React.Component {
                 columns={columns}
                 page={page}
               />
-              <Droppable droppableId={`col-${column.id}`} type="card">
+              <Droppable id={`col-${column.id}`} type="card">
                 {(provided, snapshot) => (
                   <div
-                    id="column-droppable"
-                    className={colCards.length ? null : "column-empty"}
+                    className={cls(
+                      "column-droppable",
+                      colCards.length && "column-empty",
+                      snapshot.draggingOver && "dragging-over"
+                    )}
                     ref={provided.innerRef}
-                    style={snapshot.isDraggingOver ? draggingStyle : {}}
                     {...provided.droppableProps}
                   >
                     {colCards.map((card, index) => (

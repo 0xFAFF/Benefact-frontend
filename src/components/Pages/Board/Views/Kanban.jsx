@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Column } from "../../../UI/BoardComponents";
 import { getCards } from "../../../../utils";
 import "./Kanban.scss";
+import { DragDropContext, Droppable } from "components/DND";
 
 const Kanban = props => {
   const { columns, columnOrder, kanbanOnDragEnd, groupName, filterIndex, filtersActive } = props;
@@ -14,9 +14,9 @@ const Kanban = props => {
         // onDragStart={this.onDragStart}
         // onDragUpdate={this.onDragUpdate}
       >
-        <Droppable droppableId="all-columns" direction="horizontal" type="column">
+        <Droppable id="all-columns" vertical={false} type="column">
           {provided => (
-            <div id="board-droppable" {...provided.droppableProps} ref={provided.innerRef}>
+            <div id="board-droppable" {...provided.droppableProps}>
               <div className="views-group-name">
                 <span
                   className="views-group-name-title"

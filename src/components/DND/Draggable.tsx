@@ -36,10 +36,12 @@ export class Draggable extends React.Component<DraggableProps> {
     if (this.innerRef.current) {
       this.innerRef.current.addEventListener("touchstart", this.onTouchStart);
       this.innerRef.current.addEventListener("touchmove", this.onTouchMove);
+      this.innerRef.current.addEventListener("contextmenu", e => e.preventDefault());
+      this.innerRef.current.addEventListener("selectstart", e => e.preventDefault());
     }
   };
 
-  beginDrag = (e: { clientX: number; clientY: number }) => {
+  beginDrag = (e: { clientX: number; clientY: number; type: string }) => {
     if (this.unmounting) return;
     this.startingDrag = false;
     if (this.context.dragging != null || this.innerRef.current === null) return;
@@ -53,10 +55,7 @@ export class Draggable extends React.Component<DraggableProps> {
     const marginWidth = marginLeft + parseInt(style.marginRight || "0");
     const marginTop = parseInt(style.marginTop || "0");
     const marginHeight = marginTop + parseInt(style.marginBottom || "0");
-    this.mouseOffset = [
-      e.clientX - ele.offsetLeft + marginLeft,
-      e.clientY - ele.offsetTop + marginTop
-    ];
+    this.mouseOffset = [e.clientX - eleRect.left + marginLeft, e.clientY - eleRect.top + marginTop];
     this.innerDims = [eleRect.width - paddingWidth, eleRect.height - paddingHeight];
     // TODO: This only happens to work because columms (horizontal) are in a flexbox
     // so the margin is counted on both sides, and cards (vertical) are not so the margin
@@ -94,7 +93,11 @@ export class Draggable extends React.Component<DraggableProps> {
   onTouchStart = (e: TouchEvent) => {
     this.startingDrag = true;
     if (e.touches.length !== 1) return;
-    const fakeE = { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
+    const fakeE = {
+      clientX: e.touches[0].clientX,
+      clientY: e.touches[0].clientY,
+      type: "touchstart"
+    };
     this.touchTimer = setTimeout(() => this.beginDrag(fakeE), 200);
   };
   draggingUpdate = () => {
@@ -121,7 +124,7 @@ export class Draggable extends React.Component<DraggableProps> {
   draggingOverDebounce = false;
   render = () => {
     this.context.registerDraggable(this.props.index, this);
-    let notDraggingStyle: any = {};
+    let notDraggingStyle: any = { draggable: false };
     if (this.context.draggingOver) {
       if (this.draggingOverDebounce)
         notDraggingStyle.transition = "transform 0.3s cubic-bezier(0.25, 0.75, 0, 1) 0s";

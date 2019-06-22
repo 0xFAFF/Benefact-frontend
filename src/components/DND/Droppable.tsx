@@ -64,7 +64,6 @@ export class Droppable extends React.Component<DroppableProps> {
           }
         });
         if (!this.state.draggingOver || this.state.firstAfterIndex !== firstAfterIndex) {
-          console.log(firstAfterIndex);
           this.context.updateDropResult(this, firstAfterIndex);
           this.setState({ draggingOver: true, firstAfterIndex }, callback);
         } else callback && callback();

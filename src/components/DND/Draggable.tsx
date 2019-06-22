@@ -18,7 +18,7 @@ export class Draggable extends React.Component<DraggableProps> {
   context!: React.ContextType<typeof DroppableContext>;
   state = { dragging: false, style: null as {} | null, rotation: 0 };
   innerRef = React.createRef<HTMLElement>();
-  startMouse = [0, 0];
+  mouseOffset = [0, 0];
   mouse = [0, 0];
   dims = [0, 0];
   innerDims = [0, 0];
@@ -39,16 +39,6 @@ export class Draggable extends React.Component<DraggableProps> {
     }
   };
 
-  onMouseMove = (e: MouseEvent) => {
-    if (e.buttons === 0) this.startingDrag = false;
-    if (!this.startingDrag) return;
-    const pos = [e.clientX, e.clientY];
-    if (dist(this.startMouse, pos) > 10) {
-      this.beginDrag(e);
-    }
-  };
-  //TODO: Catch begin drags that quickly leave client rectangle
-  onMouseLeave = (e: MouseEvent) => {};
   beginDrag = (e: { clientX: number; clientY: number }) => {
     if (this.unmounting) return;
     this.startingDrag = false;
@@ -56,16 +46,22 @@ export class Draggable extends React.Component<DraggableProps> {
     const ele = this.innerRef.current;
     const style = window.getComputedStyle(ele);
     this.lastX = e.clientX;
-    const eleDims = [ele.clientWidth, ele.clientHeight];
+    const eleRect = ele.getBoundingClientRect();
     const paddingWidth = parseInt(style.paddingLeft || "0") + parseInt(style.paddingRight || "0");
     const paddingHeight = parseInt(style.paddingTop || "0") + parseInt(style.paddingBottom || "0");
-    const marginWidth = parseInt(style.marginLeft || "0") + parseInt(style.marginRight || "0");
-    const marginHeight = parseInt(style.marginTop || "0") + parseInt(style.marginBottom || "0");
-    this.innerDims = [eleDims[0] - paddingWidth, eleDims[1] - paddingHeight];
+    const marginLeft = parseInt(style.marginLeft || "0");
+    const marginWidth = marginLeft + parseInt(style.marginRight || "0");
+    const marginTop = parseInt(style.marginTop || "0");
+    const marginHeight = marginTop + parseInt(style.marginBottom || "0");
+    this.mouseOffset = [
+      e.clientX - ele.offsetLeft + marginLeft,
+      e.clientY - ele.offsetTop + marginTop
+    ];
+    this.innerDims = [eleRect.width - paddingWidth, eleRect.height - paddingHeight];
     // TODO: This only happens to work because columms (horizontal) are in a flexbox
     // so the margin is counted on both sides, and cards (vertical) are not so the margin
     // is only "counted" on one side. The droppable should account for this instead.
-    this.dims = [eleDims[0] + marginWidth, eleDims[1] + marginHeight / 2];
+    this.dims = [eleRect.width + marginWidth, eleRect.height + marginHeight / 2];
     this.context.beginDrag(e, this);
     this.setState({ dragging: true });
     document.addEventListener("touchend", this.endDrag);
@@ -78,10 +74,10 @@ export class Draggable extends React.Component<DraggableProps> {
     this.setState({ dragging: false, style: null });
   };
   onMouseDown = (e: MouseEvent) => {
-    this.startMouse = [e.clientX, e.clientY];
     this.startingDrag = true;
+    const fakeE = { ...e };
+    this.touchTimer = setTimeout(() => this.beginDrag(fakeE), 300);
     document.addEventListener("mouseup", this.endDrag);
-    e.preventDefault();
   };
   cancelEvents = () => {
     this.startingDrag = false;
@@ -99,10 +95,7 @@ export class Draggable extends React.Component<DraggableProps> {
     this.startingDrag = true;
     if (e.touches.length !== 1) return;
     const fakeE = { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
-    this.touchTimer = setTimeout(() => this.beginDrag(fakeE), 100);
-  };
-  onTouchEnd = (e: TouchEvent) => {
-    this.endDrag();
+    this.touchTimer = setTimeout(() => this.beginDrag(fakeE), 200);
   };
   draggingUpdate = () => {
     if (this.unmounting) return;
@@ -117,8 +110,8 @@ export class Draggable extends React.Component<DraggableProps> {
         position: "fixed",
         zIndex: 9999,
         transform,
-        left: `${mouse[0] - this.innerDims[0] / 2}px`,
-        top: `${mouse[1] - this.innerDims[1] / 2}px`,
+        left: `${mouse[0] - this.mouseOffset[0]}px`,
+        top: `${mouse[1] - this.mouseOffset[1]}px`,
         width: `${this.innerDims[0]}px`,
         height: `${this.innerDims[1]}px`
       }
@@ -146,8 +139,6 @@ export class Draggable extends React.Component<DraggableProps> {
         dragHandleProps: {
           "data-drag-handle": 0,
           onMouseDown: this.onMouseDown,
-          onTouchEnd: this.onTouchEnd,
-          onMouseMove: this.onMouseMove,
           draggable: false
         },
         draggableProps: {

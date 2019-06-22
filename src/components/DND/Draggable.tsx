@@ -21,7 +21,7 @@ export class Draggable extends React.Component<DraggableProps> {
   startMouse = [0, 0];
   mouse = [0, 0];
   dims = [0, 0];
-  pos = [0, 0];
+  innerDims = [0, 0];
   startingDrag = false;
   lastX = 0;
   animFrame = 0;
@@ -53,11 +53,20 @@ export class Draggable extends React.Component<DraggableProps> {
     if (this.unmounting) return;
     this.startingDrag = false;
     if (this.context.dragging != null || this.innerRef.current === null) return;
-    this.context.beginDrag(e, this);
     const ele = this.innerRef.current;
+    const style = window.getComputedStyle(ele);
     this.lastX = e.clientX;
-    this.dims = [ele.clientWidth, ele.clientHeight];
-    this.pos = [ele.offsetLeft, ele.offsetTop];
+    const eleDims = [ele.clientWidth, ele.clientHeight];
+    const paddingWidth = parseInt(style.paddingLeft || "0") + parseInt(style.paddingRight || "0");
+    const paddingHeight = parseInt(style.paddingTop || "0") + parseInt(style.paddingBottom || "0");
+    const marginWidth = parseInt(style.marginLeft || "0") + parseInt(style.marginRight || "0");
+    const marginHeight = parseInt(style.marginTop || "0") + parseInt(style.marginBottom || "0");
+    this.innerDims = [eleDims[0] - paddingWidth, eleDims[1] - paddingHeight];
+    // TODO: This only happens to work because columms (horizontal) are in a flexbox
+    // so the margin is counted on both sides, and cards (vertical) are not so the margin
+    // is only "counted" on one side. The droppable should account for this instead.
+    this.dims = [eleDims[0] + marginWidth, eleDims[1] + marginHeight / 2];
+    this.context.beginDrag(e, this);
     this.setState({ dragging: true });
     document.addEventListener("touchend", this.endDrag);
   };
@@ -108,10 +117,10 @@ export class Draggable extends React.Component<DraggableProps> {
         position: "fixed",
         zIndex: 9999,
         transform,
-        left: `${mouse[0]}px`,
-        top: `${mouse[1]}px`,
-        width: `${this.dims[0]}px`,
-        height: `${this.dims[1]}px`
+        left: `${mouse[0] - this.innerDims[0] / 2}px`,
+        top: `${mouse[1] - this.innerDims[1] / 2}px`,
+        width: `${this.innerDims[0]}px`,
+        height: `${this.innerDims[1]}px`
       }
     });
     this.animFrame = requestAnimationFrame(this.draggingUpdate);

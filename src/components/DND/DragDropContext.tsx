@@ -83,7 +83,6 @@ export class DragDropContext extends React.Component {
       document.addEventListener("mousemove", this.mouseUpdate as any);
       this.animFrame = requestAnimationFrame(this.scrollUpdate);
       document.addEventListener("touchmove", this.touchUpdate);
-      console.log("end begin");
     });
   };
   setDragOver = (dragOver: Droppable | null, callback?: () => void) => {

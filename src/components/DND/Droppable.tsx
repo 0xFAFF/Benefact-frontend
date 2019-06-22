@@ -57,13 +57,14 @@ export class Droppable extends React.Component<DroppableProps> {
         };
         let firstAfterIndex = 0;
         this.draggablesMap((v, e) => {
+          if (v === dragging) return;
           const index = v.props.index + 1;
           if (isAfter(e, index)) {
             firstAfterIndex = index;
           }
         });
         if (!this.state.draggingOver || this.state.firstAfterIndex !== firstAfterIndex) {
-          if (callback) console.log(firstAfterIndex);
+          console.log(firstAfterIndex);
           this.context.updateDropResult(this, firstAfterIndex);
           this.setState({ draggingOver: true, firstAfterIndex }, callback);
         } else callback && callback();
@@ -80,7 +81,7 @@ export class Droppable extends React.Component<DroppableProps> {
   endListening = () => {
     this.animRequested = false;
     cancelAnimationFrame(this.animFrame);
-    this.setState({ draggingOver: false });
+    this.setState({ draggingOver: false, firstAfterIndex: -1 });
   };
   render = () => {
     let placeholder = null;

@@ -243,9 +243,6 @@ class CardEditor extends React.Component {
                 allowEdit={allowEdit}
                 onChange={e => this.onChangeHandler(e, "description")}
                 placeholder="Description"
-                onPaste={e => {
-                  e.preventDefault();
-                }}
                 value={description}
               />
             </EditorActivity>

@@ -5,6 +5,12 @@
     margin-bottom: 0.5em;
     margin-top: 0;
   }
+  ul {
+    padding-inline-start: 15px;
+  }
+  li.nostyle {
+    list-style: none;
+  }
   min-height: 1em;
   text-align: initial;
   word-break: break-word;

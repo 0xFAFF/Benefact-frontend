@@ -11,8 +11,10 @@ class MarkdownEditor extends React.Component {
   };
 
   rawMarkup = () => {
+    const renderer = new marked.Renderer();
+    renderer.listitem = (text, task) => `<li ${task ? "class=nostyle" : ""}>${text}</li>`;
     marked.setOptions({
-      renderer: new marked.Renderer(),
+      renderer,
       gfm: true,
       tables: true,
       breaks: false,

@@ -7,8 +7,7 @@ export class Columns extends React.Component<any> {
   state = {
     addColumn: false
   };
-  columnInputs = (col: any, inputProps: any) => {
-    const id = (col && col.id) || "add";
+  columnInputs = (id: number | string, inputProps: any) => {
     return (
       <>
         <Input
@@ -37,13 +36,13 @@ export class Columns extends React.Component<any> {
             type="checkbox"
             {...inputProps("allowContribution")}
           />
-          {col && (
+          {id !== "add" && (
             <div className="input-container col">
               <label>Delete</label>
               <Button
                 className="sm"
                 icon="trash"
-                onClick={() => this.props.handleUpdate("columns", "DELETE", { id: col.id })}
+                onClick={() => this.props.handleUpdate("columns", "DELETE", { id })}
               />
             </div>
           )}

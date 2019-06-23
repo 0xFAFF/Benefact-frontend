@@ -11,8 +11,11 @@ class MarkdownEditor extends React.Component {
   };
 
   rawMarkup = () => {
+    const renderer = new marked.Renderer();
+    renderer.listitem = (text, task) => `<li ${task ? "class=nostyle" : ""}>${text}</li>`;
+    renderer.link = (dst, _, text) => `<a target="_blank" href="${dst}">${text}</a>`;
     marked.setOptions({
-      renderer: new marked.Renderer(),
+      renderer,
       gfm: true,
       tables: true,
       breaks: false,
@@ -37,6 +40,10 @@ class MarkdownEditor extends React.Component {
     this.setState({ editing: false });
     if (this.props.onBlur) this.props.onBlur(e);
   };
+  onClick = e => {
+    if(e.target.tagName === "A") return;
+    this.setState({ editing: true })
+  }
 
   render = () => {
     const { allowEdit = true, editing = false, ...rest } = this.props;
@@ -58,7 +65,7 @@ class MarkdownEditor extends React.Component {
       <div
         className={className}
         id="preview-mode"
-        onClick={allowEdit ? () => this.setState({ editing: true }) : null}
+        onClick={allowEdit ? this.onClick : null}
         dangerouslySetInnerHTML={this.rawMarkup()}
       />
     );

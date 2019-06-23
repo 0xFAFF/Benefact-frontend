@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { TextAreaInput } from "components/UI";
 import { AddCard } from "components/UI/AddComponents";
+import { Input } from "components/UI/PageComponents";
 
 const Header = props => {
   const { dragHandleProps, column, updateBoardContent, page, cardCount } = props;
@@ -10,12 +10,13 @@ const Header = props => {
   const { title, allowContribution } = column;
   return (
     <div className="column-header" {...dragHandleProps}>
+      <div>({cardCount})</div>
       <span className="title">
-        <div className="card-number">({cardCount})</div>
         {hasPrivilege("admin") ? (
-          <TextAreaInput
+          <Input
             name="Title"
             defaultValue={title}
+            enterBlur
             onBlur={e => {
               if (e.target.value !== title) {
                 updateBoardContent(

@@ -2,12 +2,13 @@ import React from "react";
 import { PageProp, PageProps } from "components/Pages/PageContext";
 import { Form, Input } from "components/UI/PageComponents";
 import { notifyToast } from "utils";
+import { string } from "prop-types";
 
 interface Props {
   onClose(): void;
 }
 
-class CreateBoard extends React.Component<Props & PageProps, {}> {
+class ImportBoard extends React.Component<Props & PageProps, {}> {
   onCreateBoard = async (data: { board: any; urlName: string }) => {
     const { board, urlName } = data;
     const {
@@ -36,10 +37,30 @@ class CreateBoard extends React.Component<Props & PageProps, {}> {
       try {
         let data = JSON.parse(e);
         const filter = ["id", "name", "labels", "cards", "lists"];
+        const checklists = data.checklists.reduce((c: any, v: any) => {
+          c[v.id] = v;
+          return c;
+        }, {});
+        console.log(checklists);
         result = filter.reduce((r: any, f) => {
           r[f] = data[f];
           return r;
         }, {});
+        result.cards = result.cards.map((c: any) => {
+          const checklistString = (c.idChecklists as Array<string>)
+            .map((cId: string) => {
+              const cl = checklists[cId];
+              if (!cl) return;
+              const itemsString = cl.checkItems.map(
+                (ci: any) => ` - [${ci.state === "complete" ? "x" : " "}] ${ci.name}`
+              ).join("\n");
+              return `### ${cl.name}\n\n${itemsString}`;
+            })
+            .filter(cls => Boolean(cls)).join("\n\n") + "\n\n";
+          c.desc = checklistString + c.desc;
+          return c;
+        });
+        console.log(result);
       } finally {
         return result;
       }
@@ -73,4 +94,4 @@ class CreateBoard extends React.Component<Props & PageProps, {}> {
   }
 }
 
-export default PageProp(CreateBoard);
+export default PageProp(ImportBoard);

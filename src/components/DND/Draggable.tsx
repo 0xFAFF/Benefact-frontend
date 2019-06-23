@@ -4,9 +4,6 @@ import { DroppableContext } from "components/DND/Droppable";
 import { DNDProps } from "components/DND/DNDProps";
 const rotationCurve = (x: number, c: number) =>
   Math.pow(Math.sin(Math.min(Math.PI / 2, Math.abs(x * c))), 2) * Math.sign(x);
-const dist = (a: Array<number>, b: Array<number>) => {
-  return Math.sqrt(a.map((v, i) => [v, b[i]]).reduce((t, v) => t + Math.pow(v[0] - v[1], 2), 0));
-};
 export interface DraggableProps extends DNDProps {
   index: number;
   type: string;
@@ -16,7 +13,7 @@ export interface DraggableProps extends DNDProps {
 export class Draggable extends React.Component<DraggableProps> {
   static contextType = DroppableContext;
   context!: React.ContextType<typeof DroppableContext>;
-  state = { dragging: false, style: null as {} | null, rotation: 0 };
+  state = { dragging: false, style: null as {} | null };
   innerRef = React.createRef<HTMLElement>();
   mouseOffset = [0, 0];
   mouse = [0, 0];
@@ -45,6 +42,7 @@ export class Draggable extends React.Component<DraggableProps> {
     if (this.unmounting) return;
     this.startingDrag = false;
     if (this.context.dragging != null || this.innerRef.current === null) return;
+    this.rotation = 0;
     const ele = this.innerRef.current;
     const style = window.getComputedStyle(ele);
     this.lastX = e.clientX;
@@ -66,6 +64,12 @@ export class Draggable extends React.Component<DraggableProps> {
     document.addEventListener("touchend", this.endDrag);
   };
   endDrag = () => {
+    if (this.innerRef.current) {
+      const style = this.innerRef.current.style;
+      style.transform = null;
+      style.left = null;
+      style.top = null;
+    }
     this.cancelEvents();
     if (!this.state.dragging) return;
     this.context.endDrag(this);
@@ -100,25 +104,19 @@ export class Draggable extends React.Component<DraggableProps> {
     };
     this.touchTimer = setTimeout(() => this.beginDrag(fakeE), 200);
   };
+  rotation = 0;
   draggingUpdate = () => {
     if (this.unmounting) return;
     const mouse = this.mouse;
-    let rotation = this.state.rotation * 0.9 + rotationCurve(mouse[0] - this.lastX, 0.15);
+    this.rotation = this.rotation * 0.9 + rotationCurve(mouse[0] - this.lastX, 0.15);
     this.lastX = mouse[0];
-    const transform = `rotate(${rotation}deg)`;
-    this.setState({
-      rotation,
-      style: {
-        pointerEvents: "none",
-        position: "fixed",
-        zIndex: 9999,
-        transform,
-        left: `${mouse[0] - this.mouseOffset[0]}px`,
-        top: `${mouse[1] - this.mouseOffset[1]}px`,
-        width: `${this.innerDims[0]}px`,
-        height: `${this.innerDims[1]}px`
-      }
-    });
+    const transform = `rotate(${this.rotation}deg)`;
+    if (this.innerRef.current) {
+      const style = this.innerRef.current.style;
+      style.transform = transform;
+      style.left = `${mouse[0] - this.mouseOffset[0]}px`;
+      style.top = `${mouse[1] - this.mouseOffset[1]}px`;
+    }
     this.animFrame = requestAnimationFrame(this.draggingUpdate);
   };
   draggingOverDebounce = false;
@@ -136,7 +134,15 @@ export class Draggable extends React.Component<DraggableProps> {
         }px)`;
     }
     this.draggingOverDebounce = Boolean(this.context.draggingOver);
-    let style = this.state.dragging ? this.state.style : notDraggingStyle;
+    let style = this.state.dragging
+      ? {
+          pointerEvents: "none",
+          position: "fixed",
+          zIndex: "9999",
+          width: `${this.innerDims[0]}px`,
+          height: `${this.innerDims[1]}px`
+        }
+      : notDraggingStyle;
     return this.props.children(
       {
         dragHandleProps: {

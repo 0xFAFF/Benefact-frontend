@@ -19,18 +19,27 @@
   .column-header {
     border-radius: 5px 5px 0 0;
     background-color: var(--column-primary);
-    padding: 8px;
+    padding: 6px 8px;
     margin: 0 0 0 0;
     display: flex;
     align-items: center;
+    font-size: 1.2em;
     .title {
       text-align: center;
       flex: 1 0 auto;
-      font-size: 1.2em;
       display: flex;
+      margin-left: 5px;
     }
-    .card-number {
-      margin-right: 5px;
+    .input-container {
+      padding: 0;
+      input {
+        border: none;
+        padding: 7px;
+      }
+      input:hover {
+        border: 1px solid black;
+        padding: 6px;
+      }
     }
     .add-card {
       display: flex;

@@ -11,12 +11,14 @@ interface Props extends InputProps {
   placeholder?: string;
   type?: string;
   onKeyPress?(e: React.KeyboardEvent): void;
+  enterBlur?: boolean;
 }
 
 export const Input = InputWrapper(
   class extends React.Component<Props> {
+    inputRef = React.createRef<HTMLInputElement>();
     render = () => {
-      const { icon, label, className, grow = true, onChange, ...rest } = this.props;
+      const { icon, enterBlur, label, className, grow = true, onChange, ...rest } = this.props;
       let childProps = rest as any;
       if (childProps.type === "checkbox") {
         childProps.checked = childProps.value;
@@ -32,6 +34,13 @@ export const Input = InputWrapper(
           <input
             className={`input-field ${(grow && "grow") || ""}`}
             id={childProps.id}
+            onKeyPress={
+              enterBlur &&
+              (e => {
+                if (this.inputRef.current && e.key === "Enter") this.inputRef.current.blur();
+              })
+            }
+            ref={this.inputRef}
             onChange={e => {
               const newValue =
                 onChange &&

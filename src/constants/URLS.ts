@@ -1,8 +1,8 @@
 const baseURL =
   process.env.NODE_ENV === "production"
     ? "/api/" // Don't change this
-    : // : "https://staging.benefact.dev/api/";
-      "http://localhost/api/";
+    : "https://staging.benefact.dev/api/";
+// : "http://localhost/api/";
 export interface URLType {
   url: string;
   whiteList?: Array<string>;

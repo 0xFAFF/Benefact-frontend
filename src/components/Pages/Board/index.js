@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { isEmpty } from "lodash";
 import { getCards } from "../../../utils";
 import Views from "./Views";
 import { Modal, Settings } from "components/UI";
@@ -8,6 +7,7 @@ import { PageWrapper } from "../../Pages";
 import CardEditor from "components/UI/BoardComponents/Card/CardEditor";
 import { navbarConfigs } from "./navbarConfigs";
 import { AcceptCancelButtons, Button, Segment } from "components/UI/PageComponents";
+import { isEmpty } from "utils/formatting";
 
 class Board extends React.Component {
   static propTypes = {
@@ -75,7 +75,7 @@ class Board extends React.Component {
           return { columnId: col.id, ...baseTerm };
         });
       } else terms = [baseTerm];
-      if (!isEmpty(terms)) {
+      if (!isEmpty(terms.length)) {
         const keyName = `Group-${index}`;
         queryParams.Groups[keyName] = terms;
       }

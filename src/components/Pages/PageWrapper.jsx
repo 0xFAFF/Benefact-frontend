@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { isEmpty } from "lodash";
 import {
   fetching,
   notifyToast,
@@ -15,6 +14,7 @@ import { PageProvider } from "../Pages/PageContext";
 import { Modal, Navbar } from "components/UI";
 import { Logout } from "components/UI/Navbar/components";
 import { PacmanLoader } from "components/UI/Loader";
+import { isEmpty } from "utils/formatting";
 
 const PageWrapper = Component => {
   return class extends React.Component {

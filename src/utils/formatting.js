@@ -1,25 +1,34 @@
 import moment from "moment";
-import _ from "lodash";
 
 export const formatTime = time => moment.unix(time).format("MMM D [at] h:mm A z");
 
-export const camelCase = obj => {
-  var camelCaseObject = {};
-  var camelCaseArray = [];
-  if(_.isObject(obj) || _.isArguments(obj)) {
-    _.forEach(obj, (value, key) => {
-      if (_.isPlainObject(value) || _.isArray(value)) {
-        // checks that a value is a plain object or an array - for recursive key conversion
-        value = camelCase(value); // recursively update keys of any values that are also objects
-      }
-      if (_.isArray(obj)) camelCaseArray.push(value);
-      else camelCaseObject[_.camelCase(key)] = value;
-    });
-    if (_.isArray(obj)) return camelCaseArray;
-    else return camelCaseObject;
+export function isEmpty(value){
+  return  value === undefined ||
+          value === null ||
+          (typeof value === "object" && Object.keys(value).length === 0) ||
+          (typeof value === "string" && value.trim().length === 0)
+}
+
+const toCamelCase = key => key.charAt(0).toLowerCase() + key.slice(1);
+const toTitleCase = key => key.charAt(0).toUpperCase() + key.slice(1);
+
+const keyApply = (obj, keyFunc) => {
+  if(!obj) return obj;
+  if(obj.__proto__ === Object.prototype) {
+    var camelCaseObject = {};
+    for(var key in obj) {
+      camelCaseObject[keyFunc(key)] = camelCase(obj[key]);
+    }
+    return camelCaseObject;
+  }
+  if(obj.__proto__ === Array.prototype) {
+    return obj.map(camelCase);
   }
   return obj;
 };
+
+export const camelCase = obj => keyApply(obj, toCamelCase);
+export const titleCase = obj => keyApply(obj, toTitleCase);
 
 export const parseQuery = queryString => {
   if(queryString === undefined) queryString = document.location.search;

@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { isEqual, sortBy, get } from "lodash";
 import TextArea from "react-textarea-autosize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -33,22 +32,6 @@ class CardEditor extends React.Component {
     this.state = {
       newContent: {}
     };
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const prevVotes = get(prevState, "newContent.votes", []);
-    const nextVotes = get(nextProps, "content.votes", []);
-    if (!isEqual(sortBy(prevVotes), sortBy(nextVotes))) {
-      return {
-        ...prevState,
-        newContent: {
-          ...prevState.newContent,
-          votes: nextVotes
-        }
-      };
-    }
-
-    return prevState;
   }
 
   resetContent = () => {

@@ -1,5 +1,4 @@
 import React from "react";
-import { isEqual, sortBy, get } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Comments.scss";
 import { MarkdownEditor } from "components/UI";
@@ -16,21 +15,6 @@ class Comments extends React.Component {
       message: ""
     }
   };
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const prevComments = get(prevState, "newContent.comments", []);
-    const nextComments = get(nextProps, "content.comments", []);
-    if (!isEqual(sortBy(prevComments), sortBy(nextComments))) {
-      return {
-        ...prevState,
-        newContent: {
-          ...prevState.newContent,
-          comments: nextComments
-        }
-      };
-    }
-    return prevState;
-  }
 
   onChangeComment = e => {
     e.persist();

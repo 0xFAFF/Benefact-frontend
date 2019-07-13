@@ -153,11 +153,14 @@ class Board extends React.Component {
       "col-"
     );
     const draggedCardIndex = cards.findIndex(card => `card-${card.id}` === draggableId);
+    const draggedCardColIndex = cardsDstCol.findIndex(card => `card-${card.id}` === draggableId);
     const draggedCard = cards[draggedCardIndex];
     draggedCard.columnId = columnId;
-    const moveAfter =
-      destination.index === (start === finish ? cardsDstCol.length - 1 : cardsDstCol.length);
-    const targetCard = cardsDstCol[destination.index - (moveAfter ? 1 : 0)];
+    const isEnd =
+      destination.index >= (start === finish ? cardsDstCol.length - 1 : cardsDstCol.length);
+    const moveAfter = isEnd || (start === finish && destination.index > draggedCardColIndex);
+    debugger;
+    const targetCard = cardsDstCol[isEnd ? cardsDstCol.length - 1 : destination.index];
     if (targetCard) {
       // Orders array for inserting droppable in new spot
       cards.splice(draggedCardIndex, 1);

@@ -39,6 +39,7 @@ export class Draggable extends React.Component<DraggableProps> {
   };
 
   beginDrag = (e: { clientX: number; clientY: number; type: string }) => {
+    document.removeEventListener("mousemove", this.detectMouseMoveDrag);
     if (this.unmounting) return;
     this.startingDrag = false;
     if (this.context.dragging != null || this.innerRef.current === null) return;
@@ -76,9 +77,19 @@ export class Draggable extends React.Component<DraggableProps> {
     if (this.unmounting) return;
     this.setState({ dragging: false, style: null });
   };
+  mouseStart = [0, 0];
+  detectMouseMoveDrag = (e: MouseEvent) => {
+    if (Math.abs(e.clientX - this.mouseStart[0]) + Math.abs(e.clientY - this.mouseStart[1]) > 20) {
+      if(this.touchTimer) clearTimeout(this.touchTimer);
+      this.beginDrag(e);
+    }
+  };
   onMouseDown = (e: MouseEvent) => {
+    if (e.button !== 0) return;
     this.startingDrag = true;
     const fakeE = { ...e };
+    this.mouseStart = [fakeE.clientX, fakeE.clientY];
+    document.addEventListener("mousemove", this.detectMouseMoveDrag);
     this.touchTimer = setTimeout(() => this.beginDrag(fakeE), 300);
     document.addEventListener("mouseup", this.endDrag);
   };
@@ -88,6 +99,7 @@ export class Draggable extends React.Component<DraggableProps> {
     if (this.touchTimer) clearTimeout(this.touchTimer);
     document.removeEventListener("mouseup", this.endDrag);
     document.removeEventListener("touchend", this.endDrag);
+    document.removeEventListener("mousemove", this.detectMouseMoveDrag);
   };
   onTouchMove = (e: TouchEvent) => {
     if (this.state.dragging) {

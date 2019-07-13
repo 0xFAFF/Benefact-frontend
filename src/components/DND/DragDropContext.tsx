@@ -29,7 +29,7 @@ interface MoveEvent {
   clientY: number;
   target?: HTMLElement | null;
   buttons?: number;
-  type?: string;
+  type: string;
 }
 export class DragDropContext extends React.Component {
   state = { dragging: null as Draggable | null };
@@ -64,7 +64,7 @@ export class DragDropContext extends React.Component {
     return this.findDroppable(type, ele.parentElement);
   }
   touchUpdate = (e: TouchEvent) => {
-    this.mouseUpdate({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
+    this.mouseUpdate({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY, type: e.type });
   };
   mouseUpdate = (e: MoveEvent, dragging?: Draggable, callback?: () => void) => {
     let { clientX, clientY, buttons = 1, target = null } = e;
@@ -80,10 +80,16 @@ export class DragDropContext extends React.Component {
     }
   };
   beginDrag = (e: MoveEvent, target: Draggable) => {
-    e = { ...e };
+    e = {
+      clientX: e.clientX,
+      clientY: e.clientY,
+      target: e.target,
+      buttons: e.buttons,
+      type: e.type
+    };
     this.setState({ dragging: target }, () => {
       this.mouseUpdate(e, target, () => target.draggingUpdate());
-      if (e.type === "mousedown") document.addEventListener("mousemove", this.mouseUpdate as any);
+      if (e.type.includes("mouse")) document.addEventListener("mousemove", this.mouseUpdate as any);
       this.animFrame = requestAnimationFrame(this.scrollUpdate);
       if (e.type === "touchstart") document.addEventListener("touchmove", this.touchUpdate);
     });

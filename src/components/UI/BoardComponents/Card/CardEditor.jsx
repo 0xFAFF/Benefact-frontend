@@ -53,7 +53,8 @@ class CardEditor extends React.Component {
   onChangeHandler = (e, key) => {
     let newState = {};
     if (key === "tag") {
-      const tagIds = [...(this.state.newContent.tagIds || this.props.content.tagIds || [])];
+      let { content: { tagIds } = {} } = this.props;
+      tagIds = [...(this.state.newContent.tagIds || tagIds || [])];
       const index = tagIds.findIndex(tag => tag === e);
       if (index !== -1) {
         tagIds.splice(index, 1);

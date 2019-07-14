@@ -32,6 +32,7 @@ export class Draggable extends React.Component<DraggableProps> {
   componentDidMount = () => {
     if (this.innerRef.current) {
       this.innerRef.current.addEventListener("touchstart", this.onTouchStart);
+      this.innerRef.current.addEventListener("touchend", () => this.touchTimer && clearTimeout(this.touchTimer));
       this.innerRef.current.addEventListener("touchmove", this.onTouchMove);
       this.innerRef.current.addEventListener("contextmenu", e => e.preventDefault());
       this.innerRef.current.addEventListener("selectstart", e => e.preventDefault());

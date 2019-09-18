@@ -16,9 +16,12 @@ class CreateTag extends React.Component {
   };
 
   onAcceptHandler = form => {
-    const { handleUpdate, onAcceptHandler, tag, updateBoardContent } = this.props;
+    const { handleUpdate, onAcceptHandler, tag } = this.props;
     if (tag) {
-      updateBoardContent({ ...form, id: tag.id }, "tags");
+      handleUpdate("tags", "UPDATE", {
+        ...form,
+        id: tag.id
+      });
     } else {
       handleUpdate("tags", "ADD", {
         name: form.name,

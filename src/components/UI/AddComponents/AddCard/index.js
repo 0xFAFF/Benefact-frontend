@@ -7,6 +7,7 @@ const AddCard = props => {
   return (
     <CardEditor
       {...rest}
+      handleUpdate={handleUpdate}
       disableComponents
       updateBoardContent={({ title, description, tagIds, columnId, assigneeId }) =>
         handleUpdate("cards", "ADD", {

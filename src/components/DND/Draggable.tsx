@@ -80,7 +80,7 @@ export class Draggable extends React.Component<DraggableProps> {
   mouseStart = [0, 0];
   detectMouseMoveDrag = (e: MouseEvent) => {
     if (Math.abs(e.clientX - this.mouseStart[0]) + Math.abs(e.clientY - this.mouseStart[1]) > 20) {
-      if(this.touchTimer) clearTimeout(this.touchTimer);
+      if (this.touchTimer) clearTimeout(this.touchTimer);
       this.beginDrag(e);
     }
   };
@@ -114,6 +114,7 @@ export class Draggable extends React.Component<DraggableProps> {
       clientY: e.touches[0].clientY,
       type: "touchstart"
     };
+    document.addEventListener("touchend", this.endDrag);
     this.touchTimer = setTimeout(() => this.beginDrag(fakeE), 200);
   };
   rotation = 0;

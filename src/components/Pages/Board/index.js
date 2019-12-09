@@ -159,7 +159,6 @@ class Board extends React.Component {
     const isEnd =
       destination.index >= (start === finish ? cardsDstCol.length - 1 : cardsDstCol.length);
     const moveAfter = isEnd || (start === finish && destination.index > draggedCardColIndex);
-    debugger;
     const targetCard = cardsDstCol[isEnd ? cardsDstCol.length - 1 : destination.index];
     if (targetCard) {
       // Orders array for inserting droppable in new spot

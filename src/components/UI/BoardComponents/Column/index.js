@@ -63,7 +63,7 @@ class Column extends React.Component {
                 columns={columns}
                 page={page}
               />
-              <Droppable id={`col-${column.id}`} type="card">
+              <Droppable id={`col-${column.id}`} type={page.shiftHeld ? "none" : "card"}>
                 {(provided, snapshot) => (
                   <div
                     className={cls(

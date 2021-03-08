@@ -64,7 +64,11 @@ export class DragDropContext extends React.Component {
     return this.findDroppable(type, ele.parentElement);
   }
   touchUpdate = (e: TouchEvent) => {
-    this.mouseUpdate({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY, type: e.type });
+    this.mouseUpdate({
+      clientX: e.touches[0].clientX,
+      clientY: e.touches[0].clientY,
+      type: e.type
+    });
   };
   mouseUpdate = (e: MoveEvent, dragging?: Draggable, callback?: () => void) => {
     let { clientX, clientY, buttons = 1, target = null } = e;
@@ -96,6 +100,8 @@ export class DragDropContext extends React.Component {
   };
   setDragOver = (dragOver: Droppable | null, callback?: () => void) => {
     if (this.dragOver && this.dragOver !== dragOver) this.dragOver.endListening();
+
+    if (this.dragOver !== dragOver) console.log(dragOver);
     this.dragOver = dragOver;
     if (this.dragOver) this.dragOver.beginListening(callback);
     else this.dropResult = null;
@@ -124,6 +130,7 @@ export class DragDropContext extends React.Component {
             (destId === sourceId && this.dropResult.index > dragging.props.index ? -1 : 0)
         }
       };
+      console.log(dragEndResult);
     }
     this.setState({ dragging: null }, () => {
       this.setDragOver(null);

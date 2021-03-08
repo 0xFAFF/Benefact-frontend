@@ -30,7 +30,8 @@ const PageWrapper = Component => {
         isLoading: true,
         page: {},
         modal: null,
-        onModalClose: null
+        onModalClose: null,
+        shiftHeld: false
       };
       this.child = {};
       this.urlParams = this.props.match.params;
@@ -39,6 +40,12 @@ const PageWrapper = Component => {
         setChild: c => (this.child = c)
       };
     }
+    handleKeyPress = (down, event) => {
+      if (event.key === "Shift") {
+        if (this.state.page.shiftHeld !== down)
+          this.setState({ page: { ...this.state.page, shiftHeld: down } });
+      }
+    };
 
     handleError = e => {
       if (e.status === 401) {
@@ -49,11 +56,17 @@ const PageWrapper = Component => {
     };
 
     componentDidMount = async () => {
+      document.addEventListener("keydown", event => this.handleKeyPress(true, event));
+      document.addEventListener("keyup", event => this.handleKeyPress(false, event));
       await this.refreshData();
       if (this.mounted) this.setState({ isLoading: false });
     };
 
-    componentWillUnmount = () => (this.mounted = false);
+    componentWillUnmount = () => {
+      this.mounted = false;
+      document.removeEventListener("keydown", event => this.handleKeyPress(true, event));
+      document.removeEventListener("keyup", event => this.handleKeyPress(false, event));
+    };
 
     refreshData = async (promise, showLoader = true) => {
       if (showLoader) this.setState({ isLoading: true });

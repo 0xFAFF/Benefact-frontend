@@ -68,7 +68,7 @@ export class Draggable extends React.Component<DraggableProps> {
   endDrag = () => {
     if (this.innerRef.current) {
       const style = this.innerRef.current.style;
-      style.transform = null;
+      style.transform = "";
       style.left = null;
       style.top = null;
     }

@@ -22,7 +22,9 @@ button {
     color: var(--danger-color);
   }
   font-size: 16px;
-  font-weight: bold;
+  &:not(.light) {
+    font-weight: bold;
+  }
   cursor: pointer;
   box-shadow: 1px 1px 2px #e4cdcd50;
   background-color: var(--button-color);

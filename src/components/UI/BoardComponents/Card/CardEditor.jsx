@@ -9,7 +9,7 @@ import {
   Attachments
 } from "components/UI/BoardComponents/Card/components";
 import { Tags } from "components/UI/BoardComponents";
-import { AcceptCancelButtons, StyledSelect } from "components/UI/PageComponents";
+import { AcceptCancelButtons, StyledSelect, Button } from "components/UI/PageComponents";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
 import { FileDrop, Tooltip, MarkdownEditor } from "components/UI";
 import { PageProp } from "components/Pages/PageContext";
@@ -130,7 +130,7 @@ class CardEditor extends React.Component {
       onClose,
       columns,
       roles,
-      content: { id = 0 } = {},
+      content: { id = 0, parentId } = {},
       page: { hasPrivilege: boardPrivilege }
     } = this.props;
     const developers = [{ value: 0, title: "None" }].concat(
@@ -177,7 +177,19 @@ class CardEditor extends React.Component {
             </EditorActivity>
             {disableComponents ? null : (
               <EditorActivity icon="id-card" dataTip="Card ID" className="no-border center">
-                {id}
+                <div className="col-border">{id}</div>
+                <div>{parentId ? parentId : "No Parent"}</div>
+                {allowEdit && parentId ? (
+                  <Button
+                    className="sm light"
+                    onClick={() => {
+                      this.setState({ newContent: { ...this.state.newContent, parentId: null } });
+                      this.props.handleUpdate("cards", "UPDATE", { id, parentId: -1 });
+                    }}
+                  >
+                    Remove
+                  </Button>
+                ) : null}
                 <div className="editor-vote pull-right">
                   <Voting
                     defaultDisplay={true}
@@ -201,7 +213,7 @@ class CardEditor extends React.Component {
                 className="grow"
               />
             </EditorActivity>
-            <EditorActivity icon="user" dataTip="Assignee">
+            <EditorActivity icon="user" dataTip="Assignee" className="no-border">
               <StyledSelect
                 disabled={!(allowEdit && boardPrivilege("developer"))}
                 options={developers}

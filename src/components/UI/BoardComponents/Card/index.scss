@@ -8,8 +8,10 @@
   background-color: var(--card-primary);
   flex-direction: column;
   position: relative;
+  transition: background-color 0.35s ease;
 
   &:before {
+    transition: box-shadow 0.35s ease;
     border-radius: 5px;
     content: "";
     position: absolute;
@@ -21,12 +23,10 @@
   }
 
   &:hover {
-    transition: background-color 0.35s ease-out;
     background-color: var(--card-hover);
   }
 
   &:hover:before {
-    transition: box-shadow 0.35s ease-out;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.26);
   }
 

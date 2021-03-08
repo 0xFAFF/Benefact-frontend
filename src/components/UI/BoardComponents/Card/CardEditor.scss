@@ -47,6 +47,11 @@
   .row-margin {
     margin-bottom: 5px;
   }
+  .col-border {
+    padding-right: 5px;
+    margin-right: 5px;
+    border-right: 1px solid var(--card-border);
+  }
 
   .editor-header {
     .editor-vote {

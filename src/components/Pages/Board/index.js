@@ -36,7 +36,7 @@ class Board extends React.Component {
           users[role.userId] = role.user;
           return users;
         }, {});
-        let data = { ...result, ...this.getAllCards(result) };
+        let data = { ...result, ...this.getCardLookup(result) };
         data = {
           ...data,
           columnOrder: columns.map(column => column.id)
@@ -133,54 +133,61 @@ class Board extends React.Component {
         ...newData,
         columnOrder: newColumnOrder
       };
-      await this.props.page.updatePage({ data: newData });
+      await updatePage({ data: newData });
       return this.handleUpdate("columns", "UPDATE", draggedColumn);
     }
-    // source column of droppable
-    const start = this.props.page.data.columns.find(
-      column => `col-${column.id}` === source.droppableId
-    );
-    // destination column of droppable
-    const finish = this.props.page.data.columns.find(
-      column => `col-${column.id}` === destination.droppableId
-    );
-
-    const columnId = +destination.droppableId.replace(/^\D+/g, "");
-    let cards = this.props.page.data.cards[groupName];
-    let cardsDstCol = getCards(
-      this.props.page.data.cards[groupName],
-      destination.droppableId,
-      "col-"
-    );
-    const draggedCardIndex = cards.findIndex(card => `card-${card.id}` === draggableId);
-    const draggedCardColIndex = cardsDstCol.findIndex(card => `card-${card.id}` === draggableId);
-    const draggedCard = cards[draggedCardIndex];
-    draggedCard.columnId = columnId;
-    const isEnd =
-      destination.index >= (start === finish ? cardsDstCol.length - 1 : cardsDstCol.length);
-    const moveAfter = isEnd || (start === finish && destination.index > draggedCardColIndex);
-    const targetCard = cardsDstCol[isEnd ? cardsDstCol.length - 1 : destination.index];
-    if (targetCard) {
-      // Orders array for inserting droppable in new spot
-      cards.splice(draggedCardIndex, 1);
-      const targetCardIndex = cards.findIndex(card => card.id === targetCard.id);
-      cards.splice(targetCardIndex + (moveAfter ? 1 : 0), 0, draggedCard);
-    }
-    let newData = { ...this.props.page.data };
-    newData = {
-      ...newData,
-      cards: {
-        ...newData.cards,
-        [groupName]: [...cards]
+    if (type === "card") {
+      const destId = +destination.droppableId.replace(/^\D+/g, "");
+      let cards = this.props.page.data.cards[groupName];
+      const draggedCardIndex = cards.findIndex(card => `card-${card.id}` === draggableId);
+      const draggedCard = cards[draggedCardIndex];
+      // Setting parent
+      if (destination.droppableId.includes("card")) {
+        draggedCard.parentId = destId;
+        return this.handleUpdate("cards", "UPDATE", {id: draggedCard.id, parentId: destId})
       }
-    };
-    updatePage({ data: newData });
-    return compFetch("cards", "MOVE", {
-      cardId: draggedCard.id,
-      targetCardId: targetCard && targetCard.id,
-      columnId: start === finish ? undefined : columnId,
-      moveAfter
-    });
+      // source column of droppable
+      const start = this.props.page.data.columns.find(
+        column => `col-${column.id}` === source.droppableId
+      );
+      // destination column of droppable
+      const finish = this.props.page.data.columns.find(
+        column => `col-${column.id}` === destination.droppableId
+      );
+      let cardsDstCol = getCards(
+        this.props.page.data.cards[groupName],
+        destination.droppableId,
+        "col-"
+      );
+      // Setting column
+      draggedCard.columnId = destId;
+      const draggedCardColIndex = cardsDstCol.findIndex(card => `card-${card.id}` === draggableId);
+      const isEnd =
+        destination.index >= (start === finish ? cardsDstCol.length - 1 : cardsDstCol.length);
+      const moveAfter = isEnd || (start === finish && destination.index > draggedCardColIndex);
+      const targetCard = cardsDstCol[isEnd ? cardsDstCol.length - 1 : destination.index];
+      if (targetCard) {
+        // Orders array for inserting droppable in new spot
+        cards.splice(draggedCardIndex, 1);
+        const targetCardIndex = cards.findIndex(card => card.id === targetCard.id);
+        cards.splice(targetCardIndex + (moveAfter ? 1 : 0), 0, draggedCard);
+      }
+      let newData = { ...this.props.page.data };
+      newData = {
+        ...newData,
+        cards: {
+          ...newData.cards,
+          [groupName]: [...cards]
+        }
+      };
+      await updatePage({ data: newData });
+      return compFetch("cards", "MOVE", {
+        cardId: draggedCard.id,
+        targetCardId: targetCard && targetCard.id,
+        columnId: start === finish ? undefined : destId,
+        moveAfter
+      });
+    }
   };
 
   listOnDragEnd = (result, groupName) => {
@@ -209,11 +216,11 @@ class Board extends React.Component {
     return this.handleUpdate("cards", "UPDATE", draggedCard);
   };
 
-  getAllCards = data => {
+  getCardLookup = data => {
     let { cards } = data;
     const cardGroups = Object.values(cards);
-    if (cardGroups.length > 0) return { allCards: cardGroups[0] };
-    return { allCards: [] };
+    if (cardGroups.length > 0) return { cardLookup: Object.fromEntries(cardGroups[0].map(c => [c.id, c])) };
+    return { cardLookup: {} };
   };
 
   closeCard = () => {

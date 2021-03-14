@@ -1,6 +1,6 @@
-.add-tag {
+.tag.add-tag {
   border: 1px solid var(--card-border);
-  color: #000 !important;
+  box-shadow: var(--card-shadow);
   cursor: pointer;
 }
 .tag-popup {

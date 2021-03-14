@@ -5,8 +5,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import "./fontawesome";
 import { User, Login, Board, Landing } from "./components/Pages";
 import { Version } from "./components/Version";
-import { setTheme, parseToken } from "./utils";
-import { THEMES } from "./constants";
+import { applyTheme, parseToken } from "./utils";
 import "./index.scss";
 
 interface Props {
@@ -49,8 +48,7 @@ class App extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    const { themes, currentTheme }: { themes: any; currentTheme: string } = THEMES();
-    setTheme(themes[currentTheme]);
+    applyTheme();
   }
 
   render() {

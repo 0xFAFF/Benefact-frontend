@@ -7,7 +7,8 @@ import {
   parseQuery,
   middleWare,
   hasPrivilege,
-  parseToken
+  parseToken,
+  setTheme
 } from "utils";
 import { URLS } from "../../constants";
 import { PageProvider } from "../Pages/PageContext";
@@ -15,6 +16,7 @@ import { Modal, Navbar } from "components/UI";
 import { Logout } from "components/UI/Navbar/components";
 import { PacmanLoader } from "components/UI/Loader";
 import { isEmpty } from "utils/formatting";
+import { getTheme } from "utils/setTheme";
 
 const PageWrapper = Component => {
   return class extends React.Component {
@@ -174,6 +176,12 @@ const PageWrapper = Component => {
               tooltip: "User",
               icon: "user-circle",
               onClick: () => this.props.history.push("/user")
+            },
+            {
+              id: "dark",
+              tooltip: "Dark Mode",
+              icon: "moon",
+              onClick: () => setTheme(getTheme() === "light" ? "dark" : "light"),
             },
             {
               id: "logout",

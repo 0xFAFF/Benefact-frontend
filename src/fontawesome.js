@@ -48,6 +48,7 @@ import {
   faArchive,
   faClipboard,
   faArrowUp,
+  faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -96,4 +97,5 @@ library.add(
   faArchive,
   faClipboard,
   faArrowUp,
+  faMoon,
 );

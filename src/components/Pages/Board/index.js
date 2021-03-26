@@ -144,7 +144,7 @@ class Board extends React.Component {
       // Setting parent
       if (destination.droppableId.includes("card")) {
         draggedCard.parentId = destId;
-        return this.handleUpdate("cards", "UPDATE", {id: draggedCard.id, parentId: destId})
+        return this.handleUpdate("cards", "UPDATE", { id: draggedCard.id, parentId: destId });
       }
       // source column of droppable
       const start = this.props.page.data.columns.find(
@@ -219,7 +219,8 @@ class Board extends React.Component {
   getCardLookup = data => {
     let { cards } = data;
     const cardGroups = Object.values(cards);
-    if (cardGroups.length > 0) return { cardLookup: Object.fromEntries(cardGroups[0].map(c => [c.id, c])) };
+    if (cardGroups.length > 0)
+      return { cardLookup: Object.fromEntries(cardGroups[0].map(c => [c.id, c])) };
     return { cardLookup: {} };
   };
 
@@ -228,6 +229,11 @@ class Board extends React.Component {
       `/board/${this.props.boardId}${this.props.view === "kanban" ? "" : "/list"}`
     );
   };
+
+  openCard = ({ id }) =>
+    this.props.history.push(
+      `/board/${this.props.boardId}${this.props.view === "kanban" ? "/kanban" : "/list"}/card/${id}`
+    );
 
   goHome = () => this.props.history.push("/");
 
@@ -302,11 +308,7 @@ class Board extends React.Component {
           kanbanFunctions={kanbanFunctions}
           listFunctions={listFunctions}
           filtersActive={Boolean(filters)}
-          openCard={({ id }) =>
-            this.props.history.push(
-              `/board/${boardId}${view === "kanban" ? "/kanban" : "/list"}/card/${id}`
-            )
-          }
+          openCard={this.openCard}
         />
         {editingCard && (
           <Modal isOpen onClose={this.closeCard}>
@@ -315,6 +317,7 @@ class Board extends React.Component {
               onClose={this.closeCard}
               handleUpdate={this.handleUpdate}
               updateBoardContent={this.updateBoardContent}
+              openCard={this.openCard}
               content={editingCard}
               {...data}
               showDeleteModal

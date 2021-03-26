@@ -54,6 +54,7 @@ class Card extends React.Component {
         {!flat &&
           card.childIds.map(id => {
             const child = page.data.cardLookup[id];
+            if (child.state === 3) return null;
             return <Card openCard={openCard} page={page} key={child.id} card={child} flat />;
           })}
       </div>
@@ -63,8 +64,10 @@ class Card extends React.Component {
         id="card-draggable"
         {...props}
         onClick={e => {
-          e.stopPropagation();
-          openCard(card);
+          if (openCard) {
+            e.stopPropagation();
+            openCard(card);
+          }
         }}
       >
         {flat ? (

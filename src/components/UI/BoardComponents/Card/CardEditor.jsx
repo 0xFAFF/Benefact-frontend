@@ -8,7 +8,7 @@ import {
   DeleteModal,
   Attachments
 } from "components/UI/BoardComponents/Card/components";
-import { Tags } from "components/UI/BoardComponents";
+import { Tags, Card } from "components/UI/BoardComponents";
 import { AcceptCancelButtons, StyledSelect, Button } from "components/UI/PageComponents";
 import EditorActivity from "components/UI/BoardComponents/Card/components/EditorActivity";
 import { FileDrop, Tooltip, MarkdownEditor } from "components/UI";
@@ -131,8 +131,10 @@ class CardEditor extends React.Component {
       columns,
       roles,
       content: { id = 0, parentId } = {},
+      openCard = null,
       page: { hasPrivilege: boardPrivilege }
     } = this.props;
+    const page = this.props.page;
     const developers = [{ value: 0, title: "None" }].concat(
       roles
         .filter(r => hasPrivilege("developer", r.privilege, true))
@@ -140,7 +142,7 @@ class CardEditor extends React.Component {
           return { value: r.user.id, title: r.user.name };
         })
     );
-    let { title, description, tagIds, columnId, assigneeId, votes } = {
+    let { title, description, tagIds, columnId, assigneeId, votes, childIds } = {
       ...this.props.content,
       ...this.state.newContent
     };
@@ -248,6 +250,12 @@ class CardEditor extends React.Component {
                 attachments={this.props.content.attachments}
               />
             )}
+            {
+              childIds.map(id => {
+                const child = page.data.cardLookup[id];
+                return <Card openCard={openCard} page={page} key={child.id} card={child} flat />;
+              })
+            }
             {disableComponents ? null : (
               <Comments {...this.props} comments={this.props.content.comments} />
             )}

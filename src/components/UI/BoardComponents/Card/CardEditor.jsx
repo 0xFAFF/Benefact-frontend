@@ -251,7 +251,7 @@ class CardEditor extends React.Component {
               />
             )}
             {
-              childIds.map(id => {
+              childIds && childIds.map(id => {
                 const child = page.data.cardLookup[id];
                 return <Card openCard={openCard} page={page} key={child.id} card={child} flat />;
               })

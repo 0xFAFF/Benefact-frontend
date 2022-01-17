@@ -15,3 +15,5 @@ interface CardData {
   attachments: Array<any>;
   activity: Array<any>;
 }
+
+export default CardData;

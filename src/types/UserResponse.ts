@@ -1,3 +1,5 @@
+import CardData from "./CardData";
+
 interface UserData {
   id: number;
   email: string;
@@ -12,3 +14,5 @@ interface UserResponse {
   assignedCards: Array<CardData>;
   activity: Array<any>;
 }
+
+export {}

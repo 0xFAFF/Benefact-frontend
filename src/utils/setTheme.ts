@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 
 export const setTheme = (mode: string) => {
   Cookies.set("lightMode", mode);
-  location.reload();
+  window.location.reload();
 };
 export const getTheme = () => Cookies.get("lightMode") || "light";
 

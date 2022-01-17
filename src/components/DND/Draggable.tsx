@@ -69,8 +69,8 @@ export class Draggable extends React.Component<DraggableProps> {
     if (this.innerRef.current) {
       const style = this.innerRef.current.style;
       style.transform = "";
-      style.left = null;
-      style.top = null;
+      style.left = "";
+      style.top = "";
     }
     this.cancelEvents();
     if (!this.state.dragging) return;

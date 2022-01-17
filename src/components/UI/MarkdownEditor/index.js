@@ -12,8 +12,9 @@ class MarkdownEditor extends React.Component {
 
   rawMarkup = () => {
     const renderer = new marked.Renderer();
-    renderer.listitem = (text, task) => `<li ${task ? "class=nostyle" : ""}>${text}</li>`;
+    renderer.listitem = (text, task, checked) => `<li ${task ? "class=nostyle" : ""}>${text}</li>`;
     renderer.link = (dst, _, text) => `<a target="_blank" href="${dst}">${text}</a>`;
+    renderer.checkbox = (checked) => `<div class="checkmark">${checked ? "<span class=\"check\"></span>" : ""}</div>`;
     marked.setOptions({
       renderer,
       gfm: true,
